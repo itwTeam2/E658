@@ -1,0 +1,954 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GERMS_NEWModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="E658CreaterDetails">
+          <Key>
+            <PropertyRef Name="ECDID" />
+          </Key>
+          <Property Name="ECDID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SNo" Type="varchar" MaxLength="80" />
+          <Property Name="RaisedTypeID" Type="int" />
+          <Property Name="StaffServiceNo" Type="varchar" MaxLength="50" />
+          <Property Name="CreaterLoc" Type="varchar" MaxLength="30" />
+          <Property Name="CreaterDivision" Type="varchar" MaxLength="30" />
+          <Property Name="IsE658Create" Type="smallint" />
+          <Property Name="Active" Type="smallint" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedIP" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedMAC" Type="varchar" MaxLength="50" />
+          <Property Name="UserGERMSLocation" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedMAC" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="E658FlowMagt">
+          <Key>
+            <PropertyRef Name="EFMID" />
+          </Key>
+          <Property Name="EFMID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleID" Type="int" />
+          <Property Name="RejectStatus" Type="int" />
+          <Property Name="CurrentStatus" Type="int" />
+          <Property Name="SubmitStatus" Type="int" />
+          <Property Name="RaisedTyId" Type="int" />
+          <Property Name="Active" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedIP" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedMAC" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="E658FlowTransaction">
+          <Key>
+            <PropertyRef Name="EFTID" />
+          </Key>
+          <Property Name="EFTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EFlowMgtID" Type="int" />
+          <Property Name="RecordStatusID" Type="int" />
+          <Property Name="E658CreatorDltID" Type="int" />
+          <Property Name="RoleID" Type="int" />
+          <Property Name="RecordLocID" Type="varchar" MaxLength="20" />
+          <Property Name="Comment" Type="varchar(max)" />
+          <Property Name="Active" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedIP" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedMAC" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="E658RaisedRunType">
+          <Key>
+            <PropertyRef Name="ERRTID" />
+          </Key>
+          <Property Name="ERRTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RaisedTypeID" Type="int" />
+          <Property Name="RunsTypeID" Type="int" />
+          <Property Name="Active" Type="smallint" />
+          <Property Name="CreatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="E658RaisedType">
+          <Key>
+            <PropertyRef Name="RTID" />
+          </Key>
+          <Property Name="RTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="varchar" MaxLength="50" />
+          <Property Name="TypeShortName" Type="varchar" MaxLength="25" />
+          <Property Name="Active" Type="smallint" />
+          <Property Name="CreatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="E658RptLocDetails">
+          <Key>
+            <PropertyRef Name="ERLDID" />
+          </Key>
+          <Property Name="ERLDID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="E658RptLocHedID" Type="int" />
+          <Property Name="LocationID" Type="varchar" MaxLength="10" />
+          <Property Name="Active" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedIP" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedMAC" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="E658RptLocHeader">
+          <Key>
+            <PropertyRef Name="ERLID" />
+          </Key>
+          <Property Name="ERLID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SeqID" Type="varchar" MaxLength="100" />
+          <Property Name="ECDID" Type="int" />
+          <Property Name="Active" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedIP" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedMAC" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="E658RunsTypes">
+          <Key>
+            <PropertyRef Name="ERTID" />
+          </Key>
+          <Property Name="ERTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="varchar(max)" />
+          <Property Name="Active" Type="smallint" />
+          <Property Name="CreatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="E658UserMgt">
+          <Key>
+            <PropertyRef Name="EUMID" />
+          </Key>
+          <Property Name="EUMID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SNo" Type="varchar" MaxLength="50" />
+          <Property Name="RoleID" Type="int" />
+          <Property Name="UserLocation" Type="varchar" MaxLength="25" />
+          <Property Name="Division" Type="varchar" MaxLength="80" />
+          <Property Name="MTCotrollerDutyDate" Type="date" />
+          <Property Name="HandOverFromDate" Type="date" />
+          <Property Name="HandOverToDate" Type="date" />
+          <Property Name="IsTemHandOverStatus" Type="int" />
+          <Property Name="HandOverPsnSNo" Type="varchar" MaxLength="50" />
+          <Property Name="Active" Type="smallint" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedIP" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedMAC" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="date" />
+          <Property Name="ModifiedMac" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="E658UserType">
+          <Key>
+            <PropertyRef Name="EUTID" />
+          </Key>
+          <Property Name="EUTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="E658Users" Type="varchar" MaxLength="80" />
+          <Property Name="Active" Type="int" />
+        </EntityType>
+        <EntityType Name="E658WayPoints">
+          <Key>
+            <PropertyRef Name="WPID" />
+          </Key>
+          <Property Name="WPID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FromLocation" Type="varchar" MaxLength="20" />
+          <Property Name="ToLocation" Type="varchar" MaxLength="20" />
+          <Property Name="WayPoints" Type="varchar(max)" />
+          <Property Name="Active" Type="int" />
+        </EntityType>
+        <EntityType Name="F658RegistryHeader">
+          <Key>
+            <PropertyRef Name="UnitSerialNo" />
+            <PropertyRef Name="ChassisNo" />
+            <PropertyRef Name="Seq" />
+          </Key>
+          <Property Name="UnitSerialNo" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="ChassisNo" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Seq" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PLocation" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ELocation" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FLocation" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TLocation" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="RealToLocation" Type="varchar" MaxLength="30" />
+          <Property Name="IsRR658" Type="int" Nullable="false" />
+          <Property Name="AuthorityType" Type="int" />
+          <Property Name="Behavior" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="OMTNo" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Duty" Type="varchar(max)" />
+          <Property Name="Section" Type="varchar" MaxLength="50" />
+          <Property Name="SeniorPassanger" Type="varchar" MaxLength="50" />
+          <Property Name="MyNav" Type="int" />
+          <Property Name="MaxNav" Type="int" />
+          <Property Name="PDate" Type="datetime" />
+          <Property Name="PTime" Type="varchar" MaxLength="10" />
+          <Property Name="PHrs" Type="varchar" MaxLength="20" />
+          <Property Name="Status" Type="int" />
+          <Property Name="Active" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedUser" Type="int" />
+          <Property Name="E658CreatedUser" Type="bigint" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedUser" Type="int" />
+          <Property Name="Route" Type="varchar" MaxLength="300" />
+          <Property Name="status_1" Type="int" />
+          <Property Name="IsOMtReqFromMT" Type="int" />
+          <Property Name="IsVehicleReqFromMT" Type="int" />
+          <Property Name="SLAFRegNo" Type="varchar" MaxLength="15" />
+          <Property Name="IsCombineRun" Type="smallint" />
+          <Property Name="ParentRunCretID" Type="int" />
+          <Property Name="ReturnDate" Type="datetime" />
+          <Property Name="E658CreatorDltId" Type="int" />
+        </EntityType>
+        <EntityType Name="Locations">
+          <Key>
+            <PropertyRef Name="LocationID" />
+          </Key>
+          <Property Name="LocationID" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="LocationName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="NoOfDivisions" Type="int" />
+          <Property Name="NoOfPersonnel" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="DBName" Type="nchar" MaxLength="10" />
+          <Property Name="SystemURL" Type="nvarchar" MaxLength="255" />
+          <Property Name="Status" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedUser" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VehicleDetails">
+          <Key>
+            <PropertyRef Name="ChassisNo" />
+          </Key>
+          <Property Name="ChassisNo" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="SlafRegNo" Type="varchar" MaxLength="10" />
+          <Property Name="CivilRegNo" Type="varchar" MaxLength="10" />
+          <Property Name="InventoryNo" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="TypeID" Type="int" Nullable="false" />
+          <Property Name="MakeID" Type="int" Nullable="false" />
+          <Property Name="ModelID" Type="int" Nullable="false" />
+          <Property Name="EngineNo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="YearOfManufacturer" Type="varchar" MaxLength="5" />
+          <Property Name="DateOfPurchased" Type="datetime" />
+          <Property Name="stateOfOwnerShip" Type="int" Nullable="false" />
+          <Property Name="LocationID" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="DivisionID" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="StartingMileage" Type="int" />
+          <Property Name="StartingHrs" Type="nchar" MaxLength="10" />
+          <Property Name="USMileage" Type="int" />
+          <Property Name="USHrs" Type="nchar" MaxLength="10" />
+          <Property Name="MiloMeter" Type="int" />
+          <Property Name="HrsMeter" Type="nchar" MaxLength="10" />
+          <Property Name="TotalMileage" Type="int" />
+          <Property Name="TotalHrs" Type="nchar" MaxLength="10" />
+          <Property Name="Fuel" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="DateOfNextService" Type="datetime" />
+          <Property Name="MileageOfNextService" Type="int" />
+          <Property Name="HoursOfNextService" Type="nchar" MaxLength="10" />
+          <Property Name="Status" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedUser" Type="varchar" MaxLength="6" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedUser" Type="varchar" MaxLength="6" />
+          <Property Name="SType" Type="int" />
+          <Property Name="DI" Type="bit" />
+          <Property Name="MNM" Type="bit" />
+          <Property Name="RNR" Type="bit" />
+          <Property Name="FinalStatus" Type="int" />
+          <Property Name="DIDes" Type="datetime" />
+          <Property Name="MNMDes" Type="varchar" MaxLength="100" />
+          <Property Name="RNRDes" Type="varchar" MaxLength="100" />
+          <Property Name="FinalStatusDes" Type="varchar" MaxLength="500" />
+          <Property Name="EffectiveDate" Type="datetime" />
+          <Property Name="AttachedLocationID" Type="varchar" MaxLength="4" />
+          <Property Name="InsuaranceType" Type="int" />
+          <Property Name="OrderNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="PurchaseValue" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Vw_PersonalDetail">
+          <Key>
+            <PropertyRef Name="type" />
+          </Key>
+          <Property Name="SNo" Type="varchar" MaxLength="25" />
+          <Property Name="ServiceNo" Type="varchar" MaxLength="10" />
+          <Property Name="RankID" Type="int" />
+          <Property Name="Rank" Type="varchar" MaxLength="255" />
+          <Property Name="Name" Type="varchar(max)" />
+          <Property Name="Branch" Type="varchar" MaxLength="50" />
+          <Property Name="BranchCode" Type="int" />
+          <Property Name="PostedLocation" Type="varchar" MaxLength="5" />
+          <Property Name="Division" Type="varchar" MaxLength="50" />
+          <Property Name="DischargeDate" Type="datetime" />
+          <Property Name="type" Type="int" Nullable="false" />
+          <Property Name="Service_Status" Type="int" />
+          <Property Name="Marriage_Status" Type="char" MaxLength="3" />
+          <Property Name="service_type" Type="int" />
+          <Property Name="DateOfEnlist" Type="datetime" />
+          <Property Name="Formation" Type="varchar" MaxLength="60" />
+          <Property Name="SubRank" Type="int" />
+          <Property Name="serTypeDescription" Type="varchar" MaxLength="22" />
+        </EntityType>
+        <EntityContainer Name="GERMS_NEWModelStoreContainer">
+          <EntitySet Name="E658CreaterDetails" EntityType="Self.E658CreaterDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="E658FlowMagt" EntityType="Self.E658FlowMagt" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="E658FlowTransaction" EntityType="Self.E658FlowTransaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="E658RaisedRunType" EntityType="Self.E658RaisedRunType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="E658RaisedType" EntityType="Self.E658RaisedType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="E658RptLocDetails" EntityType="Self.E658RptLocDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="E658RptLocHeader" EntityType="Self.E658RptLocHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="E658RunsTypes" EntityType="Self.E658RunsTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="E658UserMgt" EntityType="Self.E658UserMgt" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="E658UserType" EntityType="Self.E658UserType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="E658WayPoints" EntityType="Self.E658WayPoints" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="F658RegistryHeader" EntityType="Self.F658RegistryHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VehicleDetails" EntityType="Self.VehicleDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vw_PersonalDetail" EntityType="Self.Vw_PersonalDetail" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Vw_PersonalDetail].[SNo] AS [SNo], 
+    [Vw_PersonalDetail].[ServiceNo] AS [ServiceNo], 
+    [Vw_PersonalDetail].[RankID] AS [RankID], 
+    [Vw_PersonalDetail].[Rank] AS [Rank], 
+    [Vw_PersonalDetail].[Name] AS [Name], 
+    [Vw_PersonalDetail].[Branch] AS [Branch], 
+    [Vw_PersonalDetail].[BranchCode] AS [BranchCode], 
+    [Vw_PersonalDetail].[PostedLocation] AS [PostedLocation], 
+    [Vw_PersonalDetail].[Division] AS [Division], 
+    [Vw_PersonalDetail].[DischargeDate] AS [DischargeDate], 
+    [Vw_PersonalDetail].[type] AS [type], 
+    [Vw_PersonalDetail].[Service_Status] AS [Service_Status], 
+    [Vw_PersonalDetail].[Marriage_Status] AS [Marriage_Status], 
+    [Vw_PersonalDetail].[service_type] AS [service_type], 
+    [Vw_PersonalDetail].[DateOfEnlist] AS [DateOfEnlist], 
+    [Vw_PersonalDetail].[Formation] AS [Formation], 
+    [Vw_PersonalDetail].[SubRank] AS [SubRank], 
+    [Vw_PersonalDetail].[serTypeDescription] AS [serTypeDescription]
+    FROM [dbo].[Vw_PersonalDetail] AS [Vw_PersonalDetail]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GERMS_NEWModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="E658CreaterDetails">
+          <Key>
+            <PropertyRef Name="ECDID" />
+          </Key>
+          <Property Name="ECDID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SNo" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="RaisedTypeID" Type="Int32" />
+          <Property Name="StaffServiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreaterLoc" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CreaterDivision" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="IsE658Create" Type="Int16" />
+          <Property Name="Active" Type="Int16" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedMAC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserGERMSLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedMAC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="E658FlowMagt">
+          <Key>
+            <PropertyRef Name="EFMID" />
+          </Key>
+          <Property Name="EFMID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleID" Type="Int32" />
+          <Property Name="RejectStatus" Type="Int32" />
+          <Property Name="CurrentStatus" Type="Int32" />
+          <Property Name="SubmitStatus" Type="Int32" />
+          <Property Name="RaisedTyId" Type="Int32" />
+          <Property Name="Active" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedMAC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="E658FlowTransaction">
+          <Key>
+            <PropertyRef Name="EFTID" />
+          </Key>
+          <Property Name="EFTID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EFlowMgtID" Type="Int32" />
+          <Property Name="RecordStatusID" Type="Int32" />
+          <Property Name="E658CreatorDltID" Type="Int32" />
+          <Property Name="RoleID" Type="Int32" />
+          <Property Name="RecordLocID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedMAC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="E658RaisedRunType">
+          <Key>
+            <PropertyRef Name="ERRTID" />
+          </Key>
+          <Property Name="ERRTID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RaisedTypeID" Type="Int32" />
+          <Property Name="RunsTypeID" Type="Int32" />
+          <Property Name="Active" Type="Int16" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="E658RaisedType">
+          <Key>
+            <PropertyRef Name="RTID" />
+          </Key>
+          <Property Name="RTID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TypeShortName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int16" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="E658RptLocDetails">
+          <Key>
+            <PropertyRef Name="ERLDID" />
+          </Key>
+          <Property Name="ERLDID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="E658RptLocHedID" Type="Int32" />
+          <Property Name="LocationID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedMAC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="E658RptLocHeader">
+          <Key>
+            <PropertyRef Name="ERLID" />
+          </Key>
+          <Property Name="ERLID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SeqID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ECDID" Type="Int32" />
+          <Property Name="Active" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedMAC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="E658RunsTypes">
+          <Key>
+            <PropertyRef Name="ERTID" />
+          </Key>
+          <Property Name="ERTID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int16" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="E658UserMgt">
+          <Key>
+            <PropertyRef Name="EUMID" />
+          </Key>
+          <Property Name="EUMID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RoleID" Type="Int32" />
+          <Property Name="UserLocation" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Division" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="MTCotrollerDutyDate" Type="DateTime" Precision="0" />
+          <Property Name="HandOverFromDate" Type="DateTime" Precision="0" />
+          <Property Name="HandOverToDate" Type="DateTime" Precision="0" />
+          <Property Name="IsTemHandOverStatus" Type="Int32" />
+          <Property Name="HandOverPsnSNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int16" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedMAC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifiedMac" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="E658UserType">
+          <Key>
+            <PropertyRef Name="EUTID" />
+          </Key>
+          <Property Name="EUTID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="E658Users" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="E658WayPoints">
+          <Key>
+            <PropertyRef Name="WPID" />
+          </Key>
+          <Property Name="WPID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FromLocation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ToLocation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="WayPoints" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="LocationID" />
+          </Key>
+          <Property Name="LocationID" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LocationName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NoOfDivisions" Type="Int32" />
+          <Property Name="NoOfPersonnel" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DBName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="SystemURL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VehicleDetail">
+          <Key>
+            <PropertyRef Name="ChassisNo" />
+          </Key>
+          <Property Name="ChassisNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SlafRegNo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CivilRegNo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="InventoryNo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TypeID" Type="Int32" Nullable="false" />
+          <Property Name="MakeID" Type="Int32" Nullable="false" />
+          <Property Name="ModelID" Type="Int32" Nullable="false" />
+          <Property Name="EngineNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="YearOfManufacturer" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DateOfPurchased" Type="DateTime" Precision="3" />
+          <Property Name="stateOfOwnerShip" Type="Int32" Nullable="false" />
+          <Property Name="LocationID" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DivisionID" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StartingMileage" Type="Int32" />
+          <Property Name="StartingHrs" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="USMileage" Type="Int32" />
+          <Property Name="USHrs" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="MiloMeter" Type="Int32" />
+          <Property Name="HrsMeter" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="TotalMileage" Type="Int32" />
+          <Property Name="TotalHrs" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Fuel" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="DateOfNextService" Type="DateTime" Precision="3" />
+          <Property Name="MileageOfNextService" Type="Int32" />
+          <Property Name="HoursOfNextService" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedUser" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUser" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="SType" Type="Int32" />
+          <Property Name="DI" Type="Boolean" />
+          <Property Name="MNM" Type="Boolean" />
+          <Property Name="RNR" Type="Boolean" />
+          <Property Name="FinalStatus" Type="Int32" />
+          <Property Name="DIDes" Type="DateTime" Precision="3" />
+          <Property Name="MNMDes" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RNRDes" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FinalStatusDes" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="EffectiveDate" Type="DateTime" Precision="3" />
+          <Property Name="AttachedLocationID" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="InsuaranceType" Type="Int32" />
+          <Property Name="OrderNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PurchaseValue" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Vw_PersonalDetail">
+          <Key>
+            <PropertyRef Name="type" />
+          </Key>
+          <Property Name="SNo" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceNo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="RankID" Type="Int32" />
+          <Property Name="Rank" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Branch" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BranchCode" Type="Int32" />
+          <Property Name="PostedLocation" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Division" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DischargeDate" Type="DateTime" Precision="3" />
+          <Property Name="type" Type="Int32" Nullable="false" />
+          <Property Name="Service_Status" Type="Int32" />
+          <Property Name="Marriage_Status" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="service_type" Type="Int32" />
+          <Property Name="DateOfEnlist" Type="DateTime" Precision="3" />
+          <Property Name="Formation" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="SubRank" Type="Int32" />
+          <Property Name="serTypeDescription" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="dbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="E658CreaterDetails" EntityType="Self.E658CreaterDetails" />
+          <EntitySet Name="E658FlowMagt" EntityType="Self.E658FlowMagt" />
+          <EntitySet Name="E658FlowTransaction" EntityType="Self.E658FlowTransaction" />
+          <EntitySet Name="E658RaisedRunType" EntityType="Self.E658RaisedRunType" />
+          <EntitySet Name="E658RaisedType" EntityType="Self.E658RaisedType" />
+          <EntitySet Name="E658RptLocDetails" EntityType="Self.E658RptLocDetails" />
+          <EntitySet Name="E658RptLocHeader" EntityType="Self.E658RptLocHeader" />
+          <EntitySet Name="E658RunsTypes" EntityType="Self.E658RunsTypes" />
+          <EntitySet Name="E658UserMgt" EntityType="Self.E658UserMgt" />
+          <EntitySet Name="E658UserType" EntityType="Self.E658UserType" />
+          <EntitySet Name="E658WayPoints" EntityType="Self.E658WayPoints" />
+          <EntitySet Name="Locations" EntityType="Self.Location" />
+          <EntitySet Name="VehicleDetails" EntityType="Self.VehicleDetail" />
+          <EntitySet Name="Vw_PersonalDetail" EntityType="Self.Vw_PersonalDetail" />
+          <EntitySet Name="F658RegistryHeader" EntityType="GERMS_NEWModel.F658RegistryHeader" />
+        </EntityContainer>
+        <EntityType Name="F658RegistryHeader">
+          <Key>
+            <PropertyRef Name="UnitSerialNo" />
+            <PropertyRef Name="ChassisNo" />
+            <PropertyRef Name="Seq" />
+          </Key>
+          <Property Name="UnitSerialNo" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="ChassisNo" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Seq" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PLocation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ELocation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FLocation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TLocation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RealToLocation" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="IsRR658" Type="Int32" Nullable="false" />
+          <Property Name="AuthorityType" Type="Int32" />
+          <Property Name="Behavior" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="OMTNo" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="Duty" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Section" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SeniorPassanger" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MyNav" Type="Int32" />
+          <Property Name="MaxNav" Type="Int32" />
+          <Property Name="PDate" Type="DateTime" Precision="3" />
+          <Property Name="PTime" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PHrs" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Active" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedUser" Type="Int32" />
+          <Property Name="E658CreatedUser" Type="Int64" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUser" Type="Int32" />
+          <Property Name="Route" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="status_1" Type="Int32" />
+          <Property Name="IsOMtReqFromMT" Type="Int32" />
+          <Property Name="IsVehicleReqFromMT" Type="Int32" />
+          <Property Name="SLAFRegNo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="IsCombineRun" Type="Int16" />
+          <Property Name="ParentRunCretID" Type="Int32" />
+          <Property Name="ReturnDate" Type="DateTime" Precision="3" />
+          <Property Name="E658CreatorDltId" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GERMS_NEWModelStoreContainer" CdmEntityContainer="dbContext">
+          <EntitySetMapping Name="E658CreaterDetails">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.E658CreaterDetails">
+              <MappingFragment StoreEntitySet="E658CreaterDetails">
+                <ScalarProperty Name="ECDID" ColumnName="ECDID" />
+                <ScalarProperty Name="SNo" ColumnName="SNo" />
+                <ScalarProperty Name="RaisedTypeID" ColumnName="RaisedTypeID" />
+                <ScalarProperty Name="StaffServiceNo" ColumnName="StaffServiceNo" />
+                <ScalarProperty Name="CreaterLoc" ColumnName="CreaterLoc" />
+                <ScalarProperty Name="CreaterDivision" ColumnName="CreaterDivision" />
+                <ScalarProperty Name="IsE658Create" ColumnName="IsE658Create" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedIP" ColumnName="CreatedIP" />
+                <ScalarProperty Name="CreatedMAC" ColumnName="CreatedMAC" />
+                <ScalarProperty Name="UserGERMSLocation" ColumnName="UserGERMSLocation" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedMAC" ColumnName="ModifiedMAC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="E658FlowMagt">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.E658FlowMagt">
+              <MappingFragment StoreEntitySet="E658FlowMagt">
+                <ScalarProperty Name="EFMID" ColumnName="EFMID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RejectStatus" ColumnName="RejectStatus" />
+                <ScalarProperty Name="CurrentStatus" ColumnName="CurrentStatus" />
+                <ScalarProperty Name="SubmitStatus" ColumnName="SubmitStatus" />
+                <ScalarProperty Name="RaisedTyId" ColumnName="RaisedTyId" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedIP" ColumnName="CreatedIP" />
+                <ScalarProperty Name="CreatedMAC" ColumnName="CreatedMAC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="E658FlowTransaction">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.E658FlowTransaction">
+              <MappingFragment StoreEntitySet="E658FlowTransaction">
+                <ScalarProperty Name="EFTID" ColumnName="EFTID" />
+                <ScalarProperty Name="EFlowMgtID" ColumnName="EFlowMgtID" />
+                <ScalarProperty Name="RecordStatusID" ColumnName="RecordStatusID" />
+                <ScalarProperty Name="E658CreatorDltID" ColumnName="E658CreatorDltID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RecordLocID" ColumnName="RecordLocID" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedIP" ColumnName="CreatedIP" />
+                <ScalarProperty Name="CreatedMAC" ColumnName="CreatedMAC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="E658RaisedRunType">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.E658RaisedRunType">
+              <MappingFragment StoreEntitySet="E658RaisedRunType">
+                <ScalarProperty Name="ERRTID" ColumnName="ERRTID" />
+                <ScalarProperty Name="RaisedTypeID" ColumnName="RaisedTypeID" />
+                <ScalarProperty Name="RunsTypeID" ColumnName="RunsTypeID" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="E658RaisedType">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.E658RaisedType">
+              <MappingFragment StoreEntitySet="E658RaisedType">
+                <ScalarProperty Name="RTID" ColumnName="RTID" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="TypeShortName" ColumnName="TypeShortName" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="E658RptLocDetails">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.E658RptLocDetails">
+              <MappingFragment StoreEntitySet="E658RptLocDetails">
+                <ScalarProperty Name="ERLDID" ColumnName="ERLDID" />
+                <ScalarProperty Name="E658RptLocHedID" ColumnName="E658RptLocHedID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedIP" ColumnName="CreatedIP" />
+                <ScalarProperty Name="CreatedMAC" ColumnName="CreatedMAC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="E658RptLocHeader">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.E658RptLocHeader">
+              <MappingFragment StoreEntitySet="E658RptLocHeader">
+                <ScalarProperty Name="ERLID" ColumnName="ERLID" />
+                <ScalarProperty Name="SeqID" ColumnName="SeqID" />
+                <ScalarProperty Name="ECDID" ColumnName="ECDID" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedIP" ColumnName="CreatedIP" />
+                <ScalarProperty Name="CreatedMAC" ColumnName="CreatedMAC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="E658RunsTypes">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.E658RunsTypes">
+              <MappingFragment StoreEntitySet="E658RunsTypes">
+                <ScalarProperty Name="ERTID" ColumnName="ERTID" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="E658UserMgt">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.E658UserMgt">
+              <MappingFragment StoreEntitySet="E658UserMgt">
+                <ScalarProperty Name="EUMID" ColumnName="EUMID" />
+                <ScalarProperty Name="SNo" ColumnName="SNo" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="UserLocation" ColumnName="UserLocation" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="MTCotrollerDutyDate" ColumnName="MTCotrollerDutyDate" />
+                <ScalarProperty Name="HandOverFromDate" ColumnName="HandOverFromDate" />
+                <ScalarProperty Name="HandOverToDate" ColumnName="HandOverToDate" />
+                <ScalarProperty Name="IsTemHandOverStatus" ColumnName="IsTemHandOverStatus" />
+                <ScalarProperty Name="HandOverPsnSNo" ColumnName="HandOverPsnSNo" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedIP" ColumnName="CreatedIP" />
+                <ScalarProperty Name="CreatedMAC" ColumnName="CreatedMAC" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedMac" ColumnName="ModifiedMac" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="E658UserType">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.E658UserType">
+              <MappingFragment StoreEntitySet="E658UserType">
+                <ScalarProperty Name="EUTID" ColumnName="EUTID" />
+                <ScalarProperty Name="E658Users" ColumnName="E658Users" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="E658WayPoints">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.E658WayPoints">
+              <MappingFragment StoreEntitySet="E658WayPoints">
+                <ScalarProperty Name="WPID" ColumnName="WPID" />
+                <ScalarProperty Name="FromLocation" ColumnName="FromLocation" />
+                <ScalarProperty Name="ToLocation" ColumnName="ToLocation" />
+                <ScalarProperty Name="WayPoints" ColumnName="WayPoints" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.Location">
+              <MappingFragment StoreEntitySet="Locations">
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="NoOfDivisions" ColumnName="NoOfDivisions" />
+                <ScalarProperty Name="NoOfPersonnel" ColumnName="NoOfPersonnel" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DBName" ColumnName="DBName" />
+                <ScalarProperty Name="SystemURL" ColumnName="SystemURL" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VehicleDetails">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.VehicleDetail">
+              <MappingFragment StoreEntitySet="VehicleDetails">
+                <ScalarProperty Name="ChassisNo" ColumnName="ChassisNo" />
+                <ScalarProperty Name="SlafRegNo" ColumnName="SlafRegNo" />
+                <ScalarProperty Name="CivilRegNo" ColumnName="CivilRegNo" />
+                <ScalarProperty Name="InventoryNo" ColumnName="InventoryNo" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="MakeID" ColumnName="MakeID" />
+                <ScalarProperty Name="ModelID" ColumnName="ModelID" />
+                <ScalarProperty Name="EngineNo" ColumnName="EngineNo" />
+                <ScalarProperty Name="YearOfManufacturer" ColumnName="YearOfManufacturer" />
+                <ScalarProperty Name="DateOfPurchased" ColumnName="DateOfPurchased" />
+                <ScalarProperty Name="stateOfOwnerShip" ColumnName="stateOfOwnerShip" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="DivisionID" ColumnName="DivisionID" />
+                <ScalarProperty Name="StartingMileage" ColumnName="StartingMileage" />
+                <ScalarProperty Name="StartingHrs" ColumnName="StartingHrs" />
+                <ScalarProperty Name="USMileage" ColumnName="USMileage" />
+                <ScalarProperty Name="USHrs" ColumnName="USHrs" />
+                <ScalarProperty Name="MiloMeter" ColumnName="MiloMeter" />
+                <ScalarProperty Name="HrsMeter" ColumnName="HrsMeter" />
+                <ScalarProperty Name="TotalMileage" ColumnName="TotalMileage" />
+                <ScalarProperty Name="TotalHrs" ColumnName="TotalHrs" />
+                <ScalarProperty Name="Fuel" ColumnName="Fuel" />
+                <ScalarProperty Name="DateOfNextService" ColumnName="DateOfNextService" />
+                <ScalarProperty Name="MileageOfNextService" ColumnName="MileageOfNextService" />
+                <ScalarProperty Name="HoursOfNextService" ColumnName="HoursOfNextService" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedUser" ColumnName="ModifiedUser" />
+                <ScalarProperty Name="SType" ColumnName="SType" />
+                <ScalarProperty Name="DI" ColumnName="DI" />
+                <ScalarProperty Name="MNM" ColumnName="MNM" />
+                <ScalarProperty Name="RNR" ColumnName="RNR" />
+                <ScalarProperty Name="FinalStatus" ColumnName="FinalStatus" />
+                <ScalarProperty Name="DIDes" ColumnName="DIDes" />
+                <ScalarProperty Name="MNMDes" ColumnName="MNMDes" />
+                <ScalarProperty Name="RNRDes" ColumnName="RNRDes" />
+                <ScalarProperty Name="FinalStatusDes" ColumnName="FinalStatusDes" />
+                <ScalarProperty Name="EffectiveDate" ColumnName="EffectiveDate" />
+                <ScalarProperty Name="AttachedLocationID" ColumnName="AttachedLocationID" />
+                <ScalarProperty Name="InsuaranceType" ColumnName="InsuaranceType" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="PurchaseValue" ColumnName="PurchaseValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vw_PersonalDetail">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.Vw_PersonalDetail">
+              <MappingFragment StoreEntitySet="Vw_PersonalDetail">
+                <ScalarProperty Name="SNo" ColumnName="SNo" />
+                <ScalarProperty Name="ServiceNo" ColumnName="ServiceNo" />
+                <ScalarProperty Name="RankID" ColumnName="RankID" />
+                <ScalarProperty Name="Rank" ColumnName="Rank" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Branch" ColumnName="Branch" />
+                <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+                <ScalarProperty Name="PostedLocation" ColumnName="PostedLocation" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="DischargeDate" ColumnName="DischargeDate" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="Service_Status" ColumnName="Service_Status" />
+                <ScalarProperty Name="Marriage_Status" ColumnName="Marriage_Status" />
+                <ScalarProperty Name="service_type" ColumnName="service_type" />
+                <ScalarProperty Name="DateOfEnlist" ColumnName="DateOfEnlist" />
+                <ScalarProperty Name="Formation" ColumnName="Formation" />
+                <ScalarProperty Name="SubRank" ColumnName="SubRank" />
+                <ScalarProperty Name="serTypeDescription" ColumnName="serTypeDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="F658RegistryHeader">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.F658RegistryHeader">
+              <MappingFragment StoreEntitySet="F658RegistryHeader">
+                <ScalarProperty Name="E658CreatorDltId" ColumnName="E658CreatorDltId" />
+                <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+                <ScalarProperty Name="ParentRunCretID" ColumnName="ParentRunCretID" />
+                <ScalarProperty Name="IsCombineRun" ColumnName="IsCombineRun" />
+                <ScalarProperty Name="SLAFRegNo" ColumnName="SLAFRegNo" />
+                <ScalarProperty Name="IsVehicleReqFromMT" ColumnName="IsVehicleReqFromMT" />
+                <ScalarProperty Name="IsOMtReqFromMT" ColumnName="IsOMtReqFromMT" />
+                <ScalarProperty Name="status_1" ColumnName="status_1" />
+                <ScalarProperty Name="Route" ColumnName="Route" />
+                <ScalarProperty Name="ModifiedUser" ColumnName="ModifiedUser" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="E658CreatedUser" ColumnName="E658CreatedUser" />
+                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="PHrs" ColumnName="PHrs" />
+                <ScalarProperty Name="PTime" ColumnName="PTime" />
+                <ScalarProperty Name="PDate" ColumnName="PDate" />
+                <ScalarProperty Name="MaxNav" ColumnName="MaxNav" />
+                <ScalarProperty Name="MyNav" ColumnName="MyNav" />
+                <ScalarProperty Name="SeniorPassanger" ColumnName="SeniorPassanger" />
+                <ScalarProperty Name="Section" ColumnName="Section" />
+                <ScalarProperty Name="Duty" ColumnName="Duty" />
+                <ScalarProperty Name="OMTNo" ColumnName="OMTNo" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Behavior" ColumnName="Behavior" />
+                <ScalarProperty Name="AuthorityType" ColumnName="AuthorityType" />
+                <ScalarProperty Name="IsRR658" ColumnName="IsRR658" />
+                <ScalarProperty Name="RealToLocation" ColumnName="RealToLocation" />
+                <ScalarProperty Name="TLocation" ColumnName="TLocation" />
+                <ScalarProperty Name="FLocation" ColumnName="FLocation" />
+                <ScalarProperty Name="ELocation" ColumnName="ELocation" />
+                <ScalarProperty Name="PLocation" ColumnName="PLocation" />
+                <ScalarProperty Name="Seq" ColumnName="Seq" />
+                <ScalarProperty Name="ChassisNo" ColumnName="ChassisNo" />
+                <ScalarProperty Name="UnitSerialNo" ColumnName="UnitSerialNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

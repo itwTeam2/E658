@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ffbe6250e1854135bc250ef86ba3e339" Name="Diagram1">
+        <EntityTypeShape EntityType="CommonDataModel.BloodGroup" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommonDataModel.Country" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommonDataModel.Directorate" Width="1.5" PointX="0.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommonDataModel.District" Width="1.5" PointX="2.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommonDataModel.Division" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommonDataModel.Electorate" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommonDataModel.Establishment" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommonDataModel.GSDivision" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommonDataModel.MaritalStatu" Width="1.5" PointX="2.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommonDataModel.MedicalCategory" Width="1.5" PointX="2.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommonDataModel.PoliceStation" Width="1.5" PointX="10.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommonDataModel.PostOffice" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommonDataModel.Rank" Width="1.5" PointX="4.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommonDataModel.School" Width="1.5" PointX="6.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommonDataModel.Section" Width="1.5" PointX="4.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommonDataModel.ServiceStatu" Width="1.5" PointX="6.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommonDataModel.ServiceType" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommonDataModel.Trade" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommonDataModel.Division1" Width="1.5" PointX="10.75" PointY="4.375" />
+        <EntityTypeShape EntityType="CommonDataModel.Vw_EpasDivision" Width="1.5" PointX="6.75" PointY="4.25" />
+        <EntityTypeShape EntityType="CommonDataModel.EpasLocation" Width="1.5" PointX="8.75" PointY="2.5" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,964 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CommonDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Divisions">
+          <Key>
+            <PropertyRef Name="LocationID" />
+            <PropertyRef Name="DivisionName" />
+          </Key>
+          <Property Name="LocationID" Type="nvarchar" MaxLength="6" Nullable="false" />
+          <Property Name="DivisionID" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="DivisionType" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="DivisionName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OfficeCommand" Type="varchar" MaxLength="80" />
+          <Property Name="NoOfPersonnel" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="IDSeriesStart" Type="int" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedUser" Type="int" Nullable="false" />
+          <Property Name="Rank" Type="varchar" MaxLength="20" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Appointment" Type="varchar" MaxLength="50" />
+          <Property Name="NoPrefix" Type="nvarchar" MaxLength="50" />
+          <Property Name="Sno" Type="int" />
+          <Property Name="SLAFStationID" Type="nvarchar" MaxLength="30" />
+          <Property Name="AppName" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedUser" Type="int" />
+          <Property Name="HostID" Type="varchar" MaxLength="50" />
+          <Property Name="AgendaOrder" Type="int" />
+          <Property Name="WsEnable" Type="int" />
+          <Property Name="LetterHeadingName" Type="nvarchar" MaxLength="100" />
+          <Property Name="DivisionshortName" Type="varchar" MaxLength="15" />
+          <Property Name="SerNo" Type="nvarchar" MaxLength="15" />
+          <Property Name="KitPrefix" Type="nvarchar" MaxLength="10" />
+          <Property Name="Maindiv" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="EpasLocations">
+          <Key>
+            <PropertyRef Name="LocationID" />
+            <PropertyRef Name="DBName" />
+          </Key>
+          <Property Name="LocationID" Type="nvarchar" MaxLength="6" Nullable="false" />
+          <Property Name="LocationName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="NoOfDivisions" Type="int" />
+          <Property Name="NoOfPersonnel" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="DBName" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="SystemURL" Type="nvarchar" MaxLength="255" />
+          <Property Name="OCLIDSeriesStart" Type="int" />
+          <Property Name="Status" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedUser" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedUser" Type="int" />
+          <Property Name="HostID" Type="varchar" MaxLength="50" />
+          <Property Name="LocAddress" Type="varchar" MaxLength="100" />
+          <Property Name="TelephoneNo" Type="varchar" MaxLength="50" />
+          <Property Name="FaxNo" Type="varchar" MaxLength="50" />
+          <Property Name="NameOfCO" Type="varchar" MaxLength="50" />
+          <Property Name="RankofCO" Type="varchar" MaxLength="20" />
+          <Property Name="Appointment" Type="varchar" MaxLength="20" />
+          <Property Name="NameOfOCL" Type="varchar" MaxLength="50" />
+          <Property Name="RankofOCL" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.BloodGroup' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="BloodGroup">
+          <Key>
+            <PropertyRef Name="BloodGroupCode" />
+          </Key>
+          <Property Name="BloodGroupCode" Type="int" Nullable="false" />
+          <Property Name="BloodGroup" Type="varchar" MaxLength="6" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.Country' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="CountryRegionCode" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="CountryRegionCode" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ShortName" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.Directorate' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Directorate">
+          <Key>
+            <PropertyRef Name="directCode" />
+            <PropertyRef Name="directorateName" />
+          </Key>
+          <Property Name="directCode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="directorateName" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.District' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="District">
+          <Key>
+            <PropertyRef Name="DIST_CODE" />
+          </Key>
+          <Property Name="DIST_CODE" Type="int" Nullable="false" />
+          <Property Name="PROV_CODE" Type="nchar" MaxLength="10" />
+          <Property Name="DESCRIPTION" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.Division' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Division">
+          <Key>
+            <PropertyRef Name="LocationID" />
+            <PropertyRef Name="DivisionID" />
+            <PropertyRef Name="DivisionType" />
+            <PropertyRef Name="DivisionName" />
+            <PropertyRef Name="NoOfPersonnel" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="CreatedDate" />
+            <PropertyRef Name="CreatedUser" />
+          </Key>
+          <Property Name="LocationID" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="DivisionID" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="DivisionType" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="DivisionName" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="OfficeCommand" Type="varchar" MaxLength="80" />
+          <Property Name="NoOfPersonnel" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedUser" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.Electorate' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Electorate">
+          <Key>
+            <PropertyRef Name="ElectroCode" />
+          </Key>
+          <Property Name="ElectroCode" Type="int" Nullable="false" />
+          <Property Name="ElectrorateName" Type="nvarchar" MaxLength="255" />
+          <Property Name="District" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.Establishment' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Establishment">
+          <Key>
+            <PropertyRef Name="LocationID" />
+            <PropertyRef Name="LocationName" />
+          </Key>
+          <Property Name="LocationID" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="LocationName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LocShortName" Type="char" MaxLength="10" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.GSDivision' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="GSDivision">
+          <Key>
+            <PropertyRef Name="GSDivisionID" />
+            <PropertyRef Name="District" />
+            <PropertyRef Name="GSName" />
+          </Key>
+          <Property Name="GSDivisionID" Type="int" Nullable="false" />
+          <Property Name="District" Type="int" Nullable="false" />
+          <Property Name="GSName" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.MaritalStatus' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MaritalStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Description" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.MedicalCategory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MedicalCategory">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="Category" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.PoliceStation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PoliceStation">
+          <Key>
+            <PropertyRef Name="PoliceStationCode" />
+          </Key>
+          <Property Name="District" Type="int" />
+          <Property Name="PoliceStationCode" Type="int" Nullable="false" />
+          <Property Name="PoliceStation" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.PostOffice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PostOffice">
+          <Key>
+            <PropertyRef Name="PostOfficeCode" />
+            <PropertyRef Name="District" />
+          </Key>
+          <Property Name="PostOfficeCode" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="District" Type="int" Nullable="false" />
+          <Property Name="PostOfficeName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.Rank' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Rank">
+          <Key>
+            <PropertyRef Name="RANK" />
+          </Key>
+          <Property Name="RANK" Type="int" Nullable="false" />
+          <Property Name="RNK_NAME" Type="varchar" MaxLength="15" />
+          <Property Name="RANK_TYPE" Type="int" />
+          <Property Name="SHORT_NAME" Type="varchar" MaxLength="255" />
+          <Property Name="LONG_NAME" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.School' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="School">
+          <Key>
+            <PropertyRef Name="SchoolID" />
+            <PropertyRef Name="DIST_CODE" />
+            <PropertyRef Name="SchoolName" />
+          </Key>
+          <Property Name="SchoolID" Type="int" Nullable="false" />
+          <Property Name="DIST_CODE" Type="int" Nullable="false" />
+          <Property Name="SchoolName" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Section">
+          <Key>
+            <PropertyRef Name="LocationID" />
+            <PropertyRef Name="LocationName" />
+            <PropertyRef Name="DivisionID" />
+            <PropertyRef Name="DivisionName" />
+          </Key>
+          <Property Name="LocationID" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="LocationName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="DivisionID" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="DivisionName" Type="varchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.ServiceStatus' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ServiceStatus">
+          <Key>
+            <PropertyRef Name="SVCStatus" />
+          </Key>
+          <Property Name="SVCStatus" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Service_Status" Type="varchar" MaxLength="40" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.ServiceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ServiceType">
+          <Key>
+            <PropertyRef Name="SVCType" />
+          </Key>
+          <Property Name="SVCType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Service_Type" Type="varchar" MaxLength="50" />
+          <Property Name="IsOfficer" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.Trade' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Trade">
+          <Key>
+            <PropertyRef Name="TRADE" />
+            <PropertyRef Name="TRD_NAME" />
+          </Key>
+          <Property Name="TRADE" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="TRD_NAME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DIRECTOR" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Vw_EpasDivision">
+          <Key>
+            <PropertyRef Name="LocationID" />
+            <PropertyRef Name="DivisionID" />
+            <PropertyRef Name="DivisionName" />
+          </Key>
+          <Property Name="LocationID" Type="nvarchar" MaxLength="6" Nullable="false" />
+          <Property Name="DivisionID" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="DivisionName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="CommonDataModelStoreContainer">
+          <EntitySet Name="Divisions" EntityType="Self.Divisions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EpasLocations" EntityType="Self.EpasLocations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BloodGroup" EntityType="Self.BloodGroup" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [BloodGroup].[BloodGroupCode] AS [BloodGroupCode], 
+    [BloodGroup].[BloodGroup] AS [BloodGroup]
+    FROM [dbo].[BloodGroup] AS [BloodGroup]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Country" EntityType="Self.Country" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Country].[CountryRegionCode] AS [CountryRegionCode], 
+    [Country].[Name] AS [Name], 
+    [Country].[ShortName] AS [ShortName]
+    FROM [dbo].[Country] AS [Country]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Directorate" EntityType="Self.Directorate" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Directorate].[directCode] AS [directCode], 
+    [Directorate].[directorateName] AS [directorateName]
+    FROM [dbo].[Directorate] AS [Directorate]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="District" EntityType="Self.District" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [District].[DIST_CODE] AS [DIST_CODE], 
+    [District].[PROV_CODE] AS [PROV_CODE], 
+    [District].[DESCRIPTION] AS [DESCRIPTION]
+    FROM [dbo].[District] AS [District]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Division" EntityType="Self.Division" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Division].[LocationID] AS [LocationID], 
+    [Division].[DivisionID] AS [DivisionID], 
+    [Division].[DivisionType] AS [DivisionType], 
+    [Division].[DivisionName] AS [DivisionName], 
+    [Division].[OfficeCommand] AS [OfficeCommand], 
+    [Division].[NoOfPersonnel] AS [NoOfPersonnel], 
+    [Division].[Description] AS [Description], 
+    [Division].[Status] AS [Status], 
+    [Division].[CreatedDate] AS [CreatedDate], 
+    [Division].[CreatedUser] AS [CreatedUser]
+    FROM [dbo].[Division] AS [Division]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Electorate" EntityType="Self.Electorate" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Electorate].[ElectroCode] AS [ElectroCode], 
+    [Electorate].[ElectrorateName] AS [ElectrorateName], 
+    [Electorate].[District] AS [District]
+    FROM [dbo].[Electorate] AS [Electorate]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Establishment" EntityType="Self.Establishment" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Establishment].[LocationID] AS [LocationID], 
+    [Establishment].[LocationName] AS [LocationName], 
+    [Establishment].[LocShortName] AS [LocShortName]
+    FROM [dbo].[Establishment] AS [Establishment]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="GSDivision" EntityType="Self.GSDivision" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [GSDivision].[GSDivisionID] AS [GSDivisionID], 
+    [GSDivision].[District] AS [District], 
+    [GSDivision].[GSName] AS [GSName]
+    FROM [dbo].[GSDivision] AS [GSDivision]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MaritalStatus" EntityType="Self.MaritalStatus" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MaritalStatus].[ID] AS [ID], 
+    [MaritalStatus].[Description] AS [Description]
+    FROM [dbo].[MaritalStatus] AS [MaritalStatus]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MedicalCategory" EntityType="Self.MedicalCategory" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MedicalCategory].[CategoryID] AS [CategoryID], 
+    [MedicalCategory].[Category] AS [Category]
+    FROM [dbo].[MedicalCategory] AS [MedicalCategory]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="PoliceStation" EntityType="Self.PoliceStation" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PoliceStation].[District] AS [District], 
+    [PoliceStation].[PoliceStationCode] AS [PoliceStationCode], 
+    [PoliceStation].[PoliceStation] AS [PoliceStation]
+    FROM [dbo].[PoliceStation] AS [PoliceStation]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="PostOffice" EntityType="Self.PostOffice" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PostOffice].[PostOfficeCode] AS [PostOfficeCode], 
+    [PostOffice].[District] AS [District], 
+    [PostOffice].[PostOfficeName] AS [PostOfficeName]
+    FROM [dbo].[PostOffice] AS [PostOffice]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Rank" EntityType="Self.Rank" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Rank].[RANK] AS [RANK], 
+    [Rank].[RNK_NAME] AS [RNK_NAME], 
+    [Rank].[RANK_TYPE] AS [RANK_TYPE], 
+    [Rank].[SHORT_NAME] AS [SHORT_NAME], 
+    [Rank].[LONG_NAME] AS [LONG_NAME]
+    FROM [dbo].[Rank] AS [Rank]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="School" EntityType="Self.School" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [School].[SchoolID] AS [SchoolID], 
+    [School].[DIST_CODE] AS [DIST_CODE], 
+    [School].[SchoolName] AS [SchoolName]
+    FROM [dbo].[School] AS [School]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Section" EntityType="Self.Section" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Section].[LocationID] AS [LocationID], 
+    [Section].[LocationName] AS [LocationName], 
+    [Section].[DivisionID] AS [DivisionID], 
+    [Section].[DivisionName] AS [DivisionName]
+    FROM [dbo].[Section] AS [Section]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ServiceStatus" EntityType="Self.ServiceStatus" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ServiceStatus].[SVCStatus] AS [SVCStatus], 
+    [ServiceStatus].[Service_Status] AS [Service_Status]
+    FROM [dbo].[ServiceStatus] AS [ServiceStatus]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ServiceType" EntityType="Self.ServiceType" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ServiceType].[SVCType] AS [SVCType], 
+    [ServiceType].[Service_Type] AS [Service_Type], 
+    [ServiceType].[IsOfficer] AS [IsOfficer]
+    FROM [dbo].[ServiceType] AS [ServiceType]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Trade" EntityType="Self.Trade" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Trade].[TRADE] AS [TRADE], 
+    [Trade].[TRD_NAME] AS [TRD_NAME], 
+    [Trade].[DIRECTOR] AS [DIRECTOR]
+    FROM [dbo].[Trade] AS [Trade]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Vw_EpasDivision" EntityType="Self.Vw_EpasDivision" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Vw_EpasDivision].[LocationID] AS [LocationID], 
+    [Vw_EpasDivision].[DivisionID] AS [DivisionID], 
+    [Vw_EpasDivision].[DivisionName] AS [DivisionName]
+    FROM [dbo].[Vw_EpasDivision] AS [Vw_EpasDivision]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CommonDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BloodGroup">
+          <Key>
+            <PropertyRef Name="BloodGroupCode" />
+          </Key>
+          <Property Name="BloodGroupCode" Type="Int32" Nullable="false" />
+          <Property Name="BloodGroup1" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="CountryRegionCode" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="CountryRegionCode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Directorate">
+          <Key>
+            <PropertyRef Name="directCode" />
+            <PropertyRef Name="directorateName" />
+          </Key>
+          <Property Name="directCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="directorateName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="District">
+          <Key>
+            <PropertyRef Name="DIST_CODE" />
+          </Key>
+          <Property Name="DIST_CODE" Type="Int32" Nullable="false" />
+          <Property Name="PROV_CODE" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Division">
+          <Key>
+            <PropertyRef Name="LocationID" />
+            <PropertyRef Name="DivisionID" />
+            <PropertyRef Name="DivisionType" />
+            <PropertyRef Name="DivisionName" />
+            <PropertyRef Name="NoOfPersonnel" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="CreatedDate" />
+            <PropertyRef Name="CreatedUser" />
+          </Key>
+          <Property Name="LocationID" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DivisionID" Type="String" MaxLength="5" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DivisionType" Type="String" MaxLength="4" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DivisionName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OfficeCommand" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="NoOfPersonnel" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Electorate">
+          <Key>
+            <PropertyRef Name="ElectroCode" />
+          </Key>
+          <Property Name="ElectroCode" Type="Int32" Nullable="false" />
+          <Property Name="ElectrorateName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="District" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Establishment">
+          <Key>
+            <PropertyRef Name="LocationID" />
+            <PropertyRef Name="LocationName" />
+          </Key>
+          <Property Name="LocationID" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="LocationName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LocShortName" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="GSDivision">
+          <Key>
+            <PropertyRef Name="GSDivisionID" />
+            <PropertyRef Name="District" />
+            <PropertyRef Name="GSName" />
+          </Key>
+          <Property Name="GSDivisionID" Type="Int32" Nullable="false" />
+          <Property Name="District" Type="Int32" Nullable="false" />
+          <Property Name="GSName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MaritalStatu">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Description" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MedicalCategory">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PoliceStation">
+          <Key>
+            <PropertyRef Name="PoliceStationCode" />
+          </Key>
+          <Property Name="District" Type="Int32" />
+          <Property Name="PoliceStationCode" Type="Int32" Nullable="false" />
+          <Property Name="PoliceStation1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PostOffice">
+          <Key>
+            <PropertyRef Name="PostOfficeCode" />
+            <PropertyRef Name="District" />
+          </Key>
+          <Property Name="PostOfficeCode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="District" Type="Int32" Nullable="false" />
+          <Property Name="PostOfficeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Rank">
+          <Key>
+            <PropertyRef Name="RANK1" />
+          </Key>
+          <Property Name="RANK1" Type="Int32" Nullable="false" />
+          <Property Name="RNK_NAME" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="RANK_TYPE" Type="Int32" />
+          <Property Name="SHORT_NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LONG_NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="School">
+          <Key>
+            <PropertyRef Name="SchoolID" />
+            <PropertyRef Name="DIST_CODE" />
+            <PropertyRef Name="SchoolName" />
+          </Key>
+          <Property Name="SchoolID" Type="Int32" Nullable="false" />
+          <Property Name="DIST_CODE" Type="Int32" Nullable="false" />
+          <Property Name="SchoolName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Section">
+          <Key>
+            <PropertyRef Name="LocationID" />
+            <PropertyRef Name="LocationName" />
+            <PropertyRef Name="DivisionID" />
+            <PropertyRef Name="DivisionName" />
+          </Key>
+          <Property Name="LocationID" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="LocationName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DivisionID" Type="String" MaxLength="5" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DivisionName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ServiceStatu">
+          <Key>
+            <PropertyRef Name="SVCStatus" />
+          </Key>
+          <Property Name="SVCStatus" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Service_Status" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ServiceType">
+          <Key>
+            <PropertyRef Name="SVCType" />
+          </Key>
+          <Property Name="SVCType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Service_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsOfficer" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Trade">
+          <Key>
+            <PropertyRef Name="TRADE1" />
+            <PropertyRef Name="TRD_NAME" />
+          </Key>
+          <Property Name="TRADE1" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TRD_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DIRECTOR" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="dbContextCommonData" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BloodGroups" EntityType="Self.BloodGroup" />
+          <EntitySet Name="Countries" EntityType="Self.Country" />
+          <EntitySet Name="Directorates" EntityType="Self.Directorate" />
+          <EntitySet Name="Districts" EntityType="Self.District" />
+          <EntitySet Name="Divisions" EntityType="Self.Division" />
+          <EntitySet Name="Electorates" EntityType="Self.Electorate" />
+          <EntitySet Name="Establishments" EntityType="Self.Establishment" />
+          <EntitySet Name="GSDivisions" EntityType="Self.GSDivision" />
+          <EntitySet Name="MaritalStatus" EntityType="Self.MaritalStatu" />
+          <EntitySet Name="MedicalCategories" EntityType="Self.MedicalCategory" />
+          <EntitySet Name="PoliceStations" EntityType="Self.PoliceStation" />
+          <EntitySet Name="PostOffices" EntityType="Self.PostOffice" />
+          <EntitySet Name="Ranks" EntityType="Self.Rank" />
+          <EntitySet Name="Schools" EntityType="Self.School" />
+          <EntitySet Name="Sections" EntityType="Self.Section" />
+          <EntitySet Name="ServiceStatus" EntityType="Self.ServiceStatu" />
+          <EntitySet Name="ServiceTypes" EntityType="Self.ServiceType" />
+          <EntitySet Name="Trades" EntityType="Self.Trade" />
+          <EntitySet Name="Division1" EntityType="CommonDataModel.Division1" />
+          <EntitySet Name="Vw_EpasDivision" EntityType="CommonDataModel.Vw_EpasDivision" />
+          <EntitySet Name="EpasLocations" EntityType="CommonDataModel.EpasLocation" />
+        </EntityContainer>
+        <EntityType Name="Division1">
+          <Key>
+            <PropertyRef Name="LocationID" />
+            <PropertyRef Name="DivisionName" />
+          </Key>
+          <Property Name="LocationID" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="DivisionID" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="DivisionType" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="DivisionName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OfficeCommand" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="NoOfPersonnel" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IDSeriesStart" Type="Int32" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+          <Property Name="Rank" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Appointment" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NoPrefix" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sno" Type="Int32" />
+          <Property Name="SLAFStationID" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="AppName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUser" Type="Int32" />
+          <Property Name="HostID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AgendaOrder" Type="Int32" />
+          <Property Name="WsEnable" Type="Int32" />
+          <Property Name="LetterHeadingName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DivisionshortName" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="SerNo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="KitPrefix" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Maindiv" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Vw_EpasDivision">
+          <Key>
+            <PropertyRef Name="LocationID" />
+            <PropertyRef Name="DivisionID" />
+            <PropertyRef Name="DivisionName" />
+          </Key>
+          <Property Name="LocationID" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="DivisionID" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="DivisionName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="EpasLocation">
+          <Key>
+            <PropertyRef Name="LocationID" />
+            <PropertyRef Name="DBName" />
+          </Key>
+          <Property Name="LocationID" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="LocationName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="NoOfDivisions" Type="Int32" />
+          <Property Name="NoOfPersonnel" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DBName" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="SystemURL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="OCLIDSeriesStart" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedUser" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUser" Type="Int32" />
+          <Property Name="HostID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LocAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TelephoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FaxNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NameOfCO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RankofCO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Appointment" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NameOfOCL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RankofOCL" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CommonDataModelStoreContainer" CdmEntityContainer="dbContextCommonData">
+          <EntitySetMapping Name="BloodGroups">
+            <EntityTypeMapping TypeName="CommonDataModel.BloodGroup">
+              <MappingFragment StoreEntitySet="BloodGroup">
+                <ScalarProperty Name="BloodGroupCode" ColumnName="BloodGroupCode" />
+                <ScalarProperty Name="BloodGroup1" ColumnName="BloodGroup" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="CommonDataModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="CountryRegionCode" ColumnName="CountryRegionCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Directorates">
+            <EntityTypeMapping TypeName="CommonDataModel.Directorate">
+              <MappingFragment StoreEntitySet="Directorate">
+                <ScalarProperty Name="directCode" ColumnName="directCode" />
+                <ScalarProperty Name="directorateName" ColumnName="directorateName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Districts">
+            <EntityTypeMapping TypeName="CommonDataModel.District">
+              <MappingFragment StoreEntitySet="District">
+                <ScalarProperty Name="DIST_CODE" ColumnName="DIST_CODE" />
+                <ScalarProperty Name="PROV_CODE" ColumnName="PROV_CODE" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Divisions">
+            <EntityTypeMapping TypeName="CommonDataModel.Division">
+              <MappingFragment StoreEntitySet="Division">
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="DivisionID" ColumnName="DivisionID" />
+                <ScalarProperty Name="DivisionType" ColumnName="DivisionType" />
+                <ScalarProperty Name="DivisionName" ColumnName="DivisionName" />
+                <ScalarProperty Name="OfficeCommand" ColumnName="OfficeCommand" />
+                <ScalarProperty Name="NoOfPersonnel" ColumnName="NoOfPersonnel" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Electorates">
+            <EntityTypeMapping TypeName="CommonDataModel.Electorate">
+              <MappingFragment StoreEntitySet="Electorate">
+                <ScalarProperty Name="ElectroCode" ColumnName="ElectroCode" />
+                <ScalarProperty Name="ElectrorateName" ColumnName="ElectrorateName" />
+                <ScalarProperty Name="District" ColumnName="District" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Establishments">
+            <EntityTypeMapping TypeName="CommonDataModel.Establishment">
+              <MappingFragment StoreEntitySet="Establishment">
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="LocShortName" ColumnName="LocShortName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GSDivisions">
+            <EntityTypeMapping TypeName="CommonDataModel.GSDivision">
+              <MappingFragment StoreEntitySet="GSDivision">
+                <ScalarProperty Name="GSDivisionID" ColumnName="GSDivisionID" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="GSName" ColumnName="GSName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaritalStatus">
+            <EntityTypeMapping TypeName="CommonDataModel.MaritalStatu">
+              <MappingFragment StoreEntitySet="MaritalStatus">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MedicalCategories">
+            <EntityTypeMapping TypeName="CommonDataModel.MedicalCategory">
+              <MappingFragment StoreEntitySet="MedicalCategory">
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PoliceStations">
+            <EntityTypeMapping TypeName="CommonDataModel.PoliceStation">
+              <MappingFragment StoreEntitySet="PoliceStation">
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="PoliceStationCode" ColumnName="PoliceStationCode" />
+                <ScalarProperty Name="PoliceStation1" ColumnName="PoliceStation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PostOffices">
+            <EntityTypeMapping TypeName="CommonDataModel.PostOffice">
+              <MappingFragment StoreEntitySet="PostOffice">
+                <ScalarProperty Name="PostOfficeCode" ColumnName="PostOfficeCode" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="PostOfficeName" ColumnName="PostOfficeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ranks">
+            <EntityTypeMapping TypeName="CommonDataModel.Rank">
+              <MappingFragment StoreEntitySet="Rank">
+                <ScalarProperty Name="RANK1" ColumnName="RANK" />
+                <ScalarProperty Name="RNK_NAME" ColumnName="RNK_NAME" />
+                <ScalarProperty Name="RANK_TYPE" ColumnName="RANK_TYPE" />
+                <ScalarProperty Name="SHORT_NAME" ColumnName="SHORT_NAME" />
+                <ScalarProperty Name="LONG_NAME" ColumnName="LONG_NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schools">
+            <EntityTypeMapping TypeName="CommonDataModel.School">
+              <MappingFragment StoreEntitySet="School">
+                <ScalarProperty Name="SchoolID" ColumnName="SchoolID" />
+                <ScalarProperty Name="DIST_CODE" ColumnName="DIST_CODE" />
+                <ScalarProperty Name="SchoolName" ColumnName="SchoolName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sections">
+            <EntityTypeMapping TypeName="CommonDataModel.Section">
+              <MappingFragment StoreEntitySet="Section">
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="DivisionID" ColumnName="DivisionID" />
+                <ScalarProperty Name="DivisionName" ColumnName="DivisionName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceStatus">
+            <EntityTypeMapping TypeName="CommonDataModel.ServiceStatu">
+              <MappingFragment StoreEntitySet="ServiceStatus">
+                <ScalarProperty Name="SVCStatus" ColumnName="SVCStatus" />
+                <ScalarProperty Name="Service_Status" ColumnName="Service_Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceTypes">
+            <EntityTypeMapping TypeName="CommonDataModel.ServiceType">
+              <MappingFragment StoreEntitySet="ServiceType">
+                <ScalarProperty Name="SVCType" ColumnName="SVCType" />
+                <ScalarProperty Name="Service_Type" ColumnName="Service_Type" />
+                <ScalarProperty Name="IsOfficer" ColumnName="IsOfficer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Trades">
+            <EntityTypeMapping TypeName="CommonDataModel.Trade">
+              <MappingFragment StoreEntitySet="Trade">
+                <ScalarProperty Name="TRADE1" ColumnName="TRADE" />
+                <ScalarProperty Name="TRD_NAME" ColumnName="TRD_NAME" />
+                <ScalarProperty Name="DIRECTOR" ColumnName="DIRECTOR" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Division1">
+            <EntityTypeMapping TypeName="CommonDataModel.Division1">
+              <MappingFragment StoreEntitySet="Divisions">
+                <ScalarProperty Name="Maindiv" ColumnName="Maindiv" />
+                <ScalarProperty Name="KitPrefix" ColumnName="KitPrefix" />
+                <ScalarProperty Name="SerNo" ColumnName="SerNo" />
+                <ScalarProperty Name="DivisionshortName" ColumnName="DivisionshortName" />
+                <ScalarProperty Name="LetterHeadingName" ColumnName="LetterHeadingName" />
+                <ScalarProperty Name="WsEnable" ColumnName="WsEnable" />
+                <ScalarProperty Name="AgendaOrder" ColumnName="AgendaOrder" />
+                <ScalarProperty Name="HostID" ColumnName="HostID" />
+                <ScalarProperty Name="ModifiedUser" ColumnName="ModifiedUser" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="AppName" ColumnName="AppName" />
+                <ScalarProperty Name="SLAFStationID" ColumnName="SLAFStationID" />
+                <ScalarProperty Name="Sno" ColumnName="Sno" />
+                <ScalarProperty Name="NoPrefix" ColumnName="NoPrefix" />
+                <ScalarProperty Name="Appointment" ColumnName="Appointment" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Rank" ColumnName="Rank" />
+                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IDSeriesStart" ColumnName="IDSeriesStart" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="NoOfPersonnel" ColumnName="NoOfPersonnel" />
+                <ScalarProperty Name="OfficeCommand" ColumnName="OfficeCommand" />
+                <ScalarProperty Name="DivisionName" ColumnName="DivisionName" />
+                <ScalarProperty Name="DivisionType" ColumnName="DivisionType" />
+                <ScalarProperty Name="DivisionID" ColumnName="DivisionID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vw_EpasDivision">
+            <EntityTypeMapping TypeName="CommonDataModel.Vw_EpasDivision">
+              <MappingFragment StoreEntitySet="Vw_EpasDivision">
+                <ScalarProperty Name="DivisionName" ColumnName="DivisionName" />
+                <ScalarProperty Name="DivisionID" ColumnName="DivisionID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EpasLocations">
+            <EntityTypeMapping TypeName="CommonDataModel.EpasLocation">
+              <MappingFragment StoreEntitySet="EpasLocations">
+                <ScalarProperty Name="RankofOCL" ColumnName="RankofOCL" />
+                <ScalarProperty Name="NameOfOCL" ColumnName="NameOfOCL" />
+                <ScalarProperty Name="Appointment" ColumnName="Appointment" />
+                <ScalarProperty Name="RankofCO" ColumnName="RankofCO" />
+                <ScalarProperty Name="NameOfCO" ColumnName="NameOfCO" />
+                <ScalarProperty Name="FaxNo" ColumnName="FaxNo" />
+                <ScalarProperty Name="TelephoneNo" ColumnName="TelephoneNo" />
+                <ScalarProperty Name="LocAddress" ColumnName="LocAddress" />
+                <ScalarProperty Name="HostID" ColumnName="HostID" />
+                <ScalarProperty Name="ModifiedUser" ColumnName="ModifiedUser" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="OCLIDSeriesStart" ColumnName="OCLIDSeriesStart" />
+                <ScalarProperty Name="SystemURL" ColumnName="SystemURL" />
+                <ScalarProperty Name="DBName" ColumnName="DBName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="NoOfPersonnel" ColumnName="NoOfPersonnel" />
+                <ScalarProperty Name="NoOfDivisions" ColumnName="NoOfDivisions" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

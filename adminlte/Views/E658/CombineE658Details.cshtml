@@ -1,0 +1,742 @@
+﻿
+@using E658.Models
+@model IEnumerable<E658.Models.VME658Create>
+
+
+@{
+    ViewBag.Title = "Details";
+}
+<link href="~/Content/CustomStyle.css" rel="stylesheet" />
+@using (Html.BeginForm())
+{
+    {
+
+        @Html.AntiForgeryToken()
+
+        <div class="content-wrapper" style="height:900px !important;">
+
+            
+
+            <br />
+            @*parent Run Details*@
+            <section class="col-lg-6 nav-tabs-custom connectedSortable">
+                 <h4>Parent Run Details</h4>
+
+                @foreach (var item in Model)
+                {
+                    <div class="col-lg-6">
+                        <br />
+                        <dl class="dl-horizontal">
+                            @* Destination From: *@
+                            <dt class="form-group" style="width:228px">
+                                Destination From :
+                            </dt>
+
+                            <dd class="ddwraper">
+                                @Html.DisplayFor(model => item.FromLocID)
+                            </dd>
+
+                            @* E-658 Run Type : *@
+                            <dt class="form-group" style="width:228px">
+                                E-658 Run Type :
+                            </dt>
+
+                            <dd class="ddwraper">
+                                @Html.DisplayFor(model => item.E658RunType)
+                            </dd>
+
+                            @*E658 RefNo *@
+                            <dt class="form-group" style="width:228px">
+                                E-658 Reference No :
+                            </dt>
+
+                            <dd class="ddwraper">
+                                @Html.DisplayFor(model => item.UnitSerialNo)
+                                @Html.HiddenFor(model => item.ECDID, new { id = "CreatorID" })
+                                @*@Html.HiddenFor(model => item.ECDID)*@
+                            </dd>
+
+                            @* E-658 Date : *@
+                            <dt class="form-group" style="width:228px">
+                                E-658 Date :
+                            </dt>
+
+                            <dd class="ddwraper">
+                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.E658Date))
+                            </dd>
+
+                            @*Destination To *@
+                            <dt class="form-group" style="width:228px">
+                                Destination To :
+                            </dt>
+
+                            <dd class="ddwraper">
+                                @Html.DisplayFor(model => item.ToLocId)
+                            </dd>    
+
+                             @* Edit Destination To *@
+                            <dt class="form-group" style="width:228px">
+                                Select New Destination To :
+                            </dt>
+
+                            <dd class="ddwraper">
+                                @Html.DropDownList("DestinationTo" ,ViewBag.DDL_GermsLocation as SelectList, "Select Destination", htmlAttributes: new { @class = "form-control", id = "dpDestinationTo" })     
+                            </dd>    
+
+                            @*Journry Return Date : *@
+                            <dt class="form-group" style="width:228px">
+                                Journey Return Date  :
+                            </dt>
+
+                            <dd class="ddwraper">
+                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.ReturnDate))
+
+                            </dd>
+
+                            @*Edit Journry Return Date : *@
+                            <dt class="form-group" style="width:228px;background-color :aquamarine">
+                                Select New Journey Return Date  :
+                            </dt>
+
+                            <dd class="ddwraper">                                
+                                <input type="date" class="form-control" id="txtReturnDate"/>
+                            </dd>           
+
+                            @*Journry Start Time : *@
+                            <dt class="form-group" style="width:228px">
+                                Journey Start Time :
+                            </dt>
+
+                            <dd class="ddwraper">
+                                
+                                @Convert.ToString(string.Format("{0:HH:mm tt}", item.JournryStartTime))
+
+                            </dd>  
+                            
+                            @*Edit Journry Start Time : *@
+                            <dt class="form-group" style="width:228px;background-color :aquamarine">
+                               Enter New Journey Start Time :
+                            </dt>
+
+                            <dd class="ddwraper">
+                                <input type="time" class="form-control" id="txtStartTime" />
+                            </dd>                        
+
+                            @*Purpose :*@
+                            <dt class="form-group" style="width:228px">
+                                Purpose :
+                            </dt>
+
+                            <dd class="ddwraper">
+                                @Html.DisplayFor(model => item.Purpose)
+
+                            </dd>
+
+                            @*Edit Purpose :*@
+                            <dt class="form-group" style="width:228px;background-color :aquamarine" >
+                                Enter Your New Purpose :
+                            </dt>
+
+                            <dd class="ddwraper">
+                                @Html.TextArea("Purpose", new { @class = "form-control ", autocomplete = "off", id= "txtEditPurpose" })
+                            </dd>
+
+                            @* Route :*@
+                            <dt class="form-group" style="width:228px">
+                                Route :
+                            </dt>
+
+                            <dd class="ddwraper">
+                                @Html.DisplayFor(model => item.Route)
+
+                            </dd>
+
+                            @* Edit Route :*@
+                            <dt class="form-group" style="width:228px;background-color :aquamarine">
+                               Enter Your New Route :
+                            </dt>
+
+                            <dd class="ddwraper">
+                                @Html.TextArea("Route", new { @class = "form-control ", autocomplete = "off", id = "txtEditRoute" })
+
+                            </dd>
+
+                            @if (item.IsOMTAvail == 1)
+                            {
+                                @* OMTStatus :*@
+                                <dt class="form-group alert alert-info" style="height:50px;margin-bottom:4px;width:228px">
+                                    OMT Status :
+                                </dt>
+
+                                if (item.RoleID == 3)
+                                {
+                                    <dd class="form-group ddwraper">
+                                        @Html.Label("Assign an OMT ", new { @class = "control-label" })
+                                        @Html.CheckBox("isAssignOMT", false)
+                                    </dd>
+                                }
+                                else
+                                {
+                                    <dd class="form-group alert alert-info ddwraper" style="height:50px;margin-bottom:4px">
+                                        @Html.DisplayFor(model => item.OMTStatus)
+                                    </dd>
+                                }
+                            }
+                            else
+                            {
+                                @* OMTStatus :*@
+                                <dt class="form-group" style="width:228px">
+                                    OMT Service No :
+                                </dt>
+
+                                <dd class="form-group ddwraper">
+                                    @Html.DisplayFor(model => item.OMTServiceNo)
+
+                                </dd>
+                            }
+                            @if (item.IsVehicleAvail == 10)
+                        {
+                                @* OMTStatus :*@
+                                <dt class="form-group alert alert-info" style="height:50px;margin-bottom:4px;width:228px">
+                                    Vehicle Status :
+                                </dt>
+
+                                if (item.RoleID == 3)
+                                {
+                                    <dd class="form-group ddwraper">
+                                        @Html.Label("Assign a Vehicle", new { @class = "control-label" })
+                                        @Html.CheckBox("isAssignVehicle", false)
+
+                                    </dd>
+                                }
+                                else
+                                {
+                                    <dd class="form-group alert alert-info ddwraper" style="height:50px;margin-bottom:4px;width:220px">
+                                        @Html.DisplayFor(model => item.VehicleStatus)
+
+                                    </dd>
+                                }
+                            }
+                            else
+                            {
+                                @* OMTStatus :*@
+                                <dt class="form-group" style="width:228px">
+                                    Vehicle SLAF Reg No :
+                                </dt>
+
+                                <dd class="form-group ddwraper">
+                                    @Html.DisplayFor(model => item.SLAFRegNo)
+
+                                </dd>
+                            }                          
+                          
+                        </dl>
+
+                        @*<div>
+                            <h5>Parent Run Report Locations</h5>
+                            @{
+                                var rptLoc = TempData["RptLocation"];
+                                @Html.Partial("_E658ReportLoc", rptLoc);
+                            }
+                        </div>*@
+                    </div>
+                  
+          }
+            </section>
+
+            @*chld Run Details*@
+
+            <section class="col-lg-6 nav-tabs-custom connectedSortable">
+                <h4>Child Run Details</h4>
+
+                @foreach (var item in ViewBag.ChildE658DetailsList)
+                {
+                    <div class="col-lg-6">
+                        <br />
+                        <dl class="dl-horizontal">
+                            @* Destination From: *@
+                            <dt class="form-group">
+                                Destination From :
+                            </dt>
+
+                            <dd class="ddwraper">
+                                @item.FromLocID
+                            </dd>
+
+                            @* E-658 Run Type : *@
+                            <dt class="form-group">
+                                E-658 Run Type :
+                            </dt>
+
+                            <dd  class="ddwraper">
+                                @item.E658RunType
+                            </dd>
+
+                            @*E658 RefNo *@
+                            <dt class="form-group">
+                                E-658 Reference No :
+                            </dt>
+
+                            <dd  class="ddwraper">
+                                @item.UnitSerialNo
+                                @*@item.ECDID, new { id = "CreatorID" }*@
+                                @*@Html.HiddenFor(model => item.ECDID)*@
+                            </dd>
+
+                            @* E-658 Date : *@
+                            <dt class="form-group">
+                                E-658 Date :
+                            </dt>
+
+                            <dd  class="ddwraper">
+                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.E658Date))
+                            </dd>
+
+                            @*Destination To *@
+                            <dt class="form-group">
+                                Destination To :
+                            </dt>
+
+                            <dd  class="ddwraper">
+                                @item.ToLocId
+                            </dd>                                                      
+
+                            @*Journry Return Date : *@
+                            <dt class="form-group">
+                                Journey Return Date  :
+                            </dt>
+
+                            <dd  class="ddwraper">
+                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.ReturnDate))
+
+                            </dd>                                                      
+
+                            @*Journry Start Time : *@
+                            <dt class="form-group">
+                                Journey Start Time :
+                            </dt>
+
+                            <dd  class="ddwraper">
+
+                                @Convert.ToString(string.Format("{0:HH:mm tt}", item.JournryStartTime))
+
+                            </dd>
+
+                           
+
+                            @*Purpose :*@
+                            <dt class="form-group">
+                                Purpose :
+                            </dt>
+
+                            <dd  class="ddwraper">
+                                @item.Purpose
+
+                            </dd>                       
+
+                            @* Route :*@
+                            <dt class="form-group">
+                                Route :
+                            </dt>
+
+                            <dd  class="ddwraper">
+                                @item.Route
+
+                            </dd>
+
+
+                            @if (item.IsOMTAvail == 1)
+                            {
+                                @* OMTStatus :*@
+                                <dt class="form-group alert alert-info" style="height:50px;margin-bottom:4px">
+                                    OMT Status :
+                                </dt>
+
+                                if (item.RoleID == 3)
+                                {
+                                    <dd class="form-group ddwraper">
+                                       <p>Need to assign From MT Section</p>
+                                    </dd>
+                                }
+                                else
+                                {
+                                    <dd class="form-group alert alert-info ddwraper" style="height:50px;margin-bottom:4px">
+                                        @item.OMTStatus
+                                    </dd>
+                                }
+                            }
+                            else
+                            {
+                                @* OMTStatus :*@
+                                <dt class="form-group">
+                                    OMT Service No :
+                                </dt>
+
+                                <dd class="form-group ddwraper">
+                                    @item.OMTServiceNo
+
+                                </dd>
+                            }
+                            @if (item.IsVehicleAvail == 10)
+                        {
+                                @* OMTStatus :*@
+                                <dt class="form-group alert alert-info" style="height:50px;margin-bottom:4px">
+                                    Vehicle Status :
+                                </dt>
+
+                                if (item.RoleID == 3)
+                                {
+                                    <dd class="form-group ddwraper">
+                                        <p>Need to assign From MT Section</p>
+                                    </dd>
+                                }
+                                else
+                                {
+                                    <dd class="form-group alert alert-info ddwraper" style="height:50px;margin-bottom:4px;width:220px">
+                                        @item.VehicleStatus
+
+                                    </dd>
+                                }
+
+
+
+
+                            }
+                            else
+                            {
+                                @* OMTStatus :*@
+                                <dt class="form-group">
+                                    Vehicle SLAF Reg No :
+                                </dt>
+
+                                <dd class="form-group ddwraper">
+                                    @item.SLAFRegNo
+
+                                </dd>
+                            }
+
+                        </dl>
+                        
+                        @*btn Update Details*@
+                        <div class="form-group">                            
+                            <input type="button" value="Update Record" class="btn btn-warning" id="btnUpdate" name="UpdateRecord">
+                        </div>
+
+                    </div>
+                }
+            </section>
+
+
+            <section class="col-lg-12 nav-tabs-custom connectedSortable">
+                <div class="nav-tabs-custom">
+                    <div class="box-body">
+                        @* OMT Service Details*@
+
+                        <div class="form-group" id="dvOMTInfo" style="margin-top:8px">
+                            <h5>Enter nominated OMT Service Number and click save button</h5>
+                            <div class="col-lg-2">
+                                @*Service Number*@
+                                <div class="form-group">
+                                    @Html.Label("Service Number", new { @class = "control-label" })
+                                    <input type="text" class="form-control" id="txtOMTServiceNo" />
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2">
+                                @*Rank*@
+                                <div class="form-group">
+                                    @Html.Label("Rank", new { @class = "control-label" })
+                                    <input type="text" class="form-control" id="txtRank" readonly />
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                @*Name*@
+                                <div class="form-group">
+                                    @Html.Label("Name", new { @class = "control-label" })
+                                    <input type="text" class="form-control" id="txtFullName" readonly />
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                @*BtnOmtSave*@
+                                <div class="form-group">
+
+                                    @Html.Label("Click the Save Button", new { @class = "control-label" })
+                                    <input type="button" value="Save" class="btn btn-success pull-left" id="btnSaveOmt">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="dvVehicleInfo">
+                            <h5>Enter nominated Vehicle  Number and click save button</h5>
+                            <div class="col-lg-4">
+                                @*Vehicle No*@
+                                <div class="form-group">
+                                    @Html.Label("Vehicle Reg No", new { @class = "control-label" })
+                                    <input type="text" class="form-control" id="txtVehicleRegNo" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                @*Vehicle Chassis Number*@
+                                <div class="form-group">
+                                    @Html.Label("Vehicle Chassis Number", new { @class = "control-label" })
+                                    <input type="text" class="form-control" id="txtVehicleChassisNo" readonly />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                @*btn Save Vehicle*@
+                                <div class="form-group">
+                                    @Html.Label("Click the Save Button", new { @class = "control-label" })
+                                    <input type="button" value="Save" class="btn btn-success" id="btnSaveVehicle" name="Save">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    </div>
+   }
+}
+
+<script src="~/Scripts/Jq.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        ///Created BY   : Sqn Ldr Wicky
+        ///Created Date : 2024/05/15
+        ///Description : hide the Div
+
+        /// Drop down list in Operation Contribution
+
+        $("#dvOMTInfo").hide();
+        $("#dvVehicleInfo").hide();
+
+    });
+
+    $(function () {
+
+        //Created BY   : Sqn Ldr Wicky
+        ///Created Date : 2024/05/15
+        ///Description : show and hide the dvOMTInfo div
+
+        var clickCount = 0;
+        $("#isAssignOMT").click(function () {
+            clickCount++;
+            if (clickCount % 2 === 1) {
+                $("#dvOMTInfo").show();
+            }
+            else {
+                $("#dvOMTInfo").hide();
+            }
+
+        });
+    });
+
+    $(function () {
+
+        //Created BY   : Sqn Ldr Wicky
+        ///Created Date : 2024/05/15
+        ///Description : show and hide the dvVehicleInfo div
+
+        var clickCount = 0;
+        $("#isAssignVehicle").click(function () {
+            clickCount++;
+            if (clickCount % 2 === 1) {
+                $("#dvVehicleInfo").show();
+            }
+            else {
+                $("#dvVehicleInfo").hide();
+            }
+
+        });
+    });
+
+
+    $(function () {
+
+        //Created BY   : Sqn Ldr Wicky
+        ///Created Date : 2024/05/15
+        ///Description : load OMT service Details
+        $("#txtOMTServiceNo").change(function () {
+            $.ajax({
+                url: '@Url.Content("~/User/getUserInfo")',
+                type: 'POST',
+                dataType: 'json',
+                data: { id: $("#txtOMTServiceNo").val()},
+                success: function (data)
+                {
+                    if (data.ServiceNo == "Service number is not valid.")
+                    {
+                        alert("Service number is not valid.");
+                        $("#txtOMTServiceNo").val('');
+
+                    }
+                    else
+                    {
+                        $("#txtOMTServiceNo").val(data.ServiceNo);
+                        $("#txtRank").val(data.Rank);
+                        $("#txtFullName").val(data.Name);
+                    }
+                },
+                error: function () {
+                    alert("error in function");
+                }
+            });
+        });
+    });
+
+    $(function () {
+
+        //Created BY   : Sqn Ldr Wicky
+        ///Created Date : 2024/05/20
+        ///Description : load Vehicle Chassis Number
+
+        $("#txtVehicleRegNo").change(function () {
+            $.ajax({
+                url: '@Url.Content("~/E658/getVehicleChassisNo")',
+                type: 'POST',
+                dataType: 'json',
+                data: { id: $("#txtVehicleRegNo").val() },
+                success: function (data) {
+
+                    if (data.ChassisNo == null)
+                    {
+                        alert("This is not a valid SLAF No");
+                    }
+                    else
+                    {
+                        $("#txtVehicleChassisNo").val(data.ChassisNo);
+
+                    }
+                },
+                error: function () {
+                    alert("This is not a valid SLAF Registered No");
+                    $("#txtVehicleRegNo").val('');
+                    $("#txtVehicleChassisNo").val('');
+
+                }
+            });
+        });
+    });
+
+
+    $(function () {
+
+        //Created BY   : Sqn Ldr Wicky
+        ///Created Date: 2024/05/15
+        ///Description : Update the OMT Details
+
+        $("#btnSaveOmt").click(function () {
+
+            var txtOMTServiceNo = $("#txtOMTServiceNo").val();
+            var ecdidValue = document.getElementById("CreatorID").value;
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Content("~/E658/UpdateOMTRecord")',
+                dataType: 'json',
+                data: { id: txtOMTServiceNo, ECDID: ecdidValue },
+                success: function (data) {
+                    alert(data.Message);
+                    if (data.ServiceNo == "Service number is not valid.") {
+
+
+                    }
+                    else {
+
+                    }
+                },
+                error: function () {
+                    alert("error in function");
+                }
+            });
+        });
+    });
+
+
+    $(function () {
+
+        //Created BY   : Sqn Ldr Wicky
+        ///Created Date: 2024/05/15
+        ///Description : Update the Vehicle Details
+
+        $("#btnSaveVehicle").click(function () {
+
+            var txtOMTVehicleNo = $("#txtVehicleRegNo").val();
+            var ecdidValue = document.getElementById("CreatorID").value;
+            var chassisNo = $("#txtVehicleChassisNo").val();
+            $.ajax({
+                url: '@Url.Content("~/E658/UpdateVehicleRecord")',
+                type: 'POST',
+                dataType: 'json',
+                data: { id: txtOMTVehicleNo, ECDID: ecdidValue, ChassisNo: chassisNo },
+                success: function (data) {
+                    alert(data.Message);
+                    if (data.ServiceNo == "Service number is not valid.") {
+
+
+                    }
+                    else {
+
+                    }
+                },
+                error: function () {
+                    alert("error in function");
+                }
+            });
+        });
+    });
+
+
+
+    $(function () {
+        $("#btnUpdate").click(function () {
+            debugger;
+
+            var ecdidValue = document.getElementById("CreatorID").value;
+            var objE658 = {};
+            
+            objE658.ToLocId = $("#dpDestinationTo").val();
+            objE658.ReturnDate = $("#txtReturnDate").val();
+            objE658.JournryStartTime = $("#txtStartTime").val();
+            objE658.Purpose = $("#txtEditPurpose").val();
+            objE658.Route = $("#txtEditRoute").val();
+            objE658.ECDID = ecdidValue;
+                      
+            
+            $.ajax({
+                url: '@Url.Content("~/E658/UpdateCombineRun")',
+                type: "POST",
+                data: '{objE658:' + JSON.stringify(objE658) + '}',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (data.Message == "Something Error, please contact IT division") {
+                        alert(data.Message);
+                    }
+                    else {
+
+                        $("#CreateSuccMeg").show();
+
+                        $("#CreateSuccMeg").append(data.Message);
+                        window.location.href = data.redirectUrl || '@Url.Action("E658List")';
+                        //alert(data.Message);
+
+
+                    }
+                },
+                //error: function () {
+                //    alert("Error while inserting data");
+                //}
+            });
+
+
+        });
+    });
+
+
+
+</script>

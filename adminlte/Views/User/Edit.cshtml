@@ -1,0 +1,123 @@
+﻿@model E658.Models._UserManagementE658
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1 style="text-align:center"><span> Edit User Details</span></h1>
+
+        <div id="ErrorMessage" style="margin-top:5px">
+            @if (TempData["ScfMsg"] != null)
+            {
+                <div id="Msg" class="col-lg-12  alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>Alert! </strong> @TempData["ScfMsg"]
+                </div>
+            }
+            else if (TempData["ErrMsg"] != null)
+            {
+                <div id="Msg" class="col-lg-12 alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>Alert! </strong>@TempData["ErrMsg"]
+                </div>
+            }
+        </div>
+    </section>
+
+    <br />
+    @using (Html.BeginForm())
+    {
+        <section class="col-lg-12 connectedSortable" style="margin-top:5px">
+            <div class="nav-tabs-custom">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="box-body">
+                            @*Service No and  @*Rank*@
+                            <div class="form-group">
+                                @Html.Label("Service Number", new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.ServiceNo, new { @class = "form-control", autocomplete = "off", @readonly = "readonly" })
+                                @Html.HiddenFor(model => model.SNo)
+                                @Html.HiddenFor(model => model.EUMID)
+                                @Html.ValidationMessageFor(model => model.ServiceNo, string.Empty, new { @class = "label label-danger" })
+                            </div>
+
+                            @*Rank*@
+                            <div class="form-group">
+                                @Html.Label("Rank", new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.Rank, new { @class = "form-control", autocomplete = "off", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => model.Rank, string.Empty, new { @class = "label label-danger" })
+
+                            </div>
+
+                            <div class="form-group">
+
+                                @Html.Label("Name", new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", autocomplete = "off", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => model.FullName, string.Empty, new { @class = "label label-danger" })
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="box-body">
+                            @*Name*@
+                            <div class="form-group">
+                                <div class="col-lg-6">
+                                    @Html.Label("Current User Type", new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.UserRole, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
+                                </div>
+                                <div class="col-lg-6">
+                                    @Html.Label("User Type", new { @class = "control-label" })
+                                    @Html.DropDownListFor(model => model.RLEID, ViewBag.DDL_E658UserType as SelectList, "SELECT", htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.RLEID, string.Empty, new { @class = "label label-danger" })
+                                </div>
+                            </div>
+
+                            @*Trade/Brance *@
+                            <div class="form-group">
+                                <div class="col-lg-6">
+                                    @Html.Label("Current User Location", new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.Location, new { @class = "form-control", autocomplete = "off", @readonly = "readonly" })
+                                </div>
+                                <div class="col-lg-6">
+                                    @Html.Label("Location", new { @class = "control-label" })
+                                    @Html.DropDownListFor(model => model.EditLocation, ViewBag.DDL_GERSLocation as SelectList, "SELECT", htmlAttributes: new { @class = "form-control" })                                
+                                </div> 
+                             </div>
+                            <div class="form-group" style="padding-top:125px">
+                                <div class="col-lg-3">
+                                    <input type="submit" value="Save Changes" class="btn btn-success" name="btnSave" id="btnSave">
+                                </div>
+                                <div class="col-lg-3">
+                                    <input type="button" value="Clear" class="btn btn-warning pull-right" id="btnClear" name="Clear">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+</div>
+
+<script src="~/Scripts/Jq.js"></script>
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#btnClear").click(function () {
+           
+            $("#RLEID").val("");
+            $("#EditLocation").val("");
+
+
+        });
+    });
+
+
+</script>

@@ -1,0 +1,88 @@
+﻿@model WRMS.Models._UserLogin
+@{
+    Layout = null;
+}
+<link rel="stylesheet" href="~/Scripts/adminlte/components/bootstrap/dist/css/bootstrap.min.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="~/Scripts/adminlte/components/font-awesome/css/font-awesome.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet" href="~/Scripts/adminlte/components/Ionicons/css/ionicons.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="~/Content/adminlte/css/AdminLTE.min.css">
+<!-- iCheck -->
+<link rel="stylesheet" href="~/Scripts/adminlte/plugins/iCheck/square/blue.css">
+<meta name="viewport" content="width=device-width" />
+
+<meta name="viewport" content="width=device-width" />
+<title>Login</title>
+@using (Html.BeginForm())
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-offset-4 col-lg-4" style="border: 0px 1px 0px 1px solid #dadde2; border-radius: 1px 1px 1px 1px; margin-top: 10px; min-height: 500px; padding: 0px; box-shadow: 2px 2px 2px 1px; background-color:#fbfbfb; ">
+                <div class="form-horizontal">
+                    <div id="Header" class="col-lg-12" style="font-size:14px; color:#0a1d02; text-align:center; margin-top:20px; text-transform:uppercase;">Sri Lanka Air Force Directorate of Information Technology</div>
+                    <div class="col-lg-offset-3 col-lg-6" id="Logo" style="height:auto; text-align:center; margin-top:20px;">
+
+                        <img src="~/Content/adminlte/img/SLAF-Crest.png" width="170" />
+                    </div>
+                    <div class="col-lg-offset-3 col-lg-6" style="font-family:Calibri; font-size:36px; text-align:center;"><b>E-658</b></div>
+                    <div id="" style="min-height:500px;">
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group " style="padding-bottom:0px;margin-bottom:0px;">
+                            <h4 class="col-lg-offset-1 col-lg-10" style="text-transform:uppercase; padding-bottom:0px; font-family:Calibri; font-size:14px;"><b>Login</b></h4>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-offset-1 col-lg-10">
+                                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control input-md", placeholder = "User Name", MaxLength = "12" })
+                                @Html.ValidationMessageFor(model => model.UserName, String.Empty, new { @class = "label label-danger col-sm-12 input-xm" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-offset-1 col-lg-10">
+                                @Html.PasswordFor(model => model.Password, new { @class = "form-control input-md", placeholder = "Password", MaxLength = "20" })
+                                @Html.ValidationMessageFor(model => model.Password, String.Empty, new { @class = "label label-danger col-sm-12 input-xm" })
+                            </div>
+                        </div>
+                        <div class="form-group"> 
+                            <div class="col-lg-offset-1 col-lg-10">
+                                @Html.DropDownListFor(model => model.EUTID, ViewBag.DDL_E658UserType as SelectList, "SELECT User Type", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.EUTID, String.Empty, new { @class = "label label-danger col-sm-12 input-xm" })
+                             </div>                            
+                        </div>
+
+                        @*<div>@ViewBag.Errmsg</div>*@
+
+                        <div class="form-group">
+                            <div class="col-lg-offset-1 col-lg-10">
+                                <input type="submit" value="Login" class="btn btn-primary btn-block" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-offset-1 col-lg-10">
+
+                                @*<div class="col-lg-6" style=" font-size:14px; font-family:Calibri;">@Html.ActionLink("Create User Account", "UserMgtCreate", "User", new { id = 445 }, new { })</div>*@
+                                @*<div class="col-lg-6" style="font-size: 14px; font-family: Calibri;">@Html.ActionLink("Forgotten Password!", "UserRegistration", "User", new { id = 445 }, new { })</div>*@
+                            
+                            </div>
+                        </div>
+                    </div>
+                    @{
+                        if (TempData["Error"] != null)
+                        {
+                            <div class="alert alert-danger" style="margin-top:0px;"><b>@TempData["Error"]</b></div>
+                        }
+                    }
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <hr />
+    <div class="col-sm-12" style=" height:20px; text-align:center; font-family:Calibri; font-size:16px; color:#808080;">© 2024 Directorate of Information Technology, All Rights Reserved.</div>
+}

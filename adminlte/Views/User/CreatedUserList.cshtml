@@ -1,0 +1,130 @@
+﻿
+@model PagedList.IPagedList<E658.Models._UserManagementE658>
+@using PagedList.Mvc;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/adminlte/css/AdminLTE.css" rel="stylesheet" />
+<div class="content-wrapper" style="height:900px !important;">
+
+    <section class="content-header">
+        <h1>
+            Users List
+            <small>Created user List</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Created user List</li>
+        </ol> 
+        
+        <div id="ErrorMessage" style="margin-top:5px">
+            @if (TempData["ScfMsg"] != null)
+            {
+                <div id="Msg" class="col-lg-12  alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>Alert! </strong> @TempData["ScfMsg"]
+                </div>
+            }
+            else if (TempData["ErrMsg"] != null)
+            {
+                <div id="Msg" class="col-lg-12 alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>Alert! </strong>@TempData["ErrMsg"]
+                </div>
+            }
+        </div>
+        
+              
+    </section>
+
+    <section class="col-lg-12 connectedSortable" style="margin-top:10px">
+        <div class="nav-tabs-custom">
+            @Html.ValidationSummary(true)
+            <div class="box-body">
+                @using (Html.BeginForm("CreatedUserList", "User", FormMethod.Get))
+                {
+                    <div class="input-group col-lg-6">
+                            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { placeholder = "Serach using Service No", @class = "form-control" })
+                            <div class="input-group-btn" style="padding-left:80px">
+                                <button type="submit" class="btn btn-success"><i class="fa fa-search"></i> Search </button>
+                            </div>
+                        </div>
+                }
+
+                <table id="example" class="table table-responsive table-striped table-hover" style="margin-top:15px">
+                    @{
+                        <tr>
+                            @*<th>
+                                    <input type="checkbox" id="checkAll" />
+                                </th>*@
+                            <th>
+                                ServiceNo
+                            </th>
+                            <th>
+                               Rank
+                            </th>
+                            <th>
+                                Full Name
+                            </th>
+                            <th>
+                               Location
+                            </th>
+                            <th>
+                               User Role
+                            </th>
+                            <th></th>
+                            <th></th>
+
+
+                        </tr>
+                    }
+
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            @*<td>
+                                    <input type="checkbox" class="checkBox" value="@item.LIOHID" />
+                                </td>*@
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ServiceNo)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Rank)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Location)
+                            </td>
+                         
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserRole)
+                            </td>
+
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { EUMID = item.EUMID }, new { @class = "btn btn-warning" })                               
+                            </td>
+                            <td>
+                                @Html.ActionLink("Delete", "Delete", new { EUMID = item.EUMID }, new { @class = "btn btn-danger" })
+                            </td>
+                        </tr>
+                    }
+
+
+                </table>
+                <br />
+                @*Paging for Data Table *use only MVC no Javascript*@
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("E658List",
+                 new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+            </div>
+        </div>
+    </section>
+
+</div>

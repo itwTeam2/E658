@@ -1,0 +1,89 @@
+﻿@using E658.Models
+@model IEnumerable<E658.Models.VME658Create>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="modal fade" id="recordDetailsModal2" tabindex="-1" role="dialog" aria-labelledby="recordDetailsModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <center><h3 class="modal-title" id="recordDetailsModalLabel">Enter Reject Comment</h3></center>
+                    @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>*@
+                </div>
+
+                <div class="modal-body">
+
+                    <section class="col-lg-12 nav-tabs-custom connectedSortable">
+                        @foreach (var item in Model)
+                        {
+                            <fieldset id="reject">
+
+                                <div class="form-horizontal">
+                                    <div class="form-group col-md-12">
+                                        @Html.TextAreaFor(model => item.Comment, new { @class = "form-control", autocomplete = "off", id = "txtComment" })
+                                        @Html.ValidationMessageFor(model => item.Comment, string.Empty, new { @class = "label label-danger" })
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <input type="button" value="Save Comments" class="btn btn-success" id="btnSubmit" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" id="hndECDID" value="@Html.DisplayFor(model => item.ECDID)" />
+                                <input type="hidden" id="hndEFTID" value="@Html.DisplayFor(model => item.EFTID)" />
+                                <input type="hidden" id="hndRoleID" value="@Html.DisplayFor(model => item.RoleID)" />
+
+                            </fieldset>
+                        }
+                    </section>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+<script type="text/javascript">
+        $("#btnSubmit").click(function () {
+            debugger;
+
+            var comment = $("#txtComment").val();
+            var creatorId = $("#hndECDID").val();
+            var eFTID = $("#hndEFTID").val();
+            var roleId = $("#hndRoleID").val();
+
+            $.ajax({
+                type: "POST",
+                url: "./RejectRecord",
+                dataType : 'json',
+                data: { rejectComment: comment, ECDID: creatorId, EFTID: eFTID, RoleId: roleId},
+                success: function (result) {
+                    alert(result.Message);
+                    var url = '@Url.Action("E658List", "E658")';
+                    window.location.href = url;
+                }
+            })
+        })
+    </script>
+
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+
