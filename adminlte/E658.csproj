@@ -4490,6 +4490,7 @@
     <Content Include="Views\E658\_FinalApprovalReject.cshtml" />
     <Content Include="Views\User\CreateMTController.cshtml" />
     <Content Include="Views\User\MTControllerList.cshtml" />
+    <Content Include="Views\User\Inquiry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

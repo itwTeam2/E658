@@ -805,10 +805,29 @@ namespace WRMS.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult Inquiry()
         {
+            ///Created BY   : Sqn ldr Wicky
+            /// Create Date : 2024/10/07
+            /// Description : load E658 Inquiry to users
 
+            return View();
         }
+
+        [HttpPost]
+        public ActionResult Inquiry(string SearchString)
+        {
+            ///Created BY   : Sqn ldr Wicky
+            /// Create Date : 2024/10/07
+            /// Description : load E658 Inquiry to users
+
+
+
+            return View();
+        }
+
+
         public ActionResult TransportAuthIndex()
         {
             return View();
