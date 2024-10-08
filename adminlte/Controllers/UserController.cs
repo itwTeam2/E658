@@ -3,6 +3,7 @@ using E658.Models;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Cryptography;
@@ -822,9 +823,94 @@ namespace WRMS.Controllers
             /// Create Date : 2024/10/07
             /// Description : load E658 Inquiry to users
 
+            DataTable dt = new DataTable();
+            DataTable dt2 = new DataTable();
+            List<VME658Create> e658DetailsList = new List<VME658Create>();
+            string FromLocID = "";
+            string ToLocID = "";
+            try
+            {
+                //int E658CreatorID = 81;
+                ReportData.DAL.DALCommanQuery objDALCommanQuery = new ReportData.DAL.DALCommanQuery();
+                dt = objDALCommanQuery.CallE65SP(0);
+
+                var recordRow = dt.AsEnumerable().Where(x => x.Field<string>("UnitSerialNo") == SearchString);
+
+                if (recordRow.Any())
+                {
+                    dt2 = dt.AsEnumerable().Where(x => x.Field<string>("UnitSerialNo") == SearchString).CopyToDataTable();
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        VME658Create objVME658Create = new VME658Create();
+
+                        FromLocID = dt2.Rows[i]["FLocation"].ToString();
+                        ToLocID = dt2.Rows[i]["TLocation"].ToString();
+
+                        objVME658Create.FromLocID = _db.Locations.Where(x => x.LocationID == FromLocID).Select(x => x.LocationName).FirstOrDefault();
+                        objVME658Create.ToLocId = _db.Locations.Where(x => x.LocationID == ToLocID).Select(x => x.LocationName).FirstOrDefault();
+                        objVME658Create.UnitSerialNo = dt2.Rows[i]["UnitSerialNo"].ToString();
+                        objVME658Create.E658RunType = dt2.Rows[i]["TypeName"].ToString();
+                        objVME658Create.E658Date = Convert.ToDateTime(dt2.Rows[i]["PDate"]);
+                        objVME658Create.ReturnDate = Convert.ToDateTime(dt2.Rows[i]["ReturnDate"]);
+                        objVME658Create.JournryStartTime = Convert.ToDateTime(dt2.Rows[i]["PTime"]);
+                        objVME658Create.RequiredDuration = dt2.Rows[i]["PHrs"].ToString();
+                        objVME658Create.Purpose = dt2.Rows[i]["Duty"].ToString();
+                        objVME658Create.Route = dt2.Rows[i]["Route"].ToString();
+                        objVME658Create.IsOMTAvail = Convert.ToInt32(dt2.Rows[i]["IsOMtReqFromMT"]);
+                        objVME658Create.IsVehicleAvail = Convert.ToInt32(dt2.Rows[i]["IsVehicleReqFromMT"]);
+                        objVME658Create.RoleID = 4; //RoleId;
+                        objVME658Create.ECDID = Convert.ToInt32(dt2.Rows[i]["E658CreatorDltId"]);
+                        //objVME658Create.EFTID = EFlowId;
+                        objVME658Create.RecordStatus = Convert.ToInt32(dt2.Rows[i]["RecordStatus"]);
+                        objVME658Create.TypeName = dt2.Rows[i]["TypeName1"].ToString();
+                        //TempData["ECDID"] = E658CreatorID;
+                        TempData["UserLoginType"] = Session["UserLoginType"];
+
+                        if (objVME658Create.IsOMTAvail == 1)
+                        {
+                            objVME658Create.OMTStatus = dt2.Rows[i]["OMTAllocation"].ToString();
+                        }
+                        else
+                        {
+                            objVME658Create.OMTServiceNo = dt2.Rows[i]["OMTNo"].ToString();
+                        }
+
+                        if (objVME658Create.IsVehicleAvail == 10)
+                        {
+                            objVME658Create.VehicleStatus = dt2.Rows[i]["VehicleAllocation"].ToString();
+                        }
+                        else
+                        {
+                            objVME658Create.SLAFRegNo = dt2.Rows[i]["SLAFRegNo"].ToString();
+                        }
 
 
-            return View();
+
+                        e658DetailsList.Add(objVME658Create);
+                    }
+                    return View(e658DetailsList);
+                }
+                else
+                {
+                    return View();
+                }             
+
+                //List<VME658Create> locations = GetRptLocation(E658CreatorID);
+
+                //TempData["RptLocation"] = locations;
+
+                //PartialView("_E658ReportLoc", locations);
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+           
+            
         }
 
 
