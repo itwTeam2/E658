@@ -660,8 +660,6 @@ namespace E658.Controllers
                     }
                 }
 
-
-
                 for (int i = 0; i < dt2.Rows.Count; i++)
                 {
                     VME658Create objList = new VME658Create();
@@ -2153,8 +2151,7 @@ namespace E658.Controllers
 
             /// Status ////
 
-            var sysChassisNo = _db.VehicleDetails.Where(x => x.SlafRegNo.Contains(id) && (x.Status == 1 || x.Status == 2 || x.Status == 3) && 
-                              (x.FinalStatus == 2 || x.FinalStatus == 3 || x.FinalStatus == 20 || x.FinalStatus == 18))
+            var sysChassisNo = _db.VehicleDetails.Where(x => x.SlafRegNo.Contains(id) && (x.Status == 1 || x.Status == 2 || x.Status == 3))
                               .Select(x => new { x.ChassisNo, x.AttachedLocationID }).FirstOrDefault();
 
             return Json(sysChassisNo, JsonRequestBehavior.AllowGet);

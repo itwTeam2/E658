@@ -828,23 +828,24 @@ namespace WRMS.Controllers
             List<VME658Create> e658DetailsList = new List<VME658Create>();
             string FromLocID = "";
             string ToLocID = "";
+            string trimSearchString = SearchString.Trim();
             try
             {
                 //int E658CreatorID = 81;
                 ReportData.DAL.DALCommanQuery objDALCommanQuery = new ReportData.DAL.DALCommanQuery();
                 dt = objDALCommanQuery.CallE65SP(0);
 
-                var recordRow = dt.AsEnumerable().Where(x => x.Field<string>("UnitSerialNo") == SearchString);
+                var recordRow = dt.AsEnumerable().Where(x => x.Field<string>("UnitSerialNo").Contains(trimSearchString));
 
                 if (recordRow.Any())
                 {
-                    dt2 = dt.AsEnumerable().Where(x => x.Field<string>("UnitSerialNo") == SearchString).CopyToDataTable();
+                    dt2 = dt.AsEnumerable().Where(x => x.Field<string>("UnitSerialNo").Contains(trimSearchString)).CopyToDataTable();
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         VME658Create objVME658Create = new VME658Create();
 
                         FromLocID = dt2.Rows[i]["FLocation"].ToString();
-                        ToLocID = dt2.Rows[i]["TLocation"].ToString();
+                        ToLocID = dt2.Rows[i]["RealToLocation"].ToString();
 
                         objVME658Create.FromLocID = _db.Locations.Where(x => x.LocationID == FromLocID).Select(x => x.LocationName).FirstOrDefault();
                         objVME658Create.ToLocId = _db.Locations.Where(x => x.LocationID == ToLocID).Select(x => x.LocationName).FirstOrDefault();

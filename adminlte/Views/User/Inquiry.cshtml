@@ -4,13 +4,11 @@
 
 @{
     ViewBag.Title = "Inquiry";
-    //Layout = "~/Views/Shared/_Layout.cshtml";
+   
 }
 
 @using (Html.BeginForm())
 {
-
-
 
     @Html.AntiForgeryToken()
 
@@ -115,11 +113,92 @@
                             <dt class="form-group">
                                 E-658 Behavior :
                             </dt>
+                            
                             @*Need to replace*@
                             <dd>
                                 @Html.DisplayFor(model => item.TypeName)
                             </dd>
 
+                           
+
+                            @if (item.IsOMTAvail == 1)
+                            {
+                                @* OMTStatus :*@
+                                <dt class="form-group alert alert-info" style="height:50px;margin-bottom:4px">
+                                    OMT Status :
+                                </dt>
+
+                                if (item.RoleID == (int)E658.Enum.EnumE658UserType.MToOCT || item.RoleID == (int)E658.Enum.EnumE658UserType.RecordCertified)
+                                {
+                                    <dd class="form-group">
+                                        @Html.Label("Assign an OMT ", new { @class = "control-label" })
+                                        @Html.CheckBox("isAssignOMT", false)
+                                    </dd>
+                                }
+                                else
+                                {
+                                    <dd class="form-group alert alert-info" style="height:50px;margin-bottom:4px">
+                                        @Html.DisplayFor(model => item.OMTStatus)
+                                    </dd>
+                                }
+                            }
+
+                            else
+                            {
+                                @* OMTStatus :*@
+                                <dt class="form-group">
+                                    OMT Service No :
+                                </dt>                                
+
+                                <dd class="form-group">
+                                    @Html.DisplayFor(model => item.OMTServiceNo)
+
+                                </dd>
+
+                            }
+
+                            @if (item.IsVehicleAvail == 10)
+                            {
+                                @* OMTStatus :*@
+                                <dt class="form-group alert alert-info" style="height:50px;margin-bottom:4px">
+                                    Vehicle Status :
+                                </dt>
+
+                                if (item.RoleID == (int)E658.Enum.EnumE658UserType.MToOCT || item.RoleID == (int)E658.Enum.EnumE658UserType.RecordCertified)
+                                {
+                                    <dd class="form-group">
+                                        @Html.Label("Assign a Vehicle", new { @class = "control-label" })
+                                        @Html.CheckBox("isAssignVehicle", false)
+
+                                    </dd>
+                                }
+                                else
+                                {
+                                    <dd class="form-group alert alert-info" style="height:50px;margin-bottom:4px;width:220px">
+                                        @Html.DisplayFor(model => item.VehicleStatus)
+
+                                    </dd>
+                                }
+                            }
+
+                            else
+                            {
+                                @* OMTStatus :*@
+                                <dt class="form-group">
+                                    Vehicle SLAF Reg No :
+                                </dt>                                
+
+                                <dd class="form-group">
+                                    @Html.DisplayFor(model => item.SLAFRegNo)
+
+                                </dd>
+                            }
+                        </dl>
+                    </div>
+
+                    <div class="col-lg-6" style="margin-top:15px">
+                        <br />
+                        <dl class="dl-horizontal">
                             @* E-658 Date : *@
                             <dt class="form-group">
                                 E-658 Date :
@@ -170,99 +249,7 @@
                                 @Html.DisplayFor(model => item.Route)
 
                             </dd>
-
-                            @if (item.IsOMTAvail == 1)
-                            {
-                                @* OMTStatus :*@
-                                <dt class="form-group alert alert-info" style="height:50px;margin-bottom:4px">
-                                    OMT Status :
-                                </dt>
-
-                                if (item.RoleID == (int)E658.Enum.EnumE658UserType.MToOCT || item.RoleID == (int)E658.Enum.EnumE658UserType.RecordCertified)
-                                {
-                                    <dd class="form-group">
-                                        @Html.Label("Assign an OMT ", new { @class = "control-label" })
-                                        @Html.CheckBox("isAssignOMT", false)
-                                    </dd>
-                                }
-                                else
-                                {
-                                    <dd class="form-group alert alert-info" style="height:50px;margin-bottom:4px">
-                                        @Html.DisplayFor(model => item.OMTStatus)
-                                    </dd>
-                                }
-                            }
-
-                            else
-                            {
-                                @* OMTStatus :*@
-                                <dt class="form-group">
-                                    OMT Service No :
-                                </dt>
-
-                                <dt class="form-group">
-                                    @Html.Label("Edit OMT", new { @class = "control-label" })
-                                    @Html.CheckBox("isEditOMT", false)
-                                </dt>
-
-                                <dd class="form-group">
-                                    @Html.DisplayFor(model => item.OMTServiceNo)
-
-                                </dd>
-
-                            }
-
-                            @if (item.IsVehicleAvail == 10)
-                            {
-                                @* OMTStatus :*@
-                                <dt class="form-group alert alert-info" style="height:50px;margin-bottom:4px">
-                                    Vehicle Status :
-                                </dt>
-
-                                if (item.RoleID == (int)E658.Enum.EnumE658UserType.MToOCT || item.RoleID == (int)E658.Enum.EnumE658UserType.RecordCertified)
-                                {
-                                    <dd class="form-group">
-                                        @Html.Label("Assign a Vehicle", new { @class = "control-label" })
-                                        @Html.CheckBox("isAssignVehicle", false)
-
-                                    </dd>
-                                }
-                                else
-                                {
-                                    <dd class="form-group alert alert-info" style="height:50px;margin-bottom:4px;width:220px">
-                                        @Html.DisplayFor(model => item.VehicleStatus)
-
-                                    </dd>
-                                }
-                            }
-
-                            else
-                            {
-                                @* OMTStatus :*@
-                                <dt class="form-group">
-                                    Vehicle SLAF Reg No :
-                                </dt>
-
-                                <dt class="form-group">
-                                    @Html.Label("Edit Vehicle", new { @class = "control-label" })
-                                    @Html.CheckBox("isEditVehicle", false)
-
-                                </dt>
-
-                                <dd class="form-group">
-                                    @Html.DisplayFor(model => item.SLAFRegNo)
-
-                                </dd>
-                            }
                         </dl>
-                    </div>
-
-                    <div class="col-lg-6" style="margin-top:15px   ">
-                        @*@{
-                        var rptLoc = TempData["RptLocation"];
-                        @Html.Partial("_E658ReportLoc", rptLoc);
-                    }*@
-
 
                     </div>
 
@@ -294,8 +281,6 @@
     </div>
 
 }
-
-
 
 <script src="~/Scripts/Jq.js"></script>
 
