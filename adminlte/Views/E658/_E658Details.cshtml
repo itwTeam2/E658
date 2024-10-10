@@ -196,11 +196,11 @@
 
 
                                     <button type="button" class="col-lg- btn btn-danger pull-left" onclick="location.href='@Url.Action("RejectRecordFinalAuthority", "E658", new { roleId = item.RoleID, ECDID = item.ECDID, EFTID = item.EFTID})'">
-                                        <span>Reject</span>
+                                        <span><i class="fa fa-times" aria-hidden="false"> Reject </i></span>
                                     </button>
 
                                     <button type="button" class="col-lg- btn btn-success pull-right" onclick="location.href='@Url.Action("Forward", "E658", new { roleId = item.RoleID, E658CreatorDltId = item.ECDID })'">
-                                        <span>Final Approval</span>
+                                        <span><i class="fa fa-check" aria-hidden="false"> Final Approval</i></span>
                                     </button>
 
                                     @*<input id="btnRejectComent" type="button" value="Click here to Reject" class="btn btn-danger pull-left" />*@
@@ -246,7 +246,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-window-close-o" aria-hidden="false"> Close</i></button>
             </div>
         </div>
     </div>

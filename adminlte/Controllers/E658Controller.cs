@@ -1082,8 +1082,10 @@ namespace E658.Controllers
                 {
                     VME658Create objList = new VME658Create();
                     objList.UnitSerialNo = dt2.Rows[i]["UnitSerialNo"].ToString();
-                    objList.FromLocID = dt2.Rows[i]["FLocation"].ToString();
-                    objList.ToLocId = dt2.Rows[i]["TLocation"].ToString();
+                    objList.FromLocID = dt2.Rows[i]["FromLocationFull"].ToString();
+                    objList.ToLocId = dt2.Rows[i]["ToLocationFull"].ToString();
+                    //objList.FromLocID = dt2.Rows[i]["FLocation"].ToString();
+                    //objList.ToLocId = dt2.Rows[i]["TLocation"].ToString();
                     objList.E658Date = Convert.ToDateTime(dt2.Rows[i]["PDate"]);
                     objList.JournryStartTime = Convert.ToDateTime(dt2.Rows[i]["PTime"]);
                     objList.E658RunType = dt2.Rows[i]["TypeName"].ToString();
@@ -1226,8 +1228,10 @@ namespace E658.Controllers
                 {
                     VME658Create objList = new VME658Create();
                     objList.UnitSerialNo = dt2.Rows[i]["UnitSerialNo"].ToString();
-                    objList.FromLocID = dt2.Rows[i]["FLocation"].ToString();
-                    objList.ToLocId = dt2.Rows[i]["TLocation"].ToString();
+                    objList.FromLocID = dt2.Rows[i]["FromLocationFull"].ToString();
+                    objList.ToLocId = dt2.Rows[i]["ToLocationFull"].ToString();
+                    //objList.FromLocID = dt2.Rows[i]["FLocation"].ToString();
+                    //objList.ToLocId = dt2.Rows[i]["TLocation"].ToString();
                     objList.E658Date = Convert.ToDateTime(dt2.Rows[i]["PDate"]);
                     objList.JournryStartTime = Convert.ToDateTime(dt2.Rows[i]["PTime"]);
                     objList.E658RunType = dt2.Rows[i]["TypeName"].ToString();

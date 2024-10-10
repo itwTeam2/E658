@@ -914,6 +914,27 @@ namespace WRMS.Controllers
             
         }
 
+        public JsonResult CheckRunStatus(int id)
+        {
+            ///Created BY   : Sqn ldr Wicky
+            /// Create Date : 2024/10/10
+            /// Description : load E658 run Status
+            /// 
+            var maxTransaction = (from eft in _db.E658FlowTransaction
+                                  join eut in _db.E658UserType
+                                  on eft.RoleID equals eut.EUTID
+                                  where eft.E658CreatorDltID == id
+                                  && eft.EFTID == _db.E658FlowTransaction
+                                  .Where(e => e.E658CreatorDltID == id)
+                                  .Max(e => e.EFTID)
+                                  select new { eft, eut }
+                                 ).FirstOrDefault();
+
+
+            return Json(maxTransaction, JsonRequestBehavior.AllowGet);
+            
+
+        }
 
         public ActionResult TransportAuthIndex()
         {

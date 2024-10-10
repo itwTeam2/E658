@@ -4,7 +4,7 @@
 
 @{
     ViewBag.Title = "Inquiry";
-   
+
 }
 
 @using (Html.BeginForm())
@@ -56,7 +56,7 @@
             @using (Html.BeginForm("E658List", "E658", FormMethod.Post))
             {
                 <div class="input-group col-lg-6" style="padding-top:8px">
-                    @Html.TextBox("SearchString",null,new { placeholder = "Type the E-658 Reference No ", @class = "form-control"})
+                    @Html.TextBox("SearchString", null, new { placeholder = "Type the E-658 Reference No ", @class = "form-control" })
                     <div class="input-group-btn">
                         <button type="submit" class="btn btn-success"><i class="fa fa-search"></i></button>
                     </div>
@@ -113,13 +113,13 @@
                             <dt class="form-group">
                                 E-658 Behavior :
                             </dt>
-                            
+
                             @*Need to replace*@
                             <dd>
                                 @Html.DisplayFor(model => item.TypeName)
                             </dd>
 
-                           
+
 
                             @if (item.IsOMTAvail == 1)
                             {
@@ -148,7 +148,9 @@
                                 @* OMTStatus :*@
                                 <dt class="form-group">
                                     OMT Service No :
-                                </dt>                                
+                                </dt>
+
+
 
                                 <dd class="form-group">
                                     @Html.DisplayFor(model => item.OMTServiceNo)
@@ -186,13 +188,16 @@
                                 @* OMTStatus :*@
                                 <dt class="form-group">
                                     Vehicle SLAF Reg No :
-                                </dt>                                
+                                </dt>
+
+
 
                                 <dd class="form-group">
                                     @Html.DisplayFor(model => item.SLAFRegNo)
 
                                 </dd>
                             }
+
                         </dl>
                     </div>
 
@@ -249,6 +254,11 @@
                                 @Html.DisplayFor(model => item.Route)
 
                             </dd>
+                            <dt>
+                                <button type="button" class="col-lg- btn btn-warning" id="btnCheckRunStatus">
+                                    <span><i class="fa fa-check" aria-hidden="false"> Check Status </i></span>
+                                </button>
+                            </dt>
                         </dl>
 
                     </div>
@@ -276,9 +286,30 @@
                 }
             }
 
-        </section>       
+        </section>
 
     </div>
+
+    <!-- Bootstrap Modal -->
+    <div class="modal fade" id="runStatusModal" tabindex="-1" role="dialog" aria-labelledby="runStatusModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="runStatusModalLabel" style="font-size: 22px; font-weight: 700; background-color: #bee7c7; padding: 10px; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); border-radius: 5px; text-align: center; ">Run Status</h5>
+                    @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>*@
+                </div>
+                <div class="modal-body" id="runStatusContent" style="font-size: 15px; font-weight: 700; padding: 20px; background-color: white; color: #333; border: 1px solid #dee2e6; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border-radius: 6px ">
+                    <!-- Content will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 }
 
@@ -342,108 +373,36 @@
 
         //Created BY   : Sqn Ldr Wicky
         ///Created Date : 2024/05/15
-        ///Description : load OMT service Details
-
-        $("#txtOMTServiceNo").change(function () {
+        ///Description : load run status after click chaeck Staus
+        var recordStatus = "";
+        $("#btnCheckRunStatus").click(function () {
             $.ajax({
-                url: '@Url.Content("~/E658/getUserInfo")',
+                url: '@Url.Content("~/User/CheckRunStatus")',
                 type: 'POST',
                 dataType: 'json',
-                data: { id: $("#txtOMTServiceNo").val()},
+                data: { id: $("#CreatorID").val()},
                 success: function (data)
                 {
-                    if (data.Message == "This OMT has been allocated to a journey.Please enter another OMT service Number.")
-                    {
-                        alert("This OMT has been allocated to a journey.Please enter another OMT service Number.");
-                        $("#txtOMTServiceNo").val('');
-                        data.Message = {};
-                    }
-                    else
-                    {
-                        if (data.Name == "Service number is not valid.")
-                        {
-                            alert("Service number is not valid.");
-                            $("#txtOMTServiceNo").val('');
-                            data.Name = {};
 
-                        }
-                        else
-                        {
-                            $("#txtOMTServiceNo").val(data.ServiceNo);
-                            $("#txtRank").val(data.Rank);
-                            $("#txtFullName").val(data.Name);
-                        }
-                    }
-                },
-                error: function () {
-                    alert("error in function");
-                }
-            });
-        });
-    });
+                    //alert(data.eft.RecordStatusID);
+                    //alert(data.eut.E658Users);
 
-    $(function () {
-
-        //Created BY   : Sqn Ldr Wicky
-        ///Created Date : 2024/05/20
-        ///Description : load Vehicle Chassis Number
-
-        $("#txtVehicleRegNo").change(function () {
-            $.ajax({
-                url: '@Url.Content("~/E658/getVehicleChassisNo")',
-                type: 'POST',
-                dataType: 'json',
-                data: { id: $("#txtVehicleRegNo").val() },
-                success: function (data) {
-
-                    if (data.ChassisNo == null)
-                    {
-                        alert("This is not a valid SLAF No");
-                    }
-                    else
-                    {
-                        $("#txtVehicleChassisNo").val(data.ChassisNo);
-                        $("#txtVehicleAttachedLoc").val(data.AttachedLocationID);
-                    }
-                },
-                error: function () {
-                    alert("This is not a valid SLAF Registered No");
-                    $("#txtVehicleRegNo").val('');
-                    $("#txtVehicleChassisNo").val('');
-
-                }
-            });
-        });
-    });
-
-    $(function () {
-
-        //Created BY   : Sqn Ldr Wicky
-        ///Created Date: 2024/05/15
-        ///Description : Update the OMT Details
-
-        $("#btnSaveOmt").click(function () {
-
-            var txtOMTServiceNo = $("#txtOMTServiceNo").val();
-            var ecdidValue = document.getElementById("CreatorID").value;
-
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Content("~/E658/UpdateOMTRecord")',
-                dataType: 'json',
-                data: { id: txtOMTServiceNo, ECDID: ecdidValue },
-                success: function (data) {
-                    alert(data.Message);
-                    location.reload();
-
-
-                    if (data.ServiceNo == "Service number is not valid.") {
-
-
+                    // Format the data for display in the modal
+                    var modalContent = '<p>Your record is in ' + data.eut.E658Users + ' level</p>';
+                    if (data.eft.RecordStatusID == 3000) {
+                        recordStatus = "Your record has been rejected."
                     }
                     else {
-
+                        recordStatus = "Your record is in the approval process."
                     }
+                    modalContent += '<p>Record status: ' + recordStatus + '</p>';
+
+                    // Load the content into the modal's body
+                    $("#runStatusContent").html(modalContent);
+
+                    // Show the modal
+                    $("#runStatusModal").modal('show');
+
                 },
                 error: function () {
                     alert("error in function");
@@ -452,106 +411,8 @@
         });
     });
 
-    $(function () {
-
-        //Created BY   : Sqn Ldr Wicky
-        ///Created Date: 2024/05/15
-        ///Description : Update the Vehicle Details
-
-        $("#btnSaveVehicle").click(function () {
-
-            var txtOMTVehicleNo = $("#txtVehicleRegNo").val();
-            var ecdidValue = document.getElementById("CreatorID").value;
-            var chassisNo = $("#txtVehicleChassisNo").val();
-            var vehicleLoc = $("#txtVehicleAttachedLoc").val();
-            $.ajax({
-                url: '@Url.Content("~/E658/UpdateVehicleRecord")',
-                type: 'POST',
-                dataType: 'json',
-                data: { id: txtOMTVehicleNo, ECDID: ecdidValue, ChassisNo: chassisNo, VehicleAttachedLoc: vehicleLoc},
-                success: function (data) {
-                    alert(data.Message);
-                    location.reload();
-                    if (data.ServiceNo == "Service number is not valid.") {
 
 
-                    }
-                    else {
-
-                    }
-                },
-                error: function () {
-                    alert("error in function");
-                }
-            });
-        });
-    });
-
-    $(function () {
-         $('#btnReject').click(function () {
-
-             debugger;
-             var E658CreatorID = $("#CreatorID").val();
-             var EFlowID = $("#FlowID").val();
-             var RoleID = $("#RoleID").val();
-
-             $.ajax({
-                 url: '@Url.Action("Reject", "E658")?ECDID=' + E658CreatorID + '&EFlowID=' + EFlowID + '&RoleId=' + RoleID,
-             type: 'GET',
-             success: function (data) {
-                $('#modalContainerReject').html(data);
-                $('#recordDetailsModal2').modal('show');
-             },
-              error: function (xhr, status, error) {
-                console.error('Error loading details:', status, error);
-            }
-          });
-
-             //var route = '@Url.Action("Reject", "E658")?ECDID=' + E658CreatorID + '&EFlowID=' + EFlowID + '&RoleId=' + RoleID;
-             //console.log(route);
-            //$('#partial2').load(route);
-        });
-    });
-
-    ////Edit Function for OMT and vehicle
-
-    $(function () {
-
-        //Created BY   : Sqn Ldr Wicky
-        ///Created Date : 2024/05/15
-        ///Description : show and hide the dvOMTInfo div
-
-        var clickCount = 0;
-        $("#isEditOMT").click(function () {
-            clickCount++;
-            if (clickCount % 2 === 1) {
-                $("#dvOMTInfo").show();
-            }
-            else {
-                $("#dvOMTInfo").hide();
-            }
-
-        });
-    });
-
-    $(function () {
-
-        //Created BY   : Sqn Ldr Wicky
-        ///Created Date : 2024/05/15
-        ///Description : show and hide the dvVehicleInfo div
-
-        var clickCount = 0;
-        $("#isEditVehicle").click(function () {
-            clickCount++;
-            if (clickCount % 2 === 1) {
-                $("#dvVehicleInfo").show();
-            }
-            else {
-                $("#dvVehicleInfo").hide();
-            }
-
-        });
-    });
 
 
 </script>
