@@ -30,80 +30,12 @@ namespace E658.Controllers
         public ActionResult Index()
         {
 
-            DataTable dt = new DataTable();
-            List<VME658Create> e658DetailsList = new List<VME658Create>();
-            string FromLocID = "";
-            string ToLocID = "";
 
-            //var creatorID = _db.F658RegistryHeader.Where(x => x.UnitSerialNo == id).Select(x => x.E658CreatorDltId).FirstOrDefault();
-            int cID = Convert.ToInt32(1222);
-            VME658Create objVME658Create = new VME658Create();
-            try
-            {
-                //int E658CreatorID = 81;
-                ReportData.DAL.DALCommanQuery objDALCommanQuery = new ReportData.DAL.DALCommanQuery();
-                dt = objDALCommanQuery.CallE65SP(cID);
-
-
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-
-                    FromLocID = dt.Rows[i]["FLocation"].ToString();
-                    ToLocID = dt.Rows[i]["TLocation"].ToString();
-
-                    objVME658Create.FromLocID = _db.Locations.Where(x => x.LocationID == FromLocID).Select(x => x.LocationName).FirstOrDefault();
-                    objVME658Create.ToLocId = _db.Locations.Where(x => x.LocationID == ToLocID).Select(x => x.LocationName).FirstOrDefault();
-                    objVME658Create.UnitSerialNo = dt.Rows[i]["UnitSerialNo"].ToString();
-                    objVME658Create.E658RunType = dt.Rows[i]["TypeName"].ToString();
-                    objVME658Create.E658Date = Convert.ToDateTime(dt.Rows[i]["PDate"]);
-                    objVME658Create.ReturnDate = Convert.ToDateTime(dt.Rows[i]["ReturnDate"]);
-                    objVME658Create.JournryStartTime = Convert.ToDateTime(dt.Rows[i]["PTime"]);
-                    objVME658Create.RequiredDuration = dt.Rows[i]["PHrs"].ToString();
-                    objVME658Create.Purpose = dt.Rows[i]["Duty"].ToString();
-                    objVME658Create.Route = dt.Rows[i]["Route"].ToString();
-                    objVME658Create.IsOMTAvail = Convert.ToInt32(dt.Rows[i]["IsOMtReqFromMT"]);
-                    objVME658Create.IsVehicleAvail = Convert.ToInt32(dt.Rows[i]["IsVehicleReqFromMT"]);
-                    //objVME658Create.RoleID = RoleId;
-                    objVME658Create.ECDID = Convert.ToInt32(dt.Rows[i]["E658CreatorDltId"]);
-                    //objVME658Create.EFTID = EFlowID;
-                    objVME658Create.RecordStatus = Convert.ToInt32(dt.Rows[i]["RecordStatus"]);
-                    //TempData["ECDID"] = ECDID;
-
-
-                    if (objVME658Create.IsOMTAvail == 1)
-                    {
-                        objVME658Create.OMTStatus = dt.Rows[i]["OMTAllocation"].ToString();
-                    }
-                    else
-                    {
-                        objVME658Create.OMTServiceNo = dt.Rows[i]["OMTNo"].ToString();
-                    }
-
-                    if (objVME658Create.IsVehicleAvail == 10)
-                    {
-                        objVME658Create.VehicleStatus = dt.Rows[i]["VehicleAllocation"].ToString();
-                    }
-                    else
-                    {
-                        objVME658Create.SLAFRegNo = dt.Rows[i]["SLAFRegNo"].ToString();
-                    }
-                    e658DetailsList.Add(objVME658Create);
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-
-            return View(e658DetailsList);
+            return View();
 
             //return PartialView("_E658Details", e658DetailsList);
 
         }
-
         public ActionResult Index2(string id)
         {
 
@@ -675,6 +607,13 @@ namespace E658.Controllers
                     objList.IsOMTAvail = Convert.ToInt32(dt2.Rows[i]["IsOMtReqFromMT"]);
                     objList.IsVehicleAvail = Convert.ToInt32(dt2.Rows[i]["IsVehicleReqFromMT"]);
                     objList.EFTID = Convert.ToInt32(dt.Rows[i]["EFTID"]);
+                    objList.RaisedTypeID = Convert.ToInt32(dt.Rows[i]["RaisedTypeID"]);
+                    
+                    if (objList.RaisedTypeID == (int)E658.Enum.E658RaisedType.FormationE || objList.RaisedTypeID == (int)E658.Enum.E658RaisedType.MTSecE)
+                    {
+                       
+                        objList.DivisionFullName = dt2.Rows[i]["CreaterDivision"].ToString();
+                    }
 
                     if (!Convert.IsDBNull(dt2.Rows[i]["IsCombineRun"]))
                     {
@@ -685,7 +624,6 @@ namespace E658.Controllers
                     E658List.Add(objList);
 
                 }
-
 
                 if (page >= 2)
                 {
@@ -747,6 +685,8 @@ namespace E658.Controllers
                     objVME658Create.EFTID = EFlowId;
                     objVME658Create.RecordStatus = Convert.ToInt32(dt.Rows[i]["RecordStatus"]);
                     objVME658Create.TypeName = dt.Rows[i]["TypeName1"].ToString();
+                    objVME658Create.RaisedTypeID = Convert.ToInt32(dt.Rows[i]["RaisedTypeID"]);
+                    
                     TempData["ECDID"] = E658CreatorID;
                     TempData["UserLoginType"] = Session["UserLoginType"];
 
@@ -768,6 +708,17 @@ namespace E658.Controllers
                         objVME658Create.SLAFRegNo = dt.Rows[i]["SLAFRegNo"].ToString();
                     }
 
+                    if (objVME658Create.RaisedTypeID == (int)E658.Enum.E658RaisedType.StaffVehiE)
+                    {
+                        string staffOffSvcNo = dt.Rows[i]["StaffServiceNo"].ToString();
+
+                        var offceInfo = _db.Vw_PersonalDetail.Where(x => x.ServiceNo == staffOffSvcNo).Select(x => new { x.Rank, x.Name }).FirstOrDefault();
+                        objVME658Create.StafOffName = staffOffSvcNo + " " + offceInfo.Rank + " " + offceInfo.Name;
+                    }
+                    else
+                    {
+                        objVME658Create.DivisionFullName = dt.Rows[i]["CreaterDivision"].ToString();
+                    }
 
 
                     e658DetailsList.Add(objVME658Create);
@@ -893,7 +844,6 @@ namespace E658.Controllers
             }
             return PartialView("_E658RejectComment", objList);
         }
-
         public ActionResult RejectRecordFinalAuthority(int roleId, int ECDID, int EFTID, string rejectComment)
         {
             ///Created BY   : Sqnl ldr WAKY Wickramasinghe 
@@ -951,7 +901,6 @@ namespace E658.Controllers
 
             return RedirectToAction("E658List"); ;
         }
-
         [HttpGet]
         public ActionResult FinalApprovalReject(int ECDID, int EFlowID, int RoleId)
         {
@@ -2281,7 +2230,6 @@ namespace E658.Controllers
             return Json(obj_VwPersonalProfile, JsonRequestBehavior.AllowGet);
 
         }
-
 
         #endregion
 

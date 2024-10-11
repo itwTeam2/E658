@@ -54,33 +54,36 @@
 
                 <table id="example" class="table table-responsive table-striped table-hover" style="margin-top:5px">
                     @{
-                        <tr>
-                            @*<th>
-                                    <input type="checkbox" id="checkAll" />
-                                </th>*@
-                            <th>
-                                E658 Reference No
-                            </th>
-                            <th>
-                                From Location
-                            </th>
-                            <th>
-                                To Location
-                            </th>
-                            <th>
-                                E-658 Date
-                            </th>
-                            <th>
-                                Journey Start Time
-                            </th>
-                            <th>
-                                E-658 Run Type
-                            </th>
-                            <th></th>
-                            <th></th>
-                           
+                                        <tr>
+                                            @*<th>
+            <input type="checkbox" id="checkAll" />
+        </th>*@
+                                            <th>
+                                                E658 Reference No
+                                            </th>
+                                            <th>
+                                                From Location
+                                            </th>
+                                            <th>
+                                                To Location
+                                            </th>
+                                            <th>
+                                                E-658 Date
+                                            </th>
+                                            <th>
+                                                Journey Start Time
+                                            </th>
+                                            <th>
+                                                E-658 Run Type
+                                            </th>
+                                            <th>
+                                                E-658 Originate Section
+                                            </th>
+                                            <th></th>
+                                            <th></th>
 
-                        </tr>
+
+                                        </tr>
                     }
 
                     @{
@@ -93,90 +96,93 @@
                         {
 
 
-                            <tr>
+                                        <tr>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UnitSerialNo)
-                                    @Html.HiddenFor(modelItem => item.EFTID, new { id = "hndEFTID" })
-                                    @Html.HiddenFor(modelItem => item.ECDID, new { id = "hndECDID" })
-                                    @Html.HiddenFor(modelItem => item.RoleID, new { id = "hndRoleID" })
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.UnitSerialNo)
+                                                @Html.HiddenFor(modelItem => item.EFTID, new { id = "hndEFTID" })
+                                                @Html.HiddenFor(modelItem => item.ECDID, new { id = "hndECDID" })
+                                                @Html.HiddenFor(modelItem => item.RoleID, new { id = "hndRoleID" })
 
-                                </td>
+                                            </td>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FromLocID)
-                                </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.FromLocID)
+                                            </td>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ToLocId)
-                                </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ToLocId)
+                                            </td>
 
-                                <td>
-                                    @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.E658Date))
+                                            <td>
+                                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.E658Date))
 
-                                </td>
+                                            </td>
 
-                                <td>
-                                    @Convert.ToString(string.Format("{0:HH:mm tt}", item.JournryStartTime))
-                                </td>
+                                            <td>
+                                                @Convert.ToString(string.Format("{0:HH:mm tt}", item.JournryStartTime))
+                                            </td>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.E658RunType)
-                                </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.E658RunType)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DivisionFullName)
+                                            </td>
 
-                                <td>
+                                            <td>
 
-                                    @if (MTControllerStatus == 0)
-                                    {
-                                        <button type="button" class="col-lg- btn btn-primary" onclick="location.href='@Url.Action("E658Details", "E658", new { E658CreatorID = item.ECDID, RoleId = item.RoleID, EFlowId = item.EFTID })'">
-                                            <span> <i class="fa fa-eye" aria-hidden="true"></i></span>
-                                        </button>
-                                    }
-                                    else
-                                    {
-                                        @*<button type="button" class="col-lg- btn btn-primary" onclick="location.href='@Url.Action("E658Details", "E658", new { E658CreatorID = item.ECDID, RoleId = item.RoleID, EFlowId = item.EFTID })'">
-                                            <span> <i class="fa fa-eye" aria-hidden="true"></i></span>
-                                        </button>*@
-                                    }
+                                                @if (MTControllerStatus == 0)
+                                                {
+                                                    <button type="button" class="col-lg- btn btn-primary" onclick="location.href='@Url.Action("E658Details", "E658", new { E658CreatorID = item.ECDID, RoleId = item.RoleID, EFlowId = item.EFTID })'">
+                                                        <span> <i class="fa fa-eye" aria-hidden="true"></i></span>
+                                                    </button>
+                                                }
+                                                else
+                                                {
+                                                    @*<button type="button" class="col-lg- btn btn-primary" onclick="location.href='@Url.Action("E658Details", "E658", new { E658CreatorID = item.ECDID, RoleId = item.RoleID, EFlowId = item.EFTID })'">
+                    <span> <i class="fa fa-eye" aria-hidden="true"></i></span>
+                </button>*@
+                                                }
 
-                                    @if (item.RoleID == (int)E658.Enum.EnumE658UserType.StaffCarUser || item.RoleID == (int)E658.Enum.EnumE658UserType.FormationUser)
-                                    {
+                                                @if (item.RoleID == (int)E658.Enum.EnumE658UserType.StaffCarUser || item.RoleID == (int)E658.Enum.EnumE658UserType.FormationUser)
+                                                {
 
-                                        @Html.ActionLink("Edit", "Edit658", new { E658CreatorID = item.ECDID, RoleId = item.RoleID }, new { @class = "btn btn-default" })
+                                                    @Html.ActionLink("Edit", "Edit658", new { E658CreatorID = item.ECDID, RoleId = item.RoleID }, new { @class = "btn btn-default" })
 
-                                    }
+                                                }
 
-                                    else if (item.RoleID == (int)E658.Enum.EnumE658UserType.FinalizedAuthorization)
-                                    {
-                                        <button type="button" onclick="setValueToURL(@i,'@item.UnitSerialNo')" value="Select" class="btn btn-warning">
-                                            <span><i class="fa fa-folder-open-o" aria-hidden="true"></i></span>
-                                        </button>
+                                                else if (item.RoleID == (int)E658.Enum.EnumE658UserType.FinalizedAuthorization)
+                                                {
+                                                    <button type="button" onclick="setValueToURL(@i,'@item.UnitSerialNo')" value="Select" class="btn btn-warning">
+                                                        <span><i class="fa fa-folder-open-o" aria-hidden="true"></i></span>
+                                                    </button>
 
-                                        //rejectButton
-                                        @*<button type="button" class="btn btn-danger" onclick="setValueToReject(@i, '@item.RoleID', '@item.ECDID', '@item.EFTID')">
-                                            <span><i class="fa fa-remove" aria-hidden="true"></i></span>
-                                        </button>*@
-                                        @*@Html.ActionLink("Reject", "Edit658", new { E658CreatorID = item.ECDID, RoleId = item.RoleID }, new { @class = "btn btn-default" })*@
+                                                    //rejectButton
+                                                    @*<button type="button" class="btn btn-danger" onclick="setValueToReject(@i, '@item.RoleID', '@item.ECDID', '@item.EFTID')">
+                    <span><i class="fa fa-remove" aria-hidden="true"></i></span>
+                </button>*@
+                                                    @*@Html.ActionLink("Reject", "Edit658", new { E658CreatorID = item.ECDID, RoleId = item.RoleID }, new { @class = "btn btn-default" })*@
 
-                                        if (item.IsOMTAvail == 0 && item.IsVehicleAvail == 0)
-                                        {
-                                            <button type="button" class="col-lg- btn btn-success pull-right" onclick="location.href='@Url.Action("Forward", "E658", new { roleId = item.RoleID, E658CreatorDltId = item.ECDID })'">
-                                                <span><i class="fa fa-check" aria-hidden="false"> Approved</i></span>
-                                            </button>
+                                                    if (item.IsOMTAvail == 0 && item.IsVehicleAvail == 0)
+                                                    {
+                                                        <button type="button" class="col-lg- btn btn-success pull-right" onclick="location.href='@Url.Action("Forward", "E658", new { roleId = item.RoleID, E658CreatorDltId = item.ECDID })'">
+                                                            <span><i class="fa fa-check" aria-hidden="false"> Approved</i></span>
+                                                        </button>
 
-                                        }
-                                    }
-                                    else
-                                    {
+                                                    }
+                                                }
+                                                else
+                                                {
 
 
-                                    }
-                                </td>
+                                                }
+                                            </td>
 
-                                <td>
-                                    @*<input id="btnViewInfo" type="button" onclick="setValueToURL(@i,'@item.UnitSerialNo')" value="Select" class="btn btn-danger" />*@
-                                </td>
-                            </tr>
+                                            <td>
+                                                @*<input id="btnViewInfo" type="button" onclick="setValueToURL(@i,'@item.UnitSerialNo')" value="Select" class="btn btn-danger" />*@
+                                            </td>
+                                        </tr>
 
                             @*Fixed Details Id popup Box value*@
                             i++;

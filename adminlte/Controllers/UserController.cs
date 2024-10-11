@@ -22,6 +22,7 @@ namespace WRMS.Controllers
         dbContextCommonData _dbCommonData = new dbContextCommonData();
         db_ContextEpass _dbEpass = new db_ContextEpass();
         MacAddress mac = new MacAddress();
+        
         public ActionResult Index()
         {
             return View();
@@ -201,7 +202,6 @@ namespace WRMS.Controllers
             HashPass = MD5Pass.ComputeHash(Encoder.GetBytes(Passwd));
             return HashPass;
         }
-
         public string CheckingVolAirWoman(string UID)
         {
             ///Created BY: Flt Lt WAKY Wickramasinghe
@@ -224,7 +224,6 @@ namespace WRMS.Controllers
             }
             return subSvcNo;
         }
-
         [HttpGet]
         public ActionResult UserMgtCreate()
         {
@@ -442,7 +441,6 @@ namespace WRMS.Controllers
             }
             return RedirectToAction("CreatedUserList");
         }
-
         [HttpGet]
         public ActionResult Edit(int EUMID)
         {
@@ -702,8 +700,7 @@ namespace WRMS.Controllers
 
 
 
-        }
-                    
+        }                    
         [HttpGet]
         public ActionResult E658InitiateUser()
         {
@@ -717,7 +714,6 @@ namespace WRMS.Controllers
 
             return View();
         }
-
         [HttpPost]
         public ActionResult E658InitiateUser(VME658InitiateUser obj)
         {
@@ -805,7 +801,6 @@ namespace WRMS.Controllers
 
             return View();
         }
-
         [HttpGet]
         public ActionResult Inquiry()
         {
@@ -815,7 +810,6 @@ namespace WRMS.Controllers
 
             return View();
         }
-
         [HttpPost]
         public ActionResult Inquiry(string SearchString)
         {
@@ -912,42 +906,17 @@ namespace WRMS.Controllers
 
            
             
-        }
-
-        public JsonResult CheckRunStatus(int id)
-        {
-            ///Created BY   : Sqn ldr Wicky
-            /// Create Date : 2024/10/10
-            /// Description : load E658 run Status
-            /// 
-            var maxTransaction = (from eft in _db.E658FlowTransaction
-                                  join eut in _db.E658UserType
-                                  on eft.RoleID equals eut.EUTID
-                                  where eft.E658CreatorDltID == id
-                                  && eft.EFTID == _db.E658FlowTransaction
-                                  .Where(e => e.E658CreatorDltID == id)
-                                  .Max(e => e.EFTID)
-                                  select new { eft, eut }
-                                 ).FirstOrDefault();
-
-
-            return Json(maxTransaction, JsonRequestBehavior.AllowGet);
-            
-
-        }
-
+        }       
         public ActionResult TransportAuthIndex()
         {
             return View();
         }        
-
         public ActionResult Logout()
         {
             Session.Abandon();
             Session.Clear();
             return RedirectToAction("Index", "User");
         }
-
         [HttpGet]
         public ActionResult CreateMTController()
         {
@@ -961,7 +930,6 @@ namespace WRMS.Controllers
             return View();        
         
         }
-
         [HttpPost]
         public ActionResult CreateMTController(_UserManagementE658 objUser)
         {
@@ -1016,7 +984,6 @@ namespace WRMS.Controllers
             return View();
 
         }
-
         [HttpGet]
         public ActionResult MTControllerList(string sortOrder, string currentFilter, string searchString, int? page)
         {
@@ -1144,6 +1111,27 @@ namespace WRMS.Controllers
             Result = _dbCommonData.Vw_EpasDivision.Where(x => x.LocationID == id).ToList();
 
             return Result;
+        }
+        public JsonResult CheckRunStatus(int id)
+        {
+            ///Created BY   : Sqn ldr Wicky
+            /// Create Date : 2024/10/10
+            /// Description : load E658 run Status
+            /// 
+            var maxTransaction = (from eft in _db.E658FlowTransaction
+                                  join eut in _db.E658UserType
+                                  on eft.RoleID equals eut.EUTID
+                                  where eft.E658CreatorDltID == id
+                                  && eft.EFTID == _db.E658FlowTransaction
+                                  .Where(e => e.E658CreatorDltID == id)
+                                  .Max(e => e.EFTID)
+                                  select new { eft, eut }
+                                 ).FirstOrDefault();
+
+
+            return Json(maxTransaction, JsonRequestBehavior.AllowGet);
+
+
         }
 
         #endregion

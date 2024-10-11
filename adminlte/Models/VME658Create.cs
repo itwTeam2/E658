@@ -34,13 +34,17 @@ namespace E658.Models
         public string SLAFRegNo { get; set; }
         public string PreviousSLAFRegNo { get; set; }
         public string VehicleType { get; set; }
+        public string DivisionFullName { get; set; }
         public string reportedLoc { get; set; }
         public DateTime ReturnDate { get; set; }
         public string UserGERMSLocation { get; set; }
         public string Message { get; set; }
         public string Comment { get; set; }
         public int RecordStatus { get; set; }
-       
+        public int RaisedTypeID { get; set; }
+
+        public string StafOffName { get; set; }
+
 
     }
 }

@@ -97,10 +97,30 @@
                             @Html.DisplayFor(model => item.E658RunType)
                         </dd>
 
+                        @* E-658 Run Type : *@
+                        <dt class="form-group">
+                            E-658 Originate From :
+                        </dt>
+                        @if (item.RaisedTypeID == (int)E658.Enum.E658RaisedType.StaffVehiE)
+                        {
+                            <dd>
+                                @Html.DisplayFor(model => item.StafOffName)
+                            </dd>
+                        }
+                        else
+                        {
+                            <dd>
+                                @Html.DisplayFor(model => item.DivisionFullName)
+                            </dd>
+                        }
+
+
+
                         @* E-658 Behavior : *@
                         <dt class="form-group">
                             E-658 Behavior :
                         </dt>
+
                         @*Need to replace*@
                         <dd>
                             @Html.DisplayFor(model => item.TypeName)
@@ -276,9 +296,14 @@
 
                             <div class="col-6">
                                 <button type="button" class="col-lg- btn btn-success" onclick="location.href='@Url.Action("Forward", "E658", new { roleId = item.RoleID, E658CreatorDltId = item.ECDID })'">
-                                    <span><i class="fa fa-share" aria-hidden="true">Approved</i></span>
+                                    <span><i class="fa fa-share" aria-hidden="false"> Approved </i></span>
                                 </button>
-                                <input id="btnReject" type="button" value="Reject" class="btn btn-danger col-lg-offset-2" />
+
+                                @*<input id="btnReject" type="button" value="Reject" class="btn btn-danger col-lg-offset-2" />*@
+
+                                <button type="button" id="btnReject" class="col-lg- btn btn-danger col-lg-offset-2">
+                                    <span><i class="fa fa-times" aria-hidden="false"> Reject </i></span>
+                                </button>
                             </div>
 
 
@@ -293,7 +318,7 @@
 
 
                                 <button type="button" class="col-lg- btn btn-danger col-lg-offset-2" onclick="location.href='@Url.Action("RejectRecordFinalAuthority", "E658", new { roleId = item.RoleID, ECDID = item.ECDID, EFTID = item.EFTID})'">
-                                    <span><i class="fa fa-check" aria-hidden="false"> Reject </i></span>
+                                    <span><i class="fa fa-times" aria-hidden="false"> Reject </i></span>
                                 </button>
 
                                 <button type="button" class="col-lg- btn btn-info col-lg-offset-2" onclick="location.href='@Url.Action("E658List", "E658", new { roleId = item.RoleID, ECDID = item.ECDID, EFTID = item.EFTID})'">
