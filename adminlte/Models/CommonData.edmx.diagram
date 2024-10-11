@@ -24,7 +24,7 @@
         <EntityTypeShape EntityType="CommonDataModel.ServiceType" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
         <EntityTypeShape EntityType="CommonDataModel.Trade" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CommonDataModel.Division1" Width="1.5" PointX="10.75" PointY="4.375" />
-        <EntityTypeShape EntityType="CommonDataModel.Vw_EpasDivision" Width="1.5" PointX="6.75" PointY="4.25" />
+        <EntityTypeShape EntityType="CommonDataModel.Vw_EpasDivision" Width="1.375" PointX="6.75" PointY="4.25" />
         <EntityTypeShape EntityType="CommonDataModel.EpasLocation" Width="1.5" PointX="8.75" PointY="2.5" />
       </Diagram>
     </edmx:Diagrams>
