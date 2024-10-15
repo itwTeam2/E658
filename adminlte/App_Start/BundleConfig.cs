@@ -61,6 +61,7 @@ namespace adminlte
                 .Include("~/Content/bootstrap.css")
                 .Include(ltecomponents + "bootstrap/dist/css/bootstrap.min.css")
                 .Include(ltecomponents + "font-awesome/css/font-awesome.min.css")
+                .Include(ltecomponents + "Ionicons/css/ionicons.css")
                 .Include(ltecomponents + "Ionicons/css/ionicons.min.css")
                 .Include(ltecomponents + "datatables.net-bs/css/dataTables.bootstrap.min.css")
                 .Include("~/Content/adminlte/css/AdminLTE.min.css")
