@@ -2,163 +2,168 @@
 
 @{
     ViewBag.Title = "Intiatial User";
-    
+    //Layout = null;
+
 }
-<div class="content-wrapper">
 
-    <section class="content-header">
-        <h1 style="text-align:center"><span>E-658 Creater Details</span></h1>
-        <button type="button" class="col-lg- btn btn-success pull-right" onclick="location.href='@Url.Action("Index", "User")'">
-            <span>Back To Main Page</span>
-        </button>
-        <div id="ErrorMessage" style="margin-top:5px">
-            @if (TempData["ScfMsg"] != null)
-            {
-                <div id="Msg" class="col-lg-12  alert alert-success">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    <strong>Alert! </strong> @TempData["ScfMsg"]
-                </div>
-            }
-            else if (TempData["ErrMsg"] != null)
-            {
-                <div id="Msg" class="col-lg-12 alert alert-danger">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    <strong>Alert! </strong>@TempData["ErrMsg"]
-                </div>
-            }
-        </div>
-    </section>
-
-    <br />
 @using (Html.BeginForm())
 {
-    <section class="col-lg-12 connectedSortable" style="margin-top:5px">
-        <div class="nav-tabs-custom">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="box-body">
-                        @*Service No and  @*Rank*@
-                        <div class="form-group">
-                            @Html.Label("Service Number", new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.ServiceNo, new { @class = "form-control - ", autocomplete = "off" })
-                            @Html.HiddenFor(model => model.SNo)
-                            @Html.ValidationMessageFor(model => model.ServiceNo, string.Empty, new { @class = "label label-danger" })
-                        </div>
 
-                        @*Rank*@
-                        <div class="form-group">
-                            @Html.Label("Rank", new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.Rank, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
-                        </div>
+    <div class="content-wrapper">
 
-                        <div class="form-group">
-                            @Html.Label("Run Type", new { @class = "control-label" })
-                            @Html.DropDownListFor(model => model.RTID, ViewBag.DDL_E658RaisedType as SelectList, "SELECT", htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.RTID, string.Empty, new { @class = "label label-danger" })
-
-                        </div>
+        <section class="content-header">
+            <h1 style="text-align:center"><span>E-658 Creater Details</span></h1>
+            <button type="button" class="col-lg- btn btn-success pull-right" onclick="location.href='@Url.Action("Index", "User")'">
+                <span>Back To Main Page</span>
+            </button>
+            <div id="ErrorMessage" style="margin-top:5px">
+                @if (TempData["ScfMsg"] != null)
+                {
+                    <div id="Msg" class="col-lg-12  alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>Alert! </strong> @TempData["ScfMsg"]
                     </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="box-body"> 
-                        @*Name*@
-                        <div class="form-group">
-                            @Html.Label("Name", new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.FullName, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
-                        </div>
-
-                        @*Trade/Brance *@
-                        <div class="form-group">
-                            @Html.Label("Trade/Branch", new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.Trade, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
-                        </div>
-                        @*Trade/Brance *@
-                        <div class="form-group">
-                            @Html.Label("User Location", new { @class = "control-label" })
-                             @Html.DropDownListFor(model => model.UserLoginLocation, ViewBag.DDL_GERSLocation as SelectList, "SELECT", htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.UserLoginLocation, string.Empty, new { @class = "label label-danger" })
-                        </div>
+                }
+                else if (TempData["ErrMsg"] != null)
+                {
+                    <div id="Msg" class="col-lg-12 alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>Alert! </strong>@TempData["ErrMsg"]
                     </div>
-                </div>
-
-            </div>
-        </div>
-        <section>
-            <div class="nav-tabs-custom">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div id="staffCar">
-                            <div class="box-body">
-                                @*Staff car Owner *@
-                                <div class="form-group">
-                                    <div class="col-lg-3">
-                                        @Html.Label("Service Number (Officer, Allocated the staff vehicle)", new { @class = "control-label" })
-                                        @Html.TextBoxFor(model => model.StaffServiceNo, new { @class = "form-control - ", autocomplete = "off" })
-                                        @Html.HiddenFor(model => model.StaffSNo)
-                                        @Html.ValidationMessageFor(model => model.StaffServiceNo, string.Empty, new { @class = "label label-danger" })
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <p><p>@Html.Label("Rank", new { @class = "control-label" })</p>                                     
-                                        @Html.TextBoxFor(model => model.StaffRank, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
-                                        @Html.ValidationMessageFor(model => model.StaffRank, string.Empty, new { @class = "label label-danger" })
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <p><p>@Html.Label("Name", new { @class = "control-label" }) </p>                                     
-                                        @Html.TextBoxFor(model => model.StaffFullName, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
-                                        @Html.ValidationMessageFor(model => model.StaffFullName, string.Empty, new { @class = "label label-danger" })
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="p-t-10" style="padding-top:24px">
-                                            <input type="submit" value="Next" class="btn btn-info pull-right" name="btnName">
-
-                                            @*@Html.ActionLink("Next", "E658InitiateUser", "User", new { @class = "btn btn--radius btn-info" })*@
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="FormationMT">
-                            <div class="box-body">
-                                @*FormationMT *@
-                                <div class="form-group">
-
-                                    @* Select location *@
-
-                                    <div class="col-lg-3">
-                                        @Html.Label("Select Location", new { @class = "control-label" })
-                                        @Html.DropDownListFor(model => model.LocationId, ViewBag.DDL_EpasLocation as SelectList, "SELECT", htmlAttributes: new { @class = "form-control" })
-                                    </div>
-
-                                    @* Division*@
-                                    <div class="col-lg-3">
-                                        @Html.Label("Select Division", new { @class = "control-label" })
-                                        @Html.DropDownListFor(model => model.DivisionId, new SelectList(string.Empty, "Value", "Text"), "SELECT", htmlAttributes: new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.DivisionId, string.Empty, new { @class = "label label-danger" })
-
-                                    </div>
-
-                                    <div class="col-lg-3">
-                                        <div class="p-t-10" style="padding-top:24px">
-                                            <input type="submit" value="Next" class="btn btn-info pull-right" name="btnName">
-                                            @*@Html.ActionLink("Next", "E658InitiateUser", "User", new { @class = "btn btn--radius btn-info" })*@
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+                }
             </div>
         </section>
-    </section>
+
+        <br />
+
+        <section class="col-lg-12 connectedSortable" style="margin-top:5px">
+            <div class="nav-tabs-custom">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="box-body">
+                            @*Service No and  @*Rank*@
+                            <div class="form-group">
+                                @Html.Label("Service Number", new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.ServiceNo, new { @class = "form-control - ", autocomplete = "off" })
+                                @Html.HiddenFor(model => model.SNo)
+                                @Html.ValidationMessageFor(model => model.ServiceNo, string.Empty, new { @class = "label label-danger" })
+                            </div>
+
+                            @*Rank*@
+                            <div class="form-group">
+                                @Html.Label("Rank", new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.Rank, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Run Type", new { @class = "control-label" })
+                                @Html.DropDownListFor(model => model.RTID, ViewBag.DDL_E658RaisedType as SelectList, "SELECT", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RTID, string.Empty, new { @class = "label label-danger" })
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="box-body">
+                            @*Name*@
+                            <div class="form-group">
+                                @Html.Label("Name", new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.FullName, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
+                            </div>
+
+                            @*Trade/Brance *@
+                            <div class="form-group">
+                                @Html.Label("Trade/Branch", new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.Trade, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
+                            </div>
+                            @*Trade/Brance *@
+                            <div class="form-group">
+                                @Html.Label("User Location", new { @class = "control-label" })
+                                @Html.DropDownListFor(model => model.UserLoginLocation, ViewBag.DDL_GERSLocation as SelectList, "SELECT", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.UserLoginLocation, string.Empty, new { @class = "label label-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <section>
+                <div class="nav-tabs-custom">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="staffCar">
+                                <div class="box-body">
+                                    @*Staff car Owner *@
+                                    <div class="form-group">
+                                        <div class="col-lg-3">
+                                            @Html.Label("Service Number (Officer, Allocated the staff vehicle)", new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.StaffServiceNo, new { @class = "form-control - ", autocomplete = "off" })
+                                            @Html.HiddenFor(model => model.StaffSNo)
+                                            @Html.ValidationMessageFor(model => model.StaffServiceNo, string.Empty, new { @class = "label label-danger" })
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <p><p>@Html.Label("Rank", new { @class = "control-label" })</p>
+                                            @Html.TextBoxFor(model => model.StaffRank, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(model => model.StaffRank, string.Empty, new { @class = "label label-danger" })
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <p><p>@Html.Label("Name", new { @class = "control-label" }) </p>
+                                            @Html.TextBoxFor(model => model.StaffFullName, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(model => model.StaffFullName, string.Empty, new { @class = "label label-danger" })
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="p-t-10" style="padding-top:24px">
+                                                <input type="submit" value="Next" class="btn btn-info pull-right" name="btnName">
+
+                                                @*@Html.ActionLink("Next", "E658InitiateUser", "User", new { @class = "btn btn--radius btn-info" })*@
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="FormationMT">
+                                <div class="box-body">
+                                    @*FormationMT *@
+                                    <div class="form-group">
+
+                                        @* Select location *@
+
+                                        <div class="col-lg-3">
+                                            @Html.Label("Select Location", new { @class = "control-label" })
+                                            @Html.DropDownListFor(model => model.LocationId, ViewBag.DDL_EpasLocation as SelectList, "SELECT", htmlAttributes: new { @class = "form-control" })
+                                        </div>
+
+                                        @* Division*@
+                                        <div class="col-lg-3">
+                                            @Html.Label("Select Division", new { @class = "control-label" })
+                                            @Html.DropDownListFor(model => model.DivisionId, new SelectList(string.Empty, "Value", "Text"), "SELECT", htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.DivisionId, string.Empty, new { @class = "label label-danger" })
+
+                                        </div>
+
+                                        <div class="col-lg-3">
+                                            <div class="p-t-10" style="padding-top:24px">
+                                                <input type="submit" value="Next" class="btn btn-info pull-right" name="btnName">
+                                                @*@Html.ActionLink("Next", "E658InitiateUser", "User", new { @class = "btn btn--radius btn-info" })*@
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
 }
-    
-</div>
+
+
 
 
 <script src="@Url.Content("~/Scripts/Jq.js")"></script>
