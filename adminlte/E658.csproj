@@ -4385,6 +4385,9 @@
     <Content Include="Models\GERMS.edmx.diagram">
       <DependentUpon>GERMS.edmx</DependentUpon>
     </Content>
+    <Content Include="fonts\ionicons.ttf" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\adminlte\components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css.map" />
     <Content Include="Scripts\adminlte\components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.min.css.map" />
