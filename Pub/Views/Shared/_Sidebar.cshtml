@@ -1,0 +1,518 @@
+﻿<link href="~/Content/CustomStyle.css" rel="stylesheet" />
+<script src="~/Scripts/Jq.js"></script>
+    <!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel" style="padding:55px">
+            @{
+                if (Session["LoginUser"] != null)
+                {
+                    E658.Models.dbContext _db = new E658.Models.dbContext();
+
+                    int UserRoleID = Convert.ToInt32(Session["UserLoginType"]);
+                    string serviceNo = Session["LoginUser"].ToString();
+                    var personInfo = _db.Vw_PersonalDetail.Where(x => x.ServiceNo == serviceNo).Select(x => new { x.Rank, x.Name }).FirstOrDefault();
+
+                        <div class="info" style="left:10px;margin-top:-40px">
+                            <p>@serviceNo</p>
+                            <p>@personInfo.Rank</p>
+                            <p>@personInfo.Name</p>
+
+
+                            @switch (UserRoleID)
+                            {
+                                case (int)E658.Enum.EnumE658UserType.FormationUser:
+                                    <p class="info" style="font-size:11px">You are login as Formation User</p>
+                                    break;
+
+                                case (int)E658.Enum.EnumE658UserType.StaffCarUser:
+                                    <p class="info" style="font-size:11px">You are login as Staff Car User</p>
+                                    break;
+                                case (int)E658.Enum.EnumE658UserType.FinalizedAuthorization:
+                                    <p class="info" style="font-size:11px">You are login as Finalized Authorization Person</p>
+                                    break;
+                                case (int)E658.Enum.EnumE658UserType.MToOCT:
+                                    <p class="info" style="font-size:11px">You are login as MTO/OCT</p>
+                                    break;
+                                case (int)E658.Enum.EnumE658UserType.MTController:
+                                    <p class="info" style="font-size:11px">You are login as MT Controller</p>
+                                    break;
+                            }
+
+                            @*<a href="#"><i class="fa fa-circle text-success"></i> Online</a>*@
+                        </div>
+                }
+                else
+                {
+                    @Html.Action("Login", "User");
+                }
+
+                @*WRMS.Models.db_Context _db = new WRMS.Models.db_Context();
+            if (Session["UserName"] != null)
+            {
+                string ServiceNo = Session["UserName"].ToString();
+                int RowCount = _db.VwPersonalProfiles.Where(x => x.ServiceNo == ServiceNo).Count();
+                if (RowCount > 0)
+                {
+
+                    var UserName = _db.VwPersonalProfiles.Where(x => x.ServiceNo == ServiceNo).Select(x => x.Surname).First();
+                    //var UserImage = _db.VwPersonalProfiles.Where(x => x.ServiceNo == ServiceNo).Select(x => x.ProfilePicture).First();
+                    <div class="pull-left image">
+                       {
+                            var ProfileImg = _db.VwPersonalProfiles.Where(x => x.ServiceNo == ServiceNo).Select(x => x.ProfilePicture).FirstOrDefault();
+                            Session["ProfileImg"] = ProfileImg;
+                            if (ProfileImg != null)
+                            {
+                                <img src="data:image;base64,@System.Convert.ToBase64String(ProfileImg)" alt="user image" class="user-image" style="height:50px;">
+                            }
+                            else
+                            {
+                                <img src="~/Content/adminlte/img/manPict.png" class="user-image" alt="User Image" style="height:50px;" />
+                            }
+                        }
+                        <img src="data:image;base64,@System.Convert.ToBase64String(UserImage)" class="img-circle" alt="User Image">
+                        <img src="~/Content/adminlte/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                        <p>@UserName</p>
+                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    </div>
+
+                            }
+                            else
+                            {
+                                //var UserName = _db.UserInfoes.Where(x => x.UserName == ServiceNo).Select(x => x.UserName).First();
+                                <img src="~/Content/adminlte/img/manPict.png" class="user-image" alt="User Image">
+                                <span class="hidden-xs">@UserName</span>
+                            }
+
+                            }
+                            else
+                            {
+                                @Html.Action("Login", "User")
+                            }*@
+            }
+        </div>
+        <!-- search form -->
+        <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+                @*<input type="text" name="q" class="form-control" placeholder="Search...">*@
+                @*<span class="input-group-btn">
+                        <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>*@
+            </div>
+        </form>
+        <!-- /.search form -->
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">MAIN NAVIGATION</li>
+            @{
+                int UserRole = Convert.ToInt32(Session["UserLoginType"]);
+                if (UserRole != 0)
+                {
+                    switch (UserRole)
+                    {
+                        //StaffCarUser
+                        case (int)E658.Enum.EnumE658UserType.StaffCarUser:
+
+                            @*Dash Board*@
+                            @*<li class="">
+                            <a href="@Url.Action("Dashboardv1ToMTO", "Dashboard")">
+                                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                        </li>*@
+
+
+                            @*Final Approved E658 List*@
+                            <li class="">
+                                <a href="@Url.Action("E658FinalApprovedList", "E658")">
+                                    <i class="fa fa-thumbs-up"></i> <span>Approved E658</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+                            @*E658 Rejected List*@
+                            <li class="">
+                                <a href="@Url.Action("E658RejectedList", "E658")">
+                                    <i class="fa fa-thumbs-down"></i> <span>Rejected List</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+
+                            @*User Management*@
+                            <li class="">
+                                <a href="@Url.Action("UserProfile", "User")">
+                                    <i class="fa fa-user"></i> <span>User Profile</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+                            break;
+                        //FormationUser
+                        case (int)E658.Enum.EnumE658UserType.FormationUser:
+
+                            @*Dash Board*@
+                            @*<li class="">
+                            <a href="@Url.Action("Dashboardv1", "Dashboard")">
+                                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                        </li>*@
+
+                            @*Pending Approval E658 List*@
+                            <li class="">
+                                <a href="@Url.Action("E658List", "E658")">
+                                    <i class="fa fa-fast-forward"></i> <span>Pending Approval E658</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+                            @*Final Approved E658 List*@
+                            <li class="">
+                                <a href="@Url.Action("E658FinalApprovedList", "E658")">
+                                    <i class="fa fa-thumbs-up"></i> <span>Approved E658</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+                            @*E658 Rejected List*@
+                            <li class="">
+                                <a href="@Url.Action("E658RejectedList", "E658")">
+                                    <i class="fa fa-thumbs-down"></i> <span>Rejected List</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+
+                            @*User Management*@
+                            @*<li class="">
+                                <a href="@Url.Action("UserProfile", "User")">
+                                    <i class="fa fa-user"></i> <span>User Profile</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>*@
+
+
+                            @*Tech Control Section*@
+                            @*<li class="treeview">
+                            <a href="@Url.Action("General", "UI")">
+                                <i class="fa fa-laptop"></i>
+                                <span>Tech Control Item</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="@Html.IsSelected(action: "General")"><a href="@Url.Action("TechDashBoard", "TechCon")"><i class="fa fa-circle-o"></i>Item Registering</a></li>
+                                <li class="@Html.IsSelected(action: "Buttons")"><a href="@Url.Action("JobManualEntry", "TechCon")"><i class="fa fa-circle-o"></i>Item Manual Entry</a></li>
+                                <li class="@Html.IsSelected(action: "Icons")"><a href="@Url.Action("FwdWorkShopSncoList", "TechCon")"><i class="fa fa-circle-o"></i>Forward Work Shop SNCO</a></li>
+                                <li class="@Html.IsSelected(action: "Buttons")"><a href="@Url.Action("ChangeWorkshopJobList", "TechCon")"><i class="fa fa-circle-o"></i>Change Location JobList</a></li>
+                                <li class="@Html.IsSelected(action: "Timeline")"><a href="@Url.Action("ChangeWorkShopLocation", "TechCon")"><i class="fa fa-circle-o"></i> Change Workshop Job Location</a></li>
+
+                            </ul>
+                        </li>*@
+
+                            break;
+                        //FinalizedAuthorization
+                        case (int)E658.Enum.EnumE658UserType.FinalizedAuthorization:
+
+                            @*Dash Board*@
+                            <li class="">
+                                <a href="@Url.Action("Dashboardv1ToMTO","Dashboard")">
+                                    <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-hand-o-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+                            @*Pending Approval E658 List*@
+                            <li class="">
+                                <a href="@Url.Action("E658List", "E658")">
+                                    <i class="fa fa-fast-forward"></i> <span>Pending Approval E658</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+                            @*Final Approved E658 List*@
+                            <li class="">
+                                <a href="@Url.Action("E658FinalApprovedList", "E658")">
+                                    <i class="fa fa-thumbs-up"></i> <span>Approved E658</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+                            @*E658 Rejected List*@
+                            <li class="">
+                                <a href="@Url.Action("E658RejectedList", "E658")">
+                                    <i class="fa fa-thumbs-down"></i> <span>Rejected List</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+                            //UserProfile
+                            <li class="">
+                                <a href="@Url.Action("UserProfile", "User")">
+                                    <i class="fa fa-user"></i> <span>User Profile</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+
+                            break;
+                        //MToOCT
+                        case (int)E658.Enum.EnumE658UserType.MToOCT:
+                            @*Dash Board*@
+                            <li class="">
+                                <a href="@Url.Action("Dashboardv1ToMTO", "Dashboard")">
+                                    <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+                            @*Pending Approval E658 List*@
+                            <li class="">
+                                <a href="@Url.Action("E658List", "E658")">
+                                    <i class="fa fa-fast-forward"></i> <span>Pending Approval E658</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+                            @*Final Approved E658 List*@
+                            <li class="">
+                                <a href="@Url.Action("E658FinalApprovedList", "E658")">
+                                    <i class="fa fa-thumbs-up"></i> <span>Approved E658</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+                            @*E658 Rejected List*@
+                            <li class="">
+                                <a href="@Url.Action("E658RejectedList", "E658")">
+                                    <i class="fa fa-thumbs-down"></i> <span>Rejected List</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+                            @*UserProfile*@
+
+                            <li class="treeview">
+                                <a href="@Url.Action("", "")">
+                                    <i class="fa fa-user"></i>
+                                    <span>User Profile</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="@Html.IsSelected(action: "")"><a href="@Url.Action("UserProfile",  "User")"><i class="fa fa-user"></i>User Profile</a></li>
+                                    <li class="@Html.IsSelected(action: "")"><a href="@Url.Action("CreateMTController",  "User")"><i class="fa fa-user"></i>Create MT Controller</a></li>
+                                    @*<li class="@Html.IsSelected(action: "Data")"><a href="@Url.Action("Data", "Tables")"><i class="fa fa-circle-o"></i> Data tables</a></li>*@
+                                </ul>
+                            </li>
+
+                            break;
+
+                        case (int)E658.Enum.EnumE658UserType.MTController:
+
+                            @*Dash Board*@
+                            <li class="">
+                                <a href="@Url.Action("Dashboardv1ToMTO", "Dashboard")">
+                                    <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+                            @*UserProfile*@
+
+                            <li class="treeview">
+                                <a href="@Url.Action("", "")">
+                                    <i class="fa fa-user"></i>
+                                    <span>User Creating</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="@Html.IsSelected(action: "")"><a href="@Url.Action("CreateMTController",  "User")"><i class="fa fa-user"></i>User Creating</a></li>
+                                    <li class="@Html.IsSelected(action: "Simple")"><a href="@Url.Action("MTControllerList", "User")"><i class="fa fa-circle-o"></i>Duty List</a></li>
+                                    @*<li class="@Html.IsSelected(action: "Data")"><a href="@Url.Action("Data", "Tables")"><i class="fa fa-circle-o"></i> Data tables</a></li>*@
+                                </ul>
+                            </li>
+
+                            @*Pending Approval E658 List*@
+                            <li class="">
+                                <a href="@Url.Action("E658List", "E658")">
+                                    <i class="fa fa-fast-forward"></i> <span>Pending Approval E658</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+                            @*Final Approved E658 List*@
+                            <li class="">
+                                <a href="@Url.Action("E658FinalApprovedList", "E658")">
+                                    <i class="fa fa-thumbs-up"></i> <span>Approved E658</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+                            @*E658 Rejected List*@
+                            <li class="">
+                                <a href="@Url.Action("E658RejectedList", "E658")">
+                                    <i class="fa fa-thumbs-down"></i> <span>Rejected List</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+                            break;
+                        default:
+                            @*Dash Board*@
+                            <li class="">
+                                <a href="@Url.Action("Index", "Dashboard")">
+                                    <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+                            break;
+
+                            <li class="treeview" id="UnwantedMenu" style="visibility:hidden">
+                                <a href="#">
+                                    <i class="fa fa-share"></i> <span>Multilevel</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
+                                    <li class="treeview">
+                                        <a href="#">
+                                            <i class="fa fa-circle-o"></i> Level One
+                                            <span class="pull-right-container">
+                                                <i class="fa fa-angle-left pull-right"></i>
+                                            </span>
+                                        </a>
+                                        <ul class="treeview-menu">
+                                            <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
+                                            <li class="treeview">
+                                                <a href="#">
+                                                    <i class="fa fa-circle-o"></i> Level Two
+                                                    <span class="pull-right-container">
+                                                        <i class="fa fa-angle-left pull-right"></i>
+                                                    </span>
+                                                </a>
+                                                <ul class="treeview-menu">
+                                                    <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
+                                                    <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="treeview" id="UnwantedMenu" style="visibility:hidden">
+                                <a href="@Url.Action("Fixed", "Layout")">
+                                    <i class="fa fa-files-o"></i>
+                                    <span>Layout Options</span>
+                                    <span class="pull-right-container">
+                                        <span class="label label-primary pull-right">4</span>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="@Html.IsSelected(action: "TopNav")"><a href="@Url.Action("TopNav", "Layout")"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
+                                    <li class="@Html.IsSelected(action: "Boxed")"><a href="@Url.Action("Boxed", "Layout")"><i class="fa fa-circle-o"></i> Boxed</a></li>
+                                    <li class="@Html.IsSelected(action: "Fixed")"><a href="@Url.Action("Fixed", "Layout")"><i class="fa fa-circle-o"></i> Fixed</a></li>
+                                    <li class="@Html.IsSelected(action: "CollapsedSidebar")"><a href="@Url.Action("CollapsedSidebar", "Layout")"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="treeview" id="UnwantedMenu" style="visibility:hidden">
+                                <a href="@Url.Action("Index", "Widgets")">
+                                    <i class="fa fa-th"></i> <span>Widgets</span>
+                                    <span class="pull-right-container">
+                                        <small class="label pull-right bg-green">new</small>
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="treeview" id="UnwantedMenu" style="visibility:hidden">
+                                <a href="@Url.Action("Index", "Calendar")">
+                                    <i class="fa fa-calendar"></i> <span>Calendar</span>
+                                    <span class="pull-right-container">
+                                        <small class="label pull-right bg-red">3</small>
+                                        <small class="label pull-right bg-blue">17</small>
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="@Html.IsSelected(controller: "Mailbox")" id="UnwantedMenu" style="visibility:hidden">
+                                <a href="@Url.Action("Compose", "Mailbox")">
+                                    <i class="fa fa-envelope"></i> <span>Mailbox</span>
+                                    <span class="pull-right-container">
+                                        <small class="label pull-right bg-yellow">12</small>
+                                        <small class="label pull-right bg-green">16</small>
+                                        <small class="label pull-right bg-red">5</small>
+                                    </span>
+                                </a>
+                            </li>
+
+                    }
+                }
+            }
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>
+

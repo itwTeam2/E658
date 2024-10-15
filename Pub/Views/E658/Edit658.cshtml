@@ -1,0 +1,647 @@
+﻿@model E658.Models.VME658Create
+
+@{
+    ViewBag.Title = "Intiatial User";   
+}
+
+@using (Html.BeginForm())
+{
+    <div class="content-wrapper">
+
+        <section class="content-header">
+
+            <div id="ErrorMessage" style="margin-top:5px">
+                @if (TempData["ScfMsg"] != null)
+                {
+                <div id="Msg" class="col-lg-12  alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>Alert! </strong> @TempData["ScfMsg"]
+                </div>
+                }
+                else if (TempData["ErrMsg"] != null)
+                {
+                <div id="Msg" class="col-lg-12 alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>Alert! </strong>@TempData["ErrMsg"]
+                </div>
+                }
+                <div id="CreateSuccMeg" class="col-lg-12  alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                   
+                </div>
+            </div>
+        </section>        
+        <br />
+        <section class="col-lg-6 connectedSortable">
+            <div class="nav-tabs-custom">
+                <div class="box-body">
+
+                    <div class="col-lg-6">
+                        @*Destination From and @*Destination TO*@
+                        <div class="form-group">
+                            @Html.Label("Destination From", new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.FromLocID, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.FromLocID, string.Empty, new { @class = "label label-danger" })
+                            @Html.HiddenFor(model => model.ECDID)
+                            @Html.HiddenFor(model => model.RoleID)
+                        </div>
+                    </div>
+                    @if (Model.RoleID == (int)E658.Enum.EnumE658UserType.RecordCertified)
+                    {
+                        <div class="col-lg-6">
+                            @*Destination TO*@
+                            <div class="form-group">
+                                @Html.Label("Destination To", new { @class = "control-label" })
+                                @Html.DropDownListFor(model => model.ToLocId, ViewBag.DDL_GermsLocation as SelectList, "SELECT", htmlAttributes: new { @class = "form-control", @readonly = "readonly", @disabled = "disabled" })
+                                @Html.ValidationMessageFor(model => model.ToLocId, string.Empty, new { @class = "label label-danger" })
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-lg-6">
+                            @*Destination TO*@
+                            <div class="form-group">
+                                @Html.Label("Destination To", new { @class = "control-label" })
+                                @Html.DropDownListFor(model => model.ToLocId, ViewBag.DDL_GermsLocation as SelectList, "SELECT", htmlAttributes: new { @class = "form-control"})
+                                @Html.ValidationMessageFor(model => model.ToLocId, string.Empty, new { @class = "label label-danger" })
+                            </div>
+                        </div>
+                     }
+
+
+                    @*E-658 Run Type and  E658-Date*@
+                    @*E-658 Run*@
+                    <div class="form-group">
+                        <div class="col-lg-6">
+                            @Html.Label("Run Type", new { @class = "control-label" })
+                            @*@Html.DropDownList("ERTID", ViewBag.DDL_E658RaisedType as IEnumerable<SelectListItem>, "-- Select --", htmlAttributes: new { @class = "form-control" })*@
+                            @Html.TextBoxFor(model => model.E658RunType, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.E658RunType, string.Empty, new { @class = "label label-danger" })
+                        </div>
+                        @*E658-Date*@
+                    <div class="col-lg-6">
+                        @if (Model.RoleID == (int)E658.Enum.EnumE658UserType.RecordCertified)
+                        {
+                            <div class="form-group">
+                                @Html.Label("Departure Date", new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.E658Date, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => model.E658Date, string.Empty, new { @class = "label label-danger", @type = "date"})
+
+                            </div>
+                        }
+                        else
+                        {
+
+                            <div class="form-group">
+                                @Html.Label("Departure Date", new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.E658Date, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                                @Html.ValidationMessageFor(model => model.E658Date, string.Empty, new { @class = "label label-danger", @type = "date" })
+
+                            </div>
+                        }
+
+                    </div>
+                    </div>
+
+                    @*Journry Start Time*@
+                    <div class="form-group">
+                        <div class="col-lg-6">
+                            @Html.Label("Departure Time", new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.JournryStartTime, "{0:HH:mm}", new { @class = "form-control ", autocomplete = "off", placeholder = "Please enter time", @type = "time" })
+                        </div>
+                        <div class="col-lg-6">
+                            @*Return Date*@
+                            @if (Model.RoleID == (int)E658.Enum.EnumE658UserType.RecordCertified)
+                            {
+                                <div class="form-group">
+                                    @Html.Label("Return Date", new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.ReturnDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.ReturnDate, string.Empty, new { @class = "label label-danger", @type = "date" })
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="form-group">
+                                    @Html.Label("Return Date", new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.ReturnDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                                    @Html.ValidationMessageFor(model => model.ReturnDate, string.Empty, new { @class = "label label-danger", @type = "date" })
+                                </div>
+                            }
+
+
+                        </div>
+                    </div>
+
+                    @*Purpose*@
+                    <div class="form-group">
+                        @Html.Label("Purpose", new { @class = "control-label" })
+                        @Html.TextAreaFor(model => model.Purpose, new { @class = "form-control ", autocomplete = "off" })
+                    </div>
+
+                    @*Route*@
+                    <div class="form-group">
+                        @Html.Label("Way Points", new { @class = "control-label" })
+                        @Html.TextAreaFor(model => model.Route, new { @class = "form-control ", autocomplete = "off" })
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-lg-3">
+                            <input type="button" value="Clear" class="btn btn-warning pull-left" id="btnClear" name="Clear">
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="button" value="Update" class="btn btn-success" name="btnSave" id="btnSave">
+                        </div>
+                        <div class="col-lg-3">
+                            <button type="button" class="col-lg- btn btn-info" onclick="location.href='@Url.Action("Index", "User")'">
+                                <span>Back To Main Page</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    @*Journey Location*@
+                    @*<div class="form-group">
+            <div class="col-lg-6">
+                @Html.Label("Report Location", new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.FromLocID, ViewBag.DDL_GermsLocation as SelectList, "SELECT", htmlAttributes: new { @class = "form-control", @id = "dpReportLoc" })
+                @Html.ValidationMessageFor(model => model.FromLocID, string.Empty, new { @class = "label label-danger" })
+            </div>
+            <div class="col-lg-6" style="padding-top:25px">
+                <button class="btn btn-success" type="button" id="btnAddLocation">Add Location</button>
+            </div>
+
+            <section class="col-lg-12 connectedSortable" id="dvRptLocation">
+                <div class="nav-tabs-custom">
+                    <div class="box-body">
+                        <div id="dvReportLocation">
+                            <div class="box-body">
+                                <table id="tblItemList" class="table table-responsive table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:1630px">Reported Location</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <div class="nav-tabs-custom" id="dvPassRejet"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>*@
+                </div>
+            </div>
+        </section>
+
+        <section class="col-lg-6 connectedSortable">
+            <div class="nav-tabs-custom">
+                <div class="box-body">
+                    @*<section id="SectE658Partial">
+                        @Html.Partial("_E658SecondSection")
+                    </section>*@
+                    <div class="row">
+                        <div class="box-body">
+                            @*OMT to be Detailed From MT Section*@
+                            <div class="form-group">
+                                @Html.Label("OMT is to be Nominate From MT Section (OMT මෝටර් රථ ප්‍රවාහන අංශයෙන් නම් කළ යුතුය)", new { @class = "control-label" })
+                                <hr />
+                            </div>
+                            @{ 
+                                if (Model.IsOMTAvail == 0)
+                                {
+                                    <div class="col-lg-12">
+                                        <p class="control-label"><center><b>This OMT was nominated previously.</b></center></p>
+                                        @*@Html.Label("This OMT was nominated previously.", new { @class = "control-label" })*@
+                                        @Html.TextBoxFor(model => model.PreviousOMTServiceNo, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })                                      
+
+                                    </div>
+                                }
+                            }
+                        <div style="padding-top:80px">
+                            <div class="col-lg-6">
+                                <button id="btnOMTYes" class="btn btn-success" value="1" type="button">Yes</button>
+                                @Html.HiddenFor(model => model.IsOMTAvail, new { @id = "OMTAvail" })
+                            </div>
+
+                            <div class="col-lg-6">
+                                <button id="btnOMTNo" class="btn btn-danger" type="button">No</button>
+                            </div>
+                        </div>                           
+
+                            @* OMT Service Details*@
+                            <div class="form-group" id="dvOMTInfo" style="margin-top:8px">
+                                <div class="col-lg-6">
+                                    @*Service Number*@
+                                    <div class="form-group">
+                                        @Html.Label("Service Number", new { @class = "control-label" })
+                                        @Html.TextBoxFor(model => model.OMTServiceNo, new { @class = "form-control - ", autocomplete = "off"})
+                                        @Html.HiddenFor(model => model.OMTSNo)
+
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    @*Rank*@
+                                    <div class="form-group">
+                                        @Html.Label("Rank", new { @class = "control-label" })
+                                        @Html.TextBoxFor(model => model.Rank, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    @*Name*@
+                                    <div class="form-group">
+                                        @Html.Label("Name", new { @class = "control-label" })
+                                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="box-body">
+                            @*Vehicle to be Detailed From MT Section*@
+                            <div class="form-group">
+                                <hr />
+                                @Html.Label("The vehicle is to be Detailed From MT Section (වාහනය MT අංශයෙන් නම් කළ යුතුය)", new { @class = "control-label" })
+                            </div>
+
+                            @{
+                                if (Model.IsVehicleAvail == 0)
+                                {
+                                    <div class="col-lg-12">
+                                        <p class="control-label"><center><b>This vehicle was nominated previously.</b></center></p>
+                                        @*@Html.Label("This OMT was nominated previously.", new { @class = "control-label" })*@
+                                        @Html.TextBoxFor(model => model.PreviousSLAFRegNo, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
+
+                                    </div>
+                                }
+                            }
+
+                            <div style="padding-top:90px">
+                                <div class="col-lg-6">
+                                    <button id="btnVehicleYes" class="btn btn-success" value="10" type="button">Yes</button>
+                                    @Html.HiddenFor(model => model.IsVehicleAvail, new { @id = "VehicleAvail" })
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <button id="btnVehicleNo" class="btn btn-danger" type="button">No</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="dvVehicleInfo">
+                                <div class="col-lg-6">
+                                    @*Vehicle No*@
+                                    <div class="form-group">
+                                        @Html.Label("Vehicle Reg No", new { @class = "control-label" })
+                                        @Html.TextBoxFor(model => model.SLAFRegNo, new { @class = "form-control - ", autocomplete = "off" })
+                                    </div>
+
+                                    @*Vehicle Chassis Number*@
+
+                                    <div class="form-group">
+                                        @Html.Label("Vehicle Chassis Number", new { @class = "control-label" })
+                                        <input type="text" class="form-control" id="txtVehicleChassisNo" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                        
+                </div>
+            </div>
+        </section>
+
+       
+    
+    </div>
+}
+
+<script src="~/Scripts/Jq.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        ///Created BY   : Sqn Ldr Wicky
+        ///Created Date : 2024/02/15
+        ///Description : hide the Div
+
+        /// Drop down list in Operation Contribution
+
+        $("#staffCar").hide();
+        $("#FormationMT").hide();
+        $("#dvVehicleInfo").hide();
+        $("#dvOMTInfo").hide();
+        $("#dvRptLocation").hide();
+        $("#dpReportLoc").val("");
+        $("#CreateSuccMeg").hide();
+
+    });
+
+    $(function () {
+        $("#btnClear").click(function () {
+
+            $("#ToLocId").val("");
+            $("#ERTID").val("");
+            $("#E658Date").val("");
+            $("#JournryStartTime").val("");
+            $("#RequiredDuration").val("");
+            $("#Purpose").val("");
+            $("#Route").val("");
+
+            $("#OMTServiceNo").val("");
+            $("#Rank").val("");
+            $("#Name").val("");
+            $("#SLAFRegNo").val("");
+
+        });
+    });
+
+    /// Load dvVehicleInfo div after click the Vehicle to be Detailed From MT Section No Button
+    $(function () {
+        $("#btnOMTYes").click(function () {
+
+            $("#dvOMTInfo").hide();
+
+            $("#OMTServiceNo").val('');
+            $("#OMTSNo").val('');
+            $("#Name").val('');
+            $("#Rank").val('');
+            $("#btnOMTNo").hide();
+
+            //var IsOMTAvail = $(this).val();
+            $("#OMTAvail").val($(this).val());
+
+
+        });
+    });
+
+    $(function () {
+        $("#btnOMTNo").click(function () {
+            $("#dvOMTInfo").show();
+            $("#OMTAvail").val("");
+        });
+    });
+
+    /// Load dvVehicleInfo div after click the Vehicle to be Detailed From MT Section No Button
+    $(function () {
+        $("#btnVehicleNo").click(function () {
+            $("#dvVehicleInfo").show();
+            $("#VehicleAvail").val("");
+
+        });
+    });
+
+    $(function () {
+        $("#btnVehicleYes").click(function () {
+            $("#dvVehicleInfo").hide();
+            $("#SLAFRegNo").val("");
+            $("#btnVehicleNo").hide();
+            $("#VehicleAvail").val($(this).val());
+        });
+    });
+
+    ////load OMT Service No into text box
+    /// Load E658 creater Person details
+
+    $(function () {
+        $("#OMTServiceNo").change(function () {
+            $.ajax({
+                url: '@Url.Content("~/E658/getUserInfo")',
+                type: 'POST',
+                dataType: 'json',
+                data: { id: $("#OMTServiceNo").val() },
+                success: function (data) {
+
+                    if (data.Message == "This OMT has been allocated to a journey.Please enter another OMT service Number.")
+                    {
+                        alert("This OMT has been allocated to a journey.Please enter another OMT service Number.");
+                        $("#OMTServiceNo").val('');
+                        data.Message = {};
+                    }
+                    else {
+                        if (data.Name == "Service number is not valid.") {
+                            alert("Service number is not valid.");
+                            $("#OMTServiceNo").val('');
+                            $("#OMTSNo").val('');
+                            data.Name = {};
+                        }
+                        else {
+                            $("#OMTServiceNo").val(data.ServiceNo);
+                            $("#OMTSNo").val(data.SNo);
+                            $("#Name").val(data.Name);
+                            $("#Rank").val(data.Rank);
+                            data.ServiceNo = {};
+
+                        }
+                    }
+                },
+                error: function () {
+                    alert("error in function");
+                }
+            });
+        });
+    });
+
+     $(function () {
+
+            //Created BY   : Sqn Ldr Wicky
+            ///Created Date : 2024/05/20
+            ///Description : load Vehicle Chassis Number
+
+            $("#SLAFRegNo").change(function () {
+            $.ajax({
+                url: '@Url.Content("~/E658/getVehicleChassisNo")',
+                type: 'POST',
+                dataType: 'json',
+                data: { id: $("#SLAFRegNo").val() },
+                success: function (data) {
+
+                    if (data.ChassisNo == null)
+                    {
+                        alert("This is not a valid SLAF No");
+                    }
+                    else
+                    {
+                        $("#txtVehicleChassisNo").val(data.ChassisNo);
+
+                    }
+                },
+                error: function () {
+                    alert("This is not a valid SLAF Registered No");
+                    $("#SLAFRegNo").val('');
+                    $("#txtVehicleChassisNo").val('');
+
+                }
+            });
+        });
+    });
+
+    $(function () {
+        $('#ReturnDate').change(function () {
+            var objE658 = {};
+            objE658.E658Date = $("#E658Date").val();
+            objE658.ReturnDate = $("#ReturnDate").val();
+            var Todate = $("#ReturnDate").val();
+            var FromDate = $("#E658Date").val();
+            //  alert(Todate);
+            $.ajax({
+                type: 'POST',
+                url: './DateCalc',
+                dataType: 'json',
+                data: '{objE658: ' + JSON.stringify(objE658) + '}',
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                   // $("#TotalDays").val(data.TotalDays);
+                    if (parseInt(data.RequiredDuration)<7)
+                    {
+                        document.getElementById('ReturnDate').style.backgroundColor = "#FFFFFF";
+                        document.getElementById('btnSave').disabled = false;
+                       // alert(data.RequiredDuration);
+                    }
+                    else {
+                        document.getElementById('ReturnDate').style.backgroundColor = "#FF0000";
+                        document.getElementById('btnSave').disabled = true;
+                        alert("Duration exceed more than 7 days");
+                    }
+
+                },
+                error: function (result) {
+                    // alert("some");
+                }
+            });
+        })
+    });
+
+    /// Generate Dynamically  Load Vehicle Report Section into a div
+    $(function () {
+        $("#btnAddLocation").click(function () {
+
+            $("#dvRptLocation").show();
+            var reportLoc = $("#dpReportLoc").val();
+            var newRow = '<tr style="background-color: #f5f5f5; cursor: pointer;font-family:Arial, sans-serif; font-size: 13px;"><td style="padding: 5px;">' + reportLoc +
+                         '</td></tr>';
+            $('#tblItemList').after(newRow);
+
+            $.ajax({
+                url: '@Url.Content("~/E658/LoadLocation")',
+                type: "POST",
+                data: { id: reportLoc },
+                dataType: "json",
+                success: function (r) {
+                    if (r > 0) {
+                        //How to add record into grid in here
+                    }
+                    else {
+                        alert("Record is duplicated.");
+                    }
+                },
+                error: function () {
+                    alert("in error function");
+                }
+            });
+        });
+    });
+
+    ///// Call Save function
+
+    $(function () {
+        $("#btnSave").click(function () {
+
+            var objE658 = {};
+            objE658.FromLocID = $("#FromLocID").val();
+            objE658.ToLocId = $("#ToLocId").val();
+            objE658.ERTID = $("#ERTID").val();
+            objE658.E658Date = $("#E658Date").val();
+            objE658.JournryStartTime = $("#JournryStartTime").val();
+            objE658.ReturnDate = $("#ReturnDate").val();
+            //objE658.RequiredDuration = $("#RequiredDuration").val();
+            objE658.Purpose = $("#Purpose").val();
+            objE658.Route = $("#Route").val();
+            objE658.ECDID = $("#ECDID").val();
+            objE658.RoleID = $("#RoleID").val();
+            var OMTReqFromMT = $("#OMTAvail").val();
+            var VehicleReqFromMT = $("#VehicleAvail").val();
+            var PreviousOMTServiceNo = $("#PreviousOMTServiceNo").val();
+            var PreviousSLAFRegNo = $("#PreviousSLAFRegNo").val();
+
+           
+
+            if (OMTReqFromMT == "") {
+
+                objE658.OMTServiceNo = $("#OMTServiceNo").val();
+                
+            }
+            if (VehicleReqFromMT == "") {
+
+                objE658.SLAFRegNo = $("#SLAFRegNo").val();
+               
+            }
+
+            if (PreviousOMTServiceNo != null) {
+
+                objE658.PreviousOMTServiceNo = $("#PreviousOMTServiceNo").val();
+            }
+
+            if (PreviousSLAFRegNo !=null) {
+
+                objE658.PreviousSLAFRegNo = $("#PreviousSLAFRegNo").val();
+            }
+
+            if (OMTReqFromMT == 1) {
+               
+                objE658.PreviousOMTServiceNo = null;
+            }
+
+            if (VehicleReqFromMT == 10) {
+              
+                objE658.PreviousSLAFRegNo = null;
+            }
+            
+
+            if (objE658.FromLocID == "" || objE658.ToLocId == "" ||  objE658.ERTID == "" ||  objE658.E658Date == "" ||
+                objE658.JournryStartTime == "" || objE658.RequiredDuration == "" || objE658.Purpose == "" ||  objE658.Route == "") {
+
+                alert("Please Fill all the Data Fields (කරුණාකර සියලුම දත්තයන් පුරවන්න)");
+            }
+            else {
+
+                $.ajax({
+                    url: '@Url.Content("~/E658/Edit658")',
+                    type: "POST",
+                    data: '{objE658:' + JSON.stringify(objE658) + '}',
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+
+                        if (data.Message == "You have Update the E658 Successfully.") {
+                            alert(data.Message);
+                        }
+                        else {
+
+                            $("#CreateSuccMeg").show();
+
+                            $("#CreateSuccMeg").append(data.Message);
+                            window.location.href = data.redirectUrl || '@Url.Action("AnotherAction")';
+                            //alert(data.Message);
+
+
+                        }
+                    },
+                    //error: function () {
+                    //    alert("Error while inserting data");
+                    //}
+                });
+            }
+
+
+        });
+    });
+
+
+</script> 

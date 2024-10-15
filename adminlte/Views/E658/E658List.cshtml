@@ -38,7 +38,7 @@
         </div>
     </section>
 
-    <section class="col-lg-12 connectedSortable" style="margin-top:10px">
+    <section class="col-md-12 connectedSortable" style="margin-top:10px">
         <div class="nav-tabs-custom">
             @Html.ValidationSummary(true)
             <div class="box-body">
@@ -141,8 +141,8 @@
                                                 else
                                                 {
                                                     @*<button type="button" class="col-lg- btn btn-primary" onclick="location.href='@Url.Action("E658Details", "E658", new { E658CreatorID = item.ECDID, RoleId = item.RoleID, EFlowId = item.EFTID })'">
-                    <span> <i class="fa fa-eye" aria-hidden="true"></i></span>
-                </button>*@
+                <span> <i class="fa fa-eye" aria-hidden="true"></i></span>
+            </button>*@
                                                 }
 
                                                 @if (item.RoleID == (int)E658.Enum.EnumE658UserType.StaffCarUser || item.RoleID == (int)E658.Enum.EnumE658UserType.FormationUser)
@@ -157,21 +157,16 @@
                                                     <button type="button" onclick="setValueToURL(@i,'@item.UnitSerialNo')" value="Select" class="btn btn-warning">
                                                         <span><i class="fa fa-folder-open-o" aria-hidden="true"></i></span>
                                                     </button>
-
-                                                    //rejectButton
-                                                    @*<button type="button" class="btn btn-danger" onclick="setValueToReject(@i, '@item.RoleID', '@item.ECDID', '@item.EFTID')">
-                    <span><i class="fa fa-remove" aria-hidden="true"></i></span>
-                </button>*@
-                                                    @*@Html.ActionLink("Reject", "Edit658", new { E658CreatorID = item.ECDID, RoleId = item.RoleID }, new { @class = "btn btn-default" })*@
-
+                                                   
                                                     if (item.IsOMTAvail == 0 && item.IsVehicleAvail == 0)
                                                     {
-                                                        <button type="button" class="col-lg- btn btn-success pull-right" onclick="location.href='@Url.Action("Forward", "E658", new { roleId = item.RoleID, E658CreatorDltId = item.ECDID })'">
+                                                        <button type="button" class="btn btn-success pull-right" onclick="location.href='@Url.Action("Forward", "E658", new { roleId = item.RoleID, E658CreatorDltId = item.ECDID })'">
                                                             <span><i class="fa fa-check" aria-hidden="false"> Approved</i></span>
                                                         </button>
 
                                                     }
                                                 }
+
                                                 else
                                                 {
 
@@ -232,7 +227,9 @@
 
     </div>*@
 
-<script src="~/Scripts/Jq.js"></script>
+
+<script src="@Url.Content("~/Scripts/Jq.js")"></script>
+
 <script>
     function setValueToURL(assignedId,unitSerialNo) {
         //console.log("Assigned ID:", assignedId);

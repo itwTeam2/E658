@@ -359,7 +359,9 @@
   <ItemGroup>
     <Content Include="Content\adminltemvc.png" />
     <Content Include="Content\adminlte\css\AdminLTE.css" />
+    <Content Include="Content\adminlte\css\adminlte.css.map" />
     <Content Include="Content\adminlte\css\AdminLTE.min.css" />
+    <Content Include="Content\adminlte\css\adminlte.min.css.map" />
     <Content Include="Content\adminlte\css\alt\AdminLTE-bootstrap-social.css" />
     <Content Include="Content\adminlte\css\alt\AdminLTE-bootstrap-social.min.css" />
     <Content Include="Content\adminlte\css\alt\AdminLTE-fullcalendar.css" />
@@ -415,6 +417,7 @@
     <Content Include="Content\adminlte\img\photo2.png" />
     <Content Include="Content\adminlte\img\photo3.jpg" />
     <Content Include="Content\adminlte\img\photo4.jpg" />
+    <Content Include="Content\adminlte\img\SLAF-Crest.png" />
     <Content Include="Content\adminlte\img\user1-128x128.jpg" />
     <Content Include="Content\adminlte\img\user2-160x160.jpg" />
     <Content Include="Content\adminlte\img\user3-128x128.jpg" />
@@ -4349,14 +4352,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Scripts\New folder\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
-    <Content Include="Content\adminlte\css\adminlte.css.map" />
-    <Content Include="Content\adminlte\css\adminlte.min.css.map" />
     <EntityDeploy Include="Models\Epass.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Epass.Designer.cs</LastGenOutput>

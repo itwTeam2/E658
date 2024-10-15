@@ -1,0 +1,281 @@
+﻿
+@using E658.Models
+@model IEnumerable<E658.Models.VME658Create>
+
+<div class="modal fade" id="recordDetailsModal" tabindex="-1" role="dialog" aria-labelledby="recordDetailsModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <center><h2 class="modal-title" id="recordDetailsModalLabel">Record Details</h2></center>
+                @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>*@
+            </div>
+
+            <div class="modal-body">
+
+                <section class="col-lg-12 nav-tabs-custom connectedSortable">
+
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-lg-12">
+                            <br />
+                            <dl class="dl-horizontal">
+                                @* Destination From: *@
+                                <dt class="form-group">
+                                    Destination From :
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => item.FromLocID)
+                                </dd>
+
+                                @*Destination To *@
+                                <dt class="form-group">
+                                    Destination To :
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => item.ToLocId)
+                                </dd>
+
+                                @*E658 RefNo *@
+                                <dt class="form-group">
+                                    E-658 Reference No :
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => item.UnitSerialNo)
+                                    @Html.HiddenFor(model => item.ECDID, new { id = "CreatorID" })
+                                    @Html.HiddenFor(model => item.EFTID, new { id = "FlowID" })
+                                    @Html.HiddenFor(model => item.RoleID, new { id = "RoleID" })
+                                </dd>
+
+                                @* E-658 Run Type : *@
+                                <dt class="form-group">
+                                    E-658 Run Type :
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => item.E658RunType)
+                                </dd>
+
+                                @* E-658 Date : *@
+                                <dt class="form-group">
+                                    E-658 Date :
+                                </dt>
+
+                                <dd>
+                                    @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.E658Date))
+
+
+                                </dd>
+
+                                @*Journry Start Time : *@
+                                <dt class="form-group">
+                                    Journey Start Time :
+                                </dt>
+
+                                <dd>
+                                    @Convert.ToString(string.Format("{0:HH:mm tt}", item.JournryStartTime))
+
+                                </dd>
+
+                                @*Journry Return Date : *@
+                                <dt class="form-group">
+                                    Journey Return Date  :
+                                </dt>
+
+                                <dd>
+                                    @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.ReturnDate))
+
+                                </dd>
+
+                                @*Purpose :*@
+                                <dt class="form-group">
+                                    Purpose :
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => item.Purpose)
+
+                                </dd>
+
+                                @* Route :*@
+                                <dt class="form-group">
+                                    Route :
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => item.Route)
+
+                                </dd>
+
+                                @if (item.IsOMTAvail == 1)
+                                {
+                                    @* OMTStatus :*@
+                                    <dt class="form-group alert alert-info" style="height:50px;margin-bottom:4px">
+                                        OMT Status :
+                                    </dt>
+                                    if (item.RoleID == (int)E658.Enum.EnumE658UserType.MToOCT || item.RoleID == (int)E658.Enum.EnumE658UserType.RecordCertified)
+                                    {
+                                        <dd class="form-group">
+                                            @Html.Label("Assign an OMT ", new { @class = "control-label" })
+                                            @Html.CheckBox("isAssignOMT", false)
+                                        </dd>
+                                    }
+                                    else
+                                    {
+                                        <dd class="form-group alert alert-info" style="height:50px;margin-bottom:4px">
+                                            @Html.DisplayFor(model => item.OMTStatus)
+                                        </dd>
+                                    }
+                                }
+
+                                else
+                                {
+                                    @* OMTStatus :*@
+                                    <dt class="form-group">
+                                        OMT Service No :
+                                    </dt>
+
+                                    <dd class="form-group">
+                                        @Html.DisplayFor(model => item.OMTServiceNo)
+
+                                    </dd>
+                                }
+
+                                @if (item.IsVehicleAvail == 10)
+                                {
+                                    @* OMTStatus :*@
+                                    <dt class="form-group alert alert-info" style="height:50px;margin-bottom:4px">
+                                        Vehicle Status :
+                                    </dt>
+
+                                    if (item.RoleID == (int)E658.Enum.EnumE658UserType.MToOCT || item.RoleID == (int)E658.Enum.EnumE658UserType.RecordCertified)
+                                    {
+                                        <dd class="form-group">
+                                            @Html.Label("Assign a Vehicle", new { @class = "control-label" })
+                                            @Html.CheckBox("isAssignVehicle", false)
+
+                                        </dd>
+                                    }
+                                    else
+                                    {
+                                        <dd class="form-group alert alert-info" style="height:50px;margin-bottom:4px;width:220px">
+                                            @Html.DisplayFor(model => item.VehicleStatus)
+
+                                        </dd>
+                                    }
+                                }
+
+                                else
+                                {
+                                    @* OMTStatus :*@
+                                    <dt class="form-group">
+                                        Vehicle SLAF Reg No :
+                                    </dt>
+
+                                    <dd class="form-group">
+                                        @Html.DisplayFor(model => item.SLAFRegNo)
+
+                                    </dd>
+                                }
+                            </dl>
+                        </div>
+
+
+                        if (item.RecordStatus != 2)
+                        {
+                            switch (item.RoleID)
+                            {
+
+                                case (int)E658.Enum.EnumE658UserType.FinalizedAuthorization:
+
+
+                                    <button type="button" class="col-lg- btn btn-danger pull-left" onclick="location.href='@Url.Action("RejectRecordFinalAuthority", "E658", new { roleId = item.RoleID, ECDID = item.ECDID, EFTID = item.EFTID})'">
+                                        <span><i class="fa fa-times" aria-hidden="false"> Reject </i></span>
+                                    </button>
+
+                                    <button type="button" class="col-lg- btn btn-success pull-right" onclick="location.href='@Url.Action("Forward", "E658", new { roleId = item.RoleID, E658CreatorDltId = item.ECDID })'">
+                                        <span><i class="fa fa-check" aria-hidden="false"> Final Approval</i></span>
+                                    </button>
+
+                                    @*<input id="btnRejectComent" type="button" value="Click here to Reject" class="btn btn-danger pull-left" />*@
+
+
+                                    break;
+                                default:
+
+                                    break;
+                            }
+                        }
+
+                        else
+                        {
+                            <dl class="dl-horizontal">
+                                @*Record Status :*@
+                                <dd>
+
+                                    <P style="text-align:center"><b style="background-color:crimson">Your Record has been rejected.</b></P>
+
+                                </dd>
+
+                            </dl>
+                        }
+
+                        @*<div id="dvRejectArea">
+                <div class="form-horizontal">
+                    <div class="form-group col-md-12">
+                        @Html.TextAreaFor(model => item.Comment, new { @class = "form-control", autocomplete = "off", id = "txtComment" })
+                        @Html.ValidationMessageFor(model => item.Comment, string.Empty, new { @class = "label label-danger" })
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <input type="button" value="Save Comments" class="btn btn-success" id="btnSubmit" />
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+                    }
+                </section>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-window-close-o" aria-hidden="false"> Close</i></button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        ///Created BY   : Sqn Ldr Wicky
+        ///Created Date : 2024/05/15
+        ///Description : hide the Div
+
+        /// Drop down list in Operation Contribution
+
+       $("#dvRejectArea").hide();
+       
+
+    });   
+
+</script>
+
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+
+
