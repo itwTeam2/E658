@@ -427,6 +427,7 @@
     <Content Include="Content\adminlte\img\user7-128x128.jpg" />
     <Content Include="Content\adminlte\img\user8-128x128.jpg" />
     <Content Include="Content\cardStyle.css" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\main.css" />
     <Content Include="Content\NewBcss\bootstrap-grid.css" />
     <Content Include="Content\NewBcss\bootstrap-grid.min.css" />
@@ -4388,6 +4389,7 @@
     <Content Include="fonts\ionicons.ttf" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\adminlte\components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css.map" />
     <Content Include="Scripts\adminlte\components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.min.css.map" />
