@@ -8,7 +8,7 @@
     <section class="sidebar">
 
         <!-- Sidebar user panel -->
-        <div class="user-panel">
+        <div class="user-panel" style="height:105px">
             @{
                 if (Session["LoginUser"] != null)
                 {
@@ -18,7 +18,7 @@
                     string serviceNo = Session["LoginUser"].ToString();
                     var personInfo = _db.Vw_PersonalDetail.Where(x => x.ServiceNo == serviceNo).Select(x => new { x.Rank, x.Name }).FirstOrDefault();
 
-                    <div class="info">
+                    <div class="info" style="margin-left:-50px">
                         <p>@serviceNo</p>
                         <p>@personInfo.Rank</p>
                         <p>@personInfo.Name</p>
@@ -47,12 +47,26 @@
 
                         @*<a href="#"><i class="fa fa-circle text-success"></i> Online</a>*@
                     </div>
+                    @*<form action="#" method="get" class="sidebar-form">
+                        <div class="input-group">
+                            -->
+                            <input type="text" name="q" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </form>*@
                 }
+
                 else
-                {                    
+                {
 
                     @Html.Action("Login", "User");
                 }
+
+
             }
         </div>
 
