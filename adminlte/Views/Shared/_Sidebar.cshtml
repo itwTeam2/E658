@@ -18,7 +18,7 @@
                     string serviceNo = Session["LoginUser"].ToString();
                     var personInfo = _db.Vw_PersonalDetail.Where(x => x.ServiceNo == serviceNo).Select(x => new { x.Rank, x.Name }).FirstOrDefault();
 
-                    <div class="info" style="left:10px;margin-top:-40px">
+                    <div class="info">
                         <p>@serviceNo</p>
                         <p>@personInfo.Rank</p>
                         <p>@personInfo.Name</p>
@@ -49,11 +49,7 @@
                     </div>
                 }
                 else
-                {
-
-                    <div class="info">
-                        <p style="font-size:11px">You are not logged in. Please <a href="@Url.Action("Login", "User")">Login</a> to access your account.</p>
-                    </div>
+                {                    
 
                     @Html.Action("Login", "User");
                 }
