@@ -11,11 +11,13 @@ namespace adminlte
             string ltecomponents = "~/Scripts/adminlte/components/";
             string lteplugins = "~/Scripts/adminlte/plugins/";
             string lte = "~/Scripts/adminlte/";
+        
 
             bundles.Add(new ScriptBundle("~/bundles/jquery")
                 .Include(ltecomponents + "jquery/dist/jquery.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/lib")
+                .Include(ltecomponents + "jquery-ui/jquery-ui.min.js")
                 .Include(ltecomponents + "jquery-ui/jquery-ui.min.js")
                 .Include(ltecomponents + "bootstrap/dist/js/bootstrap.min.js")
                 .Include(ltecomponents + "raphael/raphael.min.js")
