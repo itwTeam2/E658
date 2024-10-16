@@ -4304,13 +4304,15 @@
     <Content Include="Scripts\adminlte\plugins\timepicker\bootstrap-timepicker.js" />
     <Content Include="Scripts\adminlte\plugins\timepicker\bootstrap-timepicker.min.css" />
     <Content Include="Scripts\adminlte\plugins\timepicker\bootstrap-timepicker.min.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\canvasjs.min.js" />
     <Content Include="Scripts\canvasjs.react.js" />
     <Content Include="Scripts\CustomScript.js" />
+    <Content Include="Scripts\jquery-3.6.0.min.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\Jq.js" />
     <Content Include="Scripts\jquery.canvasjs.min.js" />
-    <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\jquery.min1.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
