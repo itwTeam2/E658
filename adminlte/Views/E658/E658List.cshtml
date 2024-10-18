@@ -155,7 +155,7 @@
                                     else if (item.RoleID == (int)E658.Enum.EnumE658UserType.FinalizedAuthorization)
                                     {
                                         <button type="button" onclick="setValueToURL(@i,'@item.UnitSerialNo')" value="Select" class="btn btn-warning">
-                                            <span><i class="fa fa-folder-open-o" aria-hidden="true"></i></span>
+                                            <span><i class="fa fa-folder-open-o" aria-hidden="false"></i></span>
                                         </button>
 
                                         if (item.IsOMTAvail == 0 && item.IsVehicleAvail == 0)
@@ -230,8 +230,10 @@
 
 @*<script src="@Url.Content("~/Scripts/Jq.js")"></script>*@
 <script src="~/Scripts/Jq.js"></script>
-<script src="~/Scripts/jquery-3.6.0.min.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
+
+
+@*<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>*@
 
 <script>
     function setValueToURL(assignedId,unitSerialNo) {
@@ -294,3 +296,4 @@
 
 
 </script>
+    
