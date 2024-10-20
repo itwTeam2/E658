@@ -4361,13 +4361,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
-    <EntityDeploy Include="Models\Epass.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Epass.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Epass.edmx.diagram">
-      <DependentUpon>Epass.edmx</DependentUpon>
-    </Content>
     <EntityDeploy Include="Models\CommonData.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>CommonData.Designer.cs</LastGenOutput>
@@ -4392,6 +4385,13 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
+    <EntityDeploy Include="Models\Epass.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Epass.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Epass.edmx.diagram">
+      <DependentUpon>Epass.edmx</DependentUpon>
+    </Content>
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\adminlte\components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css.map" />
     <Content Include="Scripts\adminlte\components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.min.css.map" />

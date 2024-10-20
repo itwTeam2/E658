@@ -21,5 +21,6 @@ namespace E658.Models
         public byte[] password { get; set; }
         public string KitIssParentUnit { get; set; }
         public string DivisionName { get; set; }
+        public string DivisionID { get; set; }
     }
 }
