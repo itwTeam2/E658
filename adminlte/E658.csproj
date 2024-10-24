@@ -189,6 +189,7 @@
     </Compile>
     <Compile Include="fonts\Helpers\HTMLHelperExtensions.cs" />
     <Compile Include="fonts\Helpers\UpdateTable.cs" />
+    <Compile Include="HelperServices\HashingService.cs" />
     <Compile Include="Models\BloodGroup.cs">
       <DependentUpon>CommonData.tt</DependentUpon>
     </Compile>

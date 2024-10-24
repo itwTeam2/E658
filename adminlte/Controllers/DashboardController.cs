@@ -210,7 +210,7 @@ namespace adminlte.Controllers
                 }
                 else
                 {
-                    
+                    return RedirectToAction("Index", "User");
                 }               
             }
             catch (Exception ex)

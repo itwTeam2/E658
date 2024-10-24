@@ -132,23 +132,37 @@
 
                                 <td>
 
+                                    @functions { 
+                                        // Helper function to base64 encode the concatenated values
+                                        public string EncodeIds(int creatorId, int roleId, int eFlowId)
+                                        {
+                                            // Concatenate the values
+                                            string concatenatedValues = $"{creatorId}:{roleId}:{eFlowId}";
+
+                                            // Convert to Base64 string
+                                            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(concatenatedValues);
+                                            return Convert.ToBase64String(bytes);
+                                        } 
+                                     }
+
+
                                     @if (MTControllerStatus == 0)
                                     {
-                                        <button type="button" class="col-lg- btn btn-primary" onclick="location.href='@Url.Action("E658Details", "E658", new { E658CreatorID = item.ECDID, RoleId = item.RoleID, EFlowId = item.EFTID })'">
+                                        <button type="button" class="col-lg- btn btn-primary" onclick="location.href='@Url.Action("E658Details", "E658", new { userID = EncodeIds(item.ECDID, item.RoleID,  item.EFTID )})'">
                                             <span> <i class="fa fa-eye" aria-hidden="true"></i></span>
                                         </button>
                                     }
                                     else
                                     {
                                         @*<button type="button" class="col-lg- btn btn-primary" onclick="location.href='@Url.Action("E658Details", "E658", new { E658CreatorID = item.ECDID, RoleId = item.RoleID, EFlowId = item.EFTID })'">
-                                                <span> <i class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </button>*@
+                <span> <i class="fa fa-eye" aria-hidden="true"></i></span>
+            </button>*@
                                     }
 
                                     @if (item.RoleID == (int)E658.Enum.EnumE658UserType.StaffCarUser || item.RoleID == (int)E658.Enum.EnumE658UserType.FormationUser)
                                     {
 
-                                        @Html.ActionLink("Edit", "Edit658", new { E658CreatorID = item.ECDID, RoleId = item.RoleID }, new { @class = "btn btn-default" })
+                                        @Html.ActionLink("Edit", "Edit658", new { userID = EncodeIds(item.ECDID, item.RoleID, 0)}, new { @class = "btn btn-default" })
 
                                     }
 
@@ -242,10 +256,12 @@
         //alert(unitSerialNo);
         // You can add more logic here, such as setting this value to a URL or using it in other ways
 
-        var id = unitSerialNo;
+        var encodedId = btoa(unitSerialNo); // Base64 encode the unitSerialNo
+
+        //var id = unitSerialNo;
 
         $.ajax({
-            url: '@Url.Action("E658DetailsFinalView", "E658")/' + id,
+            url: '@Url.Action("E658DetailsFinalView", "E658")/' + encodedId,
             type: 'GET',
             success: function (data) {
                 $('#modalContainer').html(data);

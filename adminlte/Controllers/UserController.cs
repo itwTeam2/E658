@@ -108,7 +108,7 @@ namespace WRMS.Controllers
 
                                     if (loginUserInfo.IsTemHandOverStatus == 1)
                                     {
-                                        if (currentDate >= handOverFrom && currentDate <= handOverTo)
+                                        if (currentDate >= handOverFrom && currentDate < handOverTo)
                                         {
                                             var serviceNo = _db.Vw_PersonalDetail.Where(x => x.SNo == loginUserInfo.HandOverPsnSNo).Select(x => x.ServiceNo).FirstOrDefault();
                                             TempData["Error"] = "Your Account Temporally Handover to '" + serviceNo + "' Service Number and handover duration '"+ handOverFrom + "' to '"+ handOverTo + "'. ";
@@ -615,81 +615,88 @@ namespace WRMS.Controllers
             E658UserMgt objUseMgt = new E658UserMgt();
             try
             {
-                var EUMID = _db.E658UserMgt.Where(x => x.SNo == objUser.SNo && x.RoleID == objUser.RoleId && x.UserLocation == objUser.Location 
-                            && x.Active == 1).Select(x => x.EUMID).FirstOrDefault();               
+                if (Session["LoginUser"] != null)
+                {
+                    var EUMID = _db.E658UserMgt.Where(x => x.SNo == objUser.SNo && x.RoleID == objUser.RoleId && x.UserLocation == objUser.Location
+                            && x.Active == 1).Select(x => x.EUMID).FirstOrDefault();
 
-                if (!objUser.isTempHandover )
-                {                    
-                    if (EUMID != 0)
+                    if (!objUser.isTempHandover)
                     {
-                        E658UserMgt obj = new E658UserMgt();
-                        obj = _db.E658UserMgt.Find(EUMID);
-                        obj.Active = 0;
-                        obj.ModifiedBy = Session["LoginUser"].ToString();
-                        obj.ModifiedDate = DateTime.Now;
-                        obj.ModifiedMac = mac.GetMacAddress();
+                        if (EUMID != 0)
+                        {
+                            E658UserMgt obj = new E658UserMgt();
+                            obj = _db.E658UserMgt.Find(EUMID);
+                            obj.Active = 0;
+                            obj.ModifiedBy = Session["LoginUser"].ToString();
+                            obj.ModifiedDate = DateTime.Now;
+                            obj.ModifiedMac = mac.GetMacAddress();
 
-                        _db.Entry(obj).State = EntityState.Modified;                      
+                            _db.Entry(obj).State = EntityState.Modified;
+                        }
+                        else
+                        {
+                            TempData["ErrMsg"] = "Something wrong, Please contact IT division";
+                        }
                     }
                     else
                     {
-                        TempData["ErrMsg"] = "Something wrong, Please contact IT division";
-                    }                  
+                        if (EUMID != 0)
+                        {
+                            E658UserMgt obj = new E658UserMgt();
+                            obj = _db.E658UserMgt.Find(EUMID);
+                            obj.IsTemHandOverStatus = 1;
+                            obj.HandOverFromDate = objUser.HandOverDateFrom;
+                            obj.HandOverToDate = objUser.HandOverDateTo;
+                            obj.HandOverPsnSNo = objUser.HandOverSNo;
+                            obj.ModifiedBy = Session["LoginUser"].ToString();
+                            obj.ModifiedDate = DateTime.Now;
+                            obj.ModifiedMac = mac.GetMacAddress();
+
+                            _db.Entry(obj).State = EntityState.Modified;
+
+                            objUseMgt.HandOverToDate = objUser.HandOverDateTo;
+                        }
+                        else
+                        {
+                            TempData["ErrMsg"] = "Something wrong, Please contact IT division";
+                        }
+                    }
+
+                    if (objUser.HandOverDateFrom != null)
+                    {
+                        objUseMgt.SNo = objUser.HandOverSNo;
+                        objUseMgt.HandOverFromDate = objUser.HandOverDateFrom;
+                        objUseMgt.UserLocation = objUser.Location;
+                        objUseMgt.Division = objUser.Division;
+                        objUseMgt.RoleID = objUser.RoleId;
+                        objUseMgt.Active = 1;
+                        objUseMgt.CreatedBy = Session["LoginUser"].ToString();
+                        objUseMgt.CreatedDate = DateTime.Now;
+                        objUseMgt.CreatedMAC = mac.GetMacAddress();
+                        objUseMgt.CreatedIP = this.Request.UserHostAddress;
+
+                        _db.E658UserMgt.Add(objUseMgt);
+
+                        if (_db.SaveChanges() > 0)
+                        {
+                            TempData["ScfMsg"] = "Handover Process sucessfully completed.";
+                        }
+                        else
+                        {
+                            TempData["ErrMsg"] = "Something Wrong, Please Contact IT division.";
+                        }
+                    }
+                    else
+                    {
+                        TempData["ErrMsg"] = "Please fill the required fields.";
+                    }
+
+                    return View();
                 }
                 else
                 {
-                    if (EUMID != 0)
-                    {
-                        E658UserMgt obj = new E658UserMgt();
-                        obj = _db.E658UserMgt.Find(EUMID);
-                        obj.IsTemHandOverStatus = 1;
-                        obj.HandOverFromDate = objUser.HandOverDateFrom;
-                        obj.HandOverToDate = objUser.HandOverDateTo;
-                        obj.HandOverPsnSNo = objUser.HandOverSNo;
-                        obj.ModifiedBy = Session["LoginUser"].ToString();
-                        obj.ModifiedDate = DateTime.Now;
-                        obj.ModifiedMac = mac.GetMacAddress();
-
-                        _db.Entry(obj).State = EntityState.Modified;
-
-                        objUseMgt.HandOverToDate = objUser.HandOverDateTo;
-                    }
-                    else
-                    {
-                        TempData["ErrMsg"] = "Something wrong, Please contact IT division";
-                    }
-                }
-
-                if (objUser.HandOverDateFrom != null)
-                {
-                    objUseMgt.SNo = objUser.HandOverSNo;
-                    objUseMgt.HandOverFromDate = objUser.HandOverDateFrom;
-                    objUseMgt.UserLocation = objUser.Location;
-                    objUseMgt.Division = objUser.Division;
-                    objUseMgt.RoleID = objUser.RoleId;
-                    objUseMgt.Active = 1;
-                    objUseMgt.CreatedBy = Session["LoginUser"].ToString();
-                    objUseMgt.CreatedDate = DateTime.Now;
-                    objUseMgt.CreatedMAC = mac.GetMacAddress();
-                    objUseMgt.CreatedIP = this.Request.UserHostAddress;
-
-                    _db.E658UserMgt.Add(objUseMgt);
-
-                    if (_db.SaveChanges() > 0)
-                    {
-                        TempData["ScfMsg"] = "Handover Process sucessfully completed.";
-                    }
-                    else
-                    {
-                        TempData["ErrMsg"] = "Something Wrong, Please Contact IT division.";
-                    }
-                }
-                else
-                {
-                    TempData["ErrMsg"] = "Please fill the required fields.";
-                }        
-
-                return View();
+                    return RedirectToAction("Login", "User");
+                }                
 
             }
             catch (Exception ex)
@@ -715,6 +722,7 @@ namespace WRMS.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult E658InitiateUser(VME658InitiateUser obj)
         {
             ///Created BY   : Sqn ldr Wicky
@@ -728,6 +736,7 @@ namespace WRMS.Controllers
 
             try
             {
+                
                 if (ModelState.IsValid)
                 {
                     
@@ -811,6 +820,7 @@ namespace WRMS.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Inquiry(string SearchString)
         {
             ///Created BY   : Sqn ldr Wicky
@@ -943,35 +953,42 @@ namespace WRMS.Controllers
 
             try
             {
-                if (!objUser.DutyDate.HasValue || objUser.DutyDate.Value == DateTime.MinValue)
+                if (Session["LoginUser"] != null)
                 {
-                    TempData["ErrMsg"] = "Please select the duty date";
+                    if (!objUser.DutyDate.HasValue || objUser.DutyDate.Value == DateTime.MinValue)
+                    {
+                        TempData["ErrMsg"] = "Please select the duty date";
+                    }
+                    else
+                    {
+                        objUserMgt.SNo = objUser.SNo;
+                        objUserMgt.RoleID = (int)E658.Enum.EnumE658UserType.MTController;
+                        objUserMgt.UserLocation = objUser.Location;
+                        objUserMgt.MTCotrollerDutyDate = objUser.DutyDate;
+                        objUserMgt.Active = 1;
+                        objUserMgt.CreatedDate = DateTime.Now;
+                        objUserMgt.CreatedIP = this.Request.UserHostAddress;
+                        objUserMgt.CreatedMAC = mac.GetMacAddress();
+
+                        _db.E658UserMgt.Add(objUserMgt);
+
+                        using (TransactionScope scope = new TransactionScope(TransactionScopeOption.RequiresNew))
+                        {
+                            if (_db.SaveChanges() > 0)
+                            {
+                                scope.Complete();
+                                TempData["ScfMsg"] = "Record sucessfully created";
+
+                                //return RedirectToAction("Dashboardv1ToMTO", "Dashboard");
+                            }
+                        }
+
+                    }
                 }
                 else
                 {
-                    objUserMgt.SNo = objUser.SNo;
-                    objUserMgt.RoleID = (int)E658.Enum.EnumE658UserType.MTController;
-                    objUserMgt.UserLocation = objUser.Location;
-                    objUserMgt.MTCotrollerDutyDate = objUser.DutyDate;
-                    objUserMgt.Active = 1;
-                    objUserMgt.CreatedDate = DateTime.Now;
-                    objUserMgt.CreatedIP = this.Request.UserHostAddress;
-                    objUserMgt.CreatedMAC = mac.GetMacAddress();
-
-                    _db.E658UserMgt.Add(objUserMgt);
-
-                    using (TransactionScope scope = new TransactionScope(TransactionScopeOption.RequiresNew))
-                    {
-                        if (_db.SaveChanges() > 0)
-                        {
-                            scope.Complete();
-                            TempData["ScfMsg"] = "Record sucessfully created";
-
-                            //return RedirectToAction("Dashboardv1ToMTO", "Dashboard");
-                        }
-                    }                  
-
-                }
+                    return RedirectToAction("Login", "User");
+                }               
 
             }
             catch (Exception ex)

@@ -272,6 +272,19 @@
 
                 </div>
 
+                @functions {
+                    // Helper function to base64 encode the concatenated values
+                    public string EncodeIds(int roleId, int creatorId)
+                    {
+                        // Concatenate the values
+                        string concatenatedValues = $"{roleId}:{creatorId}";
+
+                        // Convert to Base64 string
+                        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(concatenatedValues);
+                        return Convert.ToBase64String(bytes);
+                    }
+                }
+
                 if (item.RecordStatus != 2)
                 {
                     int userType = Convert.ToInt32(TempData["UserLoginType"]);
@@ -286,9 +299,9 @@
                                 <span><i class="fa fa-share" aria-hidden="true"> Certify</i></span>
                             </button>
 
-                            <button type="button" class="col-lg- btn btn-success pull-right" onclick="location.href='@Url.Action("Index", "User")'">
-                                <span>Back To Main Page</span>
-                            </button>
+                            @*<button type="button" class="col-lg- btn btn-success pull-right" onclick="location.href='@Url.Action("Index", "User")'">
+                            <span>Back To Main Page</span>
+                        </button>*@
 
 
                             break;
