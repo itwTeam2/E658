@@ -1214,97 +1214,106 @@ namespace E658.Controllers
 
             int pageSize = 0;
             int pageNumber = 1;
-
-            int userLoginType = Convert.ToInt32(Session["UserLoginType"]);
-            if (userLoginType != 0)
+                       
+            if (Session["UserLoginType"] != null)
             {
+                int userLoginType = Convert.ToInt32(Session["UserLoginType"]);
+
                 ReportData.DAL.DALCommanQuery objDALCommanQuery = new ReportData.DAL.DALCommanQuery();
                 dt = objDALCommanQuery.CallE65MoreDetailsSP((int)E658.Enum.EnumE658UserType.RecordCertified);
 
-                if (dt != null && dt.Rows.Count > 0)
+                try
                 {
-                    switch (userLoginType)
+                    if (dt != null && dt.Rows.Count > 0)
                     {
-                        case (int)E658.Enum.EnumE658UserType.StaffCarUser:
+                        switch (userLoginType)
+                        {
+                            case (int)E658.Enum.EnumE658UserType.StaffCarUser:
 
-                            string staffServiceNo = Session["LoginUser"].ToString();
+                                string staffServiceNo = Session["LoginUser"].ToString();
 
-                            var row1 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("StaffServiceNo") == staffServiceNo &&
-                                x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward);
+                                var row1 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("StaffServiceNo") == staffServiceNo &&
+                                    x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward);
 
-                            if (row1.Any())
-                            {
-                                dt2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("StaffServiceNo") == staffServiceNo &&
-                                  x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward).CopyToDataTable();
-                            }
+                                if (row1.Any())
+                                {
+                                    dt2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("StaffServiceNo") == staffServiceNo &&
+                                      x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward).CopyToDataTable();
+                                }
 
-                            break;
+                                break;
 
-                        case (int)E658.Enum.EnumE658UserType.FormationUser:
+                            case (int)E658.Enum.EnumE658UserType.FormationUser:
 
-                            string UserEpaLoc = Session["UserEpassLoc"].ToString();
-                            string UserEpassDivi = Session["UserEpassDivision"].ToString();
+                                string UserEpaLoc = Session["UserEpassLoc"].ToString();
+                                string UserEpassDivi = Session["UserEpassDivision"].ToString();
 
-                            var row2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("CreaterLoc") == UserEpaLoc &&
-                            x.Field<string>("CreaterDivision") == UserEpassDivi && x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward);
+                                var row2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("CreaterLoc") == UserEpaLoc &&
+                                x.Field<string>("CreaterDivision") == UserEpassDivi && x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward);
 
-                            if (row2.Any())
-                            {
-                                dt2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("CreaterLoc") == UserEpaLoc && x.Field<string>("CreaterDivision") == UserEpassDivi
-                               && x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward).CopyToDataTable();
-                            }
+                                if (row2.Any())
+                                {
+                                    dt2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("CreaterLoc") == UserEpaLoc && x.Field<string>("CreaterDivision") == UserEpassDivi
+                                   && x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward).CopyToDataTable();
+                                }
 
-                            break;
+                                break;
 
-                        case (int)E658.Enum.EnumE658UserType.MToOCT:
-                        case (int)E658.Enum.EnumE658UserType.MTController:
-
-
-                            string MToOctLocation = Session["MToOctLocation"].ToString();
-
-                            var row3 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == MToOctLocation && x.Field<int>("RecordStatusID")
-                                      == (int)E658.Enum.EnumRecordStatus.Forward);
-
-                            if (row3.Any())
-                            {
-                                dt2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == MToOctLocation &&
-                                     x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward).CopyToDataTable();
-
-                                List<VME658Create> items = new List<VME658Create>();
+                            case (int)E658.Enum.EnumE658UserType.MToOCT:
+                            case (int)E658.Enum.EnumE658UserType.MTController:
 
 
-                                //var selectList = new SelectList(dt2.AsEnumerable().Where(x => x.Field<int>("RaisedTypeID") != (int)E658.Enum.E658RaisedType.StaffVehiE).Select(row => new SelectListItem
-                                //{
-                                //    Text = row["UnitSerialNo"].ToString(), // Change "TextColumn" to your actual column name
-                                //    Value = row["UnitSerialNo"].ToString() // Change "ValueColumn" to your actual column name
-                                //}), "Value", "Text");
+                                string MToOctLocation = Session["MToOctLocation"].ToString();
 
-                                //ViewBag.DDL_E658ListUnitNo = new SelectList(selectList.Select(x => x.Text));
+                                var row3 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == MToOctLocation && x.Field<int>("RecordStatusID")
+                                          == (int)E658.Enum.EnumRecordStatus.Forward);
 
-                            }
+                                if (row3.Any())
+                                {
+                                    dt2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == MToOctLocation &&
+                                         x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward).CopyToDataTable();
 
-                            break;
-                        case (int)E658.Enum.EnumE658UserType.FinalizedAuthorization:
-
-                            string MToOctLocation2 = Session["MToOctLocation"].ToString();
-
-                            var row4 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == MToOctLocation2 && x.Field<int>("RecordStatusID")
-                                      == (int)E658.Enum.EnumRecordStatus.Forward);
-
-                            if (row4.Any())
-                            {
-                                dt2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == MToOctLocation2 &&
-                                     x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward).CopyToDataTable();
-                            }
+                                    List<VME658Create> items = new List<VME658Create>();
 
 
-                            break;
+                                    //var selectList = new SelectList(dt2.AsEnumerable().Where(x => x.Field<int>("RaisedTypeID") != (int)E658.Enum.E658RaisedType.StaffVehiE).Select(row => new SelectListItem
+                                    //{
+                                    //    Text = row["UnitSerialNo"].ToString(), // Change "TextColumn" to your actual column name
+                                    //    Value = row["UnitSerialNo"].ToString() // Change "ValueColumn" to your actual column name
+                                    //}), "Value", "Text");
 
-                        default:
-                            break;
+                                    //ViewBag.DDL_E658ListUnitNo = new SelectList(selectList.Select(x => x.Text));
+
+                                }
+
+                                break;
+                            case (int)E658.Enum.EnumE658UserType.FinalizedAuthorization:
+
+                                string MToOctLocation2 = Session["MToOctLocation"].ToString();
+
+                                var row4 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == MToOctLocation2 && x.Field<int>("RecordStatusID")
+                                          == (int)E658.Enum.EnumRecordStatus.Forward);
+
+                                if (row4.Any())
+                                {
+                                    dt2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == MToOctLocation2 &&
+                                         x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward).CopyToDataTable();
+                                }
+
+
+                                break;
+
+                            default:
+                                break;
+                        }
+
                     }
-
                 }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }               
 
                 for (int i = 0; i < dt2.Rows.Count; i++)
                 {

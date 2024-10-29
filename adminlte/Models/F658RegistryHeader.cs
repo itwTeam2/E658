@@ -21,7 +21,6 @@ namespace E658.Models
         public string ELocation { get; set; }
         public string FLocation { get; set; }
         public string TLocation { get; set; }
-        public string RealToLocation { get; set; }
         public int IsRR658 { get; set; }
         public Nullable<int> AuthorityType { get; set; }
         public Nullable<int> Behavior { get; set; }
@@ -51,5 +50,6 @@ namespace E658.Models
         public Nullable<int> ParentRunCretID { get; set; }
         public Nullable<System.DateTime> ReturnDate { get; set; }
         public Nullable<int> E658CreatorDltId { get; set; }
+        public string RealToLocation { get; set; }
     }
 }

@@ -12,14 +12,11 @@ namespace E658.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class EpasUser
+    public partial class Branch
     {
-        public int id { get; set; }
-        public string userid { get; set; }
-        public string rankid { get; set; }
-        public string name { get; set; }
-        public byte[] password { get; set; }
-        public string KitIssParentUnit { get; set; }
-        public string DivisionName { get; set; }
+        public string BranchID { get; set; }
+        public string BranchName { get; set; }
+        public string Directorate { get; set; }
+        public string BranchShortName { get; set; }
     }
 }
