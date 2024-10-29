@@ -12,14 +12,9 @@ namespace E658.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class EpasUser
+    public partial class ProvinceNew
     {
-        public int id { get; set; }
-        public string userid { get; set; }
-        public string rankid { get; set; }
-        public string name { get; set; }
-        public byte[] password { get; set; }
-        public string KitIssParentUnit { get; set; }
-        public string DivisionName { get; set; }
+        public string PROV_CODE { get; set; }
+        public string DESCRIPTION { get; set; }
     }
 }

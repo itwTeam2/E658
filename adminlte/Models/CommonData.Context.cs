@@ -25,26 +25,40 @@ namespace E658.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Division> Divisions { get; set; }
+        public virtual DbSet<EpasLocation> EpasLocations { get; set; }
         public virtual DbSet<BloodGroup> BloodGroups { get; set; }
+        public virtual DbSet<Branch> Branches { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Directorate> Directorates { get; set; }
         public virtual DbSet<District> Districts { get; set; }
-        public virtual DbSet<Division> Divisions { get; set; }
+        public virtual DbSet<Division1> Divisions1 { get; set; }
+        public virtual DbSet<EducationSubject> EducationSubjects { get; set; }
         public virtual DbSet<Electorate> Electorates { get; set; }
         public virtual DbSet<Establishment> Establishments { get; set; }
+        public virtual DbSet<EstablishmentNew> EstablishmentNews { get; set; }
         public virtual DbSet<GSDivision> GSDivisions { get; set; }
         public virtual DbSet<MaritalStatu> MaritalStatus { get; set; }
         public virtual DbSet<MedicalCategory> MedicalCategories { get; set; }
+        public virtual DbSet<NOKRelationship> NOKRelationships { get; set; }
+        public virtual DbSet<P2_AGADivision> P2_AGADivision { get; set; }
+        public virtual DbSet<P2_District> P2_District { get; set; }
+        public virtual DbSet<P2_Electorate> P2_Electorate { get; set; }
+        public virtual DbSet<P2_GSDivision> P2_GSDivision { get; set; }
+        public virtual DbSet<P2_PoliceStation> P2_PoliceStation { get; set; }
+        public virtual DbSet<P2_PostCode> P2_PostCode { get; set; }
+        public virtual DbSet<P2_Town> P2_Town { get; set; }
         public virtual DbSet<PoliceStation> PoliceStations { get; set; }
         public virtual DbSet<PostOffice> PostOffices { get; set; }
+        public virtual DbSet<ProvinceNew> ProvinceNews { get; set; }
         public virtual DbSet<Rank> Ranks { get; set; }
+        public virtual DbSet<ReligionNew> ReligionNews { get; set; }
         public virtual DbSet<School> Schools { get; set; }
         public virtual DbSet<Section> Sections { get; set; }
         public virtual DbSet<ServiceStatu> ServiceStatus { get; set; }
         public virtual DbSet<ServiceType> ServiceTypes { get; set; }
+        public virtual DbSet<Town> Towns { get; set; }
         public virtual DbSet<Trade> Trades { get; set; }
-        public virtual DbSet<Division1> Division1 { get; set; }
         public virtual DbSet<Vw_EpasDivision> Vw_EpasDivision { get; set; }
-        public virtual DbSet<EpasLocation> EpasLocations { get; set; }
     }
 }

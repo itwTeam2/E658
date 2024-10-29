@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="CommonDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="CommonDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Divisions">
           <Key>
             <PropertyRef Name="LocationID" />
@@ -77,6 +77,18 @@ warning 6002: The table/view 'CommonData.dbo.BloodGroup' does not have a primary
           <Property Name="BloodGroup" Type="varchar" MaxLength="6" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.Branch' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Branch">
+          <Key>
+            <PropertyRef Name="BranchID" />
+            <PropertyRef Name="BranchName" />
+          </Key>
+          <Property Name="BranchID" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="BranchName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Directorate" Type="varchar" MaxLength="15" />
+          <Property Name="BranchShortName" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'CommonData.dbo.Country' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Country">
           <Key>
@@ -132,6 +144,17 @@ warning 6002: The table/view 'CommonData.dbo.Division' does not have a primary k
           <Property Name="CreatedUser" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.EducationSubject' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="EducationSubject">
+          <Key>
+            <PropertyRef Name="SubjectID" />
+            <PropertyRef Name="EducationLevel" />
+          </Key>
+          <Property Name="SubjectID" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="SubjectName" Type="varchar" MaxLength="250" />
+          <Property Name="EducationLevel" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'CommonData.dbo.Electorate' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Electorate">
           <Key>
@@ -151,6 +174,18 @@ warning 6002: The table/view 'CommonData.dbo.Establishment' does not have a prim
           <Property Name="LocationID" Type="char" MaxLength="3" Nullable="false" />
           <Property Name="LocationName" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="LocShortName" Type="char" MaxLength="10" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.EstablishmentNew' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="EstablishmentNew">
+          <Key>
+            <PropertyRef Name="LocationID" />
+            <PropertyRef Name="LocationName" />
+          </Key>
+          <Property Name="LocationID" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="LocationName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LocShortName" Type="char" MaxLength="10" />
+          <Property Name="HelpDeskStatus" Type="char" MaxLength="1" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'CommonData.dbo.GSDivision' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -184,6 +219,98 @@ warning 6002: The table/view 'CommonData.dbo.MedicalCategory' does not have a pr
           <Property Name="Category" Type="varchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6013: The table/view 'CommonData.dbo.Nationality' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Nationality">
+          <Property Name="CODE" Type="int" />
+          <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="255" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.NOKRelationship' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="NOKRelationship">
+          <Key>
+            <PropertyRef Name="RelationCode" />
+          </Key>
+          <Property Name="RelationCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOKRelationship" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.P2_AGADivision' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="P2_AGADivision">
+          <Key>
+            <PropertyRef Name="DistrictCode" />
+            <PropertyRef Name="AGADivCode" />
+          </Key>
+          <Property Name="DistrictCode" Type="int" Nullable="false" />
+          <Property Name="AGADivCode" Type="int" Nullable="false" />
+          <Property Name="AGADivName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.P2_District' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="P2_District">
+          <Key>
+            <PropertyRef Name="DIST_CODE" />
+          </Key>
+          <Property Name="DIST_CODE" Type="int" Nullable="false" />
+          <Property Name="PROV_CODE" Type="nchar" MaxLength="10" />
+          <Property Name="DESCRIPTION" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.P2_Electorate' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="P2_Electorate">
+          <Key>
+            <PropertyRef Name="ElectroCode" />
+          </Key>
+          <Property Name="ElectroCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ElectrorateName" Type="nvarchar" MaxLength="255" />
+          <Property Name="Distric" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.P2_GSDivision' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="P2_GSDivision">
+          <Key>
+            <PropertyRef Name="GSCode" />
+          </Key>
+          <Property Name="GSCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GSName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.P2_PoliceStation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="P2_PoliceStation">
+          <Key>
+            <PropertyRef Name="PoliceStationCode" />
+          </Key>
+          <Property Name="PoliceStationCode" Type="int" Nullable="false" />
+          <Property Name="PoliceStation" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.P2_PostCode' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="P2_PostCode">
+          <Key>
+            <PropertyRef Name="POST_CODE" />
+          </Key>
+          <Property Name="DIST_CODE" Type="int" />
+          <Property Name="POST_NAME" Type="varchar" MaxLength="50" />
+          <Property Name="CATG" Type="varchar" MaxLength="1" />
+          <Property Name="POST_CODE" Type="varchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'CommonData.dbo.P2_Province' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="P2_Province">
+          <Property Name="PROV_CODE" Type="nvarchar" MaxLength="255" />
+          <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="255" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.P2_Town' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="P2_Town">
+          <Key>
+            <PropertyRef Name="TownCOde" />
+            <PropertyRef Name="DIST_CODE" />
+          </Key>
+          <Property Name="TownCOde" Type="int" Nullable="false" />
+          <Property Name="DIST_CODE" Type="int" Nullable="false" />
+          <Property Name="Town" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'CommonData.dbo.PoliceStation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PoliceStation">
           <Key>
@@ -205,6 +332,21 @@ warning 6002: The table/view 'CommonData.dbo.PostOffice' does not have a primary
           <Property Name="PostOfficeName" Type="varchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6013: The table/view 'CommonData.dbo.Province' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Province">
+          <Property Name="PROV_CODE" Type="nvarchar" MaxLength="255" />
+          <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="255" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.ProvinceNew' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ProvinceNew">
+          <Key>
+            <PropertyRef Name="PROV_CODE" />
+          </Key>
+          <Property Name="PROV_CODE" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'CommonData.dbo.Rank' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Rank">
           <Key>
@@ -215,6 +357,21 @@ warning 6002: The table/view 'CommonData.dbo.Rank' does not have a primary key d
           <Property Name="RANK_TYPE" Type="int" />
           <Property Name="SHORT_NAME" Type="varchar" MaxLength="255" />
           <Property Name="LONG_NAME" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'CommonData.dbo.Religion' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Religion">
+          <Property Name="CODE" Type="int" />
+          <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="255" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.ReligionNew' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ReligionNew">
+          <Key>
+            <PropertyRef Name="CODE" />
+          </Key>
+          <Property Name="CODE" Type="int" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'CommonData.dbo.School' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -262,6 +419,17 @@ warning 6002: The table/view 'CommonData.dbo.ServiceType' does not have a primar
           <Property Name="IsOfficer" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'CommonData.dbo.Town' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Town">
+          <Key>
+            <PropertyRef Name="TownCOde" />
+            <PropertyRef Name="DIST_CODE" />
+          </Key>
+          <Property Name="TownCOde" Type="int" Nullable="false" />
+          <Property Name="DIST_CODE" Type="int" Nullable="false" />
+          <Property Name="Town" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'CommonData.dbo.Trade' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Trade">
           <Key>
@@ -292,6 +460,14 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
     [BloodGroup].[BloodGroupCode] AS [BloodGroupCode], 
     [BloodGroup].[BloodGroup] AS [BloodGroup]
     FROM [dbo].[BloodGroup] AS [BloodGroup]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Branch" EntityType="Self.Branch" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Branch].[BranchID] AS [BranchID], 
+    [Branch].[BranchName] AS [BranchName], 
+    [Branch].[Directorate] AS [Directorate], 
+    [Branch].[BranchShortName] AS [BranchShortName]
+    FROM [dbo].[Branch] AS [Branch]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="Country" EntityType="Self.Country" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -327,6 +503,13 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
     [Division].[CreatedUser] AS [CreatedUser]
     FROM [dbo].[Division] AS [Division]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="EducationSubject" EntityType="Self.EducationSubject" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [EducationSubject].[SubjectID] AS [SubjectID], 
+    [EducationSubject].[SubjectName] AS [SubjectName], 
+    [EducationSubject].[EducationLevel] AS [EducationLevel]
+    FROM [dbo].[EducationSubject] AS [EducationSubject]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="Electorate" EntityType="Self.Electorate" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Electorate].[ElectroCode] AS [ElectroCode], 
@@ -340,6 +523,14 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
     [Establishment].[LocationName] AS [LocationName], 
     [Establishment].[LocShortName] AS [LocShortName]
     FROM [dbo].[Establishment] AS [Establishment]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="EstablishmentNew" EntityType="Self.EstablishmentNew" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [EstablishmentNew].[LocationID] AS [LocationID], 
+    [EstablishmentNew].[LocationName] AS [LocationName], 
+    [EstablishmentNew].[LocShortName] AS [LocShortName], 
+    [EstablishmentNew].[HelpDeskStatus] AS [HelpDeskStatus]
+    FROM [dbo].[EstablishmentNew] AS [EstablishmentNew]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="GSDivision" EntityType="Self.GSDivision" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -360,6 +551,60 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
     [MedicalCategory].[Category] AS [Category]
     FROM [dbo].[MedicalCategory] AS [MedicalCategory]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="NOKRelationship" EntityType="Self.NOKRelationship" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [NOKRelationship].[RelationCode] AS [RelationCode], 
+    [NOKRelationship].[NOKRelationship] AS [NOKRelationship]
+    FROM [dbo].[NOKRelationship] AS [NOKRelationship]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="P2_AGADivision" EntityType="Self.P2_AGADivision" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [P2_AGADivision].[DistrictCode] AS [DistrictCode], 
+    [P2_AGADivision].[AGADivCode] AS [AGADivCode], 
+    [P2_AGADivision].[AGADivName] AS [AGADivName]
+    FROM [dbo].[P2_AGADivision] AS [P2_AGADivision]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="P2_District" EntityType="Self.P2_District" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [P2_District].[DIST_CODE] AS [DIST_CODE], 
+    [P2_District].[PROV_CODE] AS [PROV_CODE], 
+    [P2_District].[DESCRIPTION] AS [DESCRIPTION]
+    FROM [dbo].[P2_District] AS [P2_District]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="P2_Electorate" EntityType="Self.P2_Electorate" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [P2_Electorate].[ElectroCode] AS [ElectroCode], 
+    [P2_Electorate].[ElectrorateName] AS [ElectrorateName], 
+    [P2_Electorate].[Distric] AS [Distric]
+    FROM [dbo].[P2_Electorate] AS [P2_Electorate]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="P2_GSDivision" EntityType="Self.P2_GSDivision" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [P2_GSDivision].[GSCode] AS [GSCode], 
+    [P2_GSDivision].[GSName] AS [GSName]
+    FROM [dbo].[P2_GSDivision] AS [P2_GSDivision]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="P2_PoliceStation" EntityType="Self.P2_PoliceStation" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [P2_PoliceStation].[PoliceStationCode] AS [PoliceStationCode], 
+    [P2_PoliceStation].[PoliceStation] AS [PoliceStation]
+    FROM [dbo].[P2_PoliceStation] AS [P2_PoliceStation]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="P2_PostCode" EntityType="Self.P2_PostCode" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [P2_PostCode].[DIST_CODE] AS [DIST_CODE], 
+    [P2_PostCode].[POST_NAME] AS [POST_NAME], 
+    [P2_PostCode].[CATG] AS [CATG], 
+    [P2_PostCode].[POST_CODE] AS [POST_CODE]
+    FROM [dbo].[P2_PostCode] AS [P2_PostCode]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="P2_Town" EntityType="Self.P2_Town" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [P2_Town].[TownCOde] AS [TownCOde], 
+    [P2_Town].[DIST_CODE] AS [DIST_CODE], 
+    [P2_Town].[Town] AS [Town]
+    FROM [dbo].[P2_Town] AS [P2_Town]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="PoliceStation" EntityType="Self.PoliceStation" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [PoliceStation].[District] AS [District], 
@@ -374,6 +619,12 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
     [PostOffice].[PostOfficeName] AS [PostOfficeName]
     FROM [dbo].[PostOffice] AS [PostOffice]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="ProvinceNew" EntityType="Self.ProvinceNew" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ProvinceNew].[PROV_CODE] AS [PROV_CODE], 
+    [ProvinceNew].[DESCRIPTION] AS [DESCRIPTION]
+    FROM [dbo].[ProvinceNew] AS [ProvinceNew]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="Rank" EntityType="Self.Rank" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Rank].[RANK] AS [RANK], 
@@ -382,6 +633,12 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
     [Rank].[SHORT_NAME] AS [SHORT_NAME], 
     [Rank].[LONG_NAME] AS [LONG_NAME]
     FROM [dbo].[Rank] AS [Rank]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ReligionNew" EntityType="Self.ReligionNew" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ReligionNew].[CODE] AS [CODE], 
+    [ReligionNew].[DESCRIPTION] AS [DESCRIPTION]
+    FROM [dbo].[ReligionNew] AS [ReligionNew]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="School" EntityType="Self.School" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -411,6 +668,13 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
     [ServiceType].[IsOfficer] AS [IsOfficer]
     FROM [dbo].[ServiceType] AS [ServiceType]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="Town" EntityType="Self.Town" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Town].[TownCOde] AS [TownCOde], 
+    [Town].[DIST_CODE] AS [DIST_CODE], 
+    [Town].[Town] AS [Town]
+    FROM [dbo].[Town] AS [Town]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="Trade" EntityType="Self.Trade" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Trade].[TRADE] AS [TRADE], 
@@ -426,16 +690,89 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
     FROM [dbo].[Vw_EpasDivision] AS [Vw_EpasDivision]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CommonDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Division">
+          <Key>
+            <PropertyRef Name="LocationID" />
+            <PropertyRef Name="DivisionName" />
+          </Key>
+          <Property Name="LocationID" Type="String" MaxLength="6" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DivisionID" Type="String" MaxLength="5" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DivisionType" Type="String" MaxLength="4" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DivisionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OfficeCommand" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="NoOfPersonnel" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IDSeriesStart" Type="Int32" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+          <Property Name="Rank" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Appointment" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NoPrefix" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sno" Type="Int32" />
+          <Property Name="SLAFStationID" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="AppName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUser" Type="Int32" />
+          <Property Name="HostID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AgendaOrder" Type="Int32" />
+          <Property Name="WsEnable" Type="Int32" />
+          <Property Name="LetterHeadingName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DivisionshortName" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="SerNo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="KitPrefix" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Maindiv" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="EpasLocation">
+          <Key>
+            <PropertyRef Name="LocationID" />
+            <PropertyRef Name="DBName" />
+          </Key>
+          <Property Name="LocationID" Type="String" MaxLength="6" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LocationName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NoOfDivisions" Type="Int32" />
+          <Property Name="NoOfPersonnel" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DBName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="SystemURL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="OCLIDSeriesStart" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUser" Type="Int32" />
+          <Property Name="HostID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LocAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TelephoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FaxNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NameOfCO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RankofCO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Appointment" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NameOfOCL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RankofOCL" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="BloodGroup">
           <Key>
             <PropertyRef Name="BloodGroupCode" />
           </Key>
           <Property Name="BloodGroupCode" Type="Int32" Nullable="false" />
           <Property Name="BloodGroup1" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Branch">
+          <Key>
+            <PropertyRef Name="BranchID" />
+            <PropertyRef Name="BranchName" />
+          </Key>
+          <Property Name="BranchID" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BranchName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Directorate" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="BranchShortName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -462,7 +799,7 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
           <Property Name="PROV_CODE" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="DESCRIPTION" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="Division">
+        <EntityType Name="Division1">
           <Key>
             <PropertyRef Name="LocationID" />
             <PropertyRef Name="DivisionID" />
@@ -484,6 +821,15 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedUser" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="EducationSubject">
+          <Key>
+            <PropertyRef Name="SubjectID" />
+            <PropertyRef Name="EducationLevel" />
+          </Key>
+          <Property Name="SubjectID" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SubjectName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="EducationLevel" Type="Int32" Nullable="false" />
+        </EntityType>
         <EntityType Name="Electorate">
           <Key>
             <PropertyRef Name="ElectroCode" />
@@ -500,6 +846,16 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
           <Property Name="LocationID" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="LocationName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="LocShortName" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="EstablishmentNew">
+          <Key>
+            <PropertyRef Name="LocationID" />
+            <PropertyRef Name="LocationName" />
+          </Key>
+          <Property Name="LocationID" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="LocationName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LocShortName" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="HelpDeskStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
         </EntityType>
         <EntityType Name="GSDivision">
           <Key>
@@ -526,6 +882,70 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
           <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="NOKRelationship">
+          <Key>
+            <PropertyRef Name="RelationCode" />
+          </Key>
+          <Property Name="RelationCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOKRelationship1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="P2_AGADivision">
+          <Key>
+            <PropertyRef Name="DistrictCode" />
+            <PropertyRef Name="AGADivCode" />
+          </Key>
+          <Property Name="DistrictCode" Type="Int32" Nullable="false" />
+          <Property Name="AGADivCode" Type="Int32" Nullable="false" />
+          <Property Name="AGADivName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="P2_District">
+          <Key>
+            <PropertyRef Name="DIST_CODE" />
+          </Key>
+          <Property Name="DIST_CODE" Type="Int32" Nullable="false" />
+          <Property Name="PROV_CODE" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="P2_Electorate">
+          <Key>
+            <PropertyRef Name="ElectroCode" />
+          </Key>
+          <Property Name="ElectroCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ElectrorateName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Distric" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="P2_GSDivision">
+          <Key>
+            <PropertyRef Name="GSCode" />
+          </Key>
+          <Property Name="GSCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GSName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="P2_PoliceStation">
+          <Key>
+            <PropertyRef Name="PoliceStationCode" />
+          </Key>
+          <Property Name="PoliceStationCode" Type="Int32" Nullable="false" />
+          <Property Name="PoliceStation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="P2_PostCode">
+          <Key>
+            <PropertyRef Name="POST_CODE" />
+          </Key>
+          <Property Name="DIST_CODE" Type="Int32" />
+          <Property Name="POST_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CATG" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="POST_CODE" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="P2_Town">
+          <Key>
+            <PropertyRef Name="TownCOde" />
+            <PropertyRef Name="DIST_CODE" />
+          </Key>
+          <Property Name="TownCOde" Type="Int32" Nullable="false" />
+          <Property Name="DIST_CODE" Type="Int32" Nullable="false" />
+          <Property Name="Town" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="PoliceStation">
           <Key>
             <PropertyRef Name="PoliceStationCode" />
@@ -543,6 +963,13 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
           <Property Name="District" Type="Int32" Nullable="false" />
           <Property Name="PostOfficeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="ProvinceNew">
+          <Key>
+            <PropertyRef Name="PROV_CODE" />
+          </Key>
+          <Property Name="PROV_CODE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="Rank">
           <Key>
             <PropertyRef Name="RANK1" />
@@ -552,6 +979,13 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
           <Property Name="RANK_TYPE" Type="Int32" />
           <Property Name="SHORT_NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="LONG_NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ReligionNew">
+          <Key>
+            <PropertyRef Name="CODE" />
+          </Key>
+          <Property Name="CODE" Type="Int32" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="School">
           <Key>
@@ -590,6 +1024,15 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
           <Property Name="Service_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IsOfficer" Type="Int32" />
         </EntityType>
+        <EntityType Name="Town">
+          <Key>
+            <PropertyRef Name="TownCOde" />
+            <PropertyRef Name="DIST_CODE" />
+          </Key>
+          <Property Name="TownCOde" Type="Int32" Nullable="false" />
+          <Property Name="DIST_CODE" Type="Int32" Nullable="false" />
+          <Property Name="Town1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="Trade">
           <Key>
             <PropertyRef Name="TRADE1" />
@@ -599,112 +1042,136 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
           <Property Name="TRD_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DIRECTOR" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityContainer Name="dbContextCommonData" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="BloodGroups" EntityType="Self.BloodGroup" />
-          <EntitySet Name="Countries" EntityType="Self.Country" />
-          <EntitySet Name="Directorates" EntityType="Self.Directorate" />
-          <EntitySet Name="Districts" EntityType="Self.District" />
-          <EntitySet Name="Divisions" EntityType="Self.Division" />
-          <EntitySet Name="Electorates" EntityType="Self.Electorate" />
-          <EntitySet Name="Establishments" EntityType="Self.Establishment" />
-          <EntitySet Name="GSDivisions" EntityType="Self.GSDivision" />
-          <EntitySet Name="MaritalStatus" EntityType="Self.MaritalStatu" />
-          <EntitySet Name="MedicalCategories" EntityType="Self.MedicalCategory" />
-          <EntitySet Name="PoliceStations" EntityType="Self.PoliceStation" />
-          <EntitySet Name="PostOffices" EntityType="Self.PostOffice" />
-          <EntitySet Name="Ranks" EntityType="Self.Rank" />
-          <EntitySet Name="Schools" EntityType="Self.School" />
-          <EntitySet Name="Sections" EntityType="Self.Section" />
-          <EntitySet Name="ServiceStatus" EntityType="Self.ServiceStatu" />
-          <EntitySet Name="ServiceTypes" EntityType="Self.ServiceType" />
-          <EntitySet Name="Trades" EntityType="Self.Trade" />
-          <EntitySet Name="Division1" EntityType="CommonDataModel.Division1" />
-          <EntitySet Name="Vw_EpasDivision" EntityType="CommonDataModel.Vw_EpasDivision" />
-          <EntitySet Name="EpasLocations" EntityType="CommonDataModel.EpasLocation" />
-        </EntityContainer>
-        <EntityType Name="Division1">
-          <Key>
-            <PropertyRef Name="LocationID" />
-            <PropertyRef Name="DivisionName" />
-          </Key>
-          <Property Name="LocationID" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="true" />
-          <Property Name="DivisionID" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
-          <Property Name="DivisionType" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
-          <Property Name="DivisionName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="OfficeCommand" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
-          <Property Name="NoOfPersonnel" Type="Int32" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="IDSeriesStart" Type="Int32" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedUser" Type="Int32" Nullable="false" />
-          <Property Name="Rank" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Appointment" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="NoPrefix" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Sno" Type="Int32" />
-          <Property Name="SLAFStationID" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="AppName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedUser" Type="Int32" />
-          <Property Name="HostID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="AgendaOrder" Type="Int32" />
-          <Property Name="WsEnable" Type="Int32" />
-          <Property Name="LetterHeadingName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="DivisionshortName" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="SerNo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="KitPrefix" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Maindiv" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="Vw_EpasDivision">
           <Key>
             <PropertyRef Name="LocationID" />
             <PropertyRef Name="DivisionID" />
             <PropertyRef Name="DivisionName" />
           </Key>
-          <Property Name="LocationID" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="true" />
-          <Property Name="DivisionID" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
-          <Property Name="DivisionName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LocationID" Type="String" MaxLength="6" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DivisionID" Type="String" MaxLength="5" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DivisionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
-        <EntityType Name="EpasLocation">
-          <Key>
-            <PropertyRef Name="LocationID" />
-            <PropertyRef Name="DBName" />
-          </Key>
-          <Property Name="LocationID" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="true" />
-          <Property Name="LocationName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="NoOfDivisions" Type="Int32" />
-          <Property Name="NoOfPersonnel" Type="Int32" />
-          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DBName" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="SystemURL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="OCLIDSeriesStart" Type="Int32" />
-          <Property Name="Status" Type="Int32" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedUser" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedUser" Type="Int32" />
-          <Property Name="HostID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LocAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="TelephoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FaxNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="NameOfCO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="RankofCO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Appointment" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="NameOfOCL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="RankofOCL" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
+        <EntityContainer Name="dbContextCommonData" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Divisions" EntityType="Self.Division" />
+          <EntitySet Name="EpasLocations" EntityType="Self.EpasLocation" />
+          <EntitySet Name="BloodGroups" EntityType="Self.BloodGroup" />
+          <EntitySet Name="Branches" EntityType="Self.Branch" />
+          <EntitySet Name="Countries" EntityType="Self.Country" />
+          <EntitySet Name="Directorates" EntityType="Self.Directorate" />
+          <EntitySet Name="Districts" EntityType="Self.District" />
+          <EntitySet Name="Divisions1" EntityType="Self.Division1" />
+          <EntitySet Name="EducationSubjects" EntityType="Self.EducationSubject" />
+          <EntitySet Name="Electorates" EntityType="Self.Electorate" />
+          <EntitySet Name="Establishments" EntityType="Self.Establishment" />
+          <EntitySet Name="EstablishmentNews" EntityType="Self.EstablishmentNew" />
+          <EntitySet Name="GSDivisions" EntityType="Self.GSDivision" />
+          <EntitySet Name="MaritalStatus" EntityType="Self.MaritalStatu" />
+          <EntitySet Name="MedicalCategories" EntityType="Self.MedicalCategory" />
+          <EntitySet Name="NOKRelationships" EntityType="Self.NOKRelationship" />
+          <EntitySet Name="P2_AGADivision" EntityType="Self.P2_AGADivision" />
+          <EntitySet Name="P2_District" EntityType="Self.P2_District" />
+          <EntitySet Name="P2_Electorate" EntityType="Self.P2_Electorate" />
+          <EntitySet Name="P2_GSDivision" EntityType="Self.P2_GSDivision" />
+          <EntitySet Name="P2_PoliceStation" EntityType="Self.P2_PoliceStation" />
+          <EntitySet Name="P2_PostCode" EntityType="Self.P2_PostCode" />
+          <EntitySet Name="P2_Town" EntityType="Self.P2_Town" />
+          <EntitySet Name="PoliceStations" EntityType="Self.PoliceStation" />
+          <EntitySet Name="PostOffices" EntityType="Self.PostOffice" />
+          <EntitySet Name="ProvinceNews" EntityType="Self.ProvinceNew" />
+          <EntitySet Name="Ranks" EntityType="Self.Rank" />
+          <EntitySet Name="ReligionNews" EntityType="Self.ReligionNew" />
+          <EntitySet Name="Schools" EntityType="Self.School" />
+          <EntitySet Name="Sections" EntityType="Self.Section" />
+          <EntitySet Name="ServiceStatus" EntityType="Self.ServiceStatu" />
+          <EntitySet Name="ServiceTypes" EntityType="Self.ServiceType" />
+          <EntitySet Name="Towns" EntityType="Self.Town" />
+          <EntitySet Name="Trades" EntityType="Self.Trade" />
+          <EntitySet Name="Vw_EpasDivision" EntityType="Self.Vw_EpasDivision" />
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="CommonDataModelStoreContainer" CdmEntityContainer="dbContextCommonData">
+          <EntitySetMapping Name="Divisions">
+            <EntityTypeMapping TypeName="CommonDataModel.Division">
+              <MappingFragment StoreEntitySet="Divisions">
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="DivisionID" ColumnName="DivisionID" />
+                <ScalarProperty Name="DivisionType" ColumnName="DivisionType" />
+                <ScalarProperty Name="DivisionName" ColumnName="DivisionName" />
+                <ScalarProperty Name="OfficeCommand" ColumnName="OfficeCommand" />
+                <ScalarProperty Name="NoOfPersonnel" ColumnName="NoOfPersonnel" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IDSeriesStart" ColumnName="IDSeriesStart" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+                <ScalarProperty Name="Rank" ColumnName="Rank" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Appointment" ColumnName="Appointment" />
+                <ScalarProperty Name="NoPrefix" ColumnName="NoPrefix" />
+                <ScalarProperty Name="Sno" ColumnName="Sno" />
+                <ScalarProperty Name="SLAFStationID" ColumnName="SLAFStationID" />
+                <ScalarProperty Name="AppName" ColumnName="AppName" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedUser" ColumnName="ModifiedUser" />
+                <ScalarProperty Name="HostID" ColumnName="HostID" />
+                <ScalarProperty Name="AgendaOrder" ColumnName="AgendaOrder" />
+                <ScalarProperty Name="WsEnable" ColumnName="WsEnable" />
+                <ScalarProperty Name="LetterHeadingName" ColumnName="LetterHeadingName" />
+                <ScalarProperty Name="DivisionshortName" ColumnName="DivisionshortName" />
+                <ScalarProperty Name="SerNo" ColumnName="SerNo" />
+                <ScalarProperty Name="KitPrefix" ColumnName="KitPrefix" />
+                <ScalarProperty Name="Maindiv" ColumnName="Maindiv" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EpasLocations">
+            <EntityTypeMapping TypeName="CommonDataModel.EpasLocation">
+              <MappingFragment StoreEntitySet="EpasLocations">
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="NoOfDivisions" ColumnName="NoOfDivisions" />
+                <ScalarProperty Name="NoOfPersonnel" ColumnName="NoOfPersonnel" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DBName" ColumnName="DBName" />
+                <ScalarProperty Name="SystemURL" ColumnName="SystemURL" />
+                <ScalarProperty Name="OCLIDSeriesStart" ColumnName="OCLIDSeriesStart" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedUser" ColumnName="ModifiedUser" />
+                <ScalarProperty Name="HostID" ColumnName="HostID" />
+                <ScalarProperty Name="LocAddress" ColumnName="LocAddress" />
+                <ScalarProperty Name="TelephoneNo" ColumnName="TelephoneNo" />
+                <ScalarProperty Name="FaxNo" ColumnName="FaxNo" />
+                <ScalarProperty Name="NameOfCO" ColumnName="NameOfCO" />
+                <ScalarProperty Name="RankofCO" ColumnName="RankofCO" />
+                <ScalarProperty Name="Appointment" ColumnName="Appointment" />
+                <ScalarProperty Name="NameOfOCL" ColumnName="NameOfOCL" />
+                <ScalarProperty Name="RankofOCL" ColumnName="RankofOCL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="BloodGroups">
             <EntityTypeMapping TypeName="CommonDataModel.BloodGroup">
               <MappingFragment StoreEntitySet="BloodGroup">
                 <ScalarProperty Name="BloodGroupCode" ColumnName="BloodGroupCode" />
                 <ScalarProperty Name="BloodGroup1" ColumnName="BloodGroup" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Branches">
+            <EntityTypeMapping TypeName="CommonDataModel.Branch">
+              <MappingFragment StoreEntitySet="Branch">
+                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="Directorate" ColumnName="Directorate" />
+                <ScalarProperty Name="BranchShortName" ColumnName="BranchShortName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -734,8 +1201,8 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Divisions">
-            <EntityTypeMapping TypeName="CommonDataModel.Division">
+          <EntitySetMapping Name="Divisions1">
+            <EntityTypeMapping TypeName="CommonDataModel.Division1">
               <MappingFragment StoreEntitySet="Division">
                 <ScalarProperty Name="LocationID" ColumnName="LocationID" />
                 <ScalarProperty Name="DivisionID" ColumnName="DivisionID" />
@@ -747,6 +1214,15 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EducationSubjects">
+            <EntityTypeMapping TypeName="CommonDataModel.EducationSubject">
+              <MappingFragment StoreEntitySet="EducationSubject">
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+                <ScalarProperty Name="EducationLevel" ColumnName="EducationLevel" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -765,6 +1241,16 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
                 <ScalarProperty Name="LocationID" ColumnName="LocationID" />
                 <ScalarProperty Name="LocationName" ColumnName="LocationName" />
                 <ScalarProperty Name="LocShortName" ColumnName="LocShortName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstablishmentNews">
+            <EntityTypeMapping TypeName="CommonDataModel.EstablishmentNew">
+              <MappingFragment StoreEntitySet="EstablishmentNew">
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="LocShortName" ColumnName="LocShortName" />
+                <ScalarProperty Name="HelpDeskStatus" ColumnName="HelpDeskStatus" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -793,6 +1279,76 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="NOKRelationships">
+            <EntityTypeMapping TypeName="CommonDataModel.NOKRelationship">
+              <MappingFragment StoreEntitySet="NOKRelationship">
+                <ScalarProperty Name="RelationCode" ColumnName="RelationCode" />
+                <ScalarProperty Name="NOKRelationship1" ColumnName="NOKRelationship" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="P2_AGADivision">
+            <EntityTypeMapping TypeName="CommonDataModel.P2_AGADivision">
+              <MappingFragment StoreEntitySet="P2_AGADivision">
+                <ScalarProperty Name="DistrictCode" ColumnName="DistrictCode" />
+                <ScalarProperty Name="AGADivCode" ColumnName="AGADivCode" />
+                <ScalarProperty Name="AGADivName" ColumnName="AGADivName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="P2_District">
+            <EntityTypeMapping TypeName="CommonDataModel.P2_District">
+              <MappingFragment StoreEntitySet="P2_District">
+                <ScalarProperty Name="DIST_CODE" ColumnName="DIST_CODE" />
+                <ScalarProperty Name="PROV_CODE" ColumnName="PROV_CODE" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="P2_Electorate">
+            <EntityTypeMapping TypeName="CommonDataModel.P2_Electorate">
+              <MappingFragment StoreEntitySet="P2_Electorate">
+                <ScalarProperty Name="ElectroCode" ColumnName="ElectroCode" />
+                <ScalarProperty Name="ElectrorateName" ColumnName="ElectrorateName" />
+                <ScalarProperty Name="Distric" ColumnName="Distric" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="P2_GSDivision">
+            <EntityTypeMapping TypeName="CommonDataModel.P2_GSDivision">
+              <MappingFragment StoreEntitySet="P2_GSDivision">
+                <ScalarProperty Name="GSCode" ColumnName="GSCode" />
+                <ScalarProperty Name="GSName" ColumnName="GSName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="P2_PoliceStation">
+            <EntityTypeMapping TypeName="CommonDataModel.P2_PoliceStation">
+              <MappingFragment StoreEntitySet="P2_PoliceStation">
+                <ScalarProperty Name="PoliceStationCode" ColumnName="PoliceStationCode" />
+                <ScalarProperty Name="PoliceStation" ColumnName="PoliceStation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="P2_PostCode">
+            <EntityTypeMapping TypeName="CommonDataModel.P2_PostCode">
+              <MappingFragment StoreEntitySet="P2_PostCode">
+                <ScalarProperty Name="DIST_CODE" ColumnName="DIST_CODE" />
+                <ScalarProperty Name="POST_NAME" ColumnName="POST_NAME" />
+                <ScalarProperty Name="CATG" ColumnName="CATG" />
+                <ScalarProperty Name="POST_CODE" ColumnName="POST_CODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="P2_Town">
+            <EntityTypeMapping TypeName="CommonDataModel.P2_Town">
+              <MappingFragment StoreEntitySet="P2_Town">
+                <ScalarProperty Name="TownCOde" ColumnName="TownCOde" />
+                <ScalarProperty Name="DIST_CODE" ColumnName="DIST_CODE" />
+                <ScalarProperty Name="Town" ColumnName="Town" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="PoliceStations">
             <EntityTypeMapping TypeName="CommonDataModel.PoliceStation">
               <MappingFragment StoreEntitySet="PoliceStation">
@@ -811,6 +1367,14 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ProvinceNews">
+            <EntityTypeMapping TypeName="CommonDataModel.ProvinceNew">
+              <MappingFragment StoreEntitySet="ProvinceNew">
+                <ScalarProperty Name="PROV_CODE" ColumnName="PROV_CODE" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Ranks">
             <EntityTypeMapping TypeName="CommonDataModel.Rank">
               <MappingFragment StoreEntitySet="Rank">
@@ -819,6 +1383,14 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
                 <ScalarProperty Name="RANK_TYPE" ColumnName="RANK_TYPE" />
                 <ScalarProperty Name="SHORT_NAME" ColumnName="SHORT_NAME" />
                 <ScalarProperty Name="LONG_NAME" ColumnName="LONG_NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReligionNews">
+            <EntityTypeMapping TypeName="CommonDataModel.ReligionNew">
+              <MappingFragment StoreEntitySet="ReligionNew">
+                <ScalarProperty Name="CODE" ColumnName="CODE" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -858,6 +1430,15 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Towns">
+            <EntityTypeMapping TypeName="CommonDataModel.Town">
+              <MappingFragment StoreEntitySet="Town">
+                <ScalarProperty Name="TownCOde" ColumnName="TownCOde" />
+                <ScalarProperty Name="DIST_CODE" ColumnName="DIST_CODE" />
+                <ScalarProperty Name="Town1" ColumnName="Town" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Trades">
             <EntityTypeMapping TypeName="CommonDataModel.Trade">
               <MappingFragment StoreEntitySet="Trade">
@@ -867,74 +1448,12 @@ warning 6002: The table/view 'CommonData.dbo.Vw_EpasDivision' does not have a pr
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Division1">
-            <EntityTypeMapping TypeName="CommonDataModel.Division1">
-              <MappingFragment StoreEntitySet="Divisions">
-                <ScalarProperty Name="Maindiv" ColumnName="Maindiv" />
-                <ScalarProperty Name="KitPrefix" ColumnName="KitPrefix" />
-                <ScalarProperty Name="SerNo" ColumnName="SerNo" />
-                <ScalarProperty Name="DivisionshortName" ColumnName="DivisionshortName" />
-                <ScalarProperty Name="LetterHeadingName" ColumnName="LetterHeadingName" />
-                <ScalarProperty Name="WsEnable" ColumnName="WsEnable" />
-                <ScalarProperty Name="AgendaOrder" ColumnName="AgendaOrder" />
-                <ScalarProperty Name="HostID" ColumnName="HostID" />
-                <ScalarProperty Name="ModifiedUser" ColumnName="ModifiedUser" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="AppName" ColumnName="AppName" />
-                <ScalarProperty Name="SLAFStationID" ColumnName="SLAFStationID" />
-                <ScalarProperty Name="Sno" ColumnName="Sno" />
-                <ScalarProperty Name="NoPrefix" ColumnName="NoPrefix" />
-                <ScalarProperty Name="Appointment" ColumnName="Appointment" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Rank" ColumnName="Rank" />
-                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="IDSeriesStart" ColumnName="IDSeriesStart" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="NoOfPersonnel" ColumnName="NoOfPersonnel" />
-                <ScalarProperty Name="OfficeCommand" ColumnName="OfficeCommand" />
-                <ScalarProperty Name="DivisionName" ColumnName="DivisionName" />
-                <ScalarProperty Name="DivisionType" ColumnName="DivisionType" />
-                <ScalarProperty Name="DivisionID" ColumnName="DivisionID" />
-                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Vw_EpasDivision">
             <EntityTypeMapping TypeName="CommonDataModel.Vw_EpasDivision">
               <MappingFragment StoreEntitySet="Vw_EpasDivision">
-                <ScalarProperty Name="DivisionName" ColumnName="DivisionName" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
                 <ScalarProperty Name="DivisionID" ColumnName="DivisionID" />
-                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EpasLocations">
-            <EntityTypeMapping TypeName="CommonDataModel.EpasLocation">
-              <MappingFragment StoreEntitySet="EpasLocations">
-                <ScalarProperty Name="RankofOCL" ColumnName="RankofOCL" />
-                <ScalarProperty Name="NameOfOCL" ColumnName="NameOfOCL" />
-                <ScalarProperty Name="Appointment" ColumnName="Appointment" />
-                <ScalarProperty Name="RankofCO" ColumnName="RankofCO" />
-                <ScalarProperty Name="NameOfCO" ColumnName="NameOfCO" />
-                <ScalarProperty Name="FaxNo" ColumnName="FaxNo" />
-                <ScalarProperty Name="TelephoneNo" ColumnName="TelephoneNo" />
-                <ScalarProperty Name="LocAddress" ColumnName="LocAddress" />
-                <ScalarProperty Name="HostID" ColumnName="HostID" />
-                <ScalarProperty Name="ModifiedUser" ColumnName="ModifiedUser" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="OCLIDSeriesStart" ColumnName="OCLIDSeriesStart" />
-                <ScalarProperty Name="SystemURL" ColumnName="SystemURL" />
-                <ScalarProperty Name="DBName" ColumnName="DBName" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="NoOfPersonnel" ColumnName="NoOfPersonnel" />
-                <ScalarProperty Name="NoOfDivisions" ColumnName="NoOfDivisions" />
-                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
-                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="DivisionName" ColumnName="DivisionName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

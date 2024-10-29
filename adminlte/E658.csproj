@@ -193,6 +193,9 @@
     <Compile Include="Models\BloodGroup.cs">
       <DependentUpon>CommonData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Branch.cs">
+      <DependentUpon>CommonData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Cls_ItemList.cs" />
     <Compile Include="Models\CommonData.Context.cs">
       <AutoGen>True</AutoGen>
@@ -258,6 +261,9 @@
     <Compile Include="Models\E658WayPoints.cs">
       <DependentUpon>GERMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EducationSubject.cs">
+      <DependentUpon>CommonData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Electorate.cs">
       <DependentUpon>CommonData.tt</DependentUpon>
     </Compile>
@@ -283,6 +289,9 @@
       <DependentUpon>Epass.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Establishment.cs">
+      <DependentUpon>CommonData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EstablishmentNew.cs">
       <DependentUpon>CommonData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\F658RegistryHeader.cs">
@@ -315,13 +324,43 @@
     <Compile Include="Models\MedicalCategory.cs">
       <DependentUpon>CommonData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\NOKRelationship.cs">
+      <DependentUpon>CommonData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\P2_AGADivision.cs">
+      <DependentUpon>CommonData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\P2_District.cs">
+      <DependentUpon>CommonData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\P2_Electorate.cs">
+      <DependentUpon>CommonData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\P2_GSDivision.cs">
+      <DependentUpon>CommonData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\P2_PoliceStation.cs">
+      <DependentUpon>CommonData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\P2_PostCode.cs">
+      <DependentUpon>CommonData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\P2_Town.cs">
+      <DependentUpon>CommonData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PoliceStation.cs">
       <DependentUpon>CommonData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PostOffice.cs">
       <DependentUpon>CommonData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProvinceNew.cs">
+      <DependentUpon>CommonData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Rank.cs">
+      <DependentUpon>CommonData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReligionNew.cs">
       <DependentUpon>CommonData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\School.cs">
@@ -334,6 +373,12 @@
       <DependentUpon>CommonData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ServiceType.cs">
+      <DependentUpon>CommonData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Town.cs">
+      <DependentUpon>CommonData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Trade.cs">
       <DependentUpon>CommonData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VehicleDetail.cs">
@@ -349,9 +394,6 @@
     </Compile>
     <Compile Include="Models\_UserManagementE658.cs" />
     <Compile Include="Models\_VwPersonalProfile.cs" />
-    <Compile Include="Models\Trade.cs">
-      <DependentUpon>CommonData.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\_UserLogin.cs" />
     <Compile Include="Models\_UserManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -4362,26 +4404,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
-    <EntityDeploy Include="Models\CommonData.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>CommonData.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\CommonData.edmx.diagram">
-      <DependentUpon>CommonData.edmx</DependentUpon>
-    </Content>
     <Content Include="Content\NewBcss\bootstrap-grid.css.map" />
     <Content Include="Content\NewBcss\bootstrap-grid.min.css.map" />
     <Content Include="Content\NewBcss\bootstrap-reboot.css.map" />
     <Content Include="Content\NewBcss\bootstrap-reboot.min.css.map" />
     <Content Include="Content\NewBcss\bootstrap.css.map" />
     <Content Include="Content\NewBcss\bootstrap.min.css.map" />
-    <EntityDeploy Include="Models\GERMS.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>GERMS.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\GERMS.edmx.diagram">
-      <DependentUpon>GERMS.edmx</DependentUpon>
-    </Content>
     <Content Include="fonts\ionicons.ttf" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
@@ -4392,6 +4420,20 @@
     </EntityDeploy>
     <Content Include="Models\Epass.edmx.diagram">
       <DependentUpon>Epass.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\CommonData.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CommonData.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\CommonData.edmx.diagram">
+      <DependentUpon>CommonData.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\GERMS.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GERMS.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\GERMS.edmx.diagram">
+      <DependentUpon>GERMS.edmx</DependentUpon>
     </Content>
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\adminlte\components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css.map" />

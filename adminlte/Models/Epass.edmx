@@ -18,7 +18,6 @@ warning 6002: The table/view 'HRMS.dbo.EpasUsers' does not have a primary key de
           <Property Name="password" Type="varbinary(max)" />
           <Property Name="KitIssParentUnit" Type="varchar" MaxLength="20" />
           <Property Name="DivisionName" Type="nvarchar" MaxLength="50" />
-          <Property Name="DivisionID" Type="char" MaxLength="5" />
         </EntityType>
         <EntityContainer Name="HRMSModelStoreContainer">
           <EntitySet Name="EpasUsers" EntityType="Self.EpasUsers" store:Type="Views" store:Schema="dbo">
@@ -29,8 +28,7 @@ warning 6002: The table/view 'HRMS.dbo.EpasUsers' does not have a primary key de
     [EpasUsers].[name] AS [name], 
     [EpasUsers].[password] AS [password], 
     [EpasUsers].[KitIssParentUnit] AS [KitIssParentUnit], 
-    [EpasUsers].[DivisionName] AS [DivisionName], 
-    [EpasUsers].[DivisionID] AS [DivisionID]
+    [EpasUsers].[DivisionName] AS [DivisionName]
     FROM [dbo].[EpasUsers] AS [EpasUsers]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
@@ -50,7 +48,6 @@ warning 6002: The table/view 'HRMS.dbo.EpasUsers' does not have a primary key de
           <Property Name="password" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="KitIssParentUnit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="DivisionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DivisionID" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
         </EntityType>
         <EntityContainer Name="db_ContextEpass" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="EpasUsers" EntityType="Self.EpasUser" />
@@ -71,7 +68,6 @@ warning 6002: The table/view 'HRMS.dbo.EpasUsers' does not have a primary key de
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="KitIssParentUnit" ColumnName="KitIssParentUnit" />
                 <ScalarProperty Name="DivisionName" ColumnName="DivisionName" />
-                <ScalarProperty Name="DivisionID" ColumnName="DivisionID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

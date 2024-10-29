@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="GERMS_NEWModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="GERMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="E658CreaterDetails">
           <Key>
             <PropertyRef Name="ECDID" />
@@ -168,7 +168,6 @@
           <Property Name="ELocation" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="FLocation" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="TLocation" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="RealToLocation" Type="varchar" MaxLength="30" />
           <Property Name="IsRR658" Type="int" Nullable="false" />
           <Property Name="AuthorityType" Type="int" />
           <Property Name="Behavior" Type="int" />
@@ -198,6 +197,7 @@
           <Property Name="ParentRunCretID" Type="int" />
           <Property Name="ReturnDate" Type="datetime" />
           <Property Name="E658CreatorDltId" Type="int" />
+          <Property Name="RealToLocation" Type="varchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="Locations">
           <Key>
@@ -264,7 +264,7 @@
           <Property Name="PurchaseValue" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'GERMS.dbo.Vw_PersonalDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Vw_PersonalDetail">
           <Key>
             <PropertyRef Name="type" />
@@ -288,7 +288,7 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
           <Property Name="SubRank" Type="int" />
           <Property Name="serTypeDescription" Type="varchar" MaxLength="22" />
         </EntityType>
-        <EntityContainer Name="GERMS_NEWModelStoreContainer">
+        <EntityContainer Name="GERMSModelStoreContainer">
           <EntitySet Name="E658CreaterDetails" EntityType="Self.E658CreaterDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="E658FlowMagt" EntityType="Self.E658FlowMagt" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="E658FlowTransaction" EntityType="Self.E658FlowTransaction" Schema="dbo" store:Type="Tables" />
@@ -329,7 +329,7 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="GERMS_NEWModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="GERMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="E658CreaterDetails">
           <Key>
             <PropertyRef Name="ECDID" />
@@ -582,7 +582,7 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
           <EntitySet Name="Locations" EntityType="Self.Location" />
           <EntitySet Name="VehicleDetails" EntityType="Self.VehicleDetail" />
           <EntitySet Name="Vw_PersonalDetail" EntityType="Self.Vw_PersonalDetail" />
-          <EntitySet Name="F658RegistryHeader" EntityType="GERMS_NEWModel.F658RegistryHeader" />
+          <EntitySet Name="F658RegistryHeader" EntityType="GERMSModel.F658RegistryHeader" />
         </EntityContainer>
         <EntityType Name="F658RegistryHeader">
           <Key>
@@ -597,7 +597,6 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
           <Property Name="ELocation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="FLocation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TLocation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="RealToLocation" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="IsRR658" Type="Int32" Nullable="false" />
           <Property Name="AuthorityType" Type="Int32" />
           <Property Name="Behavior" Type="Int32" />
@@ -627,15 +626,16 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
           <Property Name="ParentRunCretID" Type="Int32" />
           <Property Name="ReturnDate" Type="DateTime" Precision="3" />
           <Property Name="E658CreatorDltId" Type="Int32" />
+          <Property Name="RealToLocation" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="GERMS_NEWModelStoreContainer" CdmEntityContainer="dbContext">
+        <EntityContainerMapping StorageEntityContainer="GERMSModelStoreContainer" CdmEntityContainer="dbContext">
           <EntitySetMapping Name="E658CreaterDetails">
-            <EntityTypeMapping TypeName="GERMS_NEWModel.E658CreaterDetails">
+            <EntityTypeMapping TypeName="GERMSModel.E658CreaterDetails">
               <MappingFragment StoreEntitySet="E658CreaterDetails">
                 <ScalarProperty Name="ECDID" ColumnName="ECDID" />
                 <ScalarProperty Name="SNo" ColumnName="SNo" />
@@ -657,7 +657,7 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="E658FlowMagt">
-            <EntityTypeMapping TypeName="GERMS_NEWModel.E658FlowMagt">
+            <EntityTypeMapping TypeName="GERMSModel.E658FlowMagt">
               <MappingFragment StoreEntitySet="E658FlowMagt">
                 <ScalarProperty Name="EFMID" ColumnName="EFMID" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
@@ -674,7 +674,7 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="E658FlowTransaction">
-            <EntityTypeMapping TypeName="GERMS_NEWModel.E658FlowTransaction">
+            <EntityTypeMapping TypeName="GERMSModel.E658FlowTransaction">
               <MappingFragment StoreEntitySet="E658FlowTransaction">
                 <ScalarProperty Name="EFTID" ColumnName="EFTID" />
                 <ScalarProperty Name="EFlowMgtID" ColumnName="EFlowMgtID" />
@@ -692,7 +692,7 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="E658RaisedRunType">
-            <EntityTypeMapping TypeName="GERMS_NEWModel.E658RaisedRunType">
+            <EntityTypeMapping TypeName="GERMSModel.E658RaisedRunType">
               <MappingFragment StoreEntitySet="E658RaisedRunType">
                 <ScalarProperty Name="ERRTID" ColumnName="ERRTID" />
                 <ScalarProperty Name="RaisedTypeID" ColumnName="RaisedTypeID" />
@@ -703,7 +703,7 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="E658RaisedType">
-            <EntityTypeMapping TypeName="GERMS_NEWModel.E658RaisedType">
+            <EntityTypeMapping TypeName="GERMSModel.E658RaisedType">
               <MappingFragment StoreEntitySet="E658RaisedType">
                 <ScalarProperty Name="RTID" ColumnName="RTID" />
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />
@@ -714,7 +714,7 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="E658RptLocDetails">
-            <EntityTypeMapping TypeName="GERMS_NEWModel.E658RptLocDetails">
+            <EntityTypeMapping TypeName="GERMSModel.E658RptLocDetails">
               <MappingFragment StoreEntitySet="E658RptLocDetails">
                 <ScalarProperty Name="ERLDID" ColumnName="ERLDID" />
                 <ScalarProperty Name="E658RptLocHedID" ColumnName="E658RptLocHedID" />
@@ -728,7 +728,7 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="E658RptLocHeader">
-            <EntityTypeMapping TypeName="GERMS_NEWModel.E658RptLocHeader">
+            <EntityTypeMapping TypeName="GERMSModel.E658RptLocHeader">
               <MappingFragment StoreEntitySet="E658RptLocHeader">
                 <ScalarProperty Name="ERLID" ColumnName="ERLID" />
                 <ScalarProperty Name="SeqID" ColumnName="SeqID" />
@@ -742,7 +742,7 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="E658RunsTypes">
-            <EntityTypeMapping TypeName="GERMS_NEWModel.E658RunsTypes">
+            <EntityTypeMapping TypeName="GERMSModel.E658RunsTypes">
               <MappingFragment StoreEntitySet="E658RunsTypes">
                 <ScalarProperty Name="ERTID" ColumnName="ERTID" />
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />
@@ -752,7 +752,7 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="E658UserMgt">
-            <EntityTypeMapping TypeName="GERMS_NEWModel.E658UserMgt">
+            <EntityTypeMapping TypeName="GERMSModel.E658UserMgt">
               <MappingFragment StoreEntitySet="E658UserMgt">
                 <ScalarProperty Name="EUMID" ColumnName="EUMID" />
                 <ScalarProperty Name="SNo" ColumnName="SNo" />
@@ -776,7 +776,7 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="E658UserType">
-            <EntityTypeMapping TypeName="GERMS_NEWModel.E658UserType">
+            <EntityTypeMapping TypeName="GERMSModel.E658UserType">
               <MappingFragment StoreEntitySet="E658UserType">
                 <ScalarProperty Name="EUTID" ColumnName="EUTID" />
                 <ScalarProperty Name="E658Users" ColumnName="E658Users" />
@@ -785,7 +785,7 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="E658WayPoints">
-            <EntityTypeMapping TypeName="GERMS_NEWModel.E658WayPoints">
+            <EntityTypeMapping TypeName="GERMSModel.E658WayPoints">
               <MappingFragment StoreEntitySet="E658WayPoints">
                 <ScalarProperty Name="WPID" ColumnName="WPID" />
                 <ScalarProperty Name="FromLocation" ColumnName="FromLocation" />
@@ -796,7 +796,7 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Locations">
-            <EntityTypeMapping TypeName="GERMS_NEWModel.Location">
+            <EntityTypeMapping TypeName="GERMSModel.Location">
               <MappingFragment StoreEntitySet="Locations">
                 <ScalarProperty Name="LocationID" ColumnName="LocationID" />
                 <ScalarProperty Name="LocationName" ColumnName="LocationName" />
@@ -812,7 +812,7 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="VehicleDetails">
-            <EntityTypeMapping TypeName="GERMS_NEWModel.VehicleDetail">
+            <EntityTypeMapping TypeName="GERMSModel.VehicleDetail">
               <MappingFragment StoreEntitySet="VehicleDetails">
                 <ScalarProperty Name="ChassisNo" ColumnName="ChassisNo" />
                 <ScalarProperty Name="SlafRegNo" ColumnName="SlafRegNo" />
@@ -862,7 +862,7 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Vw_PersonalDetail">
-            <EntityTypeMapping TypeName="GERMS_NEWModel.Vw_PersonalDetail">
+            <EntityTypeMapping TypeName="GERMSModel.Vw_PersonalDetail">
               <MappingFragment StoreEntitySet="Vw_PersonalDetail">
                 <ScalarProperty Name="SNo" ColumnName="SNo" />
                 <ScalarProperty Name="ServiceNo" ColumnName="ServiceNo" />
@@ -886,8 +886,9 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="F658RegistryHeader">
-            <EntityTypeMapping TypeName="GERMS_NEWModel.F658RegistryHeader">
+            <EntityTypeMapping TypeName="GERMSModel.F658RegistryHeader">
               <MappingFragment StoreEntitySet="F658RegistryHeader">
+                <ScalarProperty Name="RealToLocation" ColumnName="RealToLocation" />
                 <ScalarProperty Name="E658CreatorDltId" ColumnName="E658CreatorDltId" />
                 <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
                 <ScalarProperty Name="ParentRunCretID" ColumnName="ParentRunCretID" />
@@ -917,7 +918,6 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
                 <ScalarProperty Name="Behavior" ColumnName="Behavior" />
                 <ScalarProperty Name="AuthorityType" ColumnName="AuthorityType" />
                 <ScalarProperty Name="IsRR658" ColumnName="IsRR658" />
-                <ScalarProperty Name="RealToLocation" ColumnName="RealToLocation" />
                 <ScalarProperty Name="TLocation" ColumnName="TLocation" />
                 <ScalarProperty Name="FLocation" ColumnName="FLocation" />
                 <ScalarProperty Name="ELocation" ColumnName="ELocation" />
