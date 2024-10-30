@@ -1543,116 +1543,8 @@ namespace E658.Controllers
 
             return View(e658DetailsList);
         }
-        [HttpGet]
-        public ActionResult Forward(string RecID)
-        {
-            ///Created BY   : Sqn ldr Wicky
-            /// Create Date : 2024/04/01
-            /// Description : Data forward to user by user
-            /// 
-            try
-            {
-                var hashingService = new HashingService();
-
-                // Decode the hashId back to the original string
-                string decodedString = hashingService.DecodeHashId(RecID);
-
-                // Split the decoded string to retrieve the original values
-                var splitValues = decodedString.Split(':');
-                int roleId = int.Parse(splitValues[0]);
-                int creatorId = int.Parse(splitValues[1]);
-                
-               
-
-                var e658Type = _db.E658CreaterDetails.Where(x => x.ECDID == creatorId && x.Active == 1).Select(x => new { x.RaisedTypeID, x.UserGERMSLocation }).FirstOrDefault();
-
-                var mt658Details = _db.F658RegistryHeader.Where(x => x.E658CreatorDltId == creatorId && x.Active == 1).Select(x => new { x.OMTNo, x.SLAFRegNo }).FirstOrDefault();
-
-                RaisedTypeID = Convert.ToInt32(e658Type.RaisedTypeID);
-
-                flowList = RecordFlowMgtId(RaisedTypeID, roleId);
-
-                foreach (var item in flowList)
-                {
-                    EFID = item.EFMID;
-                    RID = item.RoleID;
-                }
-
-                E658FlowTransaction FlowTranc = new E658FlowTransaction();  //{};
-
-                if (roleId == (int)E658.Enum.EnumE658UserType.MToOCT)
-                {
-                    //if (mt658Details.OMTNo != "MT Sect" && mt658Details.SLAFRegNo != null )
-                    //{
-
-                    //}
-                    //else
-                    //{
-                    //    TempData["ErrMsg"] = "Please nominate OMT or Vehicle number to continue the process.";
-                    //    return RedirectToAction("E658List");
-                    //}
-
-                    FlowTranc.EFlowMgtID = EFID;
-                    FlowTranc.RecordStatusID = (int)E658.Enum.EnumRecordStatus.Forward;
-                    FlowTranc.RecordLocID = e658Type.UserGERMSLocation;
-                    FlowTranc.E658CreatorDltID = creatorId;
-                    FlowTranc.RoleID = RID;
-                    FlowTranc.Active = 1;
-                    FlowTranc.CreatedDate = DateTime.Now;
-                    FlowTranc.CreatedBy = (Session["LoginUser"]).ToString();
-                    FlowTranc.CreatedIP = this.Request.UserHostAddress;
-                    FlowTranc.CreatedMAC = mac.GetMacAddress();
-
-                    _db.E658FlowTransaction.Add(FlowTranc);
-
-                    if (_db.SaveChanges() > 0)
-                    {
-                        TempData["ScfMsg"] = "You have Forwarded the E658 Successfully.";
-
-                        return RedirectToAction("E658List");
-                    }
-                    else
-                    {
-                        return View();
-                    }
-
-                }
-                else
-                {
-                    FlowTranc.EFlowMgtID = EFID;
-                    FlowTranc.RecordStatusID = (int)E658.Enum.EnumRecordStatus.Forward;
-                    FlowTranc.RecordLocID = e658Type.UserGERMSLocation;
-                    FlowTranc.E658CreatorDltID = creatorId;
-                    FlowTranc.RoleID = RID;
-                    FlowTranc.Active = 1;
-                    FlowTranc.CreatedDate = DateTime.Now;
-                    FlowTranc.CreatedBy = (Session["LoginUser"]).ToString();
-                    FlowTranc.CreatedIP = this.Request.UserHostAddress;
-                    FlowTranc.CreatedMAC = mac.GetMacAddress();
-
-                    _db.E658FlowTransaction.Add(FlowTranc);
-
-                    if (_db.SaveChanges() > 0)
-                    {
-                        TempData["ScfMsg"] = "You have Forwarded the E658 Successfully.";
-
-                        return RedirectToAction("E658List");
-                    }
-                    else
-                    {
-                        return View();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // return View();
-                throw ex;
-            }
-        }
-
-
-        //public ActionResult Forward(int roleId, int E658CreatorDltId)
+        //[HttpGet]
+        //public ActionResult Forward(string RecID)
         //{
         //    ///Created BY   : Sqn ldr Wicky
         //    /// Create Date : 2024/04/01
@@ -1660,9 +1552,21 @@ namespace E658.Controllers
         //    /// 
         //    try
         //    {
-        //        var e658Type = _db.E658CreaterDetails.Where(x => x.ECDID == E658CreatorDltId && x.Active == 1).Select(x => new { x.RaisedTypeID, x.UserGERMSLocation }).FirstOrDefault();
+        //        var hashingService = new HashingService();
 
-        //        var mt658Details = _db.F658RegistryHeader.Where(x => x.E658CreatorDltId == E658CreatorDltId && x.Active == 1).Select(x => new { x.OMTNo, x.SLAFRegNo }).FirstOrDefault();
+        //        // Decode the hashId back to the original string
+        //        string decodedString = hashingService.DecodeHashId(RecID);
+
+        //        // Split the decoded string to retrieve the original values
+        //        var splitValues = decodedString.Split(':');
+        //        int roleId = int.Parse(splitValues[0]);
+        //        int creatorId = int.Parse(splitValues[1]);
+                
+               
+
+        //        var e658Type = _db.E658CreaterDetails.Where(x => x.ECDID == creatorId && x.Active == 1).Select(x => new { x.RaisedTypeID, x.UserGERMSLocation }).FirstOrDefault();
+
+        //        var mt658Details = _db.F658RegistryHeader.Where(x => x.E658CreatorDltId == creatorId && x.Active == 1).Select(x => new { x.OMTNo, x.SLAFRegNo }).FirstOrDefault();
 
         //        RaisedTypeID = Convert.ToInt32(e658Type.RaisedTypeID);
 
@@ -1691,7 +1595,7 @@ namespace E658.Controllers
         //            FlowTranc.EFlowMgtID = EFID;
         //            FlowTranc.RecordStatusID = (int)E658.Enum.EnumRecordStatus.Forward;
         //            FlowTranc.RecordLocID = e658Type.UserGERMSLocation;
-        //            FlowTranc.E658CreatorDltID = E658CreatorDltId;
+        //            FlowTranc.E658CreatorDltID = creatorId;
         //            FlowTranc.RoleID = RID;
         //            FlowTranc.Active = 1;
         //            FlowTranc.CreatedDate = DateTime.Now;
@@ -1718,7 +1622,7 @@ namespace E658.Controllers
         //            FlowTranc.EFlowMgtID = EFID;
         //            FlowTranc.RecordStatusID = (int)E658.Enum.EnumRecordStatus.Forward;
         //            FlowTranc.RecordLocID = e658Type.UserGERMSLocation;
-        //            FlowTranc.E658CreatorDltID = E658CreatorDltId;
+        //            FlowTranc.E658CreatorDltID = creatorId;
         //            FlowTranc.RoleID = RID;
         //            FlowTranc.Active = 1;
         //            FlowTranc.CreatedDate = DateTime.Now;
@@ -1746,6 +1650,103 @@ namespace E658.Controllers
         //        throw ex;
         //    }
         //}
+
+        [HttpGet]
+        public ActionResult Forward(int roleId, int E658CreatorDltId)
+        {
+            ///Created BY   : Sqn ldr Wicky
+            /// Create Date : 2024/04/01
+            /// Description : Data forward to user by user
+            /// 
+            try
+            {
+                var e658Type = _db.E658CreaterDetails.Where(x => x.ECDID == E658CreatorDltId && x.Active == 1).Select(x => new { x.RaisedTypeID, x.UserGERMSLocation }).FirstOrDefault();
+
+                var mt658Details = _db.F658RegistryHeader.Where(x => x.E658CreatorDltId == E658CreatorDltId && x.Active == 1).Select(x => new { x.OMTNo, x.SLAFRegNo }).FirstOrDefault();
+
+                RaisedTypeID = Convert.ToInt32(e658Type.RaisedTypeID);
+
+                flowList = RecordFlowMgtId(RaisedTypeID, roleId);
+
+                foreach (var item in flowList)
+                {
+                    EFID = item.EFMID;
+                    RID = item.RoleID;
+                }
+
+                E658FlowTransaction FlowTranc = new E658FlowTransaction();  //{};
+
+                if (roleId == (int)E658.Enum.EnumE658UserType.MToOCT)
+                {
+                    //if (mt658Details.OMTNo != "MT Sect" && mt658Details.SLAFRegNo != null )
+                    //{
+
+                    //}
+                    //else
+                    //{
+                    //    TempData["ErrMsg"] = "Please nominate OMT or Vehicle number to continue the process.";
+                    //    return RedirectToAction("E658List");
+                    //}
+
+                    FlowTranc.EFlowMgtID = EFID;
+                    FlowTranc.RecordStatusID = (int)E658.Enum.EnumRecordStatus.Forward;
+                    FlowTranc.RecordLocID = e658Type.UserGERMSLocation;
+                    FlowTranc.E658CreatorDltID = E658CreatorDltId;
+                    FlowTranc.RoleID = RID;
+                    FlowTranc.Active = 1;
+                    FlowTranc.CreatedDate = DateTime.Now;
+                    FlowTranc.CreatedBy = (Session["LoginUser"]).ToString();
+                    FlowTranc.CreatedIP = this.Request.UserHostAddress;
+                    FlowTranc.CreatedMAC = mac.GetMacAddress();
+
+                    _db.E658FlowTransaction.Add(FlowTranc);
+
+                    if (_db.SaveChanges() > 0)
+                    {
+                        TempData["ScfMsg"] = "You have Forwarded the E658 Successfully.";
+
+                        return RedirectToAction("E658List");
+                    }
+                    else
+                    {
+                        return View();
+                    }
+
+                }
+                else
+                {
+                    FlowTranc.EFlowMgtID = EFID;
+                    FlowTranc.RecordStatusID = (int)E658.Enum.EnumRecordStatus.Forward;
+                    FlowTranc.RecordLocID = e658Type.UserGERMSLocation;
+                    FlowTranc.E658CreatorDltID = E658CreatorDltId;
+                    FlowTranc.RoleID = RID;
+                    FlowTranc.Active = 1;
+                    FlowTranc.CreatedDate = DateTime.Now;
+                    FlowTranc.CreatedBy = (Session["LoginUser"]).ToString();
+                    FlowTranc.CreatedIP = this.Request.UserHostAddress;
+                    FlowTranc.CreatedMAC = mac.GetMacAddress();
+
+                    _db.E658FlowTransaction.Add(FlowTranc);
+
+                    if (_db.SaveChanges() > 0)
+                    {
+                        TempData["ScfMsg"] = "You have Forwarded the E658 Successfully.";
+
+                        return RedirectToAction("E658List");
+                    }
+                    else
+                    {
+                        return View();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // return View();
+                throw ex;
+            }
+        }
+
         private List<VME658Create> GetRptLocation(int E658CreatorID)
         {
 
