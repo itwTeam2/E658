@@ -40,7 +40,7 @@
                         <div class="form-group">
                             @Html.Label("Destination From", new { @class = "control-label" })
                             @Html.TextBoxFor(model => model.FromLocID, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
-                            @Html.ValidationMessageFor(model => model.E658Date, string.Empty, new { @class = "label label-danger" })
+                            @Html.ValidationMessageFor(model => model.E658Date, string.Empty, new {@class ="label label-danger"})
                             @Html.HiddenFor(model => model.ECDID)
                         </div>
                     </div>

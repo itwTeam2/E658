@@ -1746,7 +1746,6 @@ namespace E658.Controllers
                 throw ex;
             }
         }
-
         private List<VME658Create> GetRptLocation(int E658CreatorID)
         {
 
