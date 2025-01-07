@@ -12,8 +12,8 @@
 
     <section class="content-header">
         <h1>
-            Created E-658 List
-            <small>Forward Your list</small>
+            E-658 List
+            @*<small>Forward Your list</small>*@
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -155,8 +155,8 @@
                                     else
                                     {
                                         @*<button type="button" class="col-lg- btn btn-primary" onclick="location.href='@Url.Action("E658Details", "E658", new { E658CreatorID = item.ECDID, RoleId = item.RoleID, EFlowId = item.EFTID })'">
-                <span> <i class="fa fa-eye" aria-hidden="true"></i></span>
-            </button>*@
+                                            <span> <i class="fa fa-eye" aria-hidden="true"></i></span>
+                                        </button>*@
                                     }
 
                                     @if (item.RoleID == (int)E658.Enum.EnumE658UserType.StaffCarUser || item.RoleID == (int)E658.Enum.EnumE658UserType.FormationUser)

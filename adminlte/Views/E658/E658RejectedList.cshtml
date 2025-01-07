@@ -80,6 +80,7 @@
                             </th>
                             <th></th>
                             <th></th>
+                            <th></th>
 
                         </tr>
                     }
@@ -133,6 +134,23 @@
                                 }
 
                                 @Html.ActionLink("Details", "E658Details", new {userID = EncodeIds (item.ECDID,item.RoleID,  0) }, new { @class = "btn btn-primary" })
+
+                            </td>
+                            <td>
+                                @functions {
+                                    // Helper function to base64 encode the concatenated values
+                                    public string EncodeId(int creatorId, int roleId, int eFlowId)
+                                    {
+                                        // Concatenate the values
+                                        string concatenatedValues = $"{creatorId}:{roleId}:{eFlowId}";
+
+                                        // Convert to Base64 string
+                                        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(concatenatedValues);
+                                        return Convert.ToBase64String(bytes);
+                                    }
+                                }
+
+                                @Html.ActionLink("Re-approving", "ReApprovingRecord", new { userID = EncodeId(item.ECDID, item.RoleID, 0) }, new { @class = "btn btn-success" })
 
                             </td>
 

@@ -370,7 +370,6 @@ namespace E658.Controllers
                 throw ex;
 
             }
-
         }
         public JsonResult DateCalc(VME658Create objE658)
         {
@@ -1378,7 +1377,7 @@ namespace E658.Controllers
                 foreach (var item in combineJobList)
                 {
                     VME658Create obj = new VME658Create();
-                    obj.UnitSerialNo = item.UnitSerialNo;
+                    obj.UnitSerialNo =  item.UnitSerialNo;
                     obj.FromLocID = item.ELocation;
                     obj.ToLocId = item.TLocation;
                     obj.E658Date = Convert.ToDateTime(item.PDate);
@@ -1543,6 +1542,50 @@ namespace E658.Controllers
 
             return View(e658DetailsList);
         }
+        
+        public ActionResult ReApprovingRecord(string userID)
+        {
+            ///Created BY   : Sqn ldr Wicky
+            /// Create Date : 2025/01/07
+            /// Description : Re Approving process of rejected record.
+
+            var hashingService = new HashingService();
+
+            // Decode the hashId back to the original string
+            string decodedString = hashingService.DecodeHashId(userID);
+
+            // Split the decoded string to retrieve the original values
+            var splitValues = decodedString.Split(':');
+            int creatorId = int.Parse(splitValues[0]);
+            int roleId = int.Parse(splitValues[1]);
+            int eFlowId = int.Parse(splitValues[2]);
+
+            E658CreaterDetails objCreator = _db.E658CreaterDetails.Find(creatorId);
+            objCreator.Active = 1;
+            objCreator.ModifiedDate = DateTime.Now;
+            objCreator.ModifiedMAC = mac.GetMacAddress();
+            objCreator.ModifiedBy = Session["LoginUser"].ToString();
+
+
+            _db.Entry(objCreator).State = EntityState.Modified;
+
+            if (_db.SaveChanges() > 0)
+            {
+               // message = "Successfully Rejected the E658";
+
+                return RedirectToAction("E658RejectedList");
+            }
+            else
+            {
+                //message = "Process Unsuccessful.Try again...";
+                return RedirectToAction("E658RejectedList");
+            }
+
+
+
+            //return View();
+        }
+
         //[HttpGet]
         //public ActionResult Forward(string RecID)
         //{
@@ -1561,8 +1604,8 @@ namespace E658.Controllers
         //        var splitValues = decodedString.Split(':');
         //        int roleId = int.Parse(splitValues[0]);
         //        int creatorId = int.Parse(splitValues[1]);
-                
-               
+
+
 
         //        var e658Type = _db.E658CreaterDetails.Where(x => x.ECDID == creatorId && x.Active == 1).Select(x => new { x.RaisedTypeID, x.UserGERMSLocation }).FirstOrDefault();
 
