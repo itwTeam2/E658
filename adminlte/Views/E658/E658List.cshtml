@@ -70,15 +70,16 @@
                             <th>
                                 E-658 Date
                             </th>
-                            <th>
+                            @*<th>
                                 Journey Start Time
-                            </th>
-                            <th>
-                                E-658 Run Type
-                            </th>
-                            <th>
+                            </th>*@
+                             <th>
                                 E-658 Originate Section
                             </th>
+                            <th>
+                                E-658 Run Behavior
+                            </th>
+                           
                             <th></th>
                             <th></th>
 
@@ -119,16 +120,18 @@
 
                                 </td>
 
-                                <td>
+                                @*<td>
                                     @Convert.ToString(string.Format("{0:HH:mm tt}", item.JournryStartTime))
-                                </td>
+                                </td>*@
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.E658RunType)
-                                </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.DivisionFullName)
                                 </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TypeNameLong)
+                                </td>
+                                
 
                                 <td>
 

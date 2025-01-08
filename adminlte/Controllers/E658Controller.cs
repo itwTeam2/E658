@@ -622,7 +622,7 @@ namespace E658.Controllers
                     objList.IsVehicleAvail = Convert.ToInt32(dt2.Rows[i]["IsVehicleReqFromMT"]);
                     objList.EFTID = Convert.ToInt32(dt.Rows[i]["EFTID"]);
                     objList.RaisedTypeID = Convert.ToInt32(dt.Rows[i]["RaisedTypeID"]);
-                    
+                    objList.TypeNameLong = dt.Rows[i]["TypeNameLong"].ToString();
                     if (objList.RaisedTypeID == (int)E658.Enum.E658RaisedType.FormationE || objList.RaisedTypeID == (int)E658.Enum.E658RaisedType.MTSecE)
                     {
                        
@@ -809,7 +809,7 @@ namespace E658.Controllers
                     objVME658Create.ECDID = Convert.ToInt32(dt.Rows[i]["E658CreatorDltId"]);
                     objVME658Create.EFTID = eFlowId;
                     objVME658Create.RecordStatus = Convert.ToInt32(dt.Rows[i]["RecordStatus"]);
-                    objVME658Create.TypeName = dt.Rows[i]["TypeName1"].ToString();
+                    objVME658Create.TypeName = dt.Rows[i]["TypeName"].ToString();
                     objVME658Create.RaisedTypeID = Convert.ToInt32(dt.Rows[i]["RaisedTypeID"]);
 
                     TempData["ECDID"] = creatorId;
@@ -1571,13 +1571,14 @@ namespace E658.Controllers
 
             if (_db.SaveChanges() > 0)
             {
-               // message = "Successfully Rejected the E658";
-
+                // message = "Successfully Rejected the E658";
+                TempData["ScfMsg"] = "You have re-approved the E658 Successfully.";
                 return RedirectToAction("E658RejectedList");
             }
             else
             {
                 //message = "Process Unsuccessful.Try again...";
+                TempData["ErrMsg"] = "Process Unsuccessful.Try again.";
                 return RedirectToAction("E658RejectedList");
             }
 

@@ -42,7 +42,7 @@ namespace E658.Models
         public string Comment { get; set; }
         public int RecordStatus { get; set; }
         public int RaisedTypeID { get; set; }
-
+        public string TypeNameLong { get; set; }
         public string StafOffName { get; set; }
 
 
