@@ -22,7 +22,8 @@ namespace E658.Enum
     public enum EnumRecordStatus
     {
         Forward = 2000,
-        Reject = 3000
+        Reject = 3000,
+        HoldRun = 4000
 
     }
  

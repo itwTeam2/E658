@@ -386,6 +386,7 @@ namespace E658.Controllers
             objE658.RequiredDuration = g.ToString();
             return Json(objE658, JsonRequestBehavior.AllowGet);
         }
+
         [HttpGet]
         public ActionResult E658List(string sortOrder, string currentFilter, string searchString, int? page, int? RSID)
         {
@@ -395,269 +396,198 @@ namespace E658.Controllers
 
             DataTable dt = new DataTable();
             DataTable dt2 = new DataTable();
-            DataTable dt3 = new DataTable();
             List<VME658Create> E658List = new List<VME658Create>();
 
-            int pageSize = 0;
-            int pageNumber = 1;
-                                
+            int pageSize = 20;
+            int pageNumber = page ?? 1;
 
-            if (Session["UserLoginType"] !=  null)
-            {
-                int userLoginType = Convert.ToInt32(Session["UserLoginType"]);
-                int userLoginType2 = Convert.ToInt32(Session["UserLoginType"]);
-
-                ReportData.DAL.DALCommanQuery objDALCommanQuery = new ReportData.DAL.DALCommanQuery();
-
-                if (userLoginType == (int)E658.Enum.EnumE658UserType.MTController)
-                {
-                    userLoginType = (int)E658.Enum.EnumE658UserType.MToOCT;
-                }
-                dt = objDALCommanQuery.CallE65MoreDetailsSP(userLoginType);
-
-                if ((searchString != null && searchString != "") || currentFilter != null)
-                {
-
-                    if (dt != null && dt.Rows.Count > 0)
-                    {
-                        switch (userLoginType)
-                        {
-                            case (int)E658.Enum.EnumE658UserType.StaffCarUser:
-
-                                string staffServiceNo = Session["LoginUser"].ToString();
-
-                                var row1 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("StaffServiceNo") == staffServiceNo &&
-                                    x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward
-                                    && (x.Field<DateTime>("PDate") == Convert.ToDateTime(searchString) || x.Field<DateTime>("PDate") == Convert.ToDateTime(currentFilter)));
-
-                                if (row1.Any())
-                                {
-                                    dt2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("StaffServiceNo") == staffServiceNo &&
-                                    x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward
-                                    && (x.Field<DateTime>("PDate") == Convert.ToDateTime(searchString) || x.Field<DateTime>("PDate") == Convert.ToDateTime(currentFilter))).CopyToDataTable();
-                                }
-
-                                break;
-
-                            case (int)E658.Enum.EnumE658UserType.FormationUser:
-
-                                string UserEpaLoc = Session["UserEpassLoc"].ToString();
-                                string UserEpassDivi = Session["UserEpassDivision"].ToString();
-
-                                var row2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("CreaterLoc") == UserEpaLoc &&
-                                x.Field<string>("CreaterDivision") == UserEpassDivi
-                                && x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward
-                                && (x.Field<DateTime>("PDate") == Convert.ToDateTime(searchString) || x.Field<DateTime>("PDate") == Convert.ToDateTime(currentFilter)));
-
-                                if (row2.Any())
-                                {
-                                    dt2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("CreaterLoc") == UserEpaLoc &&
-                                x.Field<string>("CreaterDivision") == UserEpassDivi
-                                && x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward
-                                && (x.Field<DateTime>("PDate") == Convert.ToDateTime(searchString) || x.Field<DateTime>("PDate") == Convert.ToDateTime(currentFilter))).CopyToDataTable();
-                                }
-
-                                break;
-
-                            case (int)E658.Enum.EnumE658UserType.MToOCT:
-                            case (int)E658.Enum.EnumE658UserType.MTController:
-
-                                string MToOctLocation = Session["MToOctLocation"].ToString();
-
-                                var row3 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == MToOctLocation && x.Field<int>("RecordStatusID")
-                                          == (int)E658.Enum.EnumRecordStatus.Forward
-                                          && (x.Field<DateTime>("PDate") == Convert.ToDateTime(searchString) || x.Field<DateTime>("PDate") == Convert.ToDateTime(currentFilter)));
-
-                                if (row3.Any())
-                                {
-                                    dt2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == MToOctLocation && x.Field<int>("RecordStatusID")
-                                          == (int)E658.Enum.EnumRecordStatus.Forward
-                                          && (x.Field<DateTime>("PDate") == Convert.ToDateTime(searchString) || x.Field<DateTime>("PDate") == Convert.ToDateTime(currentFilter))).CopyToDataTable();
-
-                                    List<VME658Create> items = new List<VME658Create>();
-
-
-                                    var selectList = new SelectList(dt2.AsEnumerable().Where(x => x.Field<int>("RaisedTypeID") != (int)E658.Enum.E658RaisedType.StaffVehiE).Select(row => new SelectListItem
-                                    {
-                                        Text = row["UnitSerialNo"].ToString(), // Change "TextColumn" to your actual column name
-                                        Value = row["UnitSerialNo"].ToString() // Change "ValueColumn" to your actual column name
-                                    }), "Value", "Text");
-
-                                    ViewBag.DDL_E658ListUnitNo = new SelectList(selectList.Select(x => x.Text));
-
-                                }
-
-                                TempData["MTControllerStatus"] = userLoginType2 == (int)E658.Enum.EnumE658UserType.MTController ? "5" : "0";
-
-                                break;
-                            case (int)E658.Enum.EnumE658UserType.FinalizedAuthorization:
-
-                                string MToOctLocation2 = Session["MToOctLocation"].ToString();
-
-                                var row4 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == MToOctLocation2 && x.Field<int>("RecordStatusID")
-                                          == (int)E658.Enum.EnumRecordStatus.Forward && x.Field<int>("RoleID") == (int)E658.Enum.EnumE658UserType.FinalizedAuthorization
-                                          && (x.Field<DateTime>("PDate") == Convert.ToDateTime(searchString) || x.Field<DateTime>("PDate") == Convert.ToDateTime(currentFilter)));
-
-                                if (row4.Any())
-                                {
-                                    dt2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == MToOctLocation2 && x.Field<int>("RecordStatusID")
-                                          == (int)E658.Enum.EnumRecordStatus.Forward && x.Field<int>("RoleID") == (int)E658.Enum.EnumE658UserType.FinalizedAuthorization
-                                          && (x.Field<DateTime>("PDate") == Convert.ToDateTime(searchString) || x.Field<DateTime>("PDate") == Convert.ToDateTime(currentFilter))).CopyToDataTable();
-                                }
-                                break;
-
-                            default:
-                                break;
-                        }
-
-                    }
-                }
-                
-                else
-                {
-
-                    if (dt != null && dt.Rows.Count > 0)
-                    {
-                        switch (userLoginType)
-                        {
-                            case (int)E658.Enum.EnumE658UserType.StaffCarUser:
-
-                                string staffServiceNo = Session["LoginUser"].ToString();
-
-                                var row1 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("StaffServiceNo") == staffServiceNo &&
-                                    x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward);
-
-                                if (row1.Any())
-                                {
-                                    dt2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("StaffServiceNo") == staffServiceNo &&
-                                    x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward).CopyToDataTable();
-                                }
-
-                                break;
-
-                            case (int)E658.Enum.EnumE658UserType.FormationUser:
-
-                                string UserEpaLoc = Session["UserEpassLoc"].ToString();
-                                string UserEpassDivi = Session["UserEpassDivision"].ToString();
-
-                                var row2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("CreaterLoc") == UserEpaLoc && x.Field<string>("CreaterDivision") == UserEpassDivi && x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward);
-
-                                if (row2.Any())
-                                {
-                                    dt2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("CreaterLoc") == UserEpaLoc &&
-                                x.Field<string>("CreaterDivision") == UserEpassDivi && x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward).CopyToDataTable();
-
-                                }
-
-                                break;
-
-                            case (int)E658.Enum.EnumE658UserType.MToOCT:
-                            case (int)E658.Enum.EnumE658UserType.MTController:
-
-                                string MToOctLocation = Session["MToOctLocation"].ToString();
-
-                                var row3 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == MToOctLocation && x.Field<int>("RecordStatusID")
-                                          == (int)E658.Enum.EnumRecordStatus.Forward);
-
-                                if (row3.Any())
-                                {
-                                    dt2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == MToOctLocation && x.Field<int>("RecordStatusID")
-                                          == (int)E658.Enum.EnumRecordStatus.Forward).CopyToDataTable();
-
-                                    List<VME658Create> items = new List<VME658Create>();
-
-
-                                    var selectList = new SelectList(dt2.AsEnumerable().Where(x => x.Field<int>("RaisedTypeID") != (int)E658.Enum.E658RaisedType.StaffVehiE).Select(row => new SelectListItem
-                                    {
-                                        Text = row["UnitSerialNo"].ToString(), // Change "TextColumn" to your actual column name
-                                        Value = row["UnitSerialNo"].ToString() // Change "ValueColumn" to your actual column name
-                                    }), "Value", "Text");
-
-                                    ViewBag.DDL_E658ListUnitNo = new SelectList(selectList.Select(x => x.Text));
-
-                                }
-
-                                TempData["MTControllerStatus"] = userLoginType2 == (int)E658.Enum.EnumE658UserType.MTController ? "5" : "0";
-
-                                break;
-                            case (int)E658.Enum.EnumE658UserType.FinalizedAuthorization:
-
-                                string MToOctLocation2 = Session["MToOctLocation"].ToString();
-
-                                var row4 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == MToOctLocation2 && x.Field<int>("RecordStatusID")
-                                          == (int)E658.Enum.EnumRecordStatus.Forward && x.Field<int>("RoleID") == (int)E658.Enum.EnumE658UserType.FinalizedAuthorization);
-
-                                if (row4.Any())
-                                {
-                                    //dt2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == MToOctLocation2 &&
-                                    //     x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward && x.Field<int>("RoleID") == (int)E658.Enum.EnumE658UserType.FinalizedAuthorization).CopyToDataTable();
-
-                                    dt2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == MToOctLocation2 && x.Field<int>("RecordStatusID")
-                                          == (int)E658.Enum.EnumRecordStatus.Forward && x.Field<int>("RoleID") == (int)E658.Enum.EnumE658UserType.FinalizedAuthorization).CopyToDataTable();
-
-
-                                }
-                                break;
-
-                            default:
-                                break;
-                        }
-
-                    }
-                }
-
-                for (int i = 0; i < dt2.Rows.Count; i++)
-                {
-                    VME658Create objList = new VME658Create();
-                    objList.UnitSerialNo = dt2.Rows[i]["UnitSerialNo"].ToString();
-                    objList.FromLocID = dt2.Rows[i]["FromLocationFull"].ToString();
-                    objList.ToLocId = dt2.Rows[i]["ToLocationFull"].ToString();
-                    objList.E658Date = Convert.ToDateTime(dt2.Rows[i]["PDate"]);
-                    objList.JournryStartTime = Convert.ToDateTime(dt2.Rows[i]["PTime"]);
-                    objList.E658RunType = dt2.Rows[i]["TypeName"].ToString();
-                    objList.ECDID = Convert.ToInt32(dt2.Rows[i]["E658CreatorDltId"]);
-                    objList.RoleID = Convert.ToInt32(dt2.Rows[i]["RoleID"]);
-                    objList.UserGERMSLocation = dt2.Rows[i]["UserGERMSLocation"].ToString();
-                    objList.IsOMTAvail = Convert.ToInt32(dt2.Rows[i]["IsOMtReqFromMT"]);
-                    objList.IsVehicleAvail = Convert.ToInt32(dt2.Rows[i]["IsVehicleReqFromMT"]);
-                    objList.EFTID = Convert.ToInt32(dt.Rows[i]["EFTID"]);
-                    objList.RaisedTypeID = Convert.ToInt32(dt.Rows[i]["RaisedTypeID"]);
-                    objList.TypeNameLong = dt.Rows[i]["TypeNameLong"].ToString();
-                    if (objList.RaisedTypeID == (int)E658.Enum.E658RaisedType.FormationE || objList.RaisedTypeID == (int)E658.Enum.E658RaisedType.MTSecE)
-                    {
-                       
-                        objList.DivisionFullName = dt2.Rows[i]["CreaterDivision"].ToString();
-                    }
-
-                    if (!Convert.IsDBNull(dt2.Rows[i]["IsCombineRun"]))
-                    {
-                        objList.IsCombineRun = Convert.ToInt32(dt2.Rows[i]["IsCombineRun"]);
-                    }
-
-
-                    E658List.Add(objList);
-
-                }
-
-                if (page >= 2)
-                {
-                    ViewBag.CurrentFilter = currentFilter;
-                }
-                else
-                {
-                    ViewBag.CurrentFilter = searchString;
-                }
-                pageSize = 20;
-                pageNumber = (page ?? 1);
-                return View(E658List.ToPagedList(pageNumber, pageSize));
-
-            }
-            else
+            if (Session["UserLoginType"] == null)
             {
                 return RedirectToAction("Login", "User");
             }
+
+            int userLoginType = Convert.ToInt32(Session["UserLoginType"]);
+            int userLoginType2 = Convert.ToInt32(Session["UserLoginType"]);
+
+            ReportData.DAL.DALCommanQuery objDALCommanQuery = new ReportData.DAL.DALCommanQuery();
+
+            if (userLoginType == (int)E658.Enum.EnumE658UserType.MTController)
+            {
+                userLoginType = (int)E658.Enum.EnumE658UserType.MToOCT;
+            }
+            dt = objDALCommanQuery.CallE65MoreDetailsSP(userLoginType);
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                dt2 = FilterDataTable(dt, userLoginType, searchString, currentFilter);
+                PopulateE658List(dt2, E658List);
+
+                if (userLoginType == (int)E658.Enum.EnumE658UserType.MTController || userLoginType == (int)E658.Enum.EnumE658UserType.MToOCT)
+                {
+                    SetViewBagForMTController(dt2);
+                    TempData["MTControllerStatus"] = userLoginType2 == (int)E658.Enum.EnumE658UserType.MTController ? "5" : "0";
+                }
+            }
+
+            ViewBag.CurrentFilter = page >= 2 ? currentFilter : searchString;
+            return View(E658List.ToPagedList(pageNumber, pageSize));
         }
-        
+        private DataTable FilterDataTable(DataTable dt, int userLoginType, string searchString, string currentFilter)
+        {
+            string filterString = searchString ?? currentFilter;
+            if (string.IsNullOrEmpty(filterString))
+            {
+                return dt;
+            }
+
+            switch (userLoginType)
+            {
+                case (int)E658.Enum.EnumE658UserType.StaffCarUser:
+                    return FilterByStaffCarUser(dt, filterString);
+                case (int)E658.Enum.EnumE658UserType.FormationUser:
+                    return FilterByFormationUser(dt, filterString);
+                case (int)E658.Enum.EnumE658UserType.MToOCT:
+                case (int)E658.Enum.EnumE658UserType.MTController:
+                    return FilterByMToOCT(dt, filterString);
+                case (int)E658.Enum.EnumE658UserType.FinalizedAuthorization:
+                    return FilterByFinalizedAuthorization(dt, filterString);
+                default:
+                    return dt;
+            }
+        }
+        private DataTable FilterByStaffCarUser(DataTable dt, string filterString)
+        {
+            string staffServiceNo = Session["LoginUser"].ToString();
+            var rows = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("StaffServiceNo") == staffServiceNo &&
+                                                    x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward &&
+                                                    x.Field<DateTime>("PDate") == Convert.ToDateTime(filterString));
+            return rows.Any() ? rows.CopyToDataTable() : new DataTable();
+        }
+        private DataTable FilterByFormationUser(DataTable dt, string filterString)
+        {
+            string userEpaLoc = Session["UserEpassLoc"].ToString();
+            string userEpassDivi = Session["UserEpassDivision"].ToString();
+            var rows = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("CreaterLoc") == userEpaLoc &&
+                                                    x.Field<string>("CreaterDivision") == userEpassDivi &&
+                                                    x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward &&
+                                                    x.Field<DateTime>("PDate") == Convert.ToDateTime(filterString));
+            return rows.Any() ? rows.CopyToDataTable() : new DataTable();
+        }
+        private DataTable FilterByMToOCT(DataTable dt, string filterString)
+        {
+            string mToOctLocation = Session["MToOctLocation"].ToString();
+            var rows = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == mToOctLocation &&
+                                                    x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward &&
+                                                    x.Field<DateTime>("PDate") == Convert.ToDateTime(filterString));
+            return rows.Any() ? rows.CopyToDataTable() : new DataTable();
+        }
+        private DataTable FilterByFinalizedAuthorization(DataTable dt, string filterString)
+        {
+            string mToOctLocation = Session["MToOctLocation"].ToString();
+            var rows = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == mToOctLocation &&
+                                                    x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward &&
+                                                    x.Field<int>("RoleID") == (int)E658.Enum.EnumE658UserType.FinalizedAuthorization &&
+                                                    x.Field<DateTime>("PDate") == Convert.ToDateTime(filterString));
+            return rows.Any() ? rows.CopyToDataTable() : new DataTable();
+        }
+        private void PopulateE658List(DataTable dt2, List<VME658Create> E658List)
+        {
+            //foreach (DataRow row in dt2.Rows)
+            //{
+            //    //VME658Create objList = new VME658Create
+            //    //{
+            //    //    UnitSerialNo = row["UnitSerialNo"].ToString(),
+            //    //    FromLocID = row["FromLocationFull"].ToString(),
+            //    //    ToLocId = row["ToLocationFull"].ToString(),
+            //    //    E658Date = Convert.ToDateTime(row["PDate"]),
+            //    //    JournryStartTime = Convert.ToDateTime(row["PTime"]),
+            //    //    E658RunType = row["TypeName"].ToString(),
+            //    //    ECDID = Convert.ToInt32(row["E658CreatorDltId"]),
+            //    //    RoleID = Convert.ToInt32(row["RoleID"]),
+            //    //    UserGERMSLocation = row["UserGERMSLocation"].ToString(),
+            //    //    IsOMTAvail = Convert.ToInt32(row["IsOMtReqFromMT"]),
+            //    //    IsVehicleAvail = Convert.ToInt32(row["IsVehicleReqFromMT"]),
+            //    //    EFTID = Convert.ToInt32(row["EFTID"]),
+            //    //    RaisedTypeID = Convert.ToInt32(row["RaisedTypeID"]),
+            //    //    TypeNameLong = row["TypeNameLong"].ToString(),
+            //    //    DivisionFullName = row.Table.Columns.Contains("CreaterDivision") ? row["CreaterDivision"].ToString() : null,
+            //    //    IsCombineRun = row.Table.Columns.Contains("IsCombineRun") ? Convert.ToInt32(row["IsCombineRun"]) : (int?)null
+            //    //};
+            //    VME658Create objList = new VME658Create();
+            //    objList.UnitSerialNo = dt2.Rows[i]["UnitSerialNo"].ToString();
+            //    objList.FromLocID = dt2.Rows[i]["FromLocationFull"].ToString();
+            //    objList.ToLocId = dt2.Rows[i]["ToLocationFull"].ToString();
+            //    objList.E658Date = Convert.ToDateTime(dt2.Rows[i]["PDate"]);
+            //    objList.JournryStartTime = Convert.ToDateTime(dt2.Rows[i]["PTime"]);
+            //    objList.E658RunType = dt2.Rows[i]["TypeName"].ToString();
+            //    objList.ECDID = Convert.ToInt32(dt2.Rows[i]["E658CreatorDltId"]);
+            //    objList.RoleID = Convert.ToInt32(dt2.Rows[i]["RoleID"]);
+            //    objList.UserGERMSLocation = dt2.Rows[i]["UserGERMSLocation"].ToString();
+            //    objList.IsOMTAvail = Convert.ToInt32(dt2.Rows[i]["IsOMtReqFromMT"]);
+            //    objList.IsVehicleAvail = Convert.ToInt32(dt2.Rows[i]["IsVehicleReqFromMT"]);
+            //    objList.EFTID = Convert.ToInt32(dt.Rows[i]["EFTID"]);
+            //    objList.RaisedTypeID = Convert.ToInt32(dt.Rows[i]["RaisedTypeID"]);
+            //    objList.TypeNameLong = dt.Rows[i]["TypeNameLong"].ToString();
+            //    if (objList.RaisedTypeID == (int)E658.Enum.E658RaisedType.FormationE || objList.RaisedTypeID == (int)E658.Enum.E658RaisedType.MTSecE)
+            //    {
+
+            //        objList.DivisionFullName = dt2.Rows[i]["CreaterDivision"].ToString();
+            //    }
+
+            //    if (!Convert.IsDBNull(dt2.Rows[i]["IsCombineRun"]))
+            //    {
+            //        objList.IsCombineRun = Convert.ToInt32(dt2.Rows[i]["IsCombineRun"]);
+            //    }
+
+
+            //    E658List.Add(objList);
+            //    //E658List.Add(objList);
+            //}
+
+            for (int i = 0; i < dt2.Rows.Count; i++)
+            {
+                VME658Create objList = new VME658Create();
+                objList.UnitSerialNo = dt2.Rows[i]["UnitSerialNo"].ToString();
+                objList.FromLocID = dt2.Rows[i]["FromLocationFull"].ToString();
+                objList.ToLocId = dt2.Rows[i]["ToLocationFull"].ToString();
+                objList.E658Date = Convert.ToDateTime(dt2.Rows[i]["PDate"]);
+                objList.JournryStartTime = Convert.ToDateTime(dt2.Rows[i]["PTime"]);
+                objList.E658RunType = dt2.Rows[i]["TypeName"].ToString();
+                objList.ECDID = Convert.ToInt32(dt2.Rows[i]["E658CreatorDltId"]);
+                objList.RoleID = Convert.ToInt32(dt2.Rows[i]["RoleID"]);
+                objList.UserGERMSLocation = dt2.Rows[i]["UserGERMSLocation"].ToString();
+                objList.IsOMTAvail = Convert.ToInt32(dt2.Rows[i]["IsOMtReqFromMT"]);
+                objList.IsVehicleAvail = Convert.ToInt32(dt2.Rows[i]["IsVehicleReqFromMT"]);
+                objList.EFTID = Convert.ToInt32(dt2.Rows[i]["EFTID"]);
+                objList.RaisedTypeID = Convert.ToInt32(dt2.Rows[i]["RaisedTypeID"]);
+                objList.TypeNameLong = dt2.Rows[i]["TypeNameLong"].ToString();
+                if (objList.RaisedTypeID == (int)E658.Enum.E658RaisedType.FormationE || objList.RaisedTypeID == (int)E658.Enum.E658RaisedType.MTSecE)
+                {
+
+                    objList.DivisionFullName = dt2.Rows[i]["CreaterDivision"].ToString();
+                }
+
+                if (!Convert.IsDBNull(dt2.Rows[i]["IsCombineRun"]))
+                {
+                    objList.IsCombineRun = Convert.ToInt32(dt2.Rows[i]["IsCombineRun"]);
+                }
+
+
+                E658List.Add(objList);
+
+            }
+        }
+        private void SetViewBagForMTController(DataTable dt2)
+        {
+            var selectList = new SelectList(dt2.AsEnumerable().Where(x => x.Field<int>("RaisedTypeID") != (int)E658.Enum.E658RaisedType.StaffVehiE).Select(row => new SelectListItem
+            {
+                Text = row["UnitSerialNo"].ToString(),
+                Value = row["UnitSerialNo"].ToString()
+            }), "Value", "Text");
+
+            ViewBag.DDL_E658ListUnitNo = new SelectList(selectList.Select(x => x.Text));
+        }
+
         //[HttpGet]
         //public ActionResult E658Details(int E658CreatorID, int RoleId, int EFlowId)
         //{
@@ -1030,7 +960,7 @@ namespace E658.Controllers
                 TempData["ErrMsg"] = "Process Unsuccessful.Try again...";
             }
 
-            return RedirectToAction("E658List"); ;
+            return RedirectToAction("E658List");
         }
         [HttpGet]
         public ActionResult FinalApprovalReject(int ECDID, int EFlowID, int RoleId)
@@ -1585,6 +1515,78 @@ namespace E658.Controllers
 
 
             //return View();
+        }
+
+        public ActionResult HoldRun(string userID)
+        {
+            ///Created BY  : Sqn ldr Wicky
+            ///Create Date : 2025/01/09
+            ///Description : Hold The Run
+
+
+            var hashingService = new HashingService();
+
+            // Decode the hashId back to the original string
+            string decodedString = hashingService.DecodeHashId(userID);
+
+            // Split the decoded string to retrieve the original values
+            var splitValues = decodedString.Split(':');
+            int creatorId = int.Parse(splitValues[0]);
+            int roleId = int.Parse(splitValues[1]);
+            int eFlowId = int.Parse(splitValues[2]);
+
+
+            VME658Create model = new VME658Create();
+
+            //string PreviousFlowStatus_UserRole;
+
+            var raisedTypeInfo = _db.E658CreaterDetails.Where(x => x.ECDID == creatorId && x.Active == 1).Select(x => new { x.UserGERMSLocation, x.RaisedTypeID })
+                                 .FirstOrDefault();
+            var rejectStatusRoleId = _db.E658FlowMagt.Where(x => x.RoleID == roleId && x.RaisedTyId == raisedTypeInfo.RaisedTypeID && x.Active == 1)
+                                    .Select(x => x.RejectStatus).FirstOrDefault();
+
+            var rejectRoleFlowMgtId = _db.E658FlowMagt.Where(x => x.RoleID == rejectStatusRoleId && x.RaisedTyId == raisedTypeInfo.RaisedTypeID && x.Active == 1)
+                                    .Select(x => x.EFMID).FirstOrDefault();
+
+            E658FlowTransaction objFlowTranc = new E658FlowTransaction();
+
+            objFlowTranc.EFlowMgtID = rejectRoleFlowMgtId;
+            objFlowTranc.RecordStatusID = (int)E658.Enum.EnumRecordStatus.HoldRun;
+            objFlowTranc.E658CreatorDltID = creatorId;
+            objFlowTranc.RoleID = rejectStatusRoleId;
+            objFlowTranc.RecordLocID = raisedTypeInfo.UserGERMSLocation;
+            objFlowTranc.Comment = "Run Hold the Temporally.";
+            objFlowTranc.Active = 1;
+            objFlowTranc.CreatedDate = DateTime.Now;
+            objFlowTranc.CreatedIP = this.Request.UserHostAddress;
+            objFlowTranc.CreatedMAC = mac.GetMacAddress();
+            objFlowTranc.CreatedBy = Session["LoginUser"].ToString();
+
+            _db.E658FlowTransaction.Add(objFlowTranc);
+
+            E658CreaterDetails objCreator = _db.E658CreaterDetails.Find(creatorId);
+            objCreator.Active = 3;
+            objCreator.ModifiedDate = DateTime.Now;
+            objCreator.ModifiedMAC = mac.GetMacAddress();
+            objCreator.ModifiedBy = Session["LoginUser"].ToString();
+
+
+            _db.Entry(objCreator).State = EntityState.Modified;
+
+            if (_db.SaveChanges() > 0)
+            {
+
+                TempData["ScfMsg"] = "Successfully Hold the E658";
+
+                //return RedirectToAction("RejectIndex");
+            }
+            else
+            {
+                TempData["ErrMsg"] = "Process Unsuccessful.Try again...";
+            }
+
+            return RedirectToAction("E658FinalApprovedList");
+
         }
 
         //[HttpGet]

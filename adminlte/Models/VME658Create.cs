@@ -17,7 +17,7 @@ namespace E658.Models
         public int ECDID { get; set; }
         public int EFTID { get; set; }
         public int IsOMTAvail { get; set; }
-        public int IsCombineRun { get; set; }
+        public int? IsCombineRun { get; set; }
         public int RoleID { get; set; }
         public string OMTStatus { get; set; }
         public int IsVehicleAvail { get; set; }

@@ -46,7 +46,7 @@ namespace adminlte.Controllers
 
                     SetDashboardHeading(userLoginType);
 
-                    TempData["MTOPendingApprovedCount"] = GetRecordCount(objDALCommanQuery, userLoginType, MToOctLocation, E658.Enum.EnumRecordStatus.Forward);
+                    TempData["MTOPendingApprovedCount"] = GetRecordCount(objDALCommanQuery, (int)E658.Enum.EnumE658UserType.MToOCT, MToOctLocation, E658.Enum.EnumRecordStatus.Forward);
                     TempData["FinalPendingApprovedCount"] = GetRecordCount(objDALCommanQuery, (int)E658.Enum.EnumE658UserType.FinalizedAuthorization, MToOctLocation, E658.Enum.EnumRecordStatus.Forward);
                     TempData["RecordCertifiedCount"] = GetRecordCount(objDALCommanQuery, (int)E658.Enum.EnumE658UserType.RecordCertified, MToOctLocation, E658.Enum.EnumRecordStatus.Forward);
                 }
