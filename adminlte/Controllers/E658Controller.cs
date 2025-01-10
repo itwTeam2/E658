@@ -451,6 +451,8 @@ namespace E658.Controllers
                     return FilterByMToOCT(dt, filterString);
                 case (int)E658.Enum.EnumE658UserType.FinalizedAuthorization:
                     return FilterByFinalizedAuthorization(dt, filterString);
+                case (int)E658.Enum.EnumE658UserType.RunHold:
+                    return FilterByRunHold(dt, filterString);
                 default:
                     return dt;
             }
@@ -487,6 +489,15 @@ namespace E658.Controllers
             var rows = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == mToOctLocation &&
                                                     x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward &&
                                                     x.Field<int>("RoleID") == (int)E658.Enum.EnumE658UserType.FinalizedAuthorization &&
+                                                    x.Field<DateTime>("PDate") == Convert.ToDateTime(filterString));
+            return rows.Any() ? rows.CopyToDataTable() : new DataTable();
+        }
+        private DataTable FilterByRunHold(DataTable dt, string filterString)
+        {
+            string mToOctLocation = Session["MToOctLocation"].ToString();
+            var rows = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == mToOctLocation &&
+                                                    x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.HoldRun &&
+                                                    x.Field<int>("RoleID") == (int)E658.Enum.EnumE658UserType.RunHold &&
                                                     x.Field<DateTime>("PDate") == Convert.ToDateTime(filterString));
             return rows.Any() ? rows.CopyToDataTable() : new DataTable();
         }
@@ -794,9 +805,7 @@ namespace E658.Controllers
             }
 
             return View(e658DetailsList);
-        }
-
-        //[HttpGet]
+        }      
         public ActionResult E658DetailsFinalView(string id)
         {
             ///Created BY   : Sqn ldr Wicky
@@ -1542,18 +1551,16 @@ namespace E658.Controllers
 
             var raisedTypeInfo = _db.E658CreaterDetails.Where(x => x.ECDID == creatorId && x.Active == 1).Select(x => new { x.UserGERMSLocation, x.RaisedTypeID })
                                  .FirstOrDefault();
-            var rejectStatusRoleId = _db.E658FlowMagt.Where(x => x.RoleID == roleId && x.RaisedTyId == raisedTypeInfo.RaisedTypeID && x.Active == 1)
-                                    .Select(x => x.RejectStatus).FirstOrDefault();
 
-            var rejectRoleFlowMgtId = _db.E658FlowMagt.Where(x => x.RoleID == rejectStatusRoleId && x.RaisedTyId == raisedTypeInfo.RaisedTypeID && x.Active == 1)
+           var runHoldRoleFlowMgtId = _db.E658FlowMagt.Where(x => x.RoleID == (int)E658.Enum.EnumE658UserType.RunHold && x.Active == 1)
                                     .Select(x => x.EFMID).FirstOrDefault();
 
             E658FlowTransaction objFlowTranc = new E658FlowTransaction();
 
-            objFlowTranc.EFlowMgtID = rejectRoleFlowMgtId;
+            objFlowTranc.EFlowMgtID = runHoldRoleFlowMgtId;
             objFlowTranc.RecordStatusID = (int)E658.Enum.EnumRecordStatus.HoldRun;
             objFlowTranc.E658CreatorDltID = creatorId;
-            objFlowTranc.RoleID = rejectStatusRoleId;
+            objFlowTranc.RoleID = (int)E658.Enum.EnumE658UserType.RunHold;
             objFlowTranc.RecordLocID = raisedTypeInfo.UserGERMSLocation;
             objFlowTranc.Comment = "Run Hold the Temporally.";
             objFlowTranc.Active = 1;
@@ -1587,6 +1594,106 @@ namespace E658.Controllers
 
             return RedirectToAction("E658FinalApprovedList");
 
+        }
+
+        public ActionResult HoldRunList(string sortOrder, string currentFilter, string searchString, int? page, int? RSID)
+        {
+            ///Created BY  : Sqn ldr Wicky
+            ///Create Date : 2025/01/10
+            ///Description : Hold Run list show to the User. To get the hold run list pass the run hold user role (RunHold = 9) to the CallE65MoreDetailsSP store procedure
+
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt2 = new DataTable();
+                List<VME658Create> E658List = new List<VME658Create>();
+
+                int pageSize = 20;
+                int pageNumber = page ?? 1;
+
+                if (Session["UserLoginType"] == null)
+                {
+                    return RedirectToAction("Login", "User");
+                }
+
+                int userLoginType = (int)E658.Enum.EnumE658UserType.RunHold;
+                
+                ReportData.DAL.DALCommanQuery objDALCommanQuery = new ReportData.DAL.DALCommanQuery();
+
+                
+                dt = objDALCommanQuery.CallE65MoreDetailsSP((int)E658.Enum.EnumE658UserType.RunHold);
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    dt2 = FilterDataTable(dt, userLoginType, searchString, currentFilter);
+                    PopulateE658List(dt2, E658List);
+                    
+                }
+
+                ViewBag.CurrentFilter = page >= 2 ? currentFilter : searchString;
+                return View(E658List.ToPagedList(pageNumber, pageSize));
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+           
+        }
+
+        public ActionResult RunActive(string userID)
+        {
+            ///Created BY  : Sqn ldr Wicky
+            ///Create Date : 2025/01/10
+            ///Description : Active the Hold Run
+
+            var hashingService = new HashingService();
+
+            // Decode the hashId back to the original string
+            string decodedString = hashingService.DecodeHashId(userID);
+
+            // Split the decoded string to retrieve the original values
+            var splitValues = decodedString.Split(':');
+            int creatorId = int.Parse(splitValues[0]);
+            int roleId = int.Parse(splitValues[1]);
+            int eFlowId = int.Parse(splitValues[2]);
+
+            try
+            {
+                var e658Type = _db.E658CreaterDetails.Where(x => x.ECDID == creatorId && x.Active == 1).Select(x => new { x.RaisedTypeID, x.UserGERMSLocation }).FirstOrDefault();
+                E658FlowTransaction FlowTranc = new E658FlowTransaction();
+
+                FlowTranc.EFlowMgtID = EFID;
+                FlowTranc.RecordStatusID = (int)E658.Enum.EnumRecordStatus.Forward;
+                FlowTranc.RecordLocID = e658Type.UserGERMSLocation;
+                FlowTranc.E658CreatorDltID = creatorId;
+                FlowTranc.RoleID = RID;
+                FlowTranc.Active = 1;
+                FlowTranc.CreatedDate = DateTime.Now;
+                FlowTranc.CreatedBy = (Session["LoginUser"]).ToString();
+                FlowTranc.CreatedIP = this.Request.UserHostAddress;
+                FlowTranc.CreatedMAC = mac.GetMacAddress();
+
+                _db.E658FlowTransaction.Add(FlowTranc);
+
+                if (_db.SaveChanges() > 0)
+                {
+                    TempData["ScfMsg"] = "You have Forwarded the E658 Successfully.";
+
+                    return RedirectToAction("E658List");
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return View();
         }
 
         //[HttpGet]
@@ -1708,7 +1815,7 @@ namespace E658.Controllers
             {
                 var e658Type = _db.E658CreaterDetails.Where(x => x.ECDID == E658CreatorDltId && x.Active == 1).Select(x => new { x.RaisedTypeID, x.UserGERMSLocation }).FirstOrDefault();
 
-                var mt658Details = _db.F658RegistryHeader.Where(x => x.E658CreatorDltId == E658CreatorDltId && x.Active == 1).Select(x => new { x.OMTNo, x.SLAFRegNo }).FirstOrDefault();
+                //var mt658Details = _db.F658RegistryHeader.Where(x => x.E658CreatorDltId == E658CreatorDltId && x.Active == 1).Select(x => new { x.OMTNo, x.SLAFRegNo }).FirstOrDefault();
 
                 RaisedTypeID = Convert.ToInt32(e658Type.RaisedTypeID);
 
@@ -1817,7 +1924,7 @@ namespace E658.Controllers
             }
             return locList;
         }
-        public string CreateUnitSerialNo(string FromLocID, int E658RunType)
+        private string CreateUnitSerialNo(string FromLocID, int E658RunType)
         {
             ///Created BY   : Sqn ldr Wicky
             /// Create Date : 2024/03/07
@@ -1843,7 +1950,7 @@ namespace E658.Controllers
 
             return unitSerialNo;
         }
-        public static string GenerateRandomStringKey()
+        private static string GenerateRandomStringKey()
         {
             string randomNumber = "";
 
@@ -2190,7 +2297,6 @@ namespace E658.Controllers
         }
 
         #region JsonFunction
-
         public JsonResult UpdateCombineRun(VME658Create objE658)
         {
 
@@ -2308,7 +2414,7 @@ namespace E658.Controllers
 
             return Json(data, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult UpdateOMTRecord(string id, int ECDID)
+        private JsonResult UpdateOMTRecord(string id, int ECDID)
         {
             string message = "";
             ///Create By   : Sqn ldr Wicky

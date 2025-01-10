@@ -14,8 +14,10 @@ namespace E658.Enum
         MTController = 5,
         E658CreateUser = 7,
         RecordCertified = 6,
-        NoUser  = 0
-        
+        NoUser  = 0,
+        RunComplete = 8,
+        RunHold = 9
+
 
     }
 
