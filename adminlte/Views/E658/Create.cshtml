@@ -52,6 +52,15 @@
                             @Html.ValidationMessageFor(model => model.ToLocId, string.Empty, new { @class = "label label-danger" })
                         </div>
                     </div>
+
+                    @*<div class="col-lg-12 form-group" >
+                        <div class="form-group">
+                            @Html.Label("Type Other Location Name", new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.mataPissuBola, new { @class = "form-control - ", autocomplete = "off" })
+                            @Html.ValidationMessageFor(model => model.mataPissuBola, string.Empty, new { @class = "label label-danger" })
+                        </div>
+                    </div>*@
+
                     @*E-658 Run Type and  E658-Date*@
                     @*E-658 Run*@
                     <div class="form-group">
@@ -275,6 +284,7 @@
         $("#dvRptLocation").hide();
         $("#dpReportLoc").val("");
         $("#CreateSuccMeg").hide();
+        //$("#dvOtherRun").hide();
 
     });
 
@@ -432,7 +442,7 @@
             var Todate = $("#ReturnDate").val();
             var FromDate = $("#E658Date").val();
             var runtype = $("#ERTID").val();
-          
+
             /// runtype == 17 (Emergency Run)
 
             $.ajax({
@@ -464,7 +474,7 @@
                             document.getElementById('ReturnDate').style.backgroundColor = "#FFFFFF";
                             document.getElementById('btnSave').disabled = false;
                         }
-                    }                    
+                    }
 
                 },
                 error: function (result) {
@@ -594,6 +604,16 @@
             });
         });
     });
+
+    //$(function () {
+    //    $("#ToLocId").change(function () {
+    //        if ($(this).val() == 'Other Location') {
+    //            $('#dvOtherRun').show();
+    //            } else {
+    //            $('#dvOtherRun').hide();
+    //            }
+    //    });
+    //});
 
 
 </script>

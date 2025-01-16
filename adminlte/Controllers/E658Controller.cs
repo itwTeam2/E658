@@ -234,6 +234,11 @@ namespace E658.Controllers
                         IsVehiReqFromMT = 0;
                     }
 
+                    if (objE658.ToLocId == "Other Location")
+                    {
+
+                    }
+
                     F658RegistryHeader RegHeader = new F658RegistryHeader()
                     {
                         ChassisNo = VehiChassisNo,
@@ -242,6 +247,7 @@ namespace E658.Controllers
                         FLocation = FromLocID,
                         ELocation = FromLocID,
                         TLocation = ToLocID.Trim(),
+                        //TLocation = (objE658.ToLocId == "Other Location") ? objE658.mataPissuBola : ToLocID.Trim(),
                         RealToLocation = ToLocID.Trim(),
                         E658CreatorDltId = objE658.ECDID,
                         PLocation = vehicleAttaLoc,
@@ -1661,31 +1667,46 @@ namespace E658.Controllers
 
             try
             {
-                var e658Type = _db.E658CreaterDetails.Where(x => x.ECDID == creatorId && x.Active == 1).Select(x => new { x.RaisedTypeID, x.UserGERMSLocation }).FirstOrDefault();
-                E658FlowTransaction FlowTranc = new E658FlowTransaction();
+                var e658Type = _db.E658CreaterDetails.Where(x => x.ECDID == creatorId && x.Active == 3).Select(x => new { x.RaisedTypeID, x.UserGERMSLocation }).FirstOrDefault();
+                
+                var SubmitStatus = _db.E658FlowMagt.Where(x => x.RoleID == roleId && x.Active == 1).Select(x => x.SubmitStatus).FirstOrDefault();
 
-                FlowTranc.EFlowMgtID = EFID;
-                FlowTranc.RecordStatusID = (int)E658.Enum.EnumRecordStatus.Forward;
-                FlowTranc.RecordLocID = e658Type.UserGERMSLocation;
-                FlowTranc.E658CreatorDltID = creatorId;
-                FlowTranc.RoleID = RID;
-                FlowTranc.Active = 1;
-                FlowTranc.CreatedDate = DateTime.Now;
-                FlowTranc.CreatedBy = (Session["LoginUser"]).ToString();
-                FlowTranc.CreatedIP = this.Request.UserHostAddress;
-                FlowTranc.CreatedMAC = mac.GetMacAddress();
+                var EFlowMgtId = _db.E658FlowMagt.Where(x => x.RoleID == SubmitStatus && x.Active == 1).Select(x => new { x.EFMID, x.RoleID }).FirstOrDefault();
+                                
+                E658FlowTransaction FlowTranc = new E658FlowTransaction() {
+                    EFlowMgtID = EFlowMgtId.EFMID,
+                    RecordStatusID = (int)E658.Enum.EnumRecordStatus.Forward,
+                    RecordLocID = e658Type.UserGERMSLocation,
+                    E658CreatorDltID = creatorId,
+                    RoleID = EFlowMgtId.RoleID,
+                    Active = 1,
+                    CreatedDate = DateTime.Now,
+                    CreatedBy = (Session["LoginUser"]).ToString(),
+                    CreatedIP = this.Request.UserHostAddress,
+                    CreatedMAC = mac.GetMacAddress(),
 
+                };
+                
                 _db.E658FlowTransaction.Add(FlowTranc);
+
+                E658CreaterDetails objUser = _db.E658CreaterDetails.Find(creatorId);
+                objUser.Active = 1;
+                objUser.ModifiedBy = (Session["LoginUser"]).ToString();
+                objUser.ModifiedDate = DateTime.Now;
+                objUser.ModifiedMAC = mac.GetMacAddress();
+
+                _db.Entry(objUser).State = EntityState.Modified;
 
                 if (_db.SaveChanges() > 0)
                 {
-                    TempData["ScfMsg"] = "You have Forwarded the E658 Successfully.";
+                    TempData["ScfMsg"] = "You have Activated the Run Successfully.";
 
-                    return RedirectToAction("E658List");
+                    return RedirectToAction("HoldRunList");
                 }
                 else
                 {
-                    return View();
+                    TempData["ErrMsg"] = "Process Unsuccessful.Try again...";
+                    return RedirectToAction("HoldRunList");
                 }
             }
             catch (Exception ex)
@@ -1693,7 +1714,7 @@ namespace E658.Controllers
 
                 throw ex;
             }
-            return View();
+            //return View();
         }
 
         //[HttpGet]
@@ -1820,7 +1841,7 @@ namespace E658.Controllers
                 RaisedTypeID = Convert.ToInt32(e658Type.RaisedTypeID);
 
                 flowList = RecordFlowMgtId(RaisedTypeID, roleId);
-
+                
                 foreach (var item in flowList)
                 {
                     EFID = item.EFMID;

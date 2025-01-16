@@ -10,6 +10,7 @@ namespace E658.Models
         public string UnitSerialNo { get; set; }
         public string FromLocID { get; set; }        
         public string ToLocId { get; set; }
+        public string mataPissuBola { get; set; }
         public string Purpose { get; set; }
         public string Route { get; set; }
         public string E658RunType { get; set; }
