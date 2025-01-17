@@ -277,7 +277,9 @@
                     public string EncodeIds(int roleId, int creatorId)
                     {
                         // Concatenate the values
-                        string concatenatedValues = $"{roleId}:{creatorId}";
+                        //string concatenatedValues = $"{roleId}:{creatorId}";
+
+                        string concatenatedValues = string.Format("{0}:{1}", roleId, creatorId);
 
                         // Convert to Base64 string
                         byte[] bytes = System.Text.Encoding.UTF8.GetBytes(concatenatedValues);
