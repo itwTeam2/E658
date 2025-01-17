@@ -127,7 +127,8 @@
                                         public string EncodeIds(int creatorId, int roleId, int eFlowId)
                                         {
                                             // Concatenate the values
-                                            string concatenatedValues = $"{creatorId}:{roleId}:{eFlowId}";
+                                            //string concatenatedValues = $"{creatorId}:{roleId}:{eFlowId}";
+                                            string concatenatedValues = string.Format("{0}:{1}:{2}", creatorId, roleId, eFlowId);
 
                                             // Convert to Base64 string
                                             byte[] bytes = System.Text.Encoding.UTF8.GetBytes(concatenatedValues);
