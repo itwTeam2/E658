@@ -246,9 +246,9 @@ namespace E658.Controllers
                         UnitSerialNo = createUnitSerialNo,
                         FLocation = FromLocID,
                         ELocation = FromLocID,
-                        TLocation = ToLocID.Trim(),
-                        //TLocation = (objE658.ToLocId == "Other Location") ? objE658.mataPissuBola : ToLocID.Trim(),
-                        RealToLocation = ToLocID.Trim(),
+                        //TLocation = ToLocID.Trim(),
+                        TLocation = ToLocID.Trim(),                        
+                        RealToLocation = (objE658.ToLocId == "Other Location") ? objE658.OtherLocName : ToLocID.Trim(),
                         E658CreatorDltId = objE658.ECDID,
                         PLocation = vehicleAttaLoc,
                         IsRR658 = 2,
@@ -376,23 +376,7 @@ namespace E658.Controllers
                 throw ex;
 
             }
-        }
-        public JsonResult DateCalc(VME658Create objE658)
-        {
-            /// Created BY   : Sgt  Madushanka
-            /// Create Date : 2024/06/25
-            /// Description : Check the return date exceed more than 7 days   
-
-            DateTime FromDate = Convert.ToDateTime(objE658.E658Date);
-            DateTime ToDate = Convert.ToDateTime(objE658.ReturnDate);
-            TimeSpan Time = ToDate - FromDate;
-            double g = Time.TotalDays;
-
-
-            objE658.RequiredDuration = g.ToString();
-            return Json(objE658, JsonRequestBehavior.AllowGet);
-        }
-
+        }      
         [HttpGet]
         public ActionResult E658List(string sortOrder, string currentFilter, string searchString, int? page, int? RSID)
         {
@@ -566,7 +550,7 @@ namespace E658.Controllers
                 VME658Create objList = new VME658Create();
                 objList.UnitSerialNo = dt2.Rows[i]["UnitSerialNo"].ToString();
                 objList.FromLocID = dt2.Rows[i]["FromLocationFull"].ToString();
-                objList.ToLocId = dt2.Rows[i]["ToLocationFull"].ToString();
+                objList.ToLocId = (dt2.Rows[i]["TLocation"].ToString() == "OTR")? dt2.Rows[i]["RealToLocation"].ToString() : dt2.Rows[i]["ToLocationFull"].ToString(); //dt2.Rows[i]["ToLocationFull"].ToString();
                 objList.E658Date = Convert.ToDateTime(dt2.Rows[i]["PDate"]);
                 objList.JournryStartTime = Convert.ToDateTime(dt2.Rows[i]["PTime"]);
                 objList.E658RunType = dt2.Rows[i]["TypeName"].ToString();
@@ -713,7 +697,7 @@ namespace E658.Controllers
 
             DataTable dt = new DataTable();
             List<VME658Create> e658DetailsList = new List<VME658Create>();
-            string FromLocID = "";
+            //string FromLocID = "";
             string ToLocID = "";
 
             var hashingService = new HashingService();
@@ -737,11 +721,13 @@ namespace E658.Controllers
                 {
                     VME658Create objVME658Create = new VME658Create();
 
-                    FromLocID = dt.Rows[i]["FLocation"].ToString();
-                    ToLocID = dt.Rows[i]["TLocation"].ToString();
+                    //FromLocID = dt.Rows[i]["FLocation"].ToString();
+                    ToLocID = (dt.Rows[i]["TLocation"].ToString() == "OTR") ? dt.Rows[i]["RealToLocation"].ToString() : dt.Rows[i]["TLocation"].ToString();
+                    
+               
 
-                    objVME658Create.FromLocID = _db.Locations.Where(x => x.LocationID == FromLocID).Select(x => x.LocationName).FirstOrDefault();
-                    objVME658Create.ToLocId = _db.Locations.Where(x => x.LocationID == ToLocID).Select(x => x.LocationName).FirstOrDefault();
+                    objVME658Create.FromLocID = dt.Rows[i]["FromLocationFull"].ToString(); //_db.Locations.Where(x => x.LocationID == FromLocID).Select(x => x.LocationName).FirstOrDefault();
+                    objVME658Create.ToLocId = ToLocID;
                     objVME658Create.UnitSerialNo = dt.Rows[i]["UnitSerialNo"].ToString();
                     objVME658Create.E658RunType = dt.Rows[i]["TypeName"].ToString();
                     objVME658Create.E658Date = Convert.ToDateTime(dt.Rows[i]["PDate"]);
@@ -1486,8 +1472,7 @@ namespace E658.Controllers
             }
 
             return View(e658DetailsList);
-        }
-        
+        }        
         public ActionResult ReApprovingRecord(string userID)
         {
             ///Created BY   : Sqn ldr Wicky
@@ -1531,7 +1516,6 @@ namespace E658.Controllers
 
             //return View();
         }
-
         public ActionResult HoldRun(string userID)
         {
             ///Created BY  : Sqn ldr Wicky
@@ -1601,7 +1585,6 @@ namespace E658.Controllers
             return RedirectToAction("E658FinalApprovedList");
 
         }
-
         public ActionResult HoldRunList(string sortOrder, string currentFilter, string searchString, int? page, int? RSID)
         {
             ///Created BY  : Sqn ldr Wicky
@@ -1647,7 +1630,6 @@ namespace E658.Controllers
 
            
         }
-
         public ActionResult RunActive(string userID)
         {
             ///Created BY  : Sqn ldr Wicky
@@ -2435,7 +2417,7 @@ namespace E658.Controllers
 
             return Json(data, JsonRequestBehavior.AllowGet);
         }
-        private JsonResult UpdateOMTRecord(string id, int ECDID)
+        public JsonResult UpdateOMTRecord(string id, int ECDID)
         {
             string message = "";
             ///Create By   : Sqn ldr Wicky
@@ -2652,6 +2634,21 @@ namespace E658.Controllers
 
             return Json(obj_VwPersonalProfile, JsonRequestBehavior.AllowGet);
 
+        }
+        public JsonResult DateCalc(VME658Create objE658)
+        {
+            /// Created BY   : Sgt  Madushanka
+            /// Create Date : 2024/06/25
+            /// Description : Check the return date exceed more than 7 days   
+
+            DateTime FromDate = Convert.ToDateTime(objE658.E658Date);
+            DateTime ToDate = Convert.ToDateTime(objE658.ReturnDate);
+            TimeSpan Time = ToDate - FromDate;
+            double g = Time.TotalDays;
+
+
+            objE658.RequiredDuration = g.ToString();
+            return Json(objE658, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

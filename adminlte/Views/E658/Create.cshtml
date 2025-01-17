@@ -1,4 +1,6 @@
-﻿@model E658.Models.VME658Create
+﻿
+
+@model E658.Models.VME658Create
 
 @{
     ViewBag.Title = "E-658 User";
@@ -40,7 +42,7 @@
                         <div class="form-group">
                             @Html.Label("Destination From", new { @class = "control-label" })
                             @Html.TextBoxFor(model => model.FromLocID, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
-                            @Html.ValidationMessageFor(model => model.E658Date, string.Empty, new {@class ="label label-danger"})
+                            @Html.ValidationMessageFor(model => model.E658Date, string.Empty, new { @class = "label label-danger" })
                             @Html.HiddenFor(model => model.ECDID)
                         </div>
                     </div>
@@ -53,13 +55,13 @@
                         </div>
                     </div>
 
-                    @*<div class="col-lg-12 form-group" >
+                    <div class="col-lg-12 form-group" id="dvOtherRun">
                         <div class="form-group">
                             @Html.Label("Type Other Location Name", new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.mataPissuBola, new { @class = "form-control - ", autocomplete = "off" })
-                            @Html.ValidationMessageFor(model => model.mataPissuBola, string.Empty, new { @class = "label label-danger" })
+                            @Html.TextBoxFor(model => model.OtherLocName, new { @class = "form-control - ", autocomplete = "off"})                           
+                            @Html.ValidationMessageFor(model => model.OtherLocName, string.Empty, new { @class = "label label-danger" })
                         </div>
-                    </div>*@
+                    </div>
 
                     @*E-658 Run Type and  E658-Date*@
                     @*E-658 Run*@
@@ -72,7 +74,7 @@
                         </div>
                         @*E658-Date*@
                         <div class="col-lg-6">
-                           
+
                             <div class="form-group">
                                 @Html.Label("Departure Date", new { @class = "control-label" })
                                 @Html.TextBoxFor(model => model.E658Date, new { @class = "form-control - ", autocomplete = "off", @type = "date" })
@@ -106,7 +108,7 @@
 
                     @*Route*@
                     <div class="form-group">
-                        @Html.Label("Way Points", new { @class = "control-label" })
+                        @Html.Label("Route", new { @class = "control-label" })
                         @Html.TextAreaFor(model => model.Route, new { @class = "form-control ", autocomplete = "off" })
                     </div>
 
@@ -284,7 +286,7 @@
         $("#dvRptLocation").hide();
         $("#dpReportLoc").val("");
         $("#CreateSuccMeg").hide();
-        //$("#dvOtherRun").hide();
+        $("#dvOtherRun").hide();
 
     });
 
@@ -454,26 +456,29 @@
                 success: function (data) {
                     //alert(data.RequiredDuration);
 
-                    if (runtype != 17 ) {
-                        if (parseInt(data.RequiredDuration) > 7 || parseInt(data.RequiredDuration) < 0) {
-                            if (parseInt(data.RequiredDuration) < 0) {
-                                document.getElementById('ReturnDate').style.backgroundColor = "#FF0000";
-                                document.getElementById('btnSave').disabled = true;
+                    //if (runtype != 17 ) {
+                        
+                    //}
 
-                                alert("Please select the correct date range.");
-                                $("#ReturnDate").val("");
-                            }
-                            else {
-                                alert("Duration exceed more than 7 days");
-                                document.getElementById('ReturnDate').style.backgroundColor = "#FFFFFF";
-                                $("#ReturnDate").val("");
-                            }
+                    if (parseInt(data.RequiredDuration) > 7 || parseInt(data.RequiredDuration) < 0) {
 
+                        if (parseInt(data.RequiredDuration) < 0) {
+                            document.getElementById('ReturnDate').style.backgroundColor = "#FF0000";
+                            document.getElementById('btnSave').disabled = true;
+
+                            alert("Please select the correct date range.");
+                            $("#ReturnDate").val("");
                         }
                         else {
-                            document.getElementById('ReturnDate').style.backgroundColor = "#FFFFFF";
-                            document.getElementById('btnSave').disabled = false;
+                            //alert("Duration exceed more than 7 days");
+                            //document.getElementById('ReturnDate').style.backgroundColor = "#FFFFFF";
+                            //$("#ReturnDate").val("");
                         }
+
+                    }
+                    else {
+                        document.getElementById('ReturnDate').style.backgroundColor = "#FFFFFF";
+                        document.getElementById('btnSave').disabled = false;
                     }
 
                 },
@@ -527,6 +532,7 @@
             objE658.JournryStartTime = $("#JournryStartTime").val();
             objE658.ReturnDate = $("#ReturnDate").val();
             //objE658.RequiredDuration = $("#RequiredDuration").val();
+            objE658.OtherLocName = $("#OtherLocName").val();
             objE658.Purpose = $("#Purpose").val();
             objE658.Route = $("#Route").val();
             objE658.ECDID = $("#ECDID").val();
@@ -605,15 +611,17 @@
         });
     });
 
-    //$(function () {
-    //    $("#ToLocId").change(function () {
-    //        if ($(this).val() == 'Other Location') {
-    //            $('#dvOtherRun').show();
-    //            } else {
-    //            $('#dvOtherRun').hide();
-    //            }
-    //    });
-    //});
+    $(function () {
+        $("#ToLocId").change(function () {
+            if ($(this).val() == 'Other Location') {
+                $('#dvOtherRun').show();
+                } else {
+                $('#dvOtherRun').hide();
+                }
+        });
+    });
 
 
 </script>
+
+

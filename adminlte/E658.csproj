@@ -4522,7 +4522,6 @@
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\E658InitiateUser.cshtml" />
-    <Content Include="Views\E658\Create.cshtml" />
     <Content Include="Views\E658\_E658Details.cshtml" />
     <Content Include="Views\E658\E658Details.cshtml" />
     <Content Include="Views\E658\_E658ReportLoc.cshtml" />
@@ -4543,6 +4542,7 @@
     <Content Include="Views\User\MTControllerList.cshtml" />
     <Content Include="Views\User\Inquiry.cshtml" />
     <Content Include="Views\E658\HoldRunList.cshtml" />
+    <Content Include="Views\E658\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

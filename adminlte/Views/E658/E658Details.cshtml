@@ -296,7 +296,7 @@
                         case (int)E658.Enum.EnumE658UserType.MTController:
 
                             <button type="button" class="col-lg- btn btn-warning" onclick="location.href='@Url.Action("Forward", "E658", new { roleId = item.RoleID, E658CreatorDltId = item.ECDID })'">
-                                <span><i class="fa fa-share" aria-hidden="true"> Certify</i></span>
+                                <span><i class="fa fa-share" aria-hidden="true"></i> Certify</span>
                             </button>
 
                             @*<button type="button" class="col-lg- btn btn-success pull-right" onclick="location.href='@Url.Action("Index", "User")'">
@@ -630,12 +630,14 @@
 
             var txtOMTServiceNo = $("#txtOMTServiceNo").val();
             var ecdidValue = document.getElementById("CreatorID").value;
-
+            //alert(txtOMTServiceNo);
             $.ajax({
-                type: 'POST',
                 url: '@Url.Content("~/E658/UpdateOMTRecord")',
+                
+                type: 'POST',
                 dataType: 'json',
-                data: { id: txtOMTServiceNo, ECDID: ecdidValue },
+                /*data: { id: txtOMTServiceNo,ECDID: ecdidValue },*/
+                data: { id: txtOMTServiceNo,ECDID: ecdidValue },
                 success: function (data) {
                     alert(data.Message);
                     location.reload();
