@@ -919,6 +919,11 @@ namespace WRMS.Controllers
         }       
         public ActionResult TransportAuthIndex()
         {
+            ///Created BY   : Sqn ldr Wicky
+            /// Create Date : 2025/02/17
+            /// Description : load Long Run Index Page
+
+
             return View();
         }        
         public ActionResult Logout()

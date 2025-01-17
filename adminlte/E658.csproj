@@ -180,6 +180,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\E658Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LongRunController.cs" />
     <Compile Include="Controllers\MacAddress.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -4396,6 +4397,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\New folder\" />
+    <Folder Include="Views\LongRun\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -4541,6 +4543,7 @@
     <Content Include="Views\User\Inquiry.cshtml" />
     <Content Include="Views\E658\HoldRunList.cshtml" />
     <Content Include="Views\E658\Create.cshtml" />
+    <Content Include="Views\User\TransportAuthIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
