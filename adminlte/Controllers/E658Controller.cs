@@ -2276,12 +2276,25 @@ namespace E658.Controllers
                     if (objE658.RoleID != 0)
                     {
                         TempData["ScfMsg"] = "You have Update the E658 Successfully.";
-                        return Json(new { success = true, redirectUrl = Url.Action("E658List", new { E658CreatorID = objE658.ECDID, RoleId = 0 }) });
+                        //return Json(new { success = true, redirectUrl = Url.Action("E658List", new { E658CreatorID = objE658.ECDID, RoleId = 0 }) });
+                        var hashingService = new HashingService();
+
+                        string encodedId = hashingService.EncodeMultipleValues(objE658.ECDID, 0, 0);
+
+                        return Json(new { success = true, redirectUrl = Url.Action("E658Details", new { userID = encodedId }) });
+
                     }
                     else
                     {
                         TempData["ScfMsg"] = "You have Update the E658 Successfully.";
-                        return Json(new { success = true, redirectUrl = Url.Action("E658Details", new { E658CreatorID = objE658.ECDID, RoleId = 0, EFlowId = 0 }) });
+                        //return Json(new { success = true, redirectUrl = Url.Action("E658Details", new { E658CreatorID = objE658.ECDID, RoleId = 0, EFlowId = 0 }) });
+
+                        var hashingService = new HashingService();
+
+                        string encodedId = hashingService.EncodeMultipleValues(objE658.ECDID, 0, 0);
+
+                        return Json(new { success = true, redirectUrl = Url.Action("E658Details", new { userID = encodedId }) });
+
                     }
 
                 }

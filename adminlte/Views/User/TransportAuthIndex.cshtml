@@ -1,0 +1,87 @@
+﻿@model E658.Models.VME658InitiateUser
+@{
+    ViewBag.Title = "TransportAuthIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="content-wrapper" style="min-height: 786px;">
+        <!-- Header Section -->
+        <section class="content-header">
+            <h1 style="text-align: center;"><span>Transport Authority</span></h1>
+            <button type="button" class="btn btn-success pull-right" onclick="location.href='@Url.Action("Index", "User")'">
+                <span>Back To Main Page</span>
+            </button>
+            <div id="ErrorMessage" style="margin-top: 5px;">
+                @if (TempData["ScfMsg"] != null)
+                {
+                    <div id="Msg" class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>Alert! </strong>@TempData["ScfMsg"]
+                    </div>
+                }
+                else if (TempData["ErrMsg"] != null)
+                {
+                    <div id="Msg" class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>Alert! </strong>@TempData["ErrMsg"]
+                    </div>
+                }
+            </div>
+        </section>
+
+        <!-- Buttons Section -->
+        <section class="col-lg-12 connectedSortable" style="margin-top: 20px;">
+            <div class="modern-ui-container">
+                <button type="button" class="modern-button request-authority" onclick="location.href='@Url.Action("RequestAuthority", "Transport")'">Request Authority</button>
+                <button type="button" class="modern-button create-e658" onclick="location.href='@Url.Action("CreateE658", "Transport")'">Create 658</button>
+            </div>
+        </section>
+    </div>
+}
+
+<!-- CSS Section -->
+<style>
+    .modern-ui-container {
+        background-color: #e9c6f3; /* Light purple */
+        border-radius: 15px;
+        padding: 40px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        margin: 20px auto;
+        max-width: 600px;
+        text-align: center;
+    }
+
+    .modern-button {
+        padding: 15px 30px;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    }
+
+        .modern-button.request-authority {
+            background-color: #7eb6ff; /* Light blue */
+            color: white;
+        }
+
+            .modern-button.request-authority:hover {
+                background-color: #559dff;
+            }
+
+        .modern-button.create-e658 {
+            background-color: #b4f5b4; /* Light green */
+            color: #333;
+        }
+
+            .modern-button.create-e658:hover {
+                background-color: #91e491;
+            }
+</style>
