@@ -14,15 +14,18 @@ namespace E658.Enum
         MTController = 5,
         E658CreateUser = 7,
         RecordCertified = 6,
-        NoUser  = 0
-        
+        NoUser  = 0,
+        RunComplete = 8,
+        RunHold = 9
+
 
     }
 
     public enum EnumRecordStatus
     {
         Forward = 2000,
-        Reject = 3000
+        Reject = 3000,
+        HoldRun = 4000
 
     }
  

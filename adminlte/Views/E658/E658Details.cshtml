@@ -296,7 +296,7 @@
                         case (int)E658.Enum.EnumE658UserType.MTController:
 
                             <button type="button" class="col-lg- btn btn-warning" onclick="location.href='@Url.Action("Forward", "E658", new { roleId = item.RoleID, E658CreatorDltId = item.ECDID })'">
-                                <span><i class="fa fa-share" aria-hidden="true"> Certify</i></span>
+                                <span><i class="fa fa-share" aria-hidden="true"></i> Certify</span>
                             </button>
 
                             @*<button type="button" class="col-lg- btn btn-success pull-right" onclick="location.href='@Url.Action("Index", "User")'">
@@ -326,16 +326,16 @@
 
                             <div class="col-lg-6">
                                 <button type="button" class="col-lg- btn btn-success" onclick="location.href='@Url.Action("Forward", "E658", new { roleId = item.RoleID, E658CreatorDltId = item.ECDID })'">
-                                    <span><i class="fa fa-check" aria-hidden="false"> Final Approval</i></span>
+                                    <span><i class="fa fa-check" aria-hidden="false"></i> Final Approval</span>
                                 </button>
 
 
                                 <button type="button" class="col-lg- btn btn-danger col-lg-offset-2" onclick="location.href='@Url.Action("RejectRecordFinalAuthority", "E658", new { roleId = item.RoleID, ECDID = item.ECDID, EFTID = item.EFTID})'">
-                                    <span><i class="fa fa-times" aria-hidden="false"> Reject </i></span>
+                                    <span><i class="fa fa-times" aria-hidden="false"></i> Reject</span>
                                 </button>
 
                                 <button type="button" class="col-lg- btn btn-info col-lg-offset-2" onclick="location.href='@Url.Action("E658List", "E658", new { roleId = item.RoleID, ECDID = item.ECDID, EFTID = item.EFTID})'">
-                                    <span><i class="fa fa-chevron-right" aria-hidden="false"> Back to List</i></span>
+                                    <span><i class="fa fa-chevron-right" aria-hidden="false"></i>  Back to List</span>
                                 </button>
                             </div>
 
@@ -630,12 +630,14 @@
 
             var txtOMTServiceNo = $("#txtOMTServiceNo").val();
             var ecdidValue = document.getElementById("CreatorID").value;
-
+            //alert(txtOMTServiceNo);
             $.ajax({
-                type: 'POST',
                 url: '@Url.Content("~/E658/UpdateOMTRecord")',
+                
+                type: 'POST',
                 dataType: 'json',
-                data: { id: txtOMTServiceNo, ECDID: ecdidValue },
+                /*data: { id: txtOMTServiceNo,ECDID: ecdidValue },*/
+                data: { id: txtOMTServiceNo,ECDID: ecdidValue },
                 success: function (data) {
                     alert(data.Message);
                     location.reload();

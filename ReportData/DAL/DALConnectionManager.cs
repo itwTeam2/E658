@@ -21,8 +21,8 @@ public class DALConnectionManager
         try
         {
             //ConnectionManager.ConnectionString = "Data Source=135.22.67.113\\; Initial Catalog = HELPDESK; User ID = helpdeskuser;password=password";
-            //ConnectionManager.ConnectionString = "Data Source=135.22.67.71\\SQL2019; Initial Catalog = GERMS_NEW; User ID = germsuser;password=password";
-            ConnectionManager.ConnectionString = "Data Source=135.22.67.105\\; Initial Catalog = GERMS; User ID = germsuser;password=password";
+            ConnectionManager.ConnectionString = "Data Source=135.22.67.71\\SQL2019; Initial Catalog = GERMS_NEW; User ID = germsuser;password=password";
+            //ConnectionManager.ConnectionString = "Data Source=135.22.67.105\\; Initial Catalog = GERMS; User ID = germsuser;password=password";
             ConnectionManager.Open();              
         }
         catch (Exception ex)
