@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace E658.Models
 {
@@ -28,7 +29,8 @@ namespace E658.Models
         public string JournryStartTime { get; set; }
         public string RequiredDuration { get; set; }
         public string DivisionId { get; set; }
-
+        public SelectList UserLocations { get; set; }
+        public string SelectedUserLocation { get; set; }
         public string Route { get; set; }
 
         public DateTime? MTCotrollerDutyDate { get; set; }

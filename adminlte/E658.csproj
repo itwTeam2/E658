@@ -385,6 +385,7 @@
     </Compile>
     <Compile Include="Models\VME658Create.cs" />
     <Compile Include="Models\VME658InitiateUser.cs" />
+    <Compile Include="Models\VMLongRunCreate.cs" />
     <Compile Include="Models\Vw_EpasDivision.cs">
       <DependentUpon>CommonData.tt</DependentUpon>
     </Compile>
@@ -4397,7 +4398,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\New folder\" />
-    <Folder Include="Views\LongRun\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -4544,6 +4544,7 @@
     <Content Include="Views\E658\HoldRunList.cshtml" />
     <Content Include="Views\E658\Create.cshtml" />
     <Content Include="Views\User\TransportAuthIndex.cshtml" />
+    <Content Include="Views\LongRun\CreateRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
