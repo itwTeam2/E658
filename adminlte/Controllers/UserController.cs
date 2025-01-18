@@ -916,16 +916,57 @@ namespace WRMS.Controllers
 
            
             
-        }       
+        }
+        [HttpGet]
         public ActionResult TransportAuthIndex()
         {
             ///Created BY   : Sqn ldr Wicky
             /// Create Date : 2025/02/17
             /// Description : load Long Run Index Page
 
+            var userLocations = _db.Locations.Select(ul => new SelectListItem
+            {
+                Value = ul.LocationID.ToString(),
+                Text = ul.LocationName
+            }).ToList();
 
-            return View();
-        }        
+            var model = new VME658InitiateUser
+            {
+                UserLocations = new SelectList(userLocations, "Value", "Text")
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult TransportAuthIndex(VME658InitiateUser model)
+        {
+            ///Created BY   : Sqn ldr Wicky
+            /// Create Date : 2025/02/17
+            /// Description : get the user filling data and load it to the transport Create Request view
+            /// 
+            if (ModelState.IsValid)
+            {
+                // Handle the form submission
+                // You can save the data to the database or perform other actions
+
+                // Redirect to another action or return a view
+                
+            }
+
+            return RedirectToAction("CreateRequest", "LongRun");
+
+            // If the model state is not valid, reload the user locations and return the view
+            var userLocations = _db.Locations.Select(ul => new SelectListItem
+            {
+                Value = ul.LocationID.ToString(),
+                Text = ul.LocationName
+            }).ToList();
+
+            model.UserLocations = new SelectList(userLocations, "Value", "Text");
+
+            return View(model);
+        }
         public ActionResult Logout()
         {
             Session.Abandon();

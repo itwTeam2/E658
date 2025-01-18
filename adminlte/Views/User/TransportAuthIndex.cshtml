@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("TransportAuthIndex", "User", FormMethod.Post, new { id = "requestAuthorityForm" }))
 {
     <div class="content-wrapper" style="min-height: 786px;">
         <!-- Header Section -->
@@ -34,17 +34,62 @@
         <!-- Buttons Section -->
         <section class="col-lg-12 connectedSortable" style="margin-top: 20px;">
             <div class="modern-ui-container">
-                <button type="button" class="modern-button request-authority" onclick="location.href='@Url.Action("RequestAuthority", "Transport")'">Request Authority</button>
+                <button type="button" class="modern-button request-authority" id="btnRequestAuthority">Request Authority</button>
                 <button type="button" class="modern-button create-e658" onclick="location.href='@Url.Action("CreateE658", "Transport")'">Create 658</button>
             </div>
         </section>
     </div>
+
+    <!-- Modal structure -->
+    <div class="modal fade" id="requestAuthorityModal" tabindex="-1" role="dialog" aria-labelledby="requestAuthorityModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title modelHeading" id="requestAuthorityModalLabel">Request Creator Info</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Modal content -->
+                    <div class="form-group">
+                        <label for="serviceNo">Service No:</label>
+                        @*<input type="text" class="form-control" id="ServiceNo" value="@Model.ServiceNo">*@
+                        @Html.TextBoxFor(model => model.ServiceNo, new { @class = "form-control - ", autocomplete = "off"})
+
+                    </div>
+                    <div class="form-group">
+                        <label for="rank">Rank:</label>
+                        <input type="text" class="form-control" id="Rank" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="FullName" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="userLocation">User Location:</label>
+                        @Html.DropDownListFor(model => model.SelectedUserLocation, Model.UserLocations, "Select Location", new { @class = "form-control" })
+                        @*<input type="text" class="form-control" id="userLocation">*@
+                    </div>
+                    <div class="form-group">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-info pull-right" id="btnNext">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
 }
+
+
 
 <!-- CSS Section -->
 <style>
     .modern-ui-container {
-        background-color: #e9c6f3; /* Light purple */
+        background-color: #3c80fa; /* #e9c6f3; */
         border-radius: 15px;
         padding: 40px;
         display: flex;
@@ -68,7 +113,7 @@
     }
 
         .modern-button.request-authority {
-            background-color: #7eb6ff; /* Light blue */
+            background-color: #573cfa; /* #7eb6ff; */
             color: white;
         }
 
@@ -77,11 +122,60 @@
             }
 
         .modern-button.create-e658 {
-            background-color: #b4f5b4; /* Light green */
-            color: #333;
+            background-color: #b63cfa; /* #b4f5b4; */
+            color: white;
         }
 
             .modern-button.create-e658:hover {
-                background-color: #91e491;
+                background-color: #c669d1; /*#91e491;*/
             }
+
+    .modelHeading {
+        font-size: 22px;
+        font-weight: 700;
+        background-color: #8b80e3;
+        padding: 10px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+        border-radius: 5px;
+        text-align: center;
+        color: white;
+    }
 </style>
+
+<script src="@Url.Content("~/Scripts/Jq.js")"></script>
+<script>
+    $(document).ready(function () {
+        $('#btnRequestAuthority').click(function () {
+            $('#requestAuthorityModal').modal('show');
+        });
+    });
+
+        $(function () {
+        $("#ServiceNo").change(function () {
+            $.ajax({
+                url: '@Url.Content("~/User/getUserInfo")',
+                type: 'POST',
+                dataType: 'json',
+                data: { id: $("#ServiceNo").val() },
+                success: function (data) {
+                    if (data.ServiceNo == "Service number is not valid.") {
+                        alert("Service number is not valid.");
+                        $("#ServiceNo").val('');
+                        $("#SNo").val('');
+                    }
+                    else {
+                        $("#ServiceNo").val(data.ServiceNo);
+                        $("#SNo").val(data.SNo);
+                        $("#FullName").val(data.Name);
+                        $("#Rank").val(data.Rank);
+                        $("#Trade").val(data.Branch);
+                    }
+                },
+                error: function () {
+                    alert("error in function");
+                }
+            });
+        });
+    });
+
+</script>

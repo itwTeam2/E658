@@ -19,5 +19,29 @@ namespace E658.Controllers
             /// Description : load E658 Creater View
             return View();
         }
+
+        public ActionResult CreateRequest()
+        {
+            ///Created BY   : Sqn ldr Wicky
+            /// Create Date : 2025/01/18
+            /// Description : transport authority requesting form
+
+            ViewBag.DDL_GermsLocation = new SelectList(_db.Locations, "LocationName", "LocationName");
+
+            //ViewBag.DDL_E658RaisedType = (from rrt in _db.E658RaisedRunType
+            //                              join rt in _db.E658RaisedType
+            //                              on rrt.RaisedTypeID equals rt.RTID
+            //                              join runt in _db.E658RunsTypes
+            //                              on rrt.RunsTypeID equals runt.ERTID
+            //                              where rrt.RaisedTypeID == RaisedTypeID && rrt.Active == 1
+            //                              select new SelectListItem
+            //                              {
+            //                                  Value = runt.ERTID.ToString(),
+            //                                  Text = runt.TypeName
+            //                              }).ToList();
+
+
+            return View();
+        }
     }
 }
