@@ -279,4 +279,42 @@
     </div>
 }
 
+<script src="@Url.Content("~/Scripts/Jq.js")"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        ///Created BY   : Sqn Ldr Wicky
+        ///Created Date : 2024/02/15
+        ///Description : hide the Div
+
+        /// Drop down list in Operation Contribution
+
+        $("#staffCar").hide();
+        $("#FormationMT").hide();
+        $("#dvVehicleInfo").hide();
+        $("#dvOMTInfo").hide();
+        $("#dvRptLocation").hide();
+        $("#dpReportLoc").val("");
+        $("#CreateSuccMeg").hide();
+        $("#dvOtherRun").hide();
+
+    });
+
+    ///Show the Other location data entering text box
+    $(function () {
+        $("#ToLocId").change(function () {
+            if ($(this).val() == 'Other Location') {
+                $('#dvOtherRun').show();
+            } else {
+                $('#dvOtherRun').hide();
+            }
+        });
+    });
+
+
+</script>
+
+
 

@@ -1,5 +1,6 @@
 ﻿using E658.Controllers;
 using E658.Models;
+using Newtonsoft.Json;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -945,16 +946,27 @@ namespace WRMS.Controllers
             /// Create Date : 2025/02/17
             /// Description : get the user filling data and load it to the transport Create Request view
             /// 
+
+            ModelState.Remove("RTID");
+            ModelState.Remove("UserLoginLocation");
+            ModelState.Remove("UserLocations"); 
             if (ModelState.IsValid)
             {
                 // Handle the form submission
                 // You can save the data to the database or perform other actions
 
-                // Redirect to another action or return a view
-                
-            }
+                VMLongRunCreate obj = new VMLongRunCreate();
 
-            return RedirectToAction("CreateRequest", "LongRun");
+                obj.CreatorServiceNo = model.ServiceNo;
+                obj.CreatorLocation = model.SelectedUserLocation;
+
+                Session["CretorDetails"] = JsonConvert.SerializeObject(obj);
+
+                // Redirect to another action or return a view
+                TempData["ScfMsg"] = "You completed the first step, Please fill in the Transport Authorityl Details (ඔබ පළමු පියවර සම්පූර්ණ කර ඇත, කරුණාකර E-658 විස්තර පුරවන්න)";
+                return RedirectToAction("CreateRequest", "LongRun");
+
+            }            
 
             // If the model state is not valid, reload the user locations and return the view
             var userLocations = _db.Locations.Select(ul => new SelectListItem
@@ -964,7 +976,8 @@ namespace WRMS.Controllers
             }).ToList();
 
             model.UserLocations = new SelectList(userLocations, "Value", "Text");
-
+            TempData["ErrMsg"] = "Please fill required fields.";
+            
             return View(model);
         }
         public ActionResult Logout()

@@ -53,29 +53,38 @@
                 <div class="modal-body">
                     <!-- Modal content -->
                     <div class="form-group">
-                        <label for="serviceNo">Service No:</label>
-                        @*<input type="text" class="form-control" id="ServiceNo" value="@Model.ServiceNo">*@
-                        @Html.TextBoxFor(model => model.ServiceNo, new { @class = "form-control - ", autocomplete = "off"})
+                        <div class="col-lg-6">
+                            <label for="serviceNo">Service No:</label>
+                            @*<input type="text" class="form-control" id="ServiceNo" value="@Model.ServiceNo">*@
+                            @Html.TextBoxFor(model => model.ServiceNo, new { @class = "form-control - ", autocomplete = "off" })
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="rank">Rank:</label>
+                            <input type="text" class="form-control" id="Rank" readonly>
+                        </div>                       
 
                     </div>
+                    
                     <div class="form-group">
-                        <label for="rank">Rank:</label>
-                        <input type="text" class="form-control" id="Rank" readonly>
+                        <div class="col-lg-6">
+                            <label for="name">Name:</label>
+                            <input type="text" class="form-control" id="FullName" readonly>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="userLocation">User Location:</label>
+                            @Html.DropDownListFor(model => model.SelectedUserLocation, Model.UserLocations, "Select Location", new { @class = "form-control" })
+                            @*<input type="text" class="form-control" id="userLocation">*@
+                        </div>
+                        
                     </div>
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" class="form-control" id="FullName" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="userLocation">User Location:</label>
-                        @Html.DropDownListFor(model => model.SelectedUserLocation, Model.UserLocations, "Select Location", new { @class = "form-control" })
-                        @*<input type="text" class="form-control" id="userLocation">*@
+                    @*<div class="form-group">
+                       
                     </div>
                     <div class="form-group">
 
-                    </div>
+                    </div>*@
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="margin-top:90px">
                     <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-info pull-right" id="btnNext">Next</button>
                 </div>
