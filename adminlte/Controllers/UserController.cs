@@ -191,7 +191,6 @@ namespace WRMS.Controllers
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
@@ -868,7 +867,7 @@ namespace WRMS.Controllers
                         objVME658Create.ECDID = Convert.ToInt32(dt2.Rows[i]["E658CreatorDltId"]);
                         //objVME658Create.EFTID = EFlowId;
                         objVME658Create.RecordStatus = Convert.ToInt32(dt2.Rows[i]["RecordStatus"]);
-                        objVME658Create.TypeName = dt2.Rows[i]["TypeName1"].ToString();
+                        objVME658Create.TypeName = dt2.Rows[i]["TypeName"].ToString();
                         //TempData["ECDID"] = E658CreatorID;
                         TempData["UserLoginType"] = Session["UserLoginType"];
 
@@ -938,7 +937,6 @@ namespace WRMS.Controllers
 
             return View(model);
         }
-
         [HttpPost]
         public ActionResult TransportAuthIndex(VME658InitiateUser model)
         {
@@ -958,7 +956,9 @@ namespace WRMS.Controllers
                 VMLongRunCreate obj = new VMLongRunCreate();
 
                 obj.CreatorServiceNo = model.ServiceNo;
+                obj.Sno = model.SNo;
                 obj.CreatorLocation = model.SelectedUserLocation;
+                obj.SectionName = model.Section;
 
                 Session["CretorDetails"] = JsonConvert.SerializeObject(obj);
 
@@ -1207,6 +1207,37 @@ namespace WRMS.Controllers
 
             return Json(maxTransaction, JsonRequestBehavior.AllowGet);
 
+
+        }
+        public JsonResult FromLocationGerms(string id)
+        {
+
+            ///Created BY   : Flt Lt Gayani 
+            ///Created Date : 16/10/2024
+            ///Description : To load division when location is selected
+
+            List<Establishment> FromEstablishment = new List<Establishment>();
+            var FromLocationList = this.LinqFromLocationGerms(id);
+
+            var divisionListData = FromLocationList.Select(x => new SelectListItem()
+            {
+                Text = x.DivisionName.ToString(),
+                Value = x.DivisionName.ToString(),
+            });
+
+
+            return Json(divisionListData, JsonRequestBehavior.AllowGet);
+        }
+        public IList<Division> LinqFromLocationGerms(string id)
+        {
+            ///Created BY    :  Flt Lt Gayani 
+            ///Created Date  :  16/10/2024    
+            ///Description :  To load division when location is selected
+
+            List<Division> Result = new List<Division>();
+            Result = _db.Divisions.Where(x => x.LocationID == id).ToList();
+
+            return Result;
 
         }
 

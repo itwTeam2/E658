@@ -222,7 +222,7 @@
       <DependentUpon>CommonData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Division.cs">
-      <DependentUpon>CommonData.tt</DependentUpon>
+      <DependentUpon>GERMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Division1.cs">
       <DependentUpon>CommonData.tt</DependentUpon>

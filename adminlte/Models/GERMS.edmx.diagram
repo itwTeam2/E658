@@ -5,21 +5,22 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="4799c3f9261246c19c0b1a648832f32d" Name="Diagram1">
-        <EntityTypeShape EntityType="GERMS_NEWModel.E658CreaterDetails" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="GERMS_NEWModel.E658FlowMagt" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="GERMS_NEWModel.E658FlowTransaction" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GERMS_NEWModel.E658RaisedRunType" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GERMS_NEWModel.E658RaisedType" Width="1.5" PointX="2.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GERMS_NEWModel.E658RptLocDetails" Width="1.5" PointX="4.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.E658RaisedRunType" Width="1.5" PointX="1.125" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.E658RaisedType" Width="1.5" PointX="1.125" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.E658RptLocDetails" Width="1.5" PointX="4.75" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="GERMS_NEWModel.E658RptLocHeader" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GERMS_NEWModel.E658RunsTypes" Width="1.5" PointX="6.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GERMS_NEWModel.E658UserMgt" Width="1.5" PointX="6.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.E658RunsTypes" Width="1.5" PointX="6.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.E658UserMgt" Width="1.5" PointX="6.75" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="GERMS_NEWModel.E658UserType" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GERMS_NEWModel.E658WayPoints" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GERMS_NEWModel.F658RegistryHeader" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GERMS_NEWModel.Location" Width="1.5" PointX="2.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.E658WayPoints" Width="1.5" PointX="1.125" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.F658RegistryHeader" Width="1.5" PointX="8.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.Location" Width="1.5" PointX="2.75" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="GERMS_NEWModel.VehicleDetail" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="GERMS_NEWModel.Vw_PersonalDetail" Width="1.5" PointX="10.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.E658CreaterDetails" Width="1.5" PointX="13.375" PointY="0.75" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.Division" Width="1.5" PointX="1.125" PointY="7.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

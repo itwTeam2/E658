@@ -25,7 +25,6 @@ namespace E658.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<E658CreaterDetails> E658CreaterDetails { get; set; }
         public virtual DbSet<E658FlowMagt> E658FlowMagt { get; set; }
         public virtual DbSet<E658FlowTransaction> E658FlowTransaction { get; set; }
         public virtual DbSet<E658RaisedRunType> E658RaisedRunType { get; set; }
@@ -40,5 +39,7 @@ namespace E658.Models
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<VehicleDetail> VehicleDetails { get; set; }
         public virtual DbSet<Vw_PersonalDetail> Vw_PersonalDetail { get; set; }
+        public virtual DbSet<E658CreaterDetails> E658CreaterDetails { get; set; }
+        public virtual DbSet<Division> Divisions { get; set; }
     }
 }

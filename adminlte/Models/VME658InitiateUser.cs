@@ -33,6 +33,8 @@ namespace E658.Models
         public SelectList UserLocations { get; set; }
         public string SelectedUserLocation { get; set; }
         public string Route { get; set; }
+        //[Required(ErrorMessage = ("Section is Required"))]
+        public string Section { get; set; }
 
         public DateTime? MTCotrollerDutyDate { get; set; }
         public string UserLocation { get; set; }
