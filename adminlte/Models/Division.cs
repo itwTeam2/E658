@@ -21,26 +21,9 @@ namespace E658.Models
         public string OfficeCommand { get; set; }
         public int NoOfPersonnel { get; set; }
         public string Description { get; set; }
-        public Nullable<int> IDSeriesStart { get; set; }
         public int Status { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public int CreatedUser { get; set; }
-        public string Rank { get; set; }
-        public string Name { get; set; }
-        public string Appointment { get; set; }
-        public string NoPrefix { get; set; }
-        public Nullable<int> Sno { get; set; }
-        public string SLAFStationID { get; set; }
-        public string AppName { get; set; }
-        public Nullable<System.DateTime> ModifiedDate { get; set; }
-        public Nullable<int> ModifiedUser { get; set; }
-        public string HostID { get; set; }
-        public Nullable<int> AgendaOrder { get; set; }
-        public Nullable<int> WsEnable { get; set; }
-        public string LetterHeadingName { get; set; }
-        public string DivisionshortName { get; set; }
-        public string SerNo { get; set; }
-        public string KitPrefix { get; set; }
-        public string Maindiv { get; set; }
+        public string IsFormation { get; set; }
     }
 }

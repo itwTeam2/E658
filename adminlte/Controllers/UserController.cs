@@ -1,5 +1,6 @@
 ﻿using E658.Controllers;
 using E658.Models;
+using Newtonsoft.Json;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -190,7 +191,6 @@ namespace WRMS.Controllers
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
@@ -867,7 +867,7 @@ namespace WRMS.Controllers
                         objVME658Create.ECDID = Convert.ToInt32(dt2.Rows[i]["E658CreatorDltId"]);
                         //objVME658Create.EFTID = EFlowId;
                         objVME658Create.RecordStatus = Convert.ToInt32(dt2.Rows[i]["RecordStatus"]);
-                        objVME658Create.TypeName = dt2.Rows[i]["TypeName1"].ToString();
+                        objVME658Create.TypeName = dt2.Rows[i]["TypeName"].ToString();
                         //TempData["ECDID"] = E658CreatorID;
                         TempData["UserLoginType"] = Session["UserLoginType"];
 
@@ -937,7 +937,6 @@ namespace WRMS.Controllers
 
             return View(model);
         }
-
         [HttpPost]
         public ActionResult TransportAuthIndex(VME658InitiateUser model)
         {
@@ -945,16 +944,29 @@ namespace WRMS.Controllers
             /// Create Date : 2025/02/17
             /// Description : get the user filling data and load it to the transport Create Request view
             /// 
+
+            ModelState.Remove("RTID");
+            ModelState.Remove("UserLoginLocation");
+            ModelState.Remove("UserLocations"); 
             if (ModelState.IsValid)
             {
                 // Handle the form submission
                 // You can save the data to the database or perform other actions
 
-                // Redirect to another action or return a view
-                
-            }
+                VMLongRunCreate obj = new VMLongRunCreate();
 
-            return RedirectToAction("CreateRequest", "LongRun");
+                obj.CreatorServiceNo = model.ServiceNo;
+                obj.Sno = model.SNo;
+                obj.CreatorLocation = model.SelectedUserLocation;
+                obj.SectionName = model.Section;
+
+                Session["CretorDetails"] = JsonConvert.SerializeObject(obj);
+
+                // Redirect to another action or return a view
+                TempData["ScfMsg"] = "You completed the first step, Please fill in the Transport Authorityl Details (ඔබ පළමු පියවර සම්පූර්ණ කර ඇත, කරුණාකර E-658 විස්තර පුරවන්න)";
+                return RedirectToAction("CreateRequest", "LongRun");
+
+            }            
 
             // If the model state is not valid, reload the user locations and return the view
             var userLocations = _db.Locations.Select(ul => new SelectListItem
@@ -964,7 +976,8 @@ namespace WRMS.Controllers
             }).ToList();
 
             model.UserLocations = new SelectList(userLocations, "Value", "Text");
-
+            TempData["ErrMsg"] = "Please fill required fields.";
+            
             return View(model);
         }
         public ActionResult Logout()
@@ -1194,6 +1207,37 @@ namespace WRMS.Controllers
 
             return Json(maxTransaction, JsonRequestBehavior.AllowGet);
 
+
+        }
+        public JsonResult FromLocationGerms(string id)
+        {
+
+            ///Created BY   : Flt Lt Gayani 
+            ///Created Date : 16/10/2024
+            ///Description : To load division when location is selected
+
+            List<Establishment> FromEstablishment = new List<Establishment>();
+            var FromLocationList = this.LinqFromLocationGerms(id);
+
+            var divisionListData = FromLocationList.Select(x => new SelectListItem()
+            {
+                Text = x.DivisionName.ToString(),
+                Value = x.DivisionName.ToString(),
+            });
+
+
+            return Json(divisionListData, JsonRequestBehavior.AllowGet);
+        }
+        public IList<Division> LinqFromLocationGerms(string id)
+        {
+            ///Created BY    :  Flt Lt Gayani 
+            ///Created Date  :  16/10/2024    
+            ///Description :  To load division when location is selected
+
+            List<Division> Result = new List<Division>();
+            Result = _db.Divisions.Where(x => x.LocationID == id).ToList();
+
+            return Result;
 
         }
 

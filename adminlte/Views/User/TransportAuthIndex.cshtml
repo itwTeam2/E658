@@ -9,7 +9,9 @@
     <div class="content-wrapper" style="min-height: 786px;">
         <!-- Header Section -->
         <section class="content-header">
-            <h1 style="text-align: center;"><span>Transport Authority</span></h1>
+            <h1 style="text-align: center;">
+                <span>Transport Authority</span>
+            </h1>
             <button type="button" class="btn btn-success pull-right" onclick="location.href='@Url.Action("Index", "User")'">
                 <span>Back To Main Page</span>
             </button>
@@ -53,29 +55,42 @@
                 <div class="modal-body">
                     <!-- Modal content -->
                     <div class="form-group">
-                        <label for="serviceNo">Service No:</label>
-                        @*<input type="text" class="form-control" id="ServiceNo" value="@Model.ServiceNo">*@
-                        @Html.TextBoxFor(model => model.ServiceNo, new { @class = "form-control - ", autocomplete = "off"})
+                        <div class="col-lg-6">
+                            <label for="serviceNo">Service No:</label>
+                            @*<input type="text" class="form-control" id="ServiceNo" value="@Model.ServiceNo">*@
+                            @Html.TextBoxFor(model => model.ServiceNo, new { @class = "form-control - ", autocomplete = "off" })
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="rank">Rank:</label>
+                            <input type="text" class="form-control" id="Rank" readonly>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-lg-6">
+                            <label for="name">Name:</label>
+                            <input type="text" class="form-control" id="FullName" readonly>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="userLocation">User Location:</label>
+                            @Html.DropDownListFor(model => model.SelectedUserLocation, Model.UserLocations, "Select Location", new { @class = "form-control" })
+                            @*<input type="text" class="form-control" id="userLocation">*@
+                        </div>
 
                     </div>
                     <div class="form-group">
-                        <label for="rank">Rank:</label>
-                        <input type="text" class="form-control" id="Rank" readonly>
+                        <div class="col-lg-12">
+                            @Html.Label("Section", new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.Section, new SelectList(string.Empty, "Value", "Text"), "SELECT", htmlAttributes: new { @class = "form-control" })
+                            @*@Html.TextBoxFor(model => model.Section, new { @class = "form-control", @readonly = "readonly" })*@
+                        </div>                        
                     </div>
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" class="form-control" id="FullName" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="userLocation">User Location:</label>
-                        @Html.DropDownListFor(model => model.SelectedUserLocation, Model.UserLocations, "Select Location", new { @class = "form-control" })
-                        @*<input type="text" class="form-control" id="userLocation">*@
-                    </div>
-                    <div class="form-group">
+                    @*<div class="form-group">
 
-                    </div>
+                        </div>*@
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="margin-top:155px">
                     <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-info pull-right" id="btnNext">Next</button>
                 </div>
@@ -150,7 +165,7 @@
         });
     });
 
-        $(function () {
+   $(function () {
         $("#ServiceNo").change(function () {
             $.ajax({
                 url: '@Url.Content("~/User/getUserInfo")',
@@ -176,6 +191,37 @@
                 }
             });
         });
-    });
+   });
+
+
+        $(function () {
+        //DDL for Select
+  $("#SelectedUserLocation").change(function () {
+            //DDL Automaticaly Bind
+            $("#Section").empty();
+            $.ajax({
+                type: 'GET',
+                dataType: "json",
+                url: '@Url.Content("~/User/FromLocationGerms")',
+                //url: './FromLocation',
+                data: { id: $("#SelectedUserLocation").val()},
+                success: function (FromLocation) {
+                    var items = '<option>SELECT</option>';
+                    $('#Section').html(items);
+                    $.each(FromLocation, function (i, FromLocation) {
+                        $("#Section").append('<option value="' + FromLocation.Value + '">' +
+                            FromLocation.Text + '</option>');
+                        //$("#District").val(data.DESCRIPTION);
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve Make.' + ex);
+                }
+            });
+            return false;
+        })
+   });
+
+   
 
 </script>

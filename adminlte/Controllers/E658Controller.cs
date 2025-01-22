@@ -1237,45 +1237,46 @@ namespace E658.Controllers
                                 break;
                         }
 
+                        for (int i = 0; i < dt2.Rows.Count; i++)
+                        {
+                            VME658Create objList = new VME658Create();
+                            objList.UnitSerialNo = dt2.Rows[i]["UnitSerialNo"].ToString();
+                            objList.FromLocID = dt2.Rows[i]["FromLocationFull"].ToString();
+                            objList.ToLocId = dt2.Rows[i]["ToLocationFull"].ToString();
+                            //objList.FromLocID = dt2.Rows[i]["FLocation"].ToString();
+                            //objList.ToLocId = dt2.Rows[i]["TLocation"].ToString();
+                            objList.E658Date = Convert.ToDateTime(dt2.Rows[i]["PDate"]);
+                            objList.JournryStartTime = Convert.ToDateTime(dt2.Rows[i]["PTime"]);
+                            objList.E658RunType = dt2.Rows[i]["TypeName"].ToString();
+                            objList.ECDID = Convert.ToInt32(dt2.Rows[i]["E658CreatorDltId"]);
+                            objList.RoleID = Convert.ToInt32(dt2.Rows[i]["RoleID"]);
+                            objList.UserGERMSLocation = dt2.Rows[i]["UserGERMSLocation"].ToString();
+                            objList.IsOMTAvail = Convert.ToInt32(dt2.Rows[i]["IsOMtReqFromMT"]);
+                            objList.IsVehicleAvail = Convert.ToInt32(dt2.Rows[i]["IsVehicleReqFromMT"]);
+                            objList.EFTID = Convert.ToInt32(dt.Rows[i]["EFTID"]);
+
+                            if (!Convert.IsDBNull(dt2.Rows[i]["IsCombineRun"]))
+                            {
+                                objList.IsCombineRun = Convert.ToInt32(dt2.Rows[i]["IsCombineRun"]);
+                            }
+
+
+                            E658List.Add(objList);
+
+                        }
+
+                        pageSize = 20;
+                        pageNumber = (page ?? 1);
+                        return View(E658List.ToPagedList(pageNumber, pageSize));
+
                     }
+                    return RedirectToAction("Dashboardv1ToMTO", "Dashboard");
                 }
                 catch (Exception ex)
                 {
 
                     throw ex;
-                }               
-
-                for (int i = 0; i < dt2.Rows.Count; i++)
-                {
-                    VME658Create objList = new VME658Create();
-                    objList.UnitSerialNo = dt2.Rows[i]["UnitSerialNo"].ToString();
-                    objList.FromLocID = dt2.Rows[i]["FromLocationFull"].ToString();
-                    objList.ToLocId = dt2.Rows[i]["ToLocationFull"].ToString();
-                    //objList.FromLocID = dt2.Rows[i]["FLocation"].ToString();
-                    //objList.ToLocId = dt2.Rows[i]["TLocation"].ToString();
-                    objList.E658Date = Convert.ToDateTime(dt2.Rows[i]["PDate"]);
-                    objList.JournryStartTime = Convert.ToDateTime(dt2.Rows[i]["PTime"]);
-                    objList.E658RunType = dt2.Rows[i]["TypeName"].ToString();
-                    objList.ECDID = Convert.ToInt32(dt2.Rows[i]["E658CreatorDltId"]);
-                    objList.RoleID = Convert.ToInt32(dt2.Rows[i]["RoleID"]);
-                    objList.UserGERMSLocation = dt2.Rows[i]["UserGERMSLocation"].ToString();
-                    objList.IsOMTAvail = Convert.ToInt32(dt2.Rows[i]["IsOMtReqFromMT"]);
-                    objList.IsVehicleAvail = Convert.ToInt32(dt2.Rows[i]["IsVehicleReqFromMT"]);
-                    objList.EFTID = Convert.ToInt32(dt.Rows[i]["EFTID"]);
-
-                    if (!Convert.IsDBNull(dt2.Rows[i]["IsCombineRun"]))
-                    {
-                        objList.IsCombineRun = Convert.ToInt32(dt2.Rows[i]["IsCombineRun"]);
-                    }
-
-
-                    E658List.Add(objList);
-
-                }
-
-                pageSize = 20;
-                pageNumber = (page ?? 1);
-                return View(E658List.ToPagedList(pageNumber, pageSize));
+                }              
 
             }
             else

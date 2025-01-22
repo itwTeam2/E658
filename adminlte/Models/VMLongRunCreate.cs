@@ -46,5 +46,10 @@ namespace E658.Models
         public string TypeNameLong { get; set; }
         public string StafOffName { get; set; }
         public string AdditionalDuties { get; set; }
+        public string CreatorServiceNo { get; set; }
+        public string CreatorLocation { get; set; }
+        public string SectionName { get; set; }
+        public string Sno { get; set; }
+
     }
 }

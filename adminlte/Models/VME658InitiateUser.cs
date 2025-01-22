@@ -29,9 +29,12 @@ namespace E658.Models
         public string JournryStartTime { get; set; }
         public string RequiredDuration { get; set; }
         public string DivisionId { get; set; }
+        [Required(ErrorMessage = "Please Select the User Location")]
         public SelectList UserLocations { get; set; }
         public string SelectedUserLocation { get; set; }
         public string Route { get; set; }
+        //[Required(ErrorMessage = ("Section is Required"))]
+        public string Section { get; set; }
 
         public DateTime? MTCotrollerDutyDate { get; set; }
         public string UserLocation { get; set; }

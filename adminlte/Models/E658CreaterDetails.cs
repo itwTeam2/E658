@@ -21,6 +21,7 @@ namespace E658.Models
         public string CreaterLoc { get; set; }
         public string CreaterDivision { get; set; }
         public Nullable<short> IsE658Create { get; set; }
+        public Nullable<int> E658MainType { get; set; }
         public Nullable<short> Active { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string CreatedBy { get; set; }

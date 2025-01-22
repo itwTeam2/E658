@@ -133,8 +133,15 @@
                                         return Convert.ToBase64String(bytes);
                                     }
                                 }
+                                @{
+                                    int userLoginType = Convert.ToInt32(Session["UserLoginType"]);
+                                    if (userLoginType != (int)E658.Enum.EnumE658UserType.MTController)
+                                    {
+                                        @Html.ActionLink("Details", "E658Details", new { userID = EncodeIds(item.ECDID, item.RoleID, 0) }, new { @class = "btn btn-primary" })
+                                    }
+                                }
 
-                                @Html.ActionLink("Details", "E658Details", new {userID = EncodeIds (item.ECDID,item.RoleID,  0) }, new { @class = "btn btn-primary" })
+
 
                             </td>
                             <td>
@@ -151,7 +158,15 @@
                                     }
                                 }
 
-                                @Html.ActionLink("Re-approving", "ReApprovingRecord", new { userID = EncodeId(item.ECDID, item.RoleID, 0) }, new { @class = "btn btn-success" })
+                                @{
+                                    int userLoginType2 = Convert.ToInt32(Session["UserLoginType"]);
+                                    if (userLoginType2 != (int)E658.Enum.EnumE658UserType.MTController)
+                                    {
+                                        @Html.ActionLink("Re-approving", "ReApprovingRecord", new { userID = EncodeId(item.ECDID, item.RoleID, 0) }, new { @class = "btn btn-success" })
+                                    }
+                                }
+
+
 
                             </td>
 
