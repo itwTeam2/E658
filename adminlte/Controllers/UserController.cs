@@ -736,7 +736,7 @@ namespace WRMS.Controllers
 
             try
             {
-                
+                ModelState.Remove("UserLocations");
                 if (ModelState.IsValid)
                 {
                     
@@ -799,7 +799,11 @@ namespace WRMS.Controllers
                         }
                     }
                     
-                }                            
+                }
+                else
+                {
+                    TempData["ErrMsg"] = "Please fill required fields.";
+                }
                
             }
             catch (Exception ex)

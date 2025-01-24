@@ -4545,6 +4545,7 @@
     <Content Include="Views\E658\Create.cshtml" />
     <Content Include="Views\User\TransportAuthIndex.cshtml" />
     <Content Include="Views\LongRun\CreateRequest.cshtml" />
+    <Content Include="Views\LongRun\GenerateTrans658.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
