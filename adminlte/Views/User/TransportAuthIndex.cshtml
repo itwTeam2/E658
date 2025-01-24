@@ -37,12 +37,12 @@
         <section class="col-lg-12 connectedSortable" style="margin-top: 20px;">
             <div class="modern-ui-container">
                 <button type="button" class="modern-button request-authority" id="btnRequestAuthority">Request Authority</button>
-                <button type="button" class="modern-button create-e658" onclick="location.href='@Url.Action("CreateE658", "Transport")'">Create 658</button>
+                <button type="button" class="modern-button create-e658" onclick="location.href='@Url.Action("GenerateTrans658", "LongRun")'">Create 658</button>
             </div>
         </section>
     </div>
 
-    <!-- Modal structure -->
+    <!-- Modal structure Request Authority -->
     <div class="modal fade" id="requestAuthorityModal" tabindex="-1" role="dialog" aria-labelledby="requestAuthorityModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -84,7 +84,7 @@
                             @Html.Label("Section", new { @class = "control-label" })
                             @Html.DropDownListFor(model => model.Section, new SelectList(string.Empty, "Value", "Text"), "SELECT", htmlAttributes: new { @class = "form-control" })
                             @*@Html.TextBoxFor(model => model.Section, new { @class = "form-control", @readonly = "readonly" })*@
-                        </div>                        
+                        </div>
                     </div>
                     @*<div class="form-group">
 
@@ -97,6 +97,8 @@
             </div>
         </div>
     </div>
+       
+
 }
 
 
@@ -163,6 +165,8 @@
         $('#btnRequestAuthority').click(function () {
             $('#requestAuthorityModal').modal('show');
         });
+
+
     });
 
    $(function () {
@@ -222,6 +226,6 @@
         })
    });
 
-   
+
 
 </script>

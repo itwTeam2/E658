@@ -113,10 +113,30 @@
                         @Html.TextAreaFor(model => model.Route, new { @class = "form-control ", autocomplete = "off" })
                     </div>
 
-                    @*Route*@
+                    @*Night Park Status*@
+                    <div class="form-group">                    
+                    @Html.Label("Night Park Status", new { @class = "control-label" })                  
+                    </div>
+
                     <div class="form-group">
-                        @Html.Label("Night Park Status", new { @class = "control-label" })
-                        @Html.TextAreaFor(model => model.Route, new { @class = "form-control ", autocomplete = "off" })
+
+                        <div class="col-lg-6">
+                            @Html.Label("Yes", new { @class = "control-label" })
+                            @Html.RadioButtonFor(m => m.IsNightPark, 1, new { id = "isSingleRecord" })
+                        </div>
+
+                        <div class="col-lg-6">
+                            @Html.Label("No", new { @class = "control-label" })
+                            @Html.RadioButtonFor(m => m.IsNightPark, 2, new { id = "isBulkRecord" })
+                        </div>
+
+                        <div class="box-body">
+                           
+                            <div class="row" id="nightParkLocation">
+                                @Html.Label("Type Night Location", new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.NightParkLoc, new { @class = "form-control - ", autocomplete = "off" })
+                            </div>
+                        </div>                        
                     </div>
 
                     @*Additional Duties*@
@@ -266,6 +286,15 @@
         $("#dpReportLoc").val("");
         $("#CreateSuccMeg").hide();
         $("#dvOtherRun").hide();
+        $("#nightParkLocation").hide();
+
+        $('input[type="radio"]').on('click', function () {
+            if ($('#isSingleRecord').is(':checked')) {
+                $('#nightParkLocation').show();
+            } else {
+                $('#nightParkLocation').hide();
+            }
+        });
 
     });
 
@@ -356,6 +385,73 @@
 
                 }
             });
+        });
+    });
+
+     ///// Call Save function
+
+    $(function () {
+        $("#btnSave").click(function () {
+
+            var objE658 = {};
+            objE658.FromLocID = $("#FromLocID").val();
+            objE658.ToLocId = $("#ToLocId").val();
+            objE658.ERTID = $("#ERTID").val();
+            objE658.E658Date = $("#E658Date").val();
+            objE658.JournryStartTime = $("#JournryStartTime").val();
+            objE658.ReturnDate = $("#ReturnDate").val();
+            //objE658.RequiredDuration = $("#RequiredDuration").val();
+            objE658.OtherLocName = $("#OtherLocName").val();
+            objE658.Purpose = $("#Purpose").val();
+            objE658.Route = $("#Route").val();
+            objE658.ECDID = $("#ECDID").val();
+            objE658.AdditionalDuties = $("#AdditionalDuties").val();
+            var OMTReqFromMT = $("#OMTAvail").val();
+            var VehicleReqFromMT = $("#VehicleAvail").val();
+
+            if (OMTReqFromMT == "") {
+
+                objE658.OMTServiceNo = $("#OMTServiceNo").val();
+            }
+            if (VehicleReqFromMT == "") {
+
+                objE658.SLAFRegNo = $("#SLAFRegNo").val();
+            }
+
+            if (objE658.FromLocID == "" || objE658.ToLocId == "" ||  objE658.ERTID == "" ||  objE658.E658Date == "" ||
+                objE658.JournryStartTime == "" || objE658.RequiredDuration == "" || objE658.Purpose == "" ||  objE658.Route == "") {
+
+                alert("Please Fill all the Data Fields (කරුණාකර සියලුම දත්තයන් පුරවන්න)");
+            }
+            else {
+
+                $.ajax({
+                    url: '@Url.Content("~/E658/Create")',
+                    type: "POST",
+                    data: '{objE658:' + JSON.stringify(objE658) + '}',
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+
+                        if (data.Message == "Something Error, please contact IT division") {
+                            alert(data.Message);
+                        }
+                        else {
+
+                            $("#CreateSuccMeg").show();
+
+                            $("#CreateSuccMeg").append(data.Message);
+                            window.location.href = data.redirectUrl || '@Url.Action("AnotherAction")';
+                            //alert(data.Message);
+
+
+                        }
+                    },
+                    //error: function () {
+                    //    alert("Error while inserting data");
+                    //}
+                });
+            }
         });
     });
 

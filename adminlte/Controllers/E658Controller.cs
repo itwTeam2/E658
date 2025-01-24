@@ -1284,196 +1284,197 @@ namespace E658.Controllers
                 return RedirectToAction("Login", "User");
             }
         }
-        [HttpGet]
-        public ActionResult CombineE658List(string sortOrder, string currentFilter, string searchString, int? page, int? RSID)
-        {
-            /// Created BY   : Sqn ldr Wicky
-            /// Create Date : 2024/05/29
-            /// Description : Load E658 List to Different Users
+        
+        //[HttpGet]
+        //public ActionResult CombineE658List(string sortOrder, string currentFilter, string searchString, int? page, int? RSID)
+        //{
+        //    /// Created BY   : Sqn ldr Wicky
+        //    /// Create Date : 2024/05/29
+        //    /// Description : Load E658 List to Different Users
 
-            if (Session["MToOctLocation"] != null)
-            {
-                string mtoLoginLocation = Session["MToOctLocation"].ToString();
+        //    if (Session["MToOctLocation"] != null)
+        //    {
+        //        string mtoLoginLocation = Session["MToOctLocation"].ToString();
 
-                var combineJobList = from s in _db.F658RegistryHeader
-                                     join cr in _db.E658CreaterDetails
-                                     on s.E658CreatorDltId equals cr.ECDID
-                                     join rt in _db.E658RaisedType
-                                     on cr.RaisedTypeID equals rt.RTID
-                                     where s.IsCombineRun == 1 && cr.UserGERMSLocation == mtoLoginLocation
-                                     orderby s.CreatedDate descending
-                                     select s;
+        //        var combineJobList = from s in _db.F658RegistryHeader
+        //                             join cr in _db.E658CreaterDetails
+        //                             on s.E658CreatorDltId equals cr.ECDID
+        //                             join rt in _db.E658RaisedType
+        //                             on cr.RaisedTypeID equals rt.RTID
+        //                             where s.IsCombineRun == 1 && cr.UserGERMSLocation == mtoLoginLocation
+        //                             orderby s.CreatedDate descending
+        //                             select s;
 
-                List<VME658Create> combineList = new List<VME658Create>();
+        //        List<VME658Create> combineList = new List<VME658Create>();
 
-                foreach (var item in combineJobList)
-                {
-                    VME658Create obj = new VME658Create();
-                    obj.UnitSerialNo =  item.UnitSerialNo;
-                    obj.FromLocID = item.ELocation;
-                    obj.ToLocId = item.TLocation;
-                    obj.E658Date = Convert.ToDateTime(item.PDate);
-                    obj.JournryStartTime = Convert.ToDateTime(item.PTime);
-                    obj.ECDID = Convert.ToInt32(item.E658CreatorDltId);
-                    combineList.Add(obj);
-                }
-
-
-                int pageSize = 10;
-                int pageNumber = (page ?? 1);
-                return View(combineList.ToPagedList(pageNumber, pageSize));
-            }
-            else
-            {
-                return RedirectToAction("Index", "User");
-            }
+        //        foreach (var item in combineJobList)
+        //        {
+        //            VME658Create obj = new VME658Create();
+        //            obj.UnitSerialNo =  item.UnitSerialNo;
+        //            obj.FromLocID = item.ELocation;
+        //            obj.ToLocId = item.TLocation;
+        //            obj.E658Date = Convert.ToDateTime(item.PDate);
+        //            obj.JournryStartTime = Convert.ToDateTime(item.PTime);
+        //            obj.ECDID = Convert.ToInt32(item.E658CreatorDltId);
+        //            combineList.Add(obj);
+        //        }
 
 
-
-        }
-        [HttpGet]
-        public ActionResult CombineE658Details(string E658CreatorID, string RoleId)
-        {
-            ///Created BY   : Sqn ldr Wicky
-            /// Create Date : 2024/05/29
-            /// Description : View Combine E658 Details
-            /// 
-
-            DataTable dt = new DataTable();
-            DataTable dt2 = new DataTable();
-
-            List<VME658Create> e658DetailsList = new List<VME658Create>();
-            List<VME658Create> childRune658DetailsList = new List<VME658Create>();
-            string FromLocID = "";
-            string ToLocID = "";
-
-            ViewBag.DDL_GermsLocation = new SelectList(_db.Locations, "LocationName", "LocationName");
-
-            //ViewBag.DDL_E658ListUnitNo = new SelectList(selectList.Select(x => x.Text));
-
-            try
-            {
-                int CreID = Convert.ToInt32(E658CreatorID);
-                int rID = Convert.ToInt32(RoleId);
-                ReportData.DAL.DALCommanQuery objDALCommanQuery = new ReportData.DAL.DALCommanQuery();
-                dt = objDALCommanQuery.CallE65SP(CreID);
-
-                int childE658CreatorId = Convert.ToInt32(_db.F658RegistryHeader.Where(x => x.ParentRunCretID == CreID && x.Active == 2).Select(x => x.E658CreatorDltId).FirstOrDefault());
-
-                dt2 = objDALCommanQuery.CallE65SP(childE658CreatorId);
-
-                /// Parent Run Details Dt
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    VME658Create objVME658Create = new VME658Create();
-
-                    FromLocID = dt.Rows[i]["FLocation"].ToString();
-                    ToLocID = dt.Rows[i]["TLocation"].ToString();
-
-                    objVME658Create.FromLocID = _db.Locations.Where(x => x.LocationID == FromLocID).Select(x => x.LocationName).FirstOrDefault();
-                    objVME658Create.ToLocId = _db.Locations.Where(x => x.LocationID == ToLocID).Select(x => x.LocationName).FirstOrDefault();
-                    objVME658Create.UnitSerialNo = dt.Rows[i]["UnitSerialNo"].ToString();
-                    objVME658Create.E658RunType = dt.Rows[i]["TypeName"].ToString();
-                    objVME658Create.E658Date = Convert.ToDateTime(dt.Rows[i]["PDate"]);
-                    objVME658Create.ReturnDate = Convert.ToDateTime(dt.Rows[i]["ReturnDate"]);
-                    objVME658Create.JournryStartTime = Convert.ToDateTime(dt.Rows[i]["PTime"]);
-                    objVME658Create.RequiredDuration = dt.Rows[i]["PHrs"].ToString();
-                    objVME658Create.Purpose = dt.Rows[i]["Duty"].ToString();
-                    objVME658Create.Route = dt.Rows[i]["Route"].ToString();
-                    objVME658Create.IsOMTAvail = Convert.ToInt32(dt.Rows[i]["IsOMtReqFromMT"]);
-                    objVME658Create.IsVehicleAvail = Convert.ToInt32(dt.Rows[i]["IsVehicleReqFromMT"]);
-                    objVME658Create.RoleID = rID;
-                    objVME658Create.ECDID = Convert.ToInt32(dt.Rows[i]["E658CreatorDltId"]);
-
-                    TempData["ECDID"] = E658CreatorID;
+        //        int pageSize = 10;
+        //        int pageNumber = (page ?? 1);
+        //        return View(combineList.ToPagedList(pageNumber, pageSize));
+        //    }
+        //    else
+        //    {
+        //        return RedirectToAction("Index", "User");
+        //    }
 
 
-                    if (objVME658Create.IsOMTAvail == 1)
-                    {
-                        objVME658Create.OMTStatus = dt.Rows[i]["OMTAllocation"].ToString();
-                    }
-                    else
-                    {
-                        objVME658Create.OMTServiceNo = dt.Rows[i]["OMTNo"].ToString();
-                    }
 
-                    if (objVME658Create.IsVehicleAvail == 10)
-                    {
-                        objVME658Create.VehicleStatus = dt.Rows[i]["VehicleAllocation"].ToString();
-                    }
-                    else
-                    {
-                        objVME658Create.SLAFRegNo = dt.Rows[i]["SLAFRegNo"].ToString();
-                    }
+        //}
+        //[HttpGet]
+        //public ActionResult CombineE658Details(string E658CreatorID, string RoleId)
+        //{
+        //    ///Created BY   : Sqn ldr Wicky
+        //    /// Create Date : 2024/05/29
+        //    /// Description : View Combine E658 Details
+        //    /// 
 
-                    e658DetailsList.Add(objVME658Create);
-                }
+        //    DataTable dt = new DataTable();
+        //    DataTable dt2 = new DataTable();
 
-                /// Child Run Details Dt
-                for (int i = 0; i < dt2.Rows.Count; i++)
-                {
-                    VME658Create childobjVME658Create = new VME658Create();
+        //    List<VME658Create> e658DetailsList = new List<VME658Create>();
+        //    List<VME658Create> childRune658DetailsList = new List<VME658Create>();
+        //    string FromLocID = "";
+        //    string ToLocID = "";
 
-                    FromLocID = dt2.Rows[i]["FLocation"].ToString();
-                    ToLocID = dt2.Rows[i]["TLocation"].ToString();
+        //    ViewBag.DDL_GermsLocation = new SelectList(_db.Locations, "LocationName", "LocationName");
 
-                    childobjVME658Create.FromLocID = _db.Locations.Where(x => x.LocationID == FromLocID).Select(x => x.LocationName).FirstOrDefault();
-                    childobjVME658Create.ToLocId = _db.Locations.Where(x => x.LocationID == ToLocID).Select(x => x.LocationName).FirstOrDefault();
-                    childobjVME658Create.UnitSerialNo = dt2.Rows[i]["UnitSerialNo"].ToString();
-                    childobjVME658Create.E658RunType = dt2.Rows[i]["TypeName"].ToString();
-                    childobjVME658Create.E658Date = Convert.ToDateTime(dt2.Rows[i]["PDate"]);
-                    childobjVME658Create.ReturnDate = Convert.ToDateTime(dt2.Rows[i]["ReturnDate"]);
-                    childobjVME658Create.JournryStartTime = Convert.ToDateTime(dt2.Rows[i]["PTime"]);
-                    childobjVME658Create.RequiredDuration = dt2.Rows[i]["PHrs"].ToString();
-                    childobjVME658Create.Purpose = dt2.Rows[i]["Duty"].ToString();
-                    childobjVME658Create.Route = dt2.Rows[i]["Route"].ToString();
-                    childobjVME658Create.IsOMTAvail = Convert.ToInt32(dt2.Rows[i]["IsOMtReqFromMT"]);
-                    childobjVME658Create.IsVehicleAvail = Convert.ToInt32(dt2.Rows[i]["IsVehicleReqFromMT"]);
-                    childobjVME658Create.RoleID = rID;
-                    childobjVME658Create.ECDID = Convert.ToInt32(dt2.Rows[i]["E658CreatorDltId"]);
+        //    //ViewBag.DDL_E658ListUnitNo = new SelectList(selectList.Select(x => x.Text));
 
-                    TempData["ECDID"] = E658CreatorID;
+        //    try
+        //    {
+        //        int CreID = Convert.ToInt32(E658CreatorID);
+        //        int rID = Convert.ToInt32(RoleId);
+        //        ReportData.DAL.DALCommanQuery objDALCommanQuery = new ReportData.DAL.DALCommanQuery();
+        //        dt = objDALCommanQuery.CallE65SP(CreID);
 
+        //        int childE658CreatorId = Convert.ToInt32(_db.F658RegistryHeader.Where(x => x.ParentRunCretID == CreID && x.Active == 2).Select(x => x.E658CreatorDltId).FirstOrDefault());
 
-                    if (childobjVME658Create.IsOMTAvail == 1)
-                    {
-                        childobjVME658Create.OMTStatus = dt2.Rows[i]["OMTAllocation"].ToString();
-                    }
-                    else
-                    {
-                        childobjVME658Create.OMTServiceNo = dt2.Rows[i]["OMTNo"].ToString();
-                    }
+        //        dt2 = objDALCommanQuery.CallE65SP(childE658CreatorId);
 
-                    if (childobjVME658Create.IsVehicleAvail == 10)
-                    {
-                        childobjVME658Create.VehicleStatus = dt2.Rows[i]["VehicleAllocation"].ToString();
-                    }
-                    else
-                    {
-                        childobjVME658Create.SLAFRegNo = dt2.Rows[i]["SLAFRegNo"].ToString();
-                    }
+        //        /// Parent Run Details Dt
+        //        for (int i = 0; i < dt.Rows.Count; i++)
+        //        {
+        //            VME658Create objVME658Create = new VME658Create();
 
-                    childRune658DetailsList.Add(childobjVME658Create);
+        //            FromLocID = dt.Rows[i]["FLocation"].ToString();
+        //            ToLocID = dt.Rows[i]["TLocation"].ToString();
 
-                    ViewBag.ChildE658DetailsList = childRune658DetailsList;
-                }
+        //            objVME658Create.FromLocID = _db.Locations.Where(x => x.LocationID == FromLocID).Select(x => x.LocationName).FirstOrDefault();
+        //            objVME658Create.ToLocId = _db.Locations.Where(x => x.LocationID == ToLocID).Select(x => x.LocationName).FirstOrDefault();
+        //            objVME658Create.UnitSerialNo = dt.Rows[i]["UnitSerialNo"].ToString();
+        //            objVME658Create.E658RunType = dt.Rows[i]["TypeName"].ToString();
+        //            objVME658Create.E658Date = Convert.ToDateTime(dt.Rows[i]["PDate"]);
+        //            objVME658Create.ReturnDate = Convert.ToDateTime(dt.Rows[i]["ReturnDate"]);
+        //            objVME658Create.JournryStartTime = Convert.ToDateTime(dt.Rows[i]["PTime"]);
+        //            objVME658Create.RequiredDuration = dt.Rows[i]["PHrs"].ToString();
+        //            objVME658Create.Purpose = dt.Rows[i]["Duty"].ToString();
+        //            objVME658Create.Route = dt.Rows[i]["Route"].ToString();
+        //            objVME658Create.IsOMTAvail = Convert.ToInt32(dt.Rows[i]["IsOMtReqFromMT"]);
+        //            objVME658Create.IsVehicleAvail = Convert.ToInt32(dt.Rows[i]["IsVehicleReqFromMT"]);
+        //            objVME658Create.RoleID = rID;
+        //            objVME658Create.ECDID = Convert.ToInt32(dt.Rows[i]["E658CreatorDltId"]);
 
-                List<VME658Create> locations = GetRptLocation(CreID);
-
-                TempData["RptLocation"] = locations;
-
-                PartialView("_E658ReportLoc", locations);
+        //            TempData["ECDID"] = E658CreatorID;
 
 
-            }
-            catch (Exception ex)
-            {
+        //            if (objVME658Create.IsOMTAvail == 1)
+        //            {
+        //                objVME658Create.OMTStatus = dt.Rows[i]["OMTAllocation"].ToString();
+        //            }
+        //            else
+        //            {
+        //                objVME658Create.OMTServiceNo = dt.Rows[i]["OMTNo"].ToString();
+        //            }
 
-                throw ex;
-            }
+        //            if (objVME658Create.IsVehicleAvail == 10)
+        //            {
+        //                objVME658Create.VehicleStatus = dt.Rows[i]["VehicleAllocation"].ToString();
+        //            }
+        //            else
+        //            {
+        //                objVME658Create.SLAFRegNo = dt.Rows[i]["SLAFRegNo"].ToString();
+        //            }
 
-            return View(e658DetailsList);
-        }        
+        //            e658DetailsList.Add(objVME658Create);
+        //        }
+
+        //        /// Child Run Details Dt
+        //        for (int i = 0; i < dt2.Rows.Count; i++)
+        //        {
+        //            VME658Create childobjVME658Create = new VME658Create();
+
+        //            FromLocID = dt2.Rows[i]["FLocation"].ToString();
+        //            ToLocID = dt2.Rows[i]["TLocation"].ToString();
+
+        //            childobjVME658Create.FromLocID = _db.Locations.Where(x => x.LocationID == FromLocID).Select(x => x.LocationName).FirstOrDefault();
+        //            childobjVME658Create.ToLocId = _db.Locations.Where(x => x.LocationID == ToLocID).Select(x => x.LocationName).FirstOrDefault();
+        //            childobjVME658Create.UnitSerialNo = dt2.Rows[i]["UnitSerialNo"].ToString();
+        //            childobjVME658Create.E658RunType = dt2.Rows[i]["TypeName"].ToString();
+        //            childobjVME658Create.E658Date = Convert.ToDateTime(dt2.Rows[i]["PDate"]);
+        //            childobjVME658Create.ReturnDate = Convert.ToDateTime(dt2.Rows[i]["ReturnDate"]);
+        //            childobjVME658Create.JournryStartTime = Convert.ToDateTime(dt2.Rows[i]["PTime"]);
+        //            childobjVME658Create.RequiredDuration = dt2.Rows[i]["PHrs"].ToString();
+        //            childobjVME658Create.Purpose = dt2.Rows[i]["Duty"].ToString();
+        //            childobjVME658Create.Route = dt2.Rows[i]["Route"].ToString();
+        //            childobjVME658Create.IsOMTAvail = Convert.ToInt32(dt2.Rows[i]["IsOMtReqFromMT"]);
+        //            childobjVME658Create.IsVehicleAvail = Convert.ToInt32(dt2.Rows[i]["IsVehicleReqFromMT"]);
+        //            childobjVME658Create.RoleID = rID;
+        //            childobjVME658Create.ECDID = Convert.ToInt32(dt2.Rows[i]["E658CreatorDltId"]);
+
+        //            TempData["ECDID"] = E658CreatorID;
+
+
+        //            if (childobjVME658Create.IsOMTAvail == 1)
+        //            {
+        //                childobjVME658Create.OMTStatus = dt2.Rows[i]["OMTAllocation"].ToString();
+        //            }
+        //            else
+        //            {
+        //                childobjVME658Create.OMTServiceNo = dt2.Rows[i]["OMTNo"].ToString();
+        //            }
+
+        //            if (childobjVME658Create.IsVehicleAvail == 10)
+        //            {
+        //                childobjVME658Create.VehicleStatus = dt2.Rows[i]["VehicleAllocation"].ToString();
+        //            }
+        //            else
+        //            {
+        //                childobjVME658Create.SLAFRegNo = dt2.Rows[i]["SLAFRegNo"].ToString();
+        //            }
+
+        //            childRune658DetailsList.Add(childobjVME658Create);
+
+        //            ViewBag.ChildE658DetailsList = childRune658DetailsList;
+        //        }
+
+        //        List<VME658Create> locations = GetRptLocation(CreID);
+
+        //        TempData["RptLocation"] = locations;
+
+        //        PartialView("_E658ReportLoc", locations);
+
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+
+        //    return View(e658DetailsList);
+        //}        
         public ActionResult ReApprovingRecord(string userID)
         {
             ///Created BY   : Sqn ldr Wicky
@@ -2355,82 +2356,83 @@ namespace E658.Controllers
 
             return Json(new { Message = message, JsonRequestBehavior.AllowGet });
         }
-        public JsonResult CombineRun(string rowE658RefNo, string dpE658RefNo, string rawE658RunType)
-        {
-            ///Created BY   : Sqn ldr Wickramasinghe
-            ///Created Date : 2024/05/28
-            /// Description : run combine function
+        
+        //public JsonResult CombineRun(string rowE658RefNo, string dpE658RefNo, string rawE658RunType)
+        //{
+        //    ///Created BY   : Sqn ldr Wickramasinghe
+        //    ///Created Date : 2024/05/28
+        //    /// Description : run combine function
 
-            string message = "";
+        //    string message = "";
 
-            var data = new VME658Create();
-            try
-            {
-                string rightrowE658RefNo = rowE658RefNo.Trim();
+        //    var data = new VME658Create();
+        //    try
+        //    {
+        //        string rightrowE658RefNo = rowE658RefNo.Trim();
 
-                if (rowE658RefNo.Trim() != dpE658RefNo)
-                {
-                    var e658CreatorID = _db.F658RegistryHeader.Where(x => x.UnitSerialNo == dpE658RefNo.Trim() && x.Active == 1).Select(x => x.E658CreatorDltId).FirstOrDefault();
-
-
-                    var row658Details = _db.F658RegistryHeader.Where(x => x.UnitSerialNo == rightrowE658RefNo && x.Active == 1).Select(x => new { x.ChassisNo, x.Seq, x.E658CreatorDltId }).FirstOrDefault();
-
-                    var select658Details = _db.F658RegistryHeader.Where(x => x.UnitSerialNo == dpE658RefNo.Trim() && x.Active == 1).Select(x => new { x.ChassisNo, x.Seq, x.E658CreatorDltId }).FirstOrDefault();
-
-                    F658RegistryHeader obj = _db.F658RegistryHeader.Find(rightrowE658RefNo, row658Details.ChassisNo, row658Details.Seq);
-                    F658RegistryHeader obj2 = _db.F658RegistryHeader.Find(dpE658RefNo.Trim(), select658Details.ChassisNo, select658Details.Seq);
-
-                    if (obj != null)
-                    {
-                        obj.IsCombineRun = 1;
-                        obj.ModifiedDate = DateTime.Now;
-                        obj.ModifiedUser = Convert.ToInt32(Session["LoginUser"]);
-
-                        _db.Entry(obj).State = EntityState.Modified;
-
-                    }
-
-                    if (obj2 != null)
-                    {
-                        obj2.ParentRunCretID = row658Details.E658CreatorDltId;
-                        obj2.Active = 2;
-                        obj.ModifiedDate = DateTime.Now;
-                        obj.ModifiedUser = Convert.ToInt32(Session["LoginUser"]);
-
-                        _db.Entry(obj).State = EntityState.Modified;
-
-                    }
-
-                    if (_db.SaveChanges() > 0)
-                    {
-                        message = "Run combine process has completed.";
-                    }
-                    else
-                    {
-                        message = "Process has not completed. Please Contact the IT Division.";
-                    }
-
-                    data.ECDID = Convert.ToInt32(row658Details.E658CreatorDltId);
-                    data.RoleID = (int)Enum.EnumE658UserType.MToOCT;
-                    data.Message = message;
-
-                }
-                else
-                {
-                    message = "Same Ref No. Please select the correct Ref No which need to combine";
-                    data.Message = message;
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
+        //        if (rowE658RefNo.Trim() != dpE658RefNo)
+        //        {
+        //            var e658CreatorID = _db.F658RegistryHeader.Where(x => x.UnitSerialNo == dpE658RefNo.Trim() && x.Active == 1).Select(x => x.E658CreatorDltId).FirstOrDefault();
 
 
+        //            var row658Details = _db.F658RegistryHeader.Where(x => x.UnitSerialNo == rightrowE658RefNo && x.Active == 1).Select(x => new { x.ChassisNo, x.Seq, x.E658CreatorDltId }).FirstOrDefault();
 
-            return Json(data, JsonRequestBehavior.AllowGet);
-        }
+        //            var select658Details = _db.F658RegistryHeader.Where(x => x.UnitSerialNo == dpE658RefNo.Trim() && x.Active == 1).Select(x => new { x.ChassisNo, x.Seq, x.E658CreatorDltId }).FirstOrDefault();
+
+        //            F658RegistryHeader obj = _db.F658RegistryHeader.Find(rightrowE658RefNo, row658Details.ChassisNo, row658Details.Seq);
+        //            F658RegistryHeader obj2 = _db.F658RegistryHeader.Find(dpE658RefNo.Trim(), select658Details.ChassisNo, select658Details.Seq);
+
+        //            if (obj != null)
+        //            {
+        //                obj.IsCombineRun = 1;
+        //                obj.ModifiedDate = DateTime.Now;
+        //                obj.ModifiedUser = Convert.ToInt32(Session["LoginUser"]);
+
+        //                _db.Entry(obj).State = EntityState.Modified;
+
+        //            }
+
+        //            if (obj2 != null)
+        //            {
+        //                obj2.ParentRunCretID = row658Details.E658CreatorDltId;
+        //                obj2.Active = 2;
+        //                obj.ModifiedDate = DateTime.Now;
+        //                obj.ModifiedUser = Convert.ToInt32(Session["LoginUser"]);
+
+        //                _db.Entry(obj).State = EntityState.Modified;
+
+        //            }
+
+        //            if (_db.SaveChanges() > 0)
+        //            {
+        //                message = "Run combine process has completed.";
+        //            }
+        //            else
+        //            {
+        //                message = "Process has not completed. Please Contact the IT Division.";
+        //            }
+
+        //            data.ECDID = Convert.ToInt32(row658Details.E658CreatorDltId);
+        //            data.RoleID = (int)Enum.EnumE658UserType.MToOCT;
+        //            data.Message = message;
+
+        //        }
+        //        else
+        //        {
+        //            message = "Same Ref No. Please select the correct Ref No which need to combine";
+        //            data.Message = message;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+
+
+
+        //    return Json(data, JsonRequestBehavior.AllowGet);
+        //}
         public JsonResult UpdateOMTRecord(string id, int ECDID)
         {
             string message = "";

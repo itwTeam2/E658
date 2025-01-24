@@ -73,7 +73,7 @@ namespace E658.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateRequest(VME658Create objE658)
+        public ActionResult CreateRequest(VMLongRunCreate objE658)
         {
             ///Created BY   : Sqn ldr Wicky
             /// Create Date : 2025/01/18
@@ -93,12 +93,7 @@ namespace E658.Controllers
 
             try
             {
-                //if (Session["E658RunType"] != null && Session["E658CreateUser"] != null && Session["UserLoginLoc"] != null)
-                //{}
-                //else
-                //{
-                //    return RedirectToAction("Index", "User");
-                //}
+               
 
                 var FromLocID = _db.Locations.Where(x => x.LocationName == objE658.FromLocID).Select(x => x.LocationID).FirstOrDefault();
                 var ToLocID = _db.Locations.Where(x => x.LocationName == objE658.ToLocId).Select(x => x.LocationID).FirstOrDefault();
@@ -108,6 +103,11 @@ namespace E658.Controllers
                 TimeSpan StartTime = objE658.JournryStartTime.TimeOfDay;
 
                 var creatorDetailsJson = Session["CretorDetails"] as string;
+
+                if (string.IsNullOrEmpty(creatorDetailsJson))
+                {
+                    return RedirectToAction("Index", "User"); // Adjust "Account" and "Login" to your actual controller and action names
+                }
                 var objCreateDetails = JsonConvert.DeserializeObject<VMLongRunCreate>(creatorDetailsJson);
 
                 //if (objE658.OMTServiceNo == null)
@@ -196,6 +196,9 @@ namespace E658.Controllers
                         Active = 1,
                         CreatedDate = DateTime.Now,
                         E658CreatedUser = Convert.ToInt64(objCreateDetails.Sno),
+                        IsNightPark = objE658.IsNightPark,
+                        Description = objE658.AdditionalDuties,
+                        //NightParkLoc = objE658.NightParkLoc,
 
 
                     };
@@ -236,6 +239,10 @@ namespace E658.Controllers
             }
         }
 
+        public ActionResult GenerateTrans658()
+        {
+            return View();
+        }
         private string CreateUnitSerialNo(string FromLocID, int E658RunType)
         {
             ///Created BY   : Sqn ldr Wicky

@@ -213,8 +213,8 @@
           <Property Name="IsOMtReqFromMT" Type="int" />
           <Property Name="IsVehicleReqFromMT" Type="int" />
           <Property Name="SLAFRegNo" Type="varchar" MaxLength="15" />
-          <Property Name="IsCombineRun" Type="smallint" />
-          <Property Name="ParentRunCretID" Type="int" />
+          <Property Name="IsNightPark" Type="int" />
+          <Property Name="NightParkLoc" Type="varbinary(max)" />
           <Property Name="ReturnDate" Type="datetime" />
           <Property Name="E658CreatorDltId" Type="int" />
         </EntityType>
@@ -479,50 +479,6 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
           <Property Name="WayPoints" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Active" Type="Int32" />
         </EntityType>
-        <EntityType Name="F658RegistryHeader">
-          <Key>
-            <PropertyRef Name="UnitSerialNo" />
-            <PropertyRef Name="ChassisNo" />
-            <PropertyRef Name="Seq" />
-          </Key>
-          <Property Name="UnitSerialNo" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ChassisNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Seq" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="PLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ELocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="FLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="TLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="RealToLocation" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="IsRR658" Type="Int32" Nullable="false" />
-          <Property Name="AuthorityType" Type="Int32" />
-          <Property Name="Behavior" Type="Int32" />
-          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="OMTNo" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Duty" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Section" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SeniorPassanger" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="MyNav" Type="Int32" />
-          <Property Name="MaxNav" Type="Int32" />
-          <Property Name="PDate" Type="DateTime" Precision="3" />
-          <Property Name="PTime" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="PHrs" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="Int32" />
-          <Property Name="Active" Type="Int32" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="CreatedUser" Type="Int32" />
-          <Property Name="E658CreatedUser" Type="Int64" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedUser" Type="Int32" />
-          <Property Name="Route" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="status_1" Type="Int32" />
-          <Property Name="IsOMtReqFromMT" Type="Int32" />
-          <Property Name="IsVehicleReqFromMT" Type="Int32" />
-          <Property Name="SLAFRegNo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="IsCombineRun" Type="Int16" />
-          <Property Name="ParentRunCretID" Type="Int32" />
-          <Property Name="ReturnDate" Type="DateTime" Precision="3" />
-          <Property Name="E658CreatorDltId" Type="Int32" />
-        </EntityType>
         <EntityType Name="Location">
           <Key>
             <PropertyRef Name="LocationID" />
@@ -621,12 +577,12 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
           <EntitySet Name="E658UserMgt" EntityType="Self.E658UserMgt" />
           <EntitySet Name="E658UserType" EntityType="Self.E658UserType" />
           <EntitySet Name="E658WayPoints" EntityType="Self.E658WayPoints" />
-          <EntitySet Name="F658RegistryHeader" EntityType="Self.F658RegistryHeader" />
           <EntitySet Name="Locations" EntityType="Self.Location" />
           <EntitySet Name="VehicleDetails" EntityType="Self.VehicleDetail" />
           <EntitySet Name="Vw_PersonalDetail" EntityType="Self.Vw_PersonalDetail" />
           <EntitySet Name="E658CreaterDetails" EntityType="GERMS_NEWModel.E658CreaterDetails" />
           <EntitySet Name="Divisions" EntityType="GERMS_NEWModel.Division" />
+          <EntitySet Name="F658RegistryHeader" EntityType="GERMS_NEWModel.F658RegistryHeader" />
         </EntityContainer>
         <EntityType Name="E658CreaterDetails">
           <Key>
@@ -667,6 +623,50 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedUser" Type="Int32" Nullable="false" />
           <Property Name="IsFormation" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="F658RegistryHeader">
+          <Key>
+            <PropertyRef Name="UnitSerialNo" />
+            <PropertyRef Name="ChassisNo" />
+            <PropertyRef Name="Seq" />
+          </Key>
+          <Property Name="UnitSerialNo" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="ChassisNo" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Seq" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PLocation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ELocation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FLocation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TLocation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RealToLocation" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="IsRR658" Type="Int32" Nullable="false" />
+          <Property Name="AuthorityType" Type="Int32" />
+          <Property Name="Behavior" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="OMTNo" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="Duty" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Section" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SeniorPassanger" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MyNav" Type="Int32" />
+          <Property Name="MaxNav" Type="Int32" />
+          <Property Name="PDate" Type="DateTime" Precision="3" />
+          <Property Name="PTime" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PHrs" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Active" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedUser" Type="Int32" />
+          <Property Name="E658CreatedUser" Type="Int64" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUser" Type="Int32" />
+          <Property Name="Route" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="status_1" Type="Int32" />
+          <Property Name="IsOMtReqFromMT" Type="Int32" />
+          <Property Name="IsVehicleReqFromMT" Type="Int32" />
+          <Property Name="SLAFRegNo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="IsNightPark" Type="Int32" />
+          <Property Name="NightParkLoc" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ReturnDate" Type="DateTime" Precision="3" />
+          <Property Name="E658CreatorDltId" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -813,49 +813,6 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="F658RegistryHeader">
-            <EntityTypeMapping TypeName="GERMS_NEWModel.F658RegistryHeader">
-              <MappingFragment StoreEntitySet="F658RegistryHeader">
-                <ScalarProperty Name="UnitSerialNo" ColumnName="UnitSerialNo" />
-                <ScalarProperty Name="ChassisNo" ColumnName="ChassisNo" />
-                <ScalarProperty Name="Seq" ColumnName="Seq" />
-                <ScalarProperty Name="PLocation" ColumnName="PLocation" />
-                <ScalarProperty Name="ELocation" ColumnName="ELocation" />
-                <ScalarProperty Name="FLocation" ColumnName="FLocation" />
-                <ScalarProperty Name="TLocation" ColumnName="TLocation" />
-                <ScalarProperty Name="RealToLocation" ColumnName="RealToLocation" />
-                <ScalarProperty Name="IsRR658" ColumnName="IsRR658" />
-                <ScalarProperty Name="AuthorityType" ColumnName="AuthorityType" />
-                <ScalarProperty Name="Behavior" ColumnName="Behavior" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="OMTNo" ColumnName="OMTNo" />
-                <ScalarProperty Name="Duty" ColumnName="Duty" />
-                <ScalarProperty Name="Section" ColumnName="Section" />
-                <ScalarProperty Name="SeniorPassanger" ColumnName="SeniorPassanger" />
-                <ScalarProperty Name="MyNav" ColumnName="MyNav" />
-                <ScalarProperty Name="MaxNav" ColumnName="MaxNav" />
-                <ScalarProperty Name="PDate" ColumnName="PDate" />
-                <ScalarProperty Name="PTime" ColumnName="PTime" />
-                <ScalarProperty Name="PHrs" ColumnName="PHrs" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
-                <ScalarProperty Name="E658CreatedUser" ColumnName="E658CreatedUser" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="ModifiedUser" ColumnName="ModifiedUser" />
-                <ScalarProperty Name="Route" ColumnName="Route" />
-                <ScalarProperty Name="status_1" ColumnName="status_1" />
-                <ScalarProperty Name="IsOMtReqFromMT" ColumnName="IsOMtReqFromMT" />
-                <ScalarProperty Name="IsVehicleReqFromMT" ColumnName="IsVehicleReqFromMT" />
-                <ScalarProperty Name="SLAFRegNo" ColumnName="SLAFRegNo" />
-                <ScalarProperty Name="IsCombineRun" ColumnName="IsCombineRun" />
-                <ScalarProperty Name="ParentRunCretID" ColumnName="ParentRunCretID" />
-                <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
-                <ScalarProperty Name="E658CreatorDltId" ColumnName="E658CreatorDltId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Locations">
             <EntityTypeMapping TypeName="GERMS_NEWModel.Location">
               <MappingFragment StoreEntitySet="Locations">
@@ -983,6 +940,49 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
                 <ScalarProperty Name="DivisionType" ColumnName="DivisionType" />
                 <ScalarProperty Name="DivisionID" ColumnName="DivisionID" />
                 <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="F658RegistryHeader">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.F658RegistryHeader">
+              <MappingFragment StoreEntitySet="F658RegistryHeader">
+                <ScalarProperty Name="E658CreatorDltId" ColumnName="E658CreatorDltId" />
+                <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+                <ScalarProperty Name="NightParkLoc" ColumnName="NightParkLoc" />
+                <ScalarProperty Name="IsNightPark" ColumnName="IsNightPark" />
+                <ScalarProperty Name="SLAFRegNo" ColumnName="SLAFRegNo" />
+                <ScalarProperty Name="IsVehicleReqFromMT" ColumnName="IsVehicleReqFromMT" />
+                <ScalarProperty Name="IsOMtReqFromMT" ColumnName="IsOMtReqFromMT" />
+                <ScalarProperty Name="status_1" ColumnName="status_1" />
+                <ScalarProperty Name="Route" ColumnName="Route" />
+                <ScalarProperty Name="ModifiedUser" ColumnName="ModifiedUser" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="E658CreatedUser" ColumnName="E658CreatedUser" />
+                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="PHrs" ColumnName="PHrs" />
+                <ScalarProperty Name="PTime" ColumnName="PTime" />
+                <ScalarProperty Name="PDate" ColumnName="PDate" />
+                <ScalarProperty Name="MaxNav" ColumnName="MaxNav" />
+                <ScalarProperty Name="MyNav" ColumnName="MyNav" />
+                <ScalarProperty Name="SeniorPassanger" ColumnName="SeniorPassanger" />
+                <ScalarProperty Name="Section" ColumnName="Section" />
+                <ScalarProperty Name="Duty" ColumnName="Duty" />
+                <ScalarProperty Name="OMTNo" ColumnName="OMTNo" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Behavior" ColumnName="Behavior" />
+                <ScalarProperty Name="AuthorityType" ColumnName="AuthorityType" />
+                <ScalarProperty Name="IsRR658" ColumnName="IsRR658" />
+                <ScalarProperty Name="RealToLocation" ColumnName="RealToLocation" />
+                <ScalarProperty Name="TLocation" ColumnName="TLocation" />
+                <ScalarProperty Name="FLocation" ColumnName="FLocation" />
+                <ScalarProperty Name="ELocation" ColumnName="ELocation" />
+                <ScalarProperty Name="PLocation" ColumnName="PLocation" />
+                <ScalarProperty Name="Seq" ColumnName="Seq" />
+                <ScalarProperty Name="ChassisNo" ColumnName="ChassisNo" />
+                <ScalarProperty Name="UnitSerialNo" ColumnName="UnitSerialNo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

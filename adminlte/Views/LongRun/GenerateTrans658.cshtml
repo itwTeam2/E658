@@ -1,0 +1,96 @@
+﻿@using E658.Models
+
+
+@{
+    ViewBag.Title = "GenerateTrans658";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="content-wrapper" style="height:900px !important;">
+
+        <section class="content-header">
+
+            <h1>
+                Type Transport Authority Number
+                @*<small>View Run Details</small>*@
+            </h1>
+
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#"><i class="fa fa-dashboard"></i> E-658</a>
+                </li>
+                <li class="active">View Run Details</li>
+            </ol>
+
+            <div id="ErrorMessage">
+                @if (TempData["ScfMsg"] != null)
+                {
+                    <div id="Msg" class="col-lg-12  alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>Alert! </strong> @TempData["ScfMsg"]
+                    </div>
+                }
+                else if (TempData["ErrMsg"] != null)
+                {
+                    <div id="Msg" class="col-lg-12 alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>Alert! </strong>@TempData["ErrMsg"]
+                    </div>
+
+                }
+
+            </div>
+
+        </section>
+
+        <br />
+
+        <section class="col-lg-12 nav-tabs-custom connectedSortable">
+
+            @using (Html.BeginForm("GenerateTrans658", "LongRun", FormMethod.Post))
+            {
+                <div class="input-group col-lg-6" style="padding-top:8px">
+                    @Html.TextBox("SearchString", null, new { placeholder = "Type the Transport Authority Reference No ", @class = "form-control" })
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-success"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            }
+
+            @if (Model != null)
+            {
+              
+            }
+
+        </section>
+
+    </div>
+
+    <!-- Bootstrap Modal -->
+    <div class="modal fade" id="runStatusModal" tabindex="-1" role="dialog" aria-labelledby="runStatusModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="runStatusModalLabel" style="font-size: 22px; font-weight: 700; background-color: #bee7c7; padding: 10px; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); border-radius: 5px; text-align: center; ">Run Status</h5>
+                    @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>*@
+                </div>
+                <div class="modal-body" id="runStatusContent" style="font-size: 15px; font-weight: 700; padding: 20px; background-color: white; color: #333; border: 1px solid #dee2e6; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border-radius: 6px ">
+                    <!-- Content will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}
