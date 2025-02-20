@@ -16,7 +16,8 @@ namespace E658.Enum
         RecordCertified = 6,
         NoUser  = 0,
         RunComplete = 8,
-        RunHold = 9
+        RunHold = 9,
+        HQUser = 10
 
 
     }

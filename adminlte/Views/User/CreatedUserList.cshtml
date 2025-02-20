@@ -83,7 +83,7 @@
 
                     @foreach (var item in Model)
                     {
-                        <tr>
+                        <tr style="background-color:#91ddab">
                             @*<td>
                                     <input type="checkbox" class="checkBox" value="@item.LIOHID" />
                                 </td>*@
@@ -107,11 +107,18 @@
                                 @Html.DisplayFor(modelItem => item.UserRole)
                             </td>
 
-                            <td>
-                                @Html.ActionLink("Edit", "Edit", new { EUMID = item.EUMID }, new { @class = "btn btn-warning" })                               
+                            <td>                              
+
+                                <button type="button" class="btn btn-warning pull-right" onclick="location.href='@Url.Action("Edit", "User", new { EUMID = item.EUMID})'">
+                                    <span><i class="fa fa-pencil-square" aria-hidden="false"></i> Edit</span>
+                                </button>
+
                             </td>
                             <td>
-                                @Html.ActionLink("Delete", "Delete", new { EUMID = item.EUMID }, new { @class = "btn btn-danger" })
+                                <button type="button" class="btn btn-danger pull-right" onclick="location.href='@Url.Action("Delete", "User", new { EUMID = item.EUMID})'">
+                                    <span><i class="fa fa-window-close-o" aria-hidden="false"></i> Delete</span>
+                                </button>
+
                             </td>
                         </tr>
                     }
@@ -121,7 +128,7 @@
                 <br />
                 @*Paging for Data Table *use only MVC no Javascript*@
                 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-                @Html.PagedListPager(Model, page => Url.Action("E658List",
+                @Html.PagedListPager(Model, page => Url.Action("CreatedUserList",
                  new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
             </div>
         </div>

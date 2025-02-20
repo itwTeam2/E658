@@ -44,49 +44,70 @@
                         <div class="box-body">
                             @*Service No and  @*Rank*@
                             <div class="form-group">
-                                @Html.Label("Service Number", new { @class = "control-label" })
-                                @Html.TextBoxFor(model => model.ServiceNo, new { @class = "form-control - ", autocomplete = "off" })
-                                @Html.HiddenFor(model => model.SNo)
-                                @Html.ValidationMessageFor(model => model.ServiceNo, string.Empty, new { @class = "label label-danger" })
+                                <div class="col-lg-6">
+                                    @Html.Label("Service Number", new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.ServiceNo, new { @class = "form-control - ", autocomplete = "off" })
+                                    @Html.HiddenFor(model => model.SNo)
+                                    @Html.ValidationMessageFor(model => model.ServiceNo, string.Empty, new { @class = "label label-danger" })
+                                </div>
+                                <div class="col-lg-6">
+                                    @Html.Label("Rank", new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.Rank, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
+                                </div>
+
                             </div>
 
-                            @*Rank*@
+                            @*Epas Location/Epas Division *@
                             <div class="form-group">
-                                @Html.Label("Rank", new { @class = "control-label" })
-                                @Html.TextBoxFor(model => model.Rank, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
-                            </div>
+                                <div class="col-lg-6" style="margin-top:10px">
+                                    @Html.Label("Epas Location", new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.EpasLoc, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
 
-                            <div class="form-group">
-                                @Html.Label("Run Type", new { @class = "control-label" })
-                                @Html.DropDownListFor(model => model.RTID, ViewBag.DDL_E658RaisedType as SelectList, "SELECT", htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.RTID, string.Empty, new { @class = "label label-danger" })
+                                </div>
+                                <div class="col-lg-6" style="margin-top:10px">
+                                    @Html.Label("Epas Division", new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.EpasDiv, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
+
+                                </div>
+
 
                             </div>
+                           
                         </div>
                     </div>
 
                     <div class="col-lg-6">
                         <div class="box-body">
-                            @*Name*@
+                            @*Name Trade/Brance*@
                             <div class="form-group">
-                                @Html.Label("Name", new { @class = "control-label" })
-                                @Html.TextBoxFor(model => model.FullName, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
+                                <div class="col-lg-6">
+                                    @Html.Label("Name", new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.FullName, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
+
+                                </div>
+                                <div class="col-lg-6">
+                                    @Html.Label("Trade/Branch", new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.Trade, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
+
+                                </div>
                             </div>
 
-                            @*Trade/Brance *@
+                            @*Run Type /User Location*@
                             <div class="form-group">
-                                @Html.Label("Trade/Branch", new { @class = "control-label" })
-                                @Html.TextBoxFor(model => model.Trade, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
-                            </div>
-                            @*Trade/Brance *@
-                            <div class="form-group">
-                                @Html.Label("User Location", new { @class = "control-label" })
-                                @Html.DropDownListFor(model => model.UserLoginLocation, ViewBag.DDL_GERSLocation as SelectList, "SELECT", htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.UserLoginLocation, string.Empty, new { @class = "label label-danger" })
+                                <div class="col-lg-6" style="margin-top:10px">
+                                    @Html.Label("User Location", new { @class = "control-label" })
+                                    @Html.DropDownListFor(model => model.UserLoginLocation, ViewBag.DDL_GERSLocation as SelectList, "SELECT", htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.UserLoginLocation, string.Empty, new { @class = "label label-danger" })
+
+                                </div>
+                                <div class="col-lg-6" style="margin-top:10px">
+                                    @Html.Label("Run Type", new { @class = "control-label" })
+                                    @Html.DropDownListFor(model => model.RTID, ViewBag.DDL_E658RaisedType as SelectList, "SELECT", htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.RTID, string.Empty, new { @class = "label label-danger" })
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
             <section>
@@ -104,14 +125,15 @@
                                             @Html.ValidationMessageFor(model => model.StaffServiceNo, string.Empty, new { @class = "label label-danger" })
                                         </div>
                                         <div class="col-lg-3">
-                                            <p><p>@Html.Label("Rank", new { @class = "control-label" })</p>
+                                            @Html.Label("Rank", new { @class = "control-label" })
                                             @Html.TextBoxFor(model => model.StaffRank, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
                                             @Html.ValidationMessageFor(model => model.StaffRank, string.Empty, new { @class = "label label-danger" })
                                         </div>
                                         <div class="col-lg-3">
-                                            <p><p>@Html.Label("Name", new { @class = "control-label" }) </p>
+                                            @Html.Label("Name", new { @class = "control-label" })
                                             @Html.TextBoxFor(model => model.StaffFullName, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
                                             @Html.ValidationMessageFor(model => model.StaffFullName, string.Empty, new { @class = "label label-danger" })
+                                        
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="p-t-10" style="padding-top:24px">
@@ -120,30 +142,64 @@
                                                 @*@Html.ActionLink("Next", "E658InitiateUser", "User", new { @class = "btn btn--radius btn-info" })*@
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
 
                             <div id="FormationMT">
                                 <div class="box-body">
+                                    <div class="form-group">
+                                        <div class="col-lg-6">
+                                            <div class="col-lg-6">
+                                                @Html.Label("Approving OIC Service No", new { @class = "control-label" })
+                                                @Html.TextBoxFor(model => model.OICServiceNo, new { @class = "form-control ", autocomplete = "off", placeholder = "" })
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                @Html.Label("Rank", new { @class = "control-label" })
+                                                @Html.TextBoxFor(model => model.OICRank, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Html.Label("Name", new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.OICName, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(model => model.OICName, string.Empty, new { @class = "label label-danger" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-lg-6">
+                                            <div class="col-lg-6" style="margin-top:10px">
+                                                @Html.Label("Epas Location", new { @class = "control-label" })
+                                                @Html.TextBoxFor(model => model.OICEpasLoc, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
+
+                                            </div>
+                                            <div class="col-lg-6" style="margin-top:10px">
+                                                @Html.Label("Epas Division", new { @class = "control-label" })
+                                                @Html.TextBoxFor(model => model.OICEpasDiv, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
+
+                                            </div>                                           
+                                        </div>                                        
+                                    </div>
+
                                     @*FormationMT *@
                                     <div class="form-group">
-
                                         @* Select location *@
 
-                                        <div class="col-lg-3">
+                                        <!--<div class="col-lg-3">
                                             @Html.Label("Select Location", new { @class = "control-label" })
                                             @Html.DropDownListFor(model => model.LocationId, ViewBag.DDL_EpasLocation as SelectList, "SELECT", htmlAttributes: new { @class = "form-control" })
-                                        </div>
+                                        </div>-->
 
                                         @* Division*@
-                                        <div class="col-lg-3">
+                                        <!--<div class="col-lg-3">
                                             @Html.Label("Select Division", new { @class = "control-label" })
                                             @Html.DropDownListFor(model => model.DivisionId, new SelectList(string.Empty, "Value", "Text"), "SELECT", htmlAttributes: new { @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.DivisionId, string.Empty, new { @class = "label label-danger" })
 
-                                        </div>
+                                        </div>-->
 
                                         <div class="col-lg-3">
                                             <div class="p-t-10" style="padding-top:24px">
@@ -153,8 +209,8 @@
                                         </div>
 
                                     </div>
-                                </div>
 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -186,7 +242,7 @@
     $(function () {
         $("#ServiceNo").change(function () {
             $.ajax({
-                url: '@Url.Content("~/User/getUserInfo")',
+                url: '@Url.Content("~/User/getInitialUserInfo")',
                 type: 'POST',
                 dataType: 'json',
                 data: { id: $("#ServiceNo").val() },
@@ -199,9 +255,11 @@
                     else {
                         $("#ServiceNo").val(data.ServiceNo);
                         $("#SNo").val(data.SNo);
-                        $("#FullName").val(data.Name);
+                        $("#FullName").val(data.FullName);
                         $("#Rank").val(data.Rank);
-                        $("#Trade").val(data.Branch);
+                        $("#Trade").val(data.Trade);
+                        $("#EpasLoc").val(data.EpasLoc);
+                        $("#EpasDiv").val(data.EpasDiv);
                     }
                 },
                 error: function () {
@@ -289,5 +347,34 @@
         })
     });
 
+    /// Load Formation Authorized OIC Details
+    $(function () {
+        $("#OICServiceNo").change(function () {
+            $.ajax({
+                url: '@Url.Content("~/User/getInitialUserInfo")',
+                type: 'POST',
+                dataType: 'json',
+                data: { id: $("#OICServiceNo").val() },
+                success: function (data) {
+                    if (data.ServiceNo == "Service number is not valid.") {
+                        alert("Service number is not valid.");
+                        $("#OICServiceNo").val('');
+                        $("#OICSNo").val('');
+                    }
+                    else {
+                        $("#OICServiceNo").val(data.ServiceNo);
+                        $("#OICSNo").val(data.SNo);
+                        $("#OICName").val(data.FullName);
+                        $("#OICRank").val(data.Rank);                        
+                        $("#OICEpasLoc").val(data.EpasLoc);
+                        $("#OICEpasDiv").val(data.EpasDiv);
+                    }
+                },
+                error: function () {
+                    alert("error in function");
+                }
+            });
+        });
+    });
 
 </script>

@@ -12,6 +12,12 @@ namespace E658.Models
         [Required(ErrorMessage = "Please Enter Service")]
         public string ServiceNo { get; set; }
         public string StaffServiceNo { get; set; }
+        public string OICServiceNo { get; set; }
+        public string OICSNo { get; set; }
+        public string OICRank { get; set; }
+        public string OICName { get; set; }
+        public string OICEpasLoc { get; set; }
+        public string OICEpasDiv { get; set; }
         public string SNo { get; set; }
         public string StaffSNo { get; set; }
         public string Rank { get; set; }
@@ -35,9 +41,13 @@ namespace E658.Models
         public string Route { get; set; }
         //[Required(ErrorMessage = ("Section is Required"))]
         public string Section { get; set; }
+        public string EpasLoc { get; set; }
+        public string EpasDiv { get; set; }
 
         public DateTime? MTCotrollerDutyDate { get; set; }
         public string UserLocation { get; set; }
+        [Required(ErrorMessage = "Please Select the Create Mode")]
+        public int IsRaisedMode { get; set; }
 
     }
 }

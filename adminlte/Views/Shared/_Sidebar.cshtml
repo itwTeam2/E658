@@ -27,7 +27,8 @@
                             { (int)E658.Enum.EnumE658UserType.StaffCarUser, "You are login as Staff Car User" },
                             { (int)E658.Enum.EnumE658UserType.FinalizedAuthorization, "You are login as Finalized Authorization Person" },
                             { (int)E658.Enum.EnumE658UserType.MToOCT, "You are login as MTO/OCT" },
-                            { (int)E658.Enum.EnumE658UserType.MTController, "You are login as MT Controller" }
+                            { (int)E658.Enum.EnumE658UserType.MTController, "You are login as MT Controller" },
+                            { (int)E658.Enum.EnumE658UserType.HQUser, "You are login as HQ User" }
                         };
 
                         string userRoleMessage = userRoleMessages.ContainsKey(userRoleID) ? userRoleMessages[userRoleID] : "Unknown Role";
@@ -75,57 +76,66 @@
         @{
             int userRole = Convert.ToInt32(Session["UserLoginType"]);
             var menuItems = new Dictionary<int, List<dynamic>>
-    {
             {
-                (int)E658.Enum.EnumE658UserType.StaffCarUser, new List<dynamic>
-            {
-                    new { Action = "E658FinalApprovedList", Controller = "E658", Icon = "fa-thumbs-up", Text = "Approved E658" },
-                    new { Action = "E658RejectedList", Controller = "E658", Icon = "fa-thumbs-down", Text = "Rejected List" },
-                    new { Action = "UserProfile", Controller = "User", Icon = "fa-user", Text = "User Profile" }
+                {
+                    (int)E658.Enum.EnumE658UserType.StaffCarUser, new List<dynamic>
+                    {
+                        new { Action = "E658FinalApprovedList", Controller = "E658", Icon = "fa-thumbs-up", Text = "Approved E658" },
+                        new { Action = "E658RejectedList", Controller = "E658", Icon = "fa-thumbs-down", Text = "Rejected List" },
+                        new { Action = "UserProfile", Controller = "User", Icon = "fa-user", Text = "Handing Over Authority" }
+                    }
+                },
+                {
+                    (int)E658.Enum.EnumE658UserType.FormationUser, new List<dynamic>
+                    {
+                        new { Action = "E658List", Controller = "E658", Icon = "fa-fast-forward", Text = "Pending Approval E658" },
+                        new { Action = "E658FinalApprovedList", Controller = "E658", Icon = "fa-thumbs-up", Text = "Approved E658" },
+                        new { Action = "E658RejectedList", Controller = "E658", Icon = "fa-thumbs-down", Text = "Rejected List" }
+                    }
+                },
+                {
+                    (int)E658.Enum.EnumE658UserType.FinalizedAuthorization, new List<dynamic>
+                    {
+                        new { Action = "Dashboardv1ToMTO", Controller = "Dashboard", Icon = "fa-dashboard", Text = "Dashboard" },
+                        new { Action = "E658List", Controller = "E658", Icon = "fa-fast-forward", Text = "Pending Approval E658" },
+                        new { Action = "E658FinalApprovedList", Controller = "E658", Icon = "fa-thumbs-up", Text = "Approved E658" },
+                        new { Action = "E658RejectedList", Controller = "E658", Icon = "fa-thumbs-down", Text = "Rejected List" },
+                        new { Action = "HoldRunList", Controller = "E658", Icon = "fa-check", Text = "Hold Run List" },
+                        new { Action = "UserProfile", Controller = "User", Icon = "fa-user", Text = "Handing Over Authority" }
+                    }
+                },
+                {
+                    (int)E658.Enum.EnumE658UserType.MToOCT, new List<dynamic>
+                    {
+                        new { Action = "Dashboardv1ToMTO", Controller = "Dashboard", Icon = "fa-dashboard", Text = "Dashboard" },
+                        new { Action = "E658List", Controller = "E658", Icon = "fa-fast-forward", Text = "Pending Approval E658" },
+                        new { Action = "E658FinalApprovedList", Controller = "E658", Icon = "fa-thumbs-up", Text = "Approved E658" },
+                        new { Action = "E658RejectedList", Controller = "E658", Icon = "fa-thumbs-down", Text = "Rejected List" },
+                        new { Action = "HoldRunList", Controller = "E658", Icon = "fa-check", Text = "Hold Run List" },
+                        new { Action = "UserProfile", Controller = "User", Icon = "fa-user", Text = "Handing Over Authority" },
+                        new { Action = "CreateMTController", Controller = "User", Icon = "fa-user", Text = "Create MT Controller" }
+                    }
+                },
+                {
+                    (int)E658.Enum.EnumE658UserType.MTController, new List<dynamic>
+                    {
+                        new { Action = "Dashboardv1ToMTO", Controller = "Dashboard", Icon = "fa-dashboard", Text = "Dashboard" },
+                        new { Action = "CreateMTController", Controller = "User", Icon = "fa-user", Text = "User Creating" },
+                        new { Action = "MTControllerList", Controller = "User", Icon = "fa-circle-o", Text = "Duty List" },
+                        new { Action = "E658List", Controller = "E658", Icon = "fa-fast-forward", Text = "Pending Approval E658" },
+                        new { Action = "E658FinalApprovedList", Controller = "E658", Icon = "fa-thumbs-up", Text = "Approved E658" },
+                        new { Action = "E658RejectedList", Controller = "E658", Icon = "fa-thumbs-down", Text = "Rejected List" }
+                    }
+                },
+                {
+                    (int)E658.Enum.EnumE658UserType.HQUser, new List<dynamic>
+                    {
+                        new { Action = "UserMgtCreate", Controller = "User", Icon = "fa-user", Text = "User Creating" },
+                        new { Action = "CreatedUserList", Controller = "User", Icon = "fa-user", Text = "System User List" },
+                        
+                    }
                 }
-            },
-            {
-                (int)E658.Enum.EnumE658UserType.FormationUser, new List<dynamic>
-            {
-                    new { Action = "E658List", Controller = "E658", Icon = "fa-fast-forward", Text = "Pending Approval E658" },
-                    new { Action = "E658FinalApprovedList", Controller = "E658", Icon = "fa-thumbs-up", Text = "Approved E658" },
-                    new { Action = "E658RejectedList", Controller = "E658", Icon = "fa-thumbs-down", Text = "Rejected List" }
-                }
-            },
-            {
-                (int)E658.Enum.EnumE658UserType.FinalizedAuthorization, new List<dynamic>
-            {
-                    new { Action = "Dashboardv1ToMTO", Controller = "Dashboard", Icon = "fa-dashboard", Text = "Dashboard" },
-                    new { Action = "E658List", Controller = "E658", Icon = "fa-fast-forward", Text = "Pending Approval E658" },
-                    new { Action = "E658FinalApprovedList", Controller = "E658", Icon = "fa-thumbs-up", Text = "Approved E658" },
-                    new { Action = "E658RejectedList", Controller = "E658", Icon = "fa-thumbs-down", Text = "Rejected List" },
-                    new { Action = "HoldRunList", Controller = "E658", Icon = "fa-check", Text = "Hold Run List" },
-                    new { Action = "UserProfile", Controller = "User", Icon = "fa-user", Text = "User Profile" }
-                }
-            },
-            {
-                (int)E658.Enum.EnumE658UserType.MToOCT, new List<dynamic>
-            {
-                    new { Action = "Dashboardv1ToMTO", Controller = "Dashboard", Icon = "fa-dashboard", Text = "Dashboard" },
-                    new { Action = "E658List", Controller = "E658", Icon = "fa-fast-forward", Text = "Pending Approval E658" },
-                    new { Action = "E658FinalApprovedList", Controller = "E658", Icon = "fa-thumbs-up", Text = "Approved E658" },
-                    new { Action = "E658RejectedList", Controller = "E658", Icon = "fa-thumbs-down", Text = "Rejected List" },
-                    new { Action = "UserProfile", Controller = "User", Icon = "fa-user", Text = "User Profile" },
-                    new { Action = "CreateMTController", Controller = "User", Icon = "fa-user", Text = "Create MT Controller" }
-                }
-            },
-            {
-                (int)E658.Enum.EnumE658UserType.MTController, new List<dynamic>
-            {
-                    new { Action = "Dashboardv1ToMTO", Controller = "Dashboard", Icon = "fa-dashboard", Text = "Dashboard" },
-                    new { Action = "CreateMTController", Controller = "User", Icon = "fa-user", Text = "User Creating" },
-                    new { Action = "MTControllerList", Controller = "User", Icon = "fa-circle-o", Text = "Duty List" },
-                    new { Action = "E658List", Controller = "E658", Icon = "fa-fast-forward", Text = "Pending Approval E658" },
-                    new { Action = "E658FinalApprovedList", Controller = "E658", Icon = "fa-thumbs-up", Text = "Approved E658" },
-                    new { Action = "E658RejectedList", Controller = "E658", Icon = "fa-thumbs-down", Text = "Rejected List" }
-                }
-            }
-        };
+            };
 
             if (menuItems.ContainsKey(userRole))
             {

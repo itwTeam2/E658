@@ -48,78 +48,88 @@ namespace WRMS.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(_UserLogin obj_UserLogin)                                                                                                                                
+
+        public ActionResult Login(_UserLogin obj_UserLogin)
         {
             /// Created By : SL Wickramasinghe
             /// Created Date : 27/02/24
             /// Des : 
 
-            ViewBag.DDL_E658UserType = new SelectList(_db.E658UserType.Where(x=>x.Active == 1), "EUTID", "E658Users");
+            ViewBag.DDL_E658UserType = new SelectList(_db.E658UserType.Where(x => x.Active == 1), "EUTID", "E658Users");
 
             try
             {
                 if (ModelState.IsValid)
                 {
                     byte[] EncriptPwd = EncriptPassword(obj_UserLogin.Password);
-                    var dbPword = _dbEpass.EpasUsers.Where(r => r.userid == obj_UserLogin.UserName).Select(q => q.password).FirstOrDefault();
-                    var v = _dbEpass.EpasUsers.Where(a => a.userid.Equals(obj_UserLogin.UserName) && dbPword == EncriptPwd).FirstOrDefault();
-                    string ModifyServiceNo = CheckingVolAirWoman(obj_UserLogin.UserName);
-
-                    var loginUserSNo = _db.Vw_PersonalDetail.Where(x => x.ServiceNo == ModifyServiceNo).Select(x => new { x.SNo, x.service_type }).FirstOrDefault();
-
-                    if (v != null)
+                    var user = _dbEpass.EpasUsers.FirstOrDefault(r => r.userid == obj_UserLogin.UserName);
+                    
+                    if (user != null && user.password.SequenceEqual(EncriptPwd))
                     {
-                        Session["UserLoginType"] = obj_UserLogin.EUTID;
-                        switch (obj_UserLogin.EUTID)
+                        string ModifyServiceNo = CheckingVolAirWoman(obj_UserLogin.UserName);
+                        var loginUserSNo = _db.Vw_PersonalDetail
+                            .Where(x => x.ServiceNo == ModifyServiceNo)
+                            .Select(x => new { x.SNo, x.service_type })
+                            .FirstOrDefault();
+
+                        if (loginUserSNo != null)
                         {
-                            case (int)E658.Enum.EnumE658UserType.FormationUser:
-
-                                if (loginUserSNo.service_type == 1001 || loginUserSNo.service_type == 1002 || loginUserSNo.service_type == 1003 || loginUserSNo.service_type == 1004)
-                                {
-                                    var userLoginDeatils = _dbEpass.EpasUsers.Where(x => x.userid == obj_UserLogin.UserName).Select(x => new { x.KitIssParentUnit, x.DivisionName }).FirstOrDefault();
-
-                                    Session["UserEpassLoc"] = userLoginDeatils.KitIssParentUnit;
-                                    Session["UserEpassDivision"] = userLoginDeatils.DivisionName;
-                                    Session["LoginUser"] = ModifyServiceNo; // obj_UserLogin.UserName;
-
-
-                                    return RedirectToAction("E658List", "E658");
-                                }
-                                else
-                                {
-                                    TempData["Error"] = "You ara not allowed to login using this user type.";
-                                }
-                                break;
-                            case (int)E658.Enum.EnumE658UserType.StaffCarUser:
-
-                                Session["LoginUser"] = ModifyServiceNo; // obj_UserLogin.UserName;
-                                return RedirectToAction("E658List", "E658");
-                               
-                            case (int)E658.Enum.EnumE658UserType.FinalizedAuthorization:
-                            case (int)E658.Enum.EnumE658UserType.MToOCT:
-
-                                var loginUserInfo = _db.E658UserMgt.Where(x => x.SNo == loginUserSNo.SNo && x.Active == 1 && x.IsTemHandOverStatus == 1)
-                                                   .Select(x => new { x.IsTemHandOverStatus, x.HandOverPsnSNo, x.HandOverFromDate, x.HandOverToDate,x.EUMID ,x.UserLocation}).FirstOrDefault();
-
-                                if (loginUserInfo != null)
-                                {
-                                    DateTime currentDate = DateTime.Today;
-                                    DateTime? handOverFrom = loginUserInfo.HandOverFromDate;
-                                    DateTime? handOverTo = loginUserInfo.HandOverToDate;
-
-                                    if (loginUserInfo.IsTemHandOverStatus == 1)
+                            Session["UserLoginType"] = obj_UserLogin.EUTID;
+                            switch (obj_UserLogin.EUTID)
+                            {
+                                case (int)E658.Enum.EnumE658UserType.FormationUser:
+                                    var allowedServiceTypes = new List<int> { 1001, 1002, 1003, 1004 };
+                                    if (allowedServiceTypes.Contains(loginUserSNo.service_type.GetValueOrDefault()))
                                     {
-                                        if (currentDate >= handOverFrom && currentDate < handOverTo)
+                                        var userLoginDetails = _dbEpass.EpasUsers
+                                            .Where(x => x.userid == obj_UserLogin.UserName)
+                                            .Select(x => new { x.KitIssParentUnit, x.DivisionName })
+                                            .FirstOrDefault();
+
+                                        Session["UserEpassLoc"] = userLoginDetails.KitIssParentUnit;
+                                        Session["UserEpassDivision"] = userLoginDetails.DivisionName;
+                                        Session["LoginUser"] = ModifyServiceNo;
+
+                                        return RedirectToAction("E658List", "E658");
+                                    }
+                                    else
+                                    {
+                                        TempData["Error"] = "You are not allowed to login using this user type.";
+                                    }
+                                    break;
+
+                                case (int)E658.Enum.EnumE658UserType.StaffCarUser:
+                                    Session["LoginUser"] = ModifyServiceNo;
+                                    return RedirectToAction("E658List", "E658");
+
+                                case (int)E658.Enum.EnumE658UserType.FinalizedAuthorization:
+                                case (int)E658.Enum.EnumE658UserType.MToOCT:
+                                    var loginUserInfo = _db.E658UserMgt
+                                        .Where(x => x.SNo == loginUserSNo.SNo && x.Active == 1 && x.IsTemHandOverStatus == 1)
+                                        .Select(x => new { x.IsTemHandOverStatus, x.HandOverPsnSNo, x.HandOverFromDate, x.HandOverToDate, x.EUMID, x.UserLocation })
+                                        .FirstOrDefault();
+
+                                    DateTime currentDate = DateTime.Today;
+                                    if (loginUserInfo != null)
+                                    {
+                                        DateTime? handOverFrom = loginUserInfo.HandOverFromDate;
+                                        DateTime? handOverTo = loginUserInfo.HandOverToDate;
+
+                                        if (loginUserInfo.IsTemHandOverStatus == 1 && currentDate >= handOverFrom && currentDate <= handOverTo)
                                         {
-                                            var serviceNo = _db.Vw_PersonalDetail.Where(x => x.SNo == loginUserInfo.HandOverPsnSNo).Select(x => x.ServiceNo).FirstOrDefault();
-                                            TempData["Error"] = "Your Account Temporally Handover to '" + serviceNo + "' Service Number and handover duration '"+ handOverFrom + "' to '"+ handOverTo + "'. ";
+                                            var serviceNo = _db.Vw_PersonalDetail
+                                                .Where(x => x.SNo == loginUserInfo.HandOverPsnSNo)
+                                                .Select(x => x.ServiceNo)
+                                                .FirstOrDefault();
+
+                                            TempData["Error"] = $"Your Account Temporally Handover to '{serviceNo}' Service Number and handover duration '{handOverFrom}' to '{handOverTo}'.";
                                         }
                                         else
                                         {
                                             Session["LoginUser"] = ModifyServiceNo;
                                             Session["MToOctLocation"] = loginUserInfo.UserLocation;
 
-                                            E658UserMgt objUserMgt = _db.E658UserMgt.Find(loginUserInfo.EUMID);
+                                            var objUserMgt = _db.E658UserMgt.Find(loginUserInfo.EUMID);
                                             objUserMgt.IsTemHandOverStatus = 0;
                                             objUserMgt.HandOverFromDate = null;
                                             objUserMgt.HandOverToDate = null;
@@ -129,71 +139,299 @@ namespace WRMS.Controllers
                                             objUserMgt.ModifiedMac = mac.GetMacAddress();
 
                                             _db.Entry(objUserMgt).State = EntityState.Modified;
-
                                             _db.SaveChanges();
 
-                                            
                                             return RedirectToAction("E658List", "E658");
                                         }
                                     }
-                                }                          
-                                else
-                                {
-                                    var loginUserInfo2 = _db.E658UserMgt.Where(x => x.SNo == loginUserSNo.SNo && x.Active == 1 && x.RoleID == obj_UserLogin.EUTID)
-                                                  .Select(x => new { x.UserLocation }).FirstOrDefault();
+                                    else
+                                    {
+                                        var loginUserInfo2 = _db.E658UserMgt
+                                            .Where(x => x.SNo == loginUserSNo.SNo && x.Active == 1 && x.RoleID == obj_UserLogin.EUTID)
+                                            .Select(x => new { x.UserLocation, x.HandOverFromDate, x.HandOverToDate, x.EUMID })
+                                            .OrderByDescending(x => x.EUMID)
+                                            .FirstOrDefault();
 
-                                    if (loginUserInfo2 != null)
+                                        if (loginUserInfo2 != null)
+                                        {
+                                            DateTime? handOverFrom = loginUserInfo2.HandOverFromDate;
+                                            DateTime? handOverTo = loginUserInfo2.HandOverToDate;
+
+                                            if ((currentDate >= handOverFrom && currentDate <= handOverTo) || (!handOverFrom.HasValue || !handOverTo.HasValue))
+                                            {
+                                                Session["LoginUser"] = ModifyServiceNo;
+                                                Session["MToOctLocation"] = loginUserInfo2.UserLocation;
+                                                return RedirectToAction("Dashboardv1ToMTO", "Dashboard");
+                                            }
+                                            else
+                                            {
+                                                TempData["Error"] = "No Permission to login";
+                                            }
+                                        }
+                                        else
+                                        {
+                                            TempData["Error"] = "No Permission to login";
+                                        }
+                                    }
+                                    break;
+
+                                case (int)E658.Enum.EnumE658UserType.MTController:
+                                    DateTime today = DateTime.Now.Date;
+                                    var userSno = _db.Vw_PersonalDetail
+                                        .Where(x => x.ServiceNo == obj_UserLogin.UserName)
+                                        .Select(x => x.SNo)
+                                        .FirstOrDefault();
+
+                                    var userAvailability = _db.E658UserMgt
+                                        .Where(x => x.SNo == userSno.ToString() && x.MTCotrollerDutyDate == today)
+                                        .FirstOrDefault();
+
+                                    if (userAvailability != null)
                                     {
                                         Session["LoginUser"] = ModifyServiceNo;
-                                        Session["MToOctLocation"] = loginUserInfo2.UserLocation;
+                                        Session["MToOctLocation"] = userAvailability.UserLocation;
                                         return RedirectToAction("Dashboardv1ToMTO", "Dashboard");
                                     }
                                     else
                                     {
-                                        TempData["Error"] = "No Permission to login";
+                                        TempData["Error"] = "You are not a MT Controller today.";
                                     }
+                                    break;
 
+                                case (int)E658.Enum.EnumE658UserType.HQUser:
+                                    var hqUserSno = _db.Vw_PersonalDetail
+                                        .Where(x => x.ServiceNo == obj_UserLogin.UserName)
+                                        .Select(x => x.SNo)
+                                        .FirstOrDefault();
+
+                                    var userAvail = _db.E658UserMgt
+                                        .Where(x => x.SNo == hqUserSno.ToString() && x.RoleID == (int)E658.Enum.EnumE658UserType.HQUser)
+                                        .FirstOrDefault();
                                     
-                                }
+                                    if (userAvail != null)
+                                    {
+                                        Session["LoginUser"] = ModifyServiceNo;
+                                        //Session["MToOctLocation"] = userAvailability.UserLocation;
+                                        return RedirectToAction("CreatedUserList", "User");
+                                    }
+                                    else
+                                    {
+                                        TempData["Error"] = "You are not a MT Controller today.";
+                                    }
+                                    break;
 
-                                break;
-                            case (int)E658.Enum.EnumE658UserType.MTController:
-
-                                DateTime Today = DateTime.Now.Date;
-                                var userSno  = _db.Vw_PersonalDetail.Where(x => x.ServiceNo == obj_UserLogin.UserName).Select(x=>x.SNo).FirstOrDefault();
-                                var userAvailability = _db.E658UserMgt.Where(x => x.SNo == userSno.ToString() && x.MTCotrollerDutyDate == Today).FirstOrDefault();
-
-                                if (userAvailability != null)
-                                {
-                                    Session["LoginUser"] = ModifyServiceNo;
-                                    Session["MToOctLocation"] = userAvailability.UserLocation;
-
-                                    return RedirectToAction("Dashboardv1ToMTO", "Dashboard");
-                                }
-                                else
-                                {
-                                    TempData["Error"] = "You are not a MT Controller today.";
-                                }
-                                break;
-
-                            default:
-                                break;
+                                default:
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            TempData["Error"] = "The User Name/Password you've entered is incorrect";
                         }
                     }
                     else
                     {
                         TempData["Error"] = "The User Name/Password you've entered is incorrect";
-                    }                 
-
+                    }
                 }
 
                 return View();
             }
             catch (Exception ex)
             {
-                throw ex;
+                // Log the exception (ex) here if needed
+                return View("Error", new HandleErrorInfo(ex, "ControllerName", "ActionName"));
             }
         }
+        
+        //public ActionResult Login(_UserLogin obj_UserLogin)                                                                                                                                
+        //{
+        //    /// Created By : SL Wickramasinghe
+        //    /// Created Date : 27/02/24
+        //    /// Des : 
+
+        //    ViewBag.DDL_E658UserType = new SelectList(_db.E658UserType.Where(x=>x.Active == 1), "EUTID", "E658Users");
+
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            byte[] EncriptPwd = EncriptPassword(obj_UserLogin.Password);
+        //            var dbPword = _dbEpass.EpasUsers.Where(r => r.userid == obj_UserLogin.UserName).Select(q => q.password).FirstOrDefault();
+        //            var v = _dbEpass.EpasUsers.Where(a => a.userid.Equals(obj_UserLogin.UserName) && dbPword == EncriptPwd).FirstOrDefault();
+        //            string ModifyServiceNo = CheckingVolAirWoman(obj_UserLogin.UserName);
+
+        //            var loginUserSNo = _db.Vw_PersonalDetail.Where(x => x.ServiceNo == ModifyServiceNo).Select(x => new { x.SNo, x.service_type }).FirstOrDefault();
+
+        //            if (v != null)
+        //            {
+        //                Session["UserLoginType"] = obj_UserLogin.EUTID;
+        //                switch (obj_UserLogin.EUTID)
+        //                {
+        //                    case (int)E658.Enum.EnumE658UserType.FormationUser:
+
+        //                        if (loginUserSNo.service_type == 1001 || loginUserSNo.service_type == 1002 || loginUserSNo.service_type == 1003 || loginUserSNo.service_type == 1004)
+        //                        {
+        //                            var userLoginDeatils = _dbEpass.EpasUsers.Where(x => x.userid == obj_UserLogin.UserName).Select(x => new { x.KitIssParentUnit, x.DivisionName }).FirstOrDefault();
+
+        //                            Session["UserEpassLoc"] = userLoginDeatils.KitIssParentUnit;
+        //                            Session["UserEpassDivision"] = userLoginDeatils.DivisionName;
+        //                            Session["LoginUser"] = ModifyServiceNo; // obj_UserLogin.UserName;
+
+
+        //                            return RedirectToAction("E658List", "E658");
+        //                        }
+        //                        else
+        //                        {
+        //                            TempData["Error"] = "You ara not allowed to login using this user type.";
+        //                        }
+        //                        break;
+        //                    case (int)E658.Enum.EnumE658UserType.StaffCarUser:
+
+        //                        Session["LoginUser"] = ModifyServiceNo; // obj_UserLogin.UserName;
+        //                        return RedirectToAction("E658List", "E658");
+
+        //                    case (int)E658.Enum.EnumE658UserType.FinalizedAuthorization:
+        //                    case (int)E658.Enum.EnumE658UserType.MToOCT:
+
+        //                        var loginUserInfo = _db.E658UserMgt.Where(x => x.SNo == loginUserSNo.SNo && x.Active == 1 && x.IsTemHandOverStatus == 1)
+        //                                           .Select(x => new { x.IsTemHandOverStatus, x.HandOverPsnSNo, x.HandOverFromDate, x.HandOverToDate,x.EUMID ,x.UserLocation}).FirstOrDefault();
+        //                        DateTime currentDate = DateTime.Today;
+        //                        if (loginUserInfo != null)
+        //                        {
+        //                            //DateTime currentDate = DateTime.Today;
+        //                            DateTime? handOverFrom = loginUserInfo.HandOverFromDate;
+        //                            DateTime? handOverTo = loginUserInfo.HandOverToDate;
+
+        //                            if (loginUserInfo.IsTemHandOverStatus == 1)
+        //                            {
+
+        //                                if (currentDate >= handOverFrom && currentDate <= handOverTo)
+        //                                {
+        //                                    var serviceNo = _db.Vw_PersonalDetail.Where(x => x.SNo == loginUserInfo.HandOverPsnSNo).Select(x => x.ServiceNo).FirstOrDefault();
+        //                                    TempData["Error"] = "Your Account Temporally Handover to '" + serviceNo + "' Service Number and handover duration '"+ handOverFrom.ToString() + "' to '"+ handOverTo.ToString() + "'. ";
+        //                                }
+        //                                else
+        //                                {
+        //                                    Session["LoginUser"] = ModifyServiceNo;
+        //                                    Session["MToOctLocation"] = loginUserInfo.UserLocation;
+
+        //                                    E658UserMgt objUserMgt = _db.E658UserMgt.Find(loginUserInfo.EUMID);
+        //                                    objUserMgt.IsTemHandOverStatus = 0;
+        //                                    objUserMgt.HandOverFromDate = null;
+        //                                    objUserMgt.HandOverToDate = null;
+        //                                    objUserMgt.HandOverPsnSNo = null;
+        //                                    objUserMgt.ModifiedBy = Session["LoginUser"].ToString();
+        //                                    objUserMgt.ModifiedDate = DateTime.Now;
+        //                                    objUserMgt.ModifiedMac = mac.GetMacAddress();
+
+        //                                    _db.Entry(objUserMgt).State = EntityState.Modified;
+
+        //                                    _db.SaveChanges();
+
+
+        //                                    return RedirectToAction("E658List", "E658");
+        //                                }
+        //                            }
+        //                        }                          
+        //                        else
+        //                        {
+        //                            //var loginUserInfo2 = _db.E658UserMgt.Where(x => x.SNo == loginUserSNo.SNo && x.Active == 1 && x.RoleID == obj_UserLogin.EUTID)
+        //                            //              .Select(x => new { x.UserLocation,x.EUMID })
+        //                            //              .OrderByDescending(x=>x.EUMID).FirstOrDefault();
+
+        //                            var loginUserInfo2 = _db.E658UserMgt.Where(x => x.SNo == loginUserSNo.SNo && x.Active == 1 && x.RoleID == obj_UserLogin.EUTID)
+        //                                         .Select(x => new { x.UserLocation, x.HandOverFromDate, x.HandOverToDate, x.EUMID })
+        //                                         .OrderByDescending(x => x.EUMID).FirstOrDefault();
+
+        //                            if (loginUserInfo2 != null)
+        //                            {
+        //                                DateTime? handOverFrom = loginUserInfo2.HandOverFromDate;
+        //                                DateTime? handOverTo = loginUserInfo2.HandOverToDate;
+
+        //                                if ((currentDate >= handOverFrom && currentDate <= handOverTo))
+        //                                {
+        //                                    Session["LoginUser"] = ModifyServiceNo;
+        //                                    Session["MToOctLocation"] = loginUserInfo2.UserLocation;
+        //                                    return RedirectToAction("Dashboardv1ToMTO", "Dashboard");
+        //                                }
+        //                                else if ((!handOverFrom.HasValue || !handOverTo.HasValue))
+        //                                {
+        //                                    Session["LoginUser"] = ModifyServiceNo;
+        //                                    Session["MToOctLocation"] = loginUserInfo2.UserLocation;
+        //                                    return RedirectToAction("Dashboardv1ToMTO", "Dashboard");
+        //                                }
+        //                                else if ((!handOverFrom.HasValue || !handOverTo.HasValue) && handOverTo < currentDate)
+        //                                {
+        //                                    Session["LoginUser"] = ModifyServiceNo;
+        //                                    Session["MToOctLocation"] = loginUserInfo2.UserLocation;
+        //                                    return RedirectToAction("Dashboardv1ToMTO", "Dashboard");
+        //                                }
+        //                                else
+        //                                {
+        //                                    //E658UserMgt objUserMgt = _db.E658UserMgt.Find(loginUserInfo2.EUMID);
+        //                                    //objUserMgt.IsTemHandOverStatus = 0;
+        //                                    //objUserMgt.HandOverFromDate = null;
+        //                                    //objUserMgt.HandOverToDate = null;
+        //                                    //objUserMgt.HandOverPsnSNo = null;
+        //                                    //objUserMgt.Active = 0;
+        //                                    //objUserMgt.ModifiedBy = obj_UserLogin.UserName;
+        //                                    //objUserMgt.ModifiedDate = DateTime.Now;
+        //                                    //objUserMgt.ModifiedMac = mac.GetMacAddress();
+
+        //                                    //_db.Entry(objUserMgt).State = EntityState.Modified;
+
+        //                                    //_db.SaveChanges();
+
+        //                                    TempData["Error"] = "No Permission to login";
+        //                                }                                        
+        //                            }
+        //                            else
+        //                            {
+        //                                TempData["Error"] = "No Permission to login";
+        //                            }                                    
+        //                        }
+
+        //                        break;
+        //                    case (int)E658.Enum.EnumE658UserType.MTController:
+
+        //                        DateTime Today = DateTime.Now.Date;
+        //                        var userSno  = _db.Vw_PersonalDetail.Where(x => x.ServiceNo == obj_UserLogin.UserName).Select(x=>x.SNo).FirstOrDefault();
+        //                        var userAvailability = _db.E658UserMgt.Where(x => x.SNo == userSno.ToString() && x.MTCotrollerDutyDate == Today).FirstOrDefault();
+
+        //                        if (userAvailability != null)
+        //                        {
+        //                            Session["LoginUser"] = ModifyServiceNo;
+        //                            Session["MToOctLocation"] = userAvailability.UserLocation;
+
+        //                            return RedirectToAction("Dashboardv1ToMTO", "Dashboard");
+        //                        }
+        //                        else
+        //                        {
+        //                            TempData["Error"] = "You are not a MT Controller today.";
+        //                        }
+        //                        break;
+        //                    case (int)E658.Enum.EnumE658UserType.HQUser:
+
+        //                        break;
+        //                    default:
+        //                        break;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                TempData["Error"] = "The User Name/Password you've entered is incorrect";
+        //            }                 
+
+        //        }
+
+        //        return View();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         public byte[] EncriptPassword(string Passwd)
         {
             MD5CryptoServiceProvider MD5Pass = new MD5CryptoServiceProvider();
@@ -262,7 +500,7 @@ namespace WRMS.Controllers
                 {
                     SNo = obj_UserManagementE658.SNo.ToString(),
                     RoleID = obj_UserManagementE658.RLEID,
-                    UserLocation = obj_UserManagementE658.Location,
+                    UserLocation = (obj_UserManagementE658.Location == "PLY")? obj_UserManagementE658.Location = "KKS": obj_UserManagementE658.Location,
                     Active = 1,
                     CreatedBy = Session["LoginUser"].ToString(),
                     CreatedDate = DateTime.Now,
@@ -288,18 +526,8 @@ namespace WRMS.Controllers
            
 
             return View();
-
-
-            //if (Session["Location"] != null)
-            //{
-
-
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Login", "User");
-            //}            
-        }
+                    
+        }       
         public ActionResult CreatedUserList(string sortOrder, string currentFilter, string SearchString, int? page, int? RSID)
         {
             /// Created By : SL Wickramasinghe
@@ -336,7 +564,8 @@ namespace WRMS.Controllers
                                 on s.SNo equals pd.SNo
                                 join ut in _db.E658UserType
                                 on s.RoleID equals ut.EUTID
-                                where s.Active == 1
+                                where s.Active == 1 && s.HandOverToDate == null && (s.RoleID == (int)E658.Enum.EnumE658UserType.MToOCT || s.RoleID == (int)E658.Enum.EnumE658UserType.FinalizedAuthorization)
+                                orderby s.UserLocation
                                 select new
                                 {
                                     SeviceNo = pd.ServiceNo,
@@ -664,6 +893,10 @@ namespace WRMS.Controllers
 
                     if (objUser.HandOverDateFrom != null)
                     {
+                        if (objUser.Location == "PLY")
+                        {
+                            objUser.Location = "KKS";
+                        }
                         objUseMgt.SNo = objUser.HandOverSNo;
                         objUseMgt.HandOverFromDate = objUser.HandOverDateFrom;
                         objUseMgt.UserLocation = objUser.Location;
@@ -715,7 +948,7 @@ namespace WRMS.Controllers
             /// Create Date : 2024/02/15
             /// Description : load E658 Creater View
 
-            ViewBag.DDL_E658RaisedType = new SelectList(_db.E658RaisedType, "RTID", "TypeName");
+            ViewBag.DDL_E658RaisedType = new SelectList(_db.E658RaisedType.Where(x=>x.Active == 1), "RTID", "TypeName");
             ViewBag.DDL_EpasLocation = new SelectList(_dbCommonData.EpasLocations.OrderBy(x => x.LocationID), "LocationID", "LocationName");
             ViewBag.DDL_GERSLocation = new SelectList(_db.Locations.OrderBy(x => x.LocationID), "LocationID", "LocationName");
 
@@ -727,9 +960,9 @@ namespace WRMS.Controllers
         {
             ///Created BY   : Sqn ldr Wicky
             /// Create Date : 2024/02/15
-            /// Description : load E658 Creater View
+            /// Description : Save E658 Creater View
 
-            ViewBag.DDL_E658RaisedType = new SelectList(_db.E658RaisedType, "RTID", "TypeName");
+            ViewBag.DDL_E658RaisedType = new SelectList(_db.E658RaisedType.Where(x => x.Active == 1), "RTID", "TypeName");
             ViewBag.DDL_EpasLocation = new SelectList(_dbCommonData.EpasLocations.OrderBy(x => x.LocationID), "LocationID", "LocationName");
             ViewBag.DDL_GERSLocation = new SelectList(_db.Locations.OrderBy(x => x.LocationID), "LocationID", "LocationName");
             E658CreaterDetails objCreater = new E658CreaterDetails();
@@ -781,22 +1014,33 @@ namespace WRMS.Controllers
                     }
                     else
                     {
-                        objCreater.CreaterLoc = obj.LocationId.Trim();
-                        objCreater.CreaterDivision = obj.DivisionId.Trim();
-                        //objCreater.CreaterDivision = obj.LocationId.Trim();
-
-                        _db.E658CreaterDetails.Add(objCreater);
-
-                        using (TransactionScope scope = new TransactionScope(TransactionScopeOption.RequiresNew))
+                        if (obj.EpasLoc != obj.OICEpasLoc )
                         {
-                            if (_db.SaveChanges() > 0)
-                            {
-                                scope.Complete();
-                                TempData["ScfMsg"] = "you complete the first step, Please fill in the E 658 Details  (ඔබ පළමු පියවර සම්පූර්ණ කර ඇත, කරුණාකර E-658 විස්තර පුරවන්න)";
-
-                                return RedirectToAction("Create", "E658");
-                            }
+                            TempData["ErrMsg"] = "Please ensure that both the Epas location and the OIC Epas " +
+                                                 "location are the same.(කරුණාකර Epas ස්ථානය සහ OIC Epas ස්ථානය යන දෙකම එකම බව සහතික කර ගන්න)";
+                            
+                            return RedirectToAction("E658InitiateUser");
                         }
+                        else
+                        {
+                            objCreater.CreaterLoc = obj.OICEpasLoc.Trim();
+                            objCreater.CreaterDivision = obj.OICEpasDiv.Trim();
+                            objCreater.OICServiceNo = obj.OICServiceNo;
+                            //objCreater.CreaterDivision = obj.LocationId.Trim();
+
+                            _db.E658CreaterDetails.Add(objCreater);
+
+                            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.RequiresNew))
+                            {
+                                if (_db.SaveChanges() > 0)
+                                {
+                                    scope.Complete();
+                                    TempData["ScfMsg"] = "you complete the first step, Please fill in the E 658 Details  (ඔබ පළමු පියවර සම්පූර්ණ කර ඇත, කරුණාකර E-658 විස්තර පුරවන්න)";
+
+                                    return RedirectToAction("Create", "E658");
+                                }
+                            }
+                        }                        
                     }
                     
                 }
@@ -961,8 +1205,10 @@ namespace WRMS.Controllers
 
                 obj.CreatorServiceNo = model.ServiceNo;
                 obj.Sno = model.SNo;
+                obj.SectionName = model.Section;
                 obj.CreatorLocation = model.SelectedUserLocation;
                 obj.SectionName = model.Section;
+                obj.IsRaisedMode = model.IsRaisedMode;
 
                 Session["CretorDetails"] = JsonConvert.SerializeObject(obj);
 
@@ -1140,6 +1386,43 @@ namespace WRMS.Controllers
 
         }
 
+        //public ActionResult LoadSystemUser(string sortOrder, string currentFilter, string searchString, int? page)
+        //{
+        //    /// Created By : SL Wickramasinghe
+        //    /// Created Date : 06/02/25
+        //    /// Des : Load system users
+        //    /// 
+
+        //    int pageSize = 20;
+        //    int pageNumber = page ?? 1;
+
+        //    if (Session["UserLoginType"] == null)
+        //    {
+        //        return RedirectToAction("Login", "User");
+        //    }
+
+        //    var result = (from eum in _db.E658UserMgt
+        //                  join vpd in _db.Vw_PersonalDetail on eum.SNo equals vpd.SNo
+        //                  join eut in _db.E658UserType on eum.RoleID equals eut.EUTID
+        //                  where eum.Active == 1 && eum.HandOverToDate == null && (eum.RoleID == (int)E658.Enum.EnumE658UserType.MToOCT || eum.RoleID == (int)E658.Enum.EnumE658UserType.FinalizedAuthorization)
+        //                  orderby eum.UserLocation
+        //                  select new _UserManagementE658
+        //                  {
+        //                      EUMID = eum.EUMID,
+        //                      SNo= eum.SNo,
+        //                      RoleId=eum.RoleID,
+        //                      ServiceNo =vpd.ServiceNo,
+        //                      Rank = vpd.Rank,
+        //                      FullName = vpd.Name,// Replace with actual field names from Vw_PersonalDetail
+        //                      UserRole =eut.E658Users,  // Replace with actual field names from E658UserType
+        //                      Location = eum.UserLocation
+        //                  }).ToList();
+
+        //    pageSize = 20;
+        //    pageNumber = (page ?? 1);
+        //    return View(result.ToPagedList(pageNumber, pageSize));
+        //}
+
         #region Json Method
         public JsonResult getUserInfo(string id)
         {
@@ -1243,6 +1526,47 @@ namespace WRMS.Controllers
 
             return Result;
 
+        }
+
+        public JsonResult getInitialUserInfo(string id)
+        {
+            ///Created BY   : Sqn ldr Wicky
+            /// Create Date  : 2024/02/14
+            /// Description : Load Full name details according to the service number
+
+            
+
+            var count = _db.Vw_PersonalDetail.Where(x => x.ServiceNo == id).Count();
+            if (count == 1)
+            {
+                var userInfoHRMS = _db.Vw_PersonalDetail.Where(x => x.ServiceNo == id).FirstOrDefault();
+                var userInfoEpas = _dbEpass.EpasUsers.Where(x => x.userid == id).FirstOrDefault();
+
+                VME658InitiateUser obj_VwPersonalProfile = new VME658InitiateUser()
+                {
+                    ServiceNo = userInfoHRMS.ServiceNo,
+                    SNo = userInfoHRMS.SNo,
+                    Rank = userInfoHRMS.Rank,
+                    FullName = userInfoHRMS.Name,
+                    Trade = userInfoHRMS.Branch,
+                    EpasLoc = userInfoEpas.KitIssParentUnit,
+                    EpasDiv = userInfoEpas.DivisionName
+                };
+
+                return Json(obj_VwPersonalProfile, JsonRequestBehavior.AllowGet);
+
+
+            }
+            else
+            {
+                VME658InitiateUser obj_VwPersonalProfile = new VME658InitiateUser()
+                {
+
+                    FullName = "Service Number is not valid."
+
+                };
+                return Json(obj_VwPersonalProfile, JsonRequestBehavior.AllowGet);
+            }
         }
 
         #endregion

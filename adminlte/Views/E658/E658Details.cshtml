@@ -274,12 +274,12 @@
 
                 @functions {
                     // Helper function to base64 encode the concatenated values
-                    public string EncodeIds(int roleId, int creatorId)
+                    public string EncodeIds(int creatorId , int roleId, int eFlowId)
                     {
                         // Concatenate the values
                         //string concatenatedValues = $"{roleId}:{creatorId}";
 
-                        string concatenatedValues = string.Format("{0}:{1}", roleId, creatorId);
+                        string concatenatedValues = string.Format("{0}:{1}:{2}", creatorId, roleId, eFlowId);
 
                         // Convert to Base64 string
                         byte[] bytes = System.Text.Encoding.UTF8.GetBytes(concatenatedValues);
@@ -352,11 +352,13 @@
                             }
                             else
                             {
+                                
+
                                 <button type="button" class="col-lg- btn btn-success pull-left" onclick="location.href='@Url.Action("E658InitiateUser", "User")'">
                                     <span>Back To Creater Page</span>
                                 </button>
 
-                                <button type="button" class="col-lg- btn btn-warning pull-right" onclick="location.href='@Url.Action("Edit658", "E658" ,new { RoleId = item.RoleID, E658CreatorID = item.ECDID })'">
+                                <button type="button" class="col-lg- btn btn-warning pull-right" onclick="location.href='@Url.Action("Edit658", "E658" , new { userID = EncodeIds(item.ECDID, item.RoleID,0)})'">
                                     <span>Edit Record</span>
                                 </button>
                             }

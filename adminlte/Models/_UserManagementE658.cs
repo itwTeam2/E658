@@ -40,6 +40,7 @@ namespace E658.Models
         public string Division  { get; set; }
         public DateTime? DutyDate { get; set; }
         public bool isTempHandover { get; set; }
+        
 
     }
 }

@@ -37,18 +37,18 @@
         <section class="col-lg-6 connectedSortable">
             <div class="nav-tabs-custom">
                 <div class="box-body">
+                    @*Destination From and @*Destination TO*@
                     <div class="col-lg-6">
-                        @*Destination From and @*Destination TO*@
                         <div class="form-group">
                             @Html.Label("Destination From", new { @class = "control-label" })
                             @Html.TextBoxFor(model => model.FromLocID, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
                             @Html.ValidationMessageFor(model => model.E658Date, string.Empty, new { @class = "label label-danger" })
                             @Html.HiddenFor(model => model.ECDID)
+                            @Html.HiddenFor(model => model.IsRaisedMode)
                         </div>
                     </div>
-
+                    @*Destination TO*@
                     <div class="col-lg-6">
-                        @*Destination TO*@
                         <div class="form-group">
                             @Html.Label("Destination To", new { @class = "control-label" })
                             @Html.DropDownListFor(model => model.ToLocId, ViewBag.DDL_GermsLocation as SelectList, "SELECT", htmlAttributes: new { @class = "form-control" })
@@ -56,11 +56,19 @@
                         </div>
                     </div>
 
+                    @*Type Other Location Name*@
                     <div class="col-lg-12 form-group" id="dvOtherRun">
                         <div class="form-group">
                             @Html.Label("Type Other Location Name", new { @class = "control-label" })
                             @Html.TextBoxFor(model => model.OtherLocName, new { @class = "form-control - ", autocomplete = "off" })
                             @Html.ValidationMessageFor(model => model.OtherLocName, string.Empty, new { @class = "label label-danger" })
+                        </div>
+                    </div>
+                    @*Request Section*@
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            @Html.Label("Request Section", new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.SectionName, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
                         </div>
                     </div>
 
@@ -69,19 +77,16 @@
                     <div class="form-group">
                         <div class="col-lg-6">
                             @Html.Label("Request Category", new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.OtherLocName, new { @class = "form-control - ", autocomplete = "off" })
                             @*@Html.DropDownList("ERTID", ViewBag.DDL_E658RaisedType as IEnumerable<SelectListItem>, "-- Select --", htmlAttributes: new { @class = "form-control" })*@
                             @*@Html.DropDownListFor(model => model.ERTID, ViewBag.DDL_E658RaisedType as SelectList, "SELECT", htmlAttributes: new { @class = "form-control" })*@
                             @Html.ValidationMessageFor(model => model.ERTID, string.Empty, new { @class = "label label-danger" })
                         </div>
                         @*E658-Date*@
-                        <div class="col-lg-6">
-
-                            <div class="form-group">
-                                @Html.Label("Departure Date", new { @class = "control-label" })
-                                @Html.TextBoxFor(model => model.E658Date, new { @class = "form-control - ", autocomplete = "off", @type = "date" })
-                                @Html.ValidationMessageFor(model => model.E658Date, string.Empty, new { @class = "label label-danger" })
-
-                            </div>
+                        <div class="col-lg-12">
+                            @Html.Label("Departure Date", new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.E658Date, new { @class = "form-control - ", autocomplete = "off", @type = "date" })
+                            @Html.ValidationMessageFor(model => model.E658Date, string.Empty, new { @class = "label label-danger" })
 
                         </div>
                     </div>
@@ -93,11 +98,10 @@
                         </div>
                         <div class="col-lg-6">
                             @*Return Date*@
-                            <div class="form-group">
-                                @Html.Label("Return Date", new { @class = "control-label" })
-                                @Html.TextBoxFor(model => model.ReturnDate, new { @class = "form-control - ", autocomplete = "off", @type = "date" })
-                                @Html.ValidationMessageFor(model => model.RoleID, string.Empty, new { @class = "label label-danger" })
-                            </div>
+                            @Html.Label("Return Date", new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.ReturnDate, new { @class = "form-control - ", autocomplete = "off", @type = "date" })
+                            @Html.ValidationMessageFor(model => model.RoleID, string.Empty, new { @class = "label label-danger" })
+
                         </div>
                     </div>
 
@@ -114,8 +118,8 @@
                     </div>
 
                     @*Night Park Status*@
-                    <div class="form-group">                    
-                    @Html.Label("Night Park Status", new { @class = "control-label" })                  
+                    <div class="form-group">
+                        @Html.Label("Night Park Status", new { @class = "control-label" })
                     </div>
 
                     <div class="form-group">
@@ -131,12 +135,12 @@
                         </div>
 
                         <div class="box-body">
-                           
+
                             <div class="row" id="nightParkLocation">
                                 @Html.Label("Type Night Location", new { @class = "control-label" })
                                 @Html.TextBoxFor(model => model.NightParkLoc, new { @class = "form-control - ", autocomplete = "off" })
                             </div>
-                        </div>                        
+                        </div>
                     </div>
 
                     @*Additional Duties*@
@@ -396,7 +400,7 @@
             var objE658 = {};
             objE658.FromLocID = $("#FromLocID").val();
             objE658.ToLocId = $("#ToLocId").val();
-            objE658.ERTID = $("#ERTID").val();
+            //objE658.ERTID = $("#ERTID").val();
             objE658.E658Date = $("#E658Date").val();
             objE658.JournryStartTime = $("#JournryStartTime").val();
             objE658.ReturnDate = $("#ReturnDate").val();
@@ -404,29 +408,41 @@
             objE658.OtherLocName = $("#OtherLocName").val();
             objE658.Purpose = $("#Purpose").val();
             objE658.Route = $("#Route").val();
-            objE658.ECDID = $("#ECDID").val();
+            //objE658.ECDID = $("#ECDID").val();
             objE658.AdditionalDuties = $("#AdditionalDuties").val();
-            var OMTReqFromMT = $("#OMTAvail").val();
-            var VehicleReqFromMT = $("#VehicleAvail").val();
+            objE658.OMTServiceNo = $("#OMTServiceNo").val();
+            objE658.SLAFRegNo = $("#SLAFRegNo").val();
+            objE658.IsNightPark = $("#isSingleRecord").val();
 
-            if (OMTReqFromMT == "") {
-
-                objE658.OMTServiceNo = $("#OMTServiceNo").val();
+            if (objE658.IsNightPark == 1) {
+                objE658.IsNightPark = $("#isSingleRecord").val();
+                objE658.NightParkLoc = $("#NightParkLoc").val();
             }
-            if (VehicleReqFromMT == "") {
 
-                objE658.SLAFRegNo = $("#SLAFRegNo").val();
+            if (objE658.IsNightPark == 2) {
+                objE658.IsNightPark = $("#isBulkRecord").val();
             }
+            //var OMTReqFromMT = $("#OMTAvail").val();
+            //var VehicleReqFromMT = $("#VehicleAvail").val();
+
+            //if (OMTReqFromMT == "") {
+
+            //    objE658.OMTServiceNo = $("#OMTServiceNo").val();
+            //}
+            //if (VehicleReqFromMT == "") {
+
+            //    objE658.SLAFRegNo = $("#SLAFRegNo").val();
+            //}
 
             if (objE658.FromLocID == "" || objE658.ToLocId == "" ||  objE658.ERTID == "" ||  objE658.E658Date == "" ||
-                objE658.JournryStartTime == "" || objE658.RequiredDuration == "" || objE658.Purpose == "" ||  objE658.Route == "") {
+                objE658.JournryStartTime == "" || objE658.RequiredDuration == "" || objE658.Purpose == "" ||  objE658.Route == ""){
 
                 alert("Please Fill all the Data Fields (කරුණාකර සියලුම දත්තයන් පුරවන්න)");
             }
             else {
 
                 $.ajax({
-                    url: '@Url.Content("~/E658/Create")',
+                    url: '@Url.Content("~/LongRun/CreateRequest")',
                     type: "POST",
                     data: '{objE658:' + JSON.stringify(objE658) + '}',
                     dataType: "json",
