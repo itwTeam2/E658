@@ -37,9 +37,9 @@ namespace E658.Models
         public virtual DbSet<E658WayPoints> E658WayPoints { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<VehicleDetail> VehicleDetails { get; set; }
-        public virtual DbSet<Vw_PersonalDetail> Vw_PersonalDetail { get; set; }
-        public virtual DbSet<E658CreaterDetails> E658CreaterDetails { get; set; }
         public virtual DbSet<Division> Divisions { get; set; }
         public virtual DbSet<F658RegistryHeader> F658RegistryHeader { get; set; }
+        public virtual DbSet<Vw_PersonalDetail> Vw_PersonalDetail { get; set; }
+        public virtual DbSet<E658CreaterDetails> E658CreaterDetails { get; set; }
     }
 }

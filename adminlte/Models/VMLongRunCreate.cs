@@ -53,7 +53,8 @@ namespace E658.Models
         public string NightParkLoc { get; set; }
         //public string AdditionalDuties { get; set; }
         public int IsNightPark { get; set; }
-        
+        public int IsRaisedMode { get; set; }
+
 
     }
 }

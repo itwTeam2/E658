@@ -60,7 +60,8 @@ namespace E658.Controllers
                 {
                    
                     FromLocID = creatorLocFullName,
-                    //Section = Userdetails.Section,
+                    SectionName = objCreateDetails.SectionName,
+                    IsRaisedMode = objCreateDetails.IsRaisedMode,
                 };
                 return View(model);
             }
@@ -73,7 +74,7 @@ namespace E658.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateRequest(VMLongRunCreate objE658)
+        public ActionResult CreateRequest(VMLongRunCreate objE658)  
         {
             ///Created BY   : Sqn ldr Wicky
             /// Create Date : 2025/01/18
@@ -87,7 +88,7 @@ namespace E658.Controllers
             int IsVehiReqFromMT = 0;
             string SLAFRegNumber = null;
             string vehicleAttaLoc = "";
-
+            //string recordCreateBy =
 
             List<Cls_ItemList> lst_ListPartItem = new List<Cls_ItemList>();
 
@@ -98,7 +99,7 @@ namespace E658.Controllers
                 var FromLocID = _db.Locations.Where(x => x.LocationName == objE658.FromLocID).Select(x => x.LocationID).FirstOrDefault();
                 var ToLocID = _db.Locations.Where(x => x.LocationName == objE658.ToLocId).Select(x => x.LocationID).FirstOrDefault();
                 //RaisedTypeID = Convert.ToInt32(Session["E658RunType"]);
-                string createUnitSerialNo = CreateUnitSerialNo(FromLocID, 2);
+                string createUnitSerialNo = CreateUnitSerialNo(FromLocID, objE658.IsVehicleAvail,objE658.SectionName);
 
                 TimeSpan StartTime = objE658.JournryStartTime.TimeOfDay;
 
@@ -110,6 +111,8 @@ namespace E658.Controllers
                 }
                 var objCreateDetails = JsonConvert.DeserializeObject<VMLongRunCreate>(creatorDetailsJson);
 
+
+                Session["E658CreateUser"] = objCreateDetails.Sno;
                 //if (objE658.OMTServiceNo == null)
                 //{
                 //    /// assing 1 // When user Request OMT From MT section isOMTReqFromMT coloum assign 1
@@ -198,7 +201,7 @@ namespace E658.Controllers
                         E658CreatedUser = Convert.ToInt64(objCreateDetails.Sno),
                         IsNightPark = objE658.IsNightPark,
                         Description = objE658.AdditionalDuties,
-                        //NightParkLoc = objE658.NightParkLoc,
+                        NightParkLoc = (objE658.IsNightPark == 1)?  objE658.NightParkLoc: null,
 
 
                     };
@@ -219,7 +222,11 @@ namespace E658.Controllers
                         CreatedMAC = mac.GetMacAddress()
 
                     };
-                    _db.E658FlowTransaction.Add(FlowTranc);                    
+                    _db.E658FlowTransaction.Add(FlowTranc);
+
+                    _db.SaveChanges();
+                    
+
                     TempData["ScfMsg"] = "You have created the E658 Successfully.";
 
                 }        
@@ -238,12 +245,11 @@ namespace E658.Controllers
 
             }
         }
-
         public ActionResult GenerateTrans658()
         {
             return View();
         }
-        private string CreateUnitSerialNo(string FromLocID, int E658RunType)
+        private string CreateUnitSerialNo(string FromLocID, int IsVehicleAvail,string SectionName)
         {
             ///Created BY   : Sqn ldr Wicky
             /// Create Date : 2024/03/07
@@ -253,8 +259,14 @@ namespace E658.Controllers
             try
             {
                 int currentyear = Convert.ToInt32(DateTime.Now.Year);
+                int currentMonth = Convert.ToInt32(DateTime.Now.Month);
                 int currentDate = Convert.ToInt32(DateTime.Now.Day);
-                var typeShort = _db.E658RaisedType.Where(x => x.RTID == E658RunType && x.Active == 1).Select(x => x.TypeShortName).FirstOrDefault();
+                var typeShort = _db.E658CreaterDetails.Where(x => x.RaisedTypeID == (int)E658.Enum.E658RaisedType.TA
+                                && x.Active == 1
+                                && x.CreatedDate.HasValue
+                                && x.CreatedDate.Value.Year == currentyear
+                                && x.CreatedDate.Value.Month == currentMonth
+                                && x.CreatedDate.Value.Day == currentDate).Count();
 
                 int Count658 = _db.F658RegistryHeader.Where(x => x.ELocation == FromLocID && x.CreatedDate.Value.Year == currentyear && x.Active == 1).Count();
                 int RocordId = Count658 + 1;

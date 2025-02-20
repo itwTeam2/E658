@@ -18,6 +18,7 @@ namespace E658.Models
         public string SNo { get; set; }
         public Nullable<int> RaisedTypeID { get; set; }
         public string StaffServiceNo { get; set; }
+        public string OICServiceNo { get; set; }
         public string CreaterLoc { get; set; }
         public string CreaterDivision { get; set; }
         public Nullable<short> IsE658Create { get; set; }

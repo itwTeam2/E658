@@ -31,6 +31,7 @@
           <Property Name="SNo" Type="varchar" MaxLength="80" />
           <Property Name="RaisedTypeID" Type="int" />
           <Property Name="StaffServiceNo" Type="varchar" MaxLength="50" />
+          <Property Name="OICServiceNo" Type="varchar" MaxLength="50" />
           <Property Name="CreaterLoc" Type="varchar" MaxLength="30" />
           <Property Name="CreaterDivision" Type="varchar" MaxLength="30" />
           <Property Name="IsE658Create" Type="smallint" />
@@ -214,7 +215,7 @@
           <Property Name="IsVehicleReqFromMT" Type="int" />
           <Property Name="SLAFRegNo" Type="varchar" MaxLength="15" />
           <Property Name="IsNightPark" Type="int" />
-          <Property Name="NightParkLoc" Type="varbinary(max)" />
+          <Property Name="NightParkLoc" Type="varchar(max)" />
           <Property Name="ReturnDate" Type="datetime" />
           <Property Name="E658CreatorDltId" Type="int" />
         </EntityType>
@@ -543,29 +544,6 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
           <Property Name="OrderNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PurchaseValue" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
-        <EntityType Name="Vw_PersonalDetail">
-          <Key>
-            <PropertyRef Name="type" />
-          </Key>
-          <Property Name="SNo" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-          <Property Name="ServiceNo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="RankID" Type="Int32" />
-          <Property Name="Rank" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Branch" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="BranchCode" Type="Int32" />
-          <Property Name="PostedLocation" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Division" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DischargeDate" Type="DateTime" Precision="3" />
-          <Property Name="type" Type="Int32" Nullable="false" />
-          <Property Name="Service_Status" Type="Int32" />
-          <Property Name="Marriage_Status" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
-          <Property Name="service_type" Type="Int32" />
-          <Property Name="DateOfEnlist" Type="DateTime" Precision="3" />
-          <Property Name="Formation" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="SubRank" Type="Int32" />
-          <Property Name="serTypeDescription" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityContainer Name="dbContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="E658FlowMagt" EntityType="Self.E658FlowMagt" />
           <EntitySet Name="E658FlowTransaction" EntityType="Self.E658FlowTransaction" />
@@ -579,33 +557,11 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
           <EntitySet Name="E658WayPoints" EntityType="Self.E658WayPoints" />
           <EntitySet Name="Locations" EntityType="Self.Location" />
           <EntitySet Name="VehicleDetails" EntityType="Self.VehicleDetail" />
-          <EntitySet Name="Vw_PersonalDetail" EntityType="Self.Vw_PersonalDetail" />
-          <EntitySet Name="E658CreaterDetails" EntityType="GERMS_NEWModel.E658CreaterDetails" />
           <EntitySet Name="Divisions" EntityType="GERMS_NEWModel.Division" />
           <EntitySet Name="F658RegistryHeader" EntityType="GERMS_NEWModel.F658RegistryHeader" />
+          <EntitySet Name="Vw_PersonalDetail" EntityType="GERMS_NEWModel.Vw_PersonalDetail" />
+          <EntitySet Name="E658CreaterDetails" EntityType="GERMS_NEWModel.E658CreaterDetails" />
         </EntityContainer>
-        <EntityType Name="E658CreaterDetails">
-          <Key>
-            <PropertyRef Name="ECDID" />
-          </Key>
-          <Property Name="ECDID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SNo" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
-          <Property Name="RaisedTypeID" Type="Int32" />
-          <Property Name="StaffServiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreaterLoc" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="CreaterDivision" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="IsE658Create" Type="Int16" />
-          <Property Name="E658MainType" Type="Int32" />
-          <Property Name="Active" Type="Int16" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedMAC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UserGERMSLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedMAC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="Division">
           <Key>
             <PropertyRef Name="LocationID" />
@@ -664,9 +620,55 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
           <Property Name="IsVehicleReqFromMT" Type="Int32" />
           <Property Name="SLAFRegNo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="IsNightPark" Type="Int32" />
-          <Property Name="NightParkLoc" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="NightParkLoc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ReturnDate" Type="DateTime" Precision="3" />
           <Property Name="E658CreatorDltId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Vw_PersonalDetail">
+          <Key>
+            <PropertyRef Name="type" />
+          </Key>
+          <Property Name="SNo" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceNo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="RankID" Type="Int32" />
+          <Property Name="Rank" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Branch" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BranchCode" Type="Int32" />
+          <Property Name="PostedLocation" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Division" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DischargeDate" Type="DateTime" Precision="3" />
+          <Property Name="type" Type="Int32" Nullable="false" />
+          <Property Name="Service_Status" Type="Int32" />
+          <Property Name="Marriage_Status" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="service_type" Type="Int32" />
+          <Property Name="DateOfEnlist" Type="DateTime" Precision="3" />
+          <Property Name="Formation" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="SubRank" Type="Int32" />
+          <Property Name="serTypeDescription" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="E658CreaterDetails">
+          <Key>
+            <PropertyRef Name="ECDID" />
+          </Key>
+          <Property Name="ECDID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SNo" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="RaisedTypeID" Type="Int32" />
+          <Property Name="StaffServiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OICServiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreaterLoc" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CreaterDivision" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="IsE658Create" Type="Int16" />
+          <Property Name="E658MainType" Type="Int32" />
+          <Property Name="Active" Type="Int16" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedMAC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserGERMSLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedMAC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -879,53 +881,6 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Vw_PersonalDetail">
-            <EntityTypeMapping TypeName="GERMS_NEWModel.Vw_PersonalDetail">
-              <MappingFragment StoreEntitySet="Vw_PersonalDetail">
-                <ScalarProperty Name="SNo" ColumnName="SNo" />
-                <ScalarProperty Name="ServiceNo" ColumnName="ServiceNo" />
-                <ScalarProperty Name="RankID" ColumnName="RankID" />
-                <ScalarProperty Name="Rank" ColumnName="Rank" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Branch" ColumnName="Branch" />
-                <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
-                <ScalarProperty Name="PostedLocation" ColumnName="PostedLocation" />
-                <ScalarProperty Name="Division" ColumnName="Division" />
-                <ScalarProperty Name="DischargeDate" ColumnName="DischargeDate" />
-                <ScalarProperty Name="type" ColumnName="type" />
-                <ScalarProperty Name="Service_Status" ColumnName="Service_Status" />
-                <ScalarProperty Name="Marriage_Status" ColumnName="Marriage_Status" />
-                <ScalarProperty Name="service_type" ColumnName="service_type" />
-                <ScalarProperty Name="DateOfEnlist" ColumnName="DateOfEnlist" />
-                <ScalarProperty Name="Formation" ColumnName="Formation" />
-                <ScalarProperty Name="SubRank" ColumnName="SubRank" />
-                <ScalarProperty Name="serTypeDescription" ColumnName="serTypeDescription" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="E658CreaterDetails">
-            <EntityTypeMapping TypeName="GERMS_NEWModel.E658CreaterDetails">
-              <MappingFragment StoreEntitySet="E658CreaterDetails">
-                <ScalarProperty Name="ModifiedMAC" ColumnName="ModifiedMAC" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="UserGERMSLocation" ColumnName="UserGERMSLocation" />
-                <ScalarProperty Name="CreatedMAC" ColumnName="CreatedMAC" />
-                <ScalarProperty Name="CreatedIP" ColumnName="CreatedIP" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="E658MainType" ColumnName="E658MainType" />
-                <ScalarProperty Name="IsE658Create" ColumnName="IsE658Create" />
-                <ScalarProperty Name="CreaterDivision" ColumnName="CreaterDivision" />
-                <ScalarProperty Name="CreaterLoc" ColumnName="CreaterLoc" />
-                <ScalarProperty Name="StaffServiceNo" ColumnName="StaffServiceNo" />
-                <ScalarProperty Name="RaisedTypeID" ColumnName="RaisedTypeID" />
-                <ScalarProperty Name="SNo" ColumnName="SNo" />
-                <ScalarProperty Name="ECDID" ColumnName="ECDID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Divisions">
             <EntityTypeMapping TypeName="GERMS_NEWModel.Division">
               <MappingFragment StoreEntitySet="Divisions">
@@ -983,6 +938,54 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
                 <ScalarProperty Name="Seq" ColumnName="Seq" />
                 <ScalarProperty Name="ChassisNo" ColumnName="ChassisNo" />
                 <ScalarProperty Name="UnitSerialNo" ColumnName="UnitSerialNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vw_PersonalDetail">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.Vw_PersonalDetail">
+              <MappingFragment StoreEntitySet="Vw_PersonalDetail">
+                <ScalarProperty Name="serTypeDescription" ColumnName="serTypeDescription" />
+                <ScalarProperty Name="SubRank" ColumnName="SubRank" />
+                <ScalarProperty Name="Formation" ColumnName="Formation" />
+                <ScalarProperty Name="DateOfEnlist" ColumnName="DateOfEnlist" />
+                <ScalarProperty Name="service_type" ColumnName="service_type" />
+                <ScalarProperty Name="Marriage_Status" ColumnName="Marriage_Status" />
+                <ScalarProperty Name="Service_Status" ColumnName="Service_Status" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="DischargeDate" ColumnName="DischargeDate" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="PostedLocation" ColumnName="PostedLocation" />
+                <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+                <ScalarProperty Name="Branch" ColumnName="Branch" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Rank" ColumnName="Rank" />
+                <ScalarProperty Name="RankID" ColumnName="RankID" />
+                <ScalarProperty Name="ServiceNo" ColumnName="ServiceNo" />
+                <ScalarProperty Name="SNo" ColumnName="SNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="E658CreaterDetails">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.E658CreaterDetails">
+              <MappingFragment StoreEntitySet="E658CreaterDetails">
+                <ScalarProperty Name="ModifiedMAC" ColumnName="ModifiedMAC" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="UserGERMSLocation" ColumnName="UserGERMSLocation" />
+                <ScalarProperty Name="CreatedMAC" ColumnName="CreatedMAC" />
+                <ScalarProperty Name="CreatedIP" ColumnName="CreatedIP" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="E658MainType" ColumnName="E658MainType" />
+                <ScalarProperty Name="IsE658Create" ColumnName="IsE658Create" />
+                <ScalarProperty Name="CreaterDivision" ColumnName="CreaterDivision" />
+                <ScalarProperty Name="CreaterLoc" ColumnName="CreaterLoc" />
+                <ScalarProperty Name="OICServiceNo" ColumnName="OICServiceNo" />
+                <ScalarProperty Name="StaffServiceNo" ColumnName="StaffServiceNo" />
+                <ScalarProperty Name="RaisedTypeID" ColumnName="RaisedTypeID" />
+                <ScalarProperty Name="SNo" ColumnName="SNo" />
+                <ScalarProperty Name="ECDID" ColumnName="ECDID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

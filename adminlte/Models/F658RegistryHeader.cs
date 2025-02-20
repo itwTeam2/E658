@@ -48,7 +48,7 @@ namespace E658.Models
         public Nullable<int> IsVehicleReqFromMT { get; set; }
         public string SLAFRegNo { get; set; }
         public Nullable<int> IsNightPark { get; set; }
-        public byte[] NightParkLoc { get; set; }
+        public string NightParkLoc { get; set; }
         public Nullable<System.DateTime> ReturnDate { get; set; }
         public Nullable<int> E658CreatorDltId { get; set; }
     }

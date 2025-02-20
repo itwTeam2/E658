@@ -17,10 +17,10 @@
         <EntityTypeShape EntityType="GERMS_NEWModel.E658WayPoints" Width="1.5" PointX="1.125" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="GERMS_NEWModel.Location" Width="1.5" PointX="2.75" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="GERMS_NEWModel.VehicleDetail" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GERMS_NEWModel.Vw_PersonalDetail" Width="1.5" PointX="4.75" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="GERMS_NEWModel.E658CreaterDetails" Width="1.5" PointX="13.375" PointY="0.75" />
         <EntityTypeShape EntityType="GERMS_NEWModel.Division" Width="1.5" PointX="1.125" PointY="7.125" />
-        <EntityTypeShape EntityType="GERMS_NEWModel.F658RegistryHeader" Width="1.5" PointX="2.875" PointY="7.875" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.F658RegistryHeader" Width="1.5" PointX="4.75" PointY="7.125" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.Vw_PersonalDetail" Width="1.5" PointX="2.75" PointY="7.25" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.E658CreaterDetails" Width="1.5" PointX="7.375" PointY="10.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
