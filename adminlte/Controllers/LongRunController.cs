@@ -93,13 +93,12 @@ namespace E658.Controllers
             List<Cls_ItemList> lst_ListPartItem = new List<Cls_ItemList>();
 
             try
-            {
-               
+            {              
 
                 var FromLocID = _db.Locations.Where(x => x.LocationName == objE658.FromLocID).Select(x => x.LocationID).FirstOrDefault();
                 var ToLocID = _db.Locations.Where(x => x.LocationName == objE658.ToLocId).Select(x => x.LocationID).FirstOrDefault();
                 //RaisedTypeID = Convert.ToInt32(Session["E658RunType"]);
-                string createUnitSerialNo = CreateUnitSerialNo(FromLocID, objE658.IsVehicleAvail,objE658.SectionName);
+                string createUnitSerialNo = CreateUnitSerialNo(FromLocID, objE658.IsRaisedMode, objE658.SectionName);
 
                 TimeSpan StartTime = objE658.JournryStartTime.TimeOfDay;
 
@@ -158,6 +157,7 @@ namespace E658.Controllers
                     CreatedDate = DateTime.Now,
                     CreatedBy = objCreateDetails.Sno,
                     UserGERMSLocation = objCreateDetails.CreatorLocation.Trim(),
+                    UserGERMSSection = objCreateDetails.SectionName,
                     Active = 1,
                     CreatedIP = this.Request.UserHostAddress,
                     IsE658Create = 1,
@@ -249,7 +249,7 @@ namespace E658.Controllers
         {
             return View();
         }
-        private string CreateUnitSerialNo(string FromLocID, int IsVehicleAvail,string SectionName)
+        private string CreateUnitSerialNo(string FromLocID, int IsRaisedMode, string SectionName)
         {
             ///Created BY   : Sqn ldr Wicky
             /// Create Date : 2024/03/07
@@ -258,30 +258,39 @@ namespace E658.Controllers
             string unitSerialNo = "";
             try
             {
-                int currentyear = Convert.ToInt32(DateTime.Now.Year);
-                int currentMonth = Convert.ToInt32(DateTime.Now.Month);
-                int currentDate = Convert.ToInt32(DateTime.Now.Day);
-                var typeShort = _db.E658CreaterDetails.Where(x => x.RaisedTypeID == (int)E658.Enum.E658RaisedType.TA
-                                && x.Active == 1
-                                && x.CreatedDate.HasValue
-                                && x.CreatedDate.Value.Year == currentyear
-                                && x.CreatedDate.Value.Month == currentMonth
-                                && x.CreatedDate.Value.Day == currentDate).Count();
+                DateTime currentDate = DateTime.Now;
+                int currentYear = currentDate.Year;
+                int currentMonth = currentDate.Month;
+                int currentDay = currentDate.Day;
 
-                int Count658 = _db.F658RegistryHeader.Where(x => x.ELocation == FromLocID && x.CreatedDate.Value.Year == currentyear && x.Active == 1).Count();
-                int RocordId = Count658 + 1;
+                var query = _db.E658CreaterDetails.Where(x => x.RaisedTypeID == (int)E658.Enum.E658RaisedType.TA
+                                                              && x.Active == 1
+                                                              && x.CreatedDate.HasValue
+                                                              && x.CreatedDate.Value.Year == currentYear
+                                                              && x.CreatedDate.Value.Month == currentMonth
+                                                              && x.CreatedDate.Value.Day == currentDay
+                                                              && x.CreaterLoc == FromLocID);
 
-                unitSerialNo = FromLocID.Trim() + currentDate + RocordId;
+                if (IsRaisedMode != 1)
+                {
+                    query = query.Where(x => x.UserGERMSSection == SectionName);
+                }
+
+                int recordCnt = query.Count() + 1;
+
+                unitSerialNo = IsRaisedMode == 1
+                    ? $"{FromLocID}/{currentDay}/{currentMonth}/{currentYear}/{recordCnt}"
+                    : $"{SectionName}/{currentDay}/{currentMonth}/{currentYear}/{recordCnt}";
             }
             catch (Exception ex)
             {
-
+                // Log the exception if necessary
+                // Example: Logger.LogError(ex);
                 throw ex;
             }
 
             return unitSerialNo;
         }
-
         private static string GenerateRandomStringKey()
         {
             string randomNumber = "";

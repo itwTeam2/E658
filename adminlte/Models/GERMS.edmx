@@ -42,6 +42,7 @@
           <Property Name="CreatedIP" Type="varchar" MaxLength="50" />
           <Property Name="CreatedMAC" Type="varchar" MaxLength="50" />
           <Property Name="UserGERMSLocation" Type="varchar" MaxLength="50" />
+          <Property Name="UserGERMSSection" Type="varchar" MaxLength="50" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
           <Property Name="ModifiedMAC" Type="varchar" MaxLength="100" />
@@ -666,6 +667,7 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
           <Property Name="CreatedIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreatedMAC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UserGERMSLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserGERMSSection" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedMAC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
@@ -971,6 +973,7 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
                 <ScalarProperty Name="ModifiedMAC" ColumnName="ModifiedMAC" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="UserGERMSSection" ColumnName="UserGERMSSection" />
                 <ScalarProperty Name="UserGERMSLocation" ColumnName="UserGERMSLocation" />
                 <ScalarProperty Name="CreatedMAC" ColumnName="CreatedMAC" />
                 <ScalarProperty Name="CreatedIP" ColumnName="CreatedIP" />
