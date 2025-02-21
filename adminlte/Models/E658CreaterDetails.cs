@@ -29,6 +29,7 @@ namespace E658.Models
         public string CreatedIP { get; set; }
         public string CreatedMAC { get; set; }
         public string UserGERMSLocation { get; set; }
+        public string UserGERMSSection { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public string ModifiedMAC { get; set; }

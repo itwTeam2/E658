@@ -970,6 +970,14 @@ namespace WRMS.Controllers
             try
             {
                 ModelState.Remove("UserLocations");
+
+                ///Follwing Location MTO is in CBO. Hence UserLoginLocation Section should change AS "CBO"
+                if (obj.UserLoginLocation.Trim() == "DHQ" || obj.UserLoginLocation.Trim() == "GWH" || 
+                    obj.UserLoginLocation.Trim() == "GWP" || obj.UserLoginLocation.Trim() == "HMC" || 
+                    obj.UserLoginLocation.Trim() == "TMO"  || obj.UserLoginLocation.Trim() == "HOK")
+                {
+                    obj.UserLoginLocation = "CBO";
+                }
                 if (ModelState.IsValid)
                 {
                     
