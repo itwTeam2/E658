@@ -45,6 +45,7 @@
                             @Html.ValidationMessageFor(model => model.E658Date, string.Empty, new { @class = "label label-danger" })
                             @Html.HiddenFor(model => model.ECDID)
                             @Html.HiddenFor(model => model.IsRaisedMode)
+                            @Html.HiddenFor(model => model.OICSNo)
                         </div>
                     </div>
                     @*Destination TO*@
@@ -76,10 +77,9 @@
                     @*E-658 Run*@
                     <div class="form-group">
                         <div class="col-lg-6">
-                            @Html.Label("Request Category", new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.OtherLocName, new { @class = "form-control - ", autocomplete = "off" })
-                            @*@Html.DropDownList("ERTID", ViewBag.DDL_E658RaisedType as IEnumerable<SelectListItem>, "-- Select --", htmlAttributes: new { @class = "form-control" })*@
-                            @*@Html.DropDownListFor(model => model.ERTID, ViewBag.DDL_E658RaisedType as SelectList, "SELECT", htmlAttributes: new { @class = "form-control" })*@
+                            @Html.Label("Request Category", new { @class = "control-label" })                           
+                            @Html.DropDownList("ERTID", ViewBag.DDL_E658RaisedType as IEnumerable<SelectListItem>, "-- Select --", htmlAttributes: new { @class = "form-control" })
+                           
                             @Html.ValidationMessageFor(model => model.ERTID, string.Empty, new { @class = "label label-danger" })
                         </div>
                         @*E658-Date*@
@@ -92,11 +92,11 @@
                     </div>
                     @*Journry Start Time*@
                     <div class="form-group">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6" style="margin-top:5px">
                             @Html.Label("Departure Time", new { @class = "control-label" })
                             @Html.TextBoxFor(model => model.JournryStartTime, new { @class = "form-control ", autocomplete = "off", placeholder = "Please enter time", @type = "time" })
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6" style="margin-top:5px">
                             @*Return Date*@
                             @Html.Label("Return Date", new { @class = "control-label" })
                             @Html.TextBoxFor(model => model.ReturnDate, new { @class = "form-control - ", autocomplete = "off", @type = "date" })
@@ -106,7 +106,7 @@
                     </div>
 
                     @*Purpose*@
-                    <div class="form-group">
+                    <div class="form-group" style="margin-top:275px">
                         @Html.Label("Purpose", new { @class = "control-label" })
                         @Html.TextAreaFor(model => model.Purpose, new { @class = "form-control ", autocomplete = "off" })
                     </div>
@@ -126,12 +126,12 @@
 
                         <div class="col-lg-6">
                             @Html.Label("Yes", new { @class = "control-label" })
-                            @Html.RadioButtonFor(m => m.IsNightPark, 1, new { id = "isSingleRecord" })
+                            @Html.RadioButtonFor(m => m.IsNightPark, 1, new { @class = "night-park-radio", id = "isSingleRecord" })
                         </div>
 
                         <div class="col-lg-6">
                             @Html.Label("No", new { @class = "control-label" })
-                            @Html.RadioButtonFor(m => m.IsNightPark, 2, new { id = "isBulkRecord" })
+                            @Html.RadioButtonFor(m => m.IsNightPark, 2, new { @class = "night-park-radio" })
                         </div>
 
                         <div class="box-body">
@@ -292,22 +292,28 @@
         $("#dvOtherRun").hide();
         $("#nightParkLocation").hide();
 
-        $('input[type="radio"]').on('click', function () {
+        //$('.night-park-radio').change(function () {
+        //    var selectedValue = $('input[name="IsNightPark"]:checked').val();
+        //    sendSelectedValue(selectedValue);
+        //});
+
+        $('.night-park-radio').on('click', function () {
             if ($('#isSingleRecord').is(':checked')) {
                 $('#nightParkLocation').show();
             } else {
                 $('#nightParkLocation').hide();
             }
         });
-
     });
 
     ///Show the Other location data entering text box
     $(function () {
         $("#ToLocId").change(function () {
-            if ($(this).val() == 'Other Location') {
+            if ($(this).val() == 'Other Location')
+            {
                 $('#dvOtherRun').show();
-            } else {
+            } else
+            {
                 $('#dvOtherRun').hide();
             }
         });
@@ -398,12 +404,18 @@
         $("#btnSave").click(function () {
 
             var objE658 = {};
+
+            // Get the selected radio button value
+            //objE658.IsNightPark 
+            var selectedValue= $('input[name="IsNightPark"]:checked').val();
+           
             objE658.FromLocID = $("#FromLocID").val();
             objE658.ToLocId = $("#ToLocId").val();
-            //objE658.ERTID = $("#ERTID").val();
+            objE658.ERTID = $("#ERTID").val();
             objE658.E658Date = $("#E658Date").val();
             objE658.JournryStartTime = $("#JournryStartTime").val();
             objE658.ReturnDate = $("#ReturnDate").val();
+            objE658.OICSNo = $("#OICSNo").val();
             //objE658.RequiredDuration = $("#RequiredDuration").val();
             objE658.OtherLocName = $("#OtherLocName").val();
             objE658.Purpose = $("#Purpose").val();
@@ -412,28 +424,19 @@
             objE658.AdditionalDuties = $("#AdditionalDuties").val();
             objE658.OMTServiceNo = $("#OMTServiceNo").val();
             objE658.SLAFRegNo = $("#SLAFRegNo").val();
-            objE658.IsNightPark = $("#isSingleRecord").val();
+            objE658.IsNightPark = selectedValue; //$("#IsNightPark").val();
             objE658.IsRaisedMode = $("#IsRaisedMode").val();
             objE658.SectionName = $("#SectionName").val();
+
             if (objE658.IsNightPark == 1) {
-                objE658.IsNightPark = $("#isSingleRecord").val();
+               
                 objE658.NightParkLoc = $("#NightParkLoc").val();
             }
 
-            if (objE658.IsNightPark == 2) {
-                objE658.IsNightPark = $("#isBulkRecord").val();
-            }
-            //var OMTReqFromMT = $("#OMTAvail").val();
-            //var VehicleReqFromMT = $("#VehicleAvail").val();
-
-            //if (OMTReqFromMT == "") {
-
-            //    objE658.OMTServiceNo = $("#OMTServiceNo").val();
+            //if (objE658.IsNightPark == 2) {
+            //    objE658.IsNightPark = $("#isBulkRecord").val();
             //}
-            //if (VehicleReqFromMT == "") {
-
-            //    objE658.SLAFRegNo = $("#SLAFRegNo").val();
-            //}
+           
 
             if (objE658.FromLocID == "" || objE658.ToLocId == "" ||  objE658.ERTID == "" ||  objE658.E658Date == "" ||
                 objE658.JournryStartTime == "" || objE658.RequiredDuration == "" || objE658.Purpose == "" ||  objE658.Route == ""){
@@ -441,6 +444,8 @@
                 alert("Please Fill all the Data Fields (කරුණාකර සියලුම දත්තයන් පුරවන්න)");
             }
             else {
+
+                
 
                 $.ajax({
                     url: '@Url.Content("~/LongRun/CreateRequest")',
@@ -459,9 +464,7 @@
 
                             $("#CreateSuccMeg").append(data.Message);
                             window.location.href = data.redirectUrl || '@Url.Action("AnotherAction")';
-                            //alert(data.Message);
-
-
+                           
                         }
                     },
                     //error: function () {

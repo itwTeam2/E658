@@ -48,7 +48,6 @@ namespace WRMS.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public ActionResult Login(_UserLogin obj_UserLogin)
         {
             /// Created By : SL Wickramasinghe
@@ -104,6 +103,7 @@ namespace WRMS.Controllers
 
                                 case (int)E658.Enum.EnumE658UserType.FinalizedAuthorization:
                                 case (int)E658.Enum.EnumE658UserType.MToOCT:
+                                    
                                     var loginUserInfo = _db.E658UserMgt
                                         .Where(x => x.SNo == loginUserSNo.SNo && x.Active == 1 && x.IsTemHandOverStatus == 1)
                                         .Select(x => new { x.IsTemHandOverStatus, x.HandOverPsnSNo, x.HandOverFromDate, x.HandOverToDate, x.EUMID, x.UserLocation })
@@ -213,6 +213,51 @@ namespace WRMS.Controllers
                                         Session["LoginUser"] = ModifyServiceNo;
                                         //Session["MToOctLocation"] = userAvailability.UserLocation;
                                         return RedirectToAction("CreatedUserList", "User");
+                                    }
+                                    else
+                                    {
+                                        TempData["Error"] = "You are not a MT Controller today.";
+                                    }
+                                    break;
+                                case (int)E658.Enum.EnumE658UserType.HQAppAuth:
+                                
+                                    var hqAppAuthSno = _db.Vw_PersonalDetail
+                                        .Where(x => x.ServiceNo == obj_UserLogin.UserName)
+                                        .Select(x => x.SNo)
+                                        .FirstOrDefault();
+
+                                    var hqUserAvail = _db.E658UserMgt
+                                        .Where(x => x.SNo == hqAppAuthSno.ToString() && x.RoleID == (int)E658.Enum.EnumE658UserType.HQAppAuth)
+                                        .FirstOrDefault();
+
+                                    if (hqUserAvail != null)
+                                    {
+                                        Session["LoginUser"] = ModifyServiceNo;
+                                        //Session["MToOctLocation"] = userAvailability.UserLocation;
+                                        return RedirectToAction("Dashboardv1ToHQUser", "Dashboard");
+                                    }
+                                    else
+                                    {
+                                        TempData["Error"] = "You are not a MT Controller today.";
+                                    }
+                                    break;
+
+                                case (int)E658.Enum.EnumE658UserType.SOGO:
+
+                                    var soAppAuthSno = _db.Vw_PersonalDetail
+                                        .Where(x => x.ServiceNo == obj_UserLogin.UserName)
+                                        .Select(x => x.SNo)
+                                        .FirstOrDefault();
+
+                                    var soUserAvail = _db.E658UserMgt
+                                        .Where(x => x.SNo == soAppAuthSno.ToString() && x.RoleID == (int)E658.Enum.EnumE658UserType.SOGO)
+                                        .FirstOrDefault();
+
+                                    if (soUserAvail != null)
+                                    {
+                                        Session["LoginUser"] = ModifyServiceNo;
+                                        //Session["MToOctLocation"] = userAvailability.UserLocation;
+                                        return RedirectToAction("Dashboardv1ToHQUser", "Dashboard");
                                     }
                                     else
                                     {
@@ -937,9 +982,6 @@ namespace WRMS.Controllers
 
                 throw ex;
             }
-
-
-
         }                    
         [HttpGet]
         public ActionResult E658InitiateUser()
@@ -1217,6 +1259,7 @@ namespace WRMS.Controllers
                 obj.CreatorLocation = model.SelectedUserLocation;
                 obj.SectionName = model.Section;
                 obj.IsRaisedMode = model.IsRaisedMode;
+                obj.OICSNo = model.OICSNo;
 
                 Session["CretorDetails"] = JsonConvert.SerializeObject(obj);
 

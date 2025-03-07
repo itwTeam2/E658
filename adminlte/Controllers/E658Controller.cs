@@ -2372,17 +2372,17 @@ namespace E658.Controllers
 
                 }
 
-
                 F658RegistryHeader RegHeader = new F658RegistryHeader();
                 // _db.F658RegistryHeader.Add(RegHeader);
                 RegHeader = _db.F658RegistryHeader.Find(Session["UnitSerialNo"], Session["ChassisNo"], Session["Seq"]);
-
+                RegHeader.ChassisNo = VehiChassisNo;
+                RegHeader.Seq = seqNo;
                 RegHeader.FLocation = FromLocID;
                 RegHeader.ELocation = FromLocID;
                 RegHeader.TLocation = ToLocID.Trim();
+                
                 // E658CreatorDltId = objE658.ECDID,
                 RegHeader.PLocation = vehicleAttaLoc;
-
                 RegHeader.IsOMtReqFromMT = isOMTReqFromMT;
                 RegHeader.OMTNo = objE658.OMTServiceNo;//OMServiceNo,
                 RegHeader.SLAFRegNo = SLAFRegNumber;

@@ -182,7 +182,7 @@
                 <br />
                 @*Paging for Data Table *use only MVC no Javascript*@
                 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-                @Html.PagedListPager(Model, page => Url.Action("E658RejectedList",
+                @Html.PagedListPager(Model, page => Url.Action("E658FinalApprovedList",
                  new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
             </div>
         </div>

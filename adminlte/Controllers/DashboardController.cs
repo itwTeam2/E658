@@ -72,6 +72,14 @@ namespace adminlte.Controllers
             {
                 TempData["DashboardHeadingName"] = "Final Authority Dashboard";
             }
+            else if (userLoginType == (int)E658.Enum.EnumE658UserType.HQAppAuth)
+            {
+                TempData["DashboardHeadingName"] = "HQ Approving Authority Dashboard";
+            }
+            else if (userLoginType == (int)E658.Enum.EnumE658UserType.SOGO)
+            {
+                TempData["DashboardHeadingName"] = "SO GO Dashboard";
+            }
             else
             {
                 TempData["DashboardHeadingName"] = "MTO/OCT Dashboard";
@@ -97,8 +105,50 @@ namespace adminlte.Controllers
             return View();
         }
        
+        public ActionResult Dashboardv1ToHQUser()
+        {
+            ///Create By: Sqn Ldr WAKY Wickramasinghe
+            ///Create Date:2025/03/06
+            ///Description : Load e658 summary details to HQ User
 
-              
-       
+
+            try
+            {
+                if (Session["UserLoginType"] != null)
+                {
+                    //string MToOctLocation = Session["MToOctLocation"].ToString();
+                    int userLoginType = Convert.ToInt32(Session["UserLoginType"]);
+
+                    ReportData.DAL.DALCommanQuery objDALCommanQuery = new ReportData.DAL.DALCommanQuery();
+
+                    SetDashboardHeading(userLoginType);
+
+                    TempData["HQPendingApprovedCount"] = GetTransAuthoRecordCount(objDALCommanQuery, (int)E658.Enum.EnumE658UserType.HQAppAuth,E658.Enum.EnumRecordStatus.Forward);
+                    TempData["SOGOPendingApprovedCount"] = GetTransAuthoRecordCount(objDALCommanQuery, (int)E658.Enum.EnumE658UserType.SOGO, E658.Enum.EnumRecordStatus.Forward);
+                    TempData["RecordCertifiedCountTrans"] = GetTransAuthoRecordCount(objDALCommanQuery, (int)E658.Enum.EnumE658UserType.RecordCertified, E658.Enum.EnumRecordStatus.Forward);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "User");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return View();
+
+        }
+
+        private int GetTransAuthoRecordCount(ReportData.DAL.DALCommanQuery objDALCommanQuery, int userType, E658.Enum.EnumRecordStatus status)
+        {
+            DataTable dt = objDALCommanQuery.CallE65MoreDetailsSP(userType);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                return dt.AsEnumerable().Count(x => x.Field<int>("Active") == 1 && x.Field<int>("RecordStatusID") == (int)status);
+            }
+            return 0;
+        }
+
     }
 }

@@ -64,5 +64,33 @@ namespace ReportData.DAL
                 throw;
             }
         }
+
+        public DataTable CalleTranReqDetailsSP(int E658CreatorID)
+        {
+            ///Created BY   : Sqn ldr Wickramasinghe
+            ///Created Date : 2025/02/27
+            /// Description : Call the GetTransPortAuthDetails SP
+
+            DataTable dt = new DataTable();
+            try
+            {
+                SqlConnection Connection = DALConnectionManager.open();
+                SqlCommand command = Connection.CreateCommand();
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = "GetTransPortAuthDetails";
+                command.Parameters.AddWithValue("@E658CreatorID", E658CreatorID);
+                command.CommandTimeout = 1000;
+                SqlDataAdapter adp = new SqlDataAdapter(command);
+
+                adp.Fill(dt);
+
+                return dt;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
     }
 }

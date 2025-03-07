@@ -45,6 +45,10 @@ namespace E658.Models
         public int RaisedTypeID { get; set; }
         public string TypeNameLong { get; set; }
         public string StafOffName { get; set; }
+        public int IsNightPark { get; set; }
+        public string NightParkStatus { get; set; }
+        public string NightParkLoc { get; set; }
+        public int Behavior { get; set; }
 
 
     }

@@ -28,7 +28,9 @@
                             { (int)E658.Enum.EnumE658UserType.FinalizedAuthorization, "You are login as Finalized Authorization Person" },
                             { (int)E658.Enum.EnumE658UserType.MToOCT, "You are login as MTO/OCT" },
                             { (int)E658.Enum.EnumE658UserType.MTController, "You are login as MT Controller" },
-                            { (int)E658.Enum.EnumE658UserType.HQUser, "You are login as HQ User" }
+                            { (int)E658.Enum.EnumE658UserType.HQUser, "You are login as HQ User" },
+                            { (int)E658.Enum.EnumE658UserType.HQAppAuth, "You are login as HQ Approval User" },
+                            { (int)E658.Enum.EnumE658UserType.SOGO, "You are login as SO GO" }
                         };
 
                         string userRoleMessage = userRoleMessages.ContainsKey(userRoleID) ? userRoleMessages[userRoleID] : "Unknown Role";
@@ -89,6 +91,7 @@
                     (int)E658.Enum.EnumE658UserType.FormationUser, new List<dynamic>
                     {
                         new { Action = "E658List", Controller = "E658", Icon = "fa-fast-forward", Text = "Pending Approval E658" },
+                        new { Action = "TrnsPortReqList", Controller = "LongRun", Icon = "fa-sliders", Text = "Transport Request" },
                         new { Action = "E658FinalApprovedList", Controller = "E658", Icon = "fa-thumbs-up", Text = "Approved E658" },
                         new { Action = "E658RejectedList", Controller = "E658", Icon = "fa-thumbs-down", Text = "Rejected List" }
                     }
@@ -132,9 +135,28 @@
                     {
                         new { Action = "UserMgtCreate", Controller = "User", Icon = "fa-user", Text = "User Creating" },
                         new { Action = "CreatedUserList", Controller = "User", Icon = "fa-user", Text = "System User List" },
-                        
+
+                    }
+                },
+                {
+                    (int)E658.Enum.EnumE658UserType.HQAppAuth, new List<dynamic>
+                    {
+                        new { Action = "Dashboardv1ToHQUser", Controller = "Dashboard", Icon = "fa-dashboard", Text = "Dashboard" },
+                        new { Action = "TrnsPortReqList", Controller = "LongRun", Icon = "fa-fast-forward", Text = "Pending Approval List" },
+                        //
+
+                    }
+                },
+                {
+                    (int)E658.Enum.EnumE658UserType.SOGO, new List<dynamic>
+                    {
+                        new { Action = "Dashboardv1ToHQUser", Controller = "Dashboard", Icon = "fa-dashboard", Text = "Dashboard" },
+                        new { Action = "TrnsPortReqList", Controller = "LongRun", Icon = "fa-fast-forward", Text = "Pending Approval List" },
+                        //new { Action = "CreatedUserList", Controller = "User", Icon = "fa-user", Text = "System User List" },
+
                     }
                 }
+
             };
 
             if (menuItems.ContainsKey(userRole))

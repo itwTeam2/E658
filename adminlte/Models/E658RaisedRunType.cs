@@ -17,6 +17,7 @@ namespace E658.Models
         public int ERRTID { get; set; }
         public Nullable<int> RaisedTypeID { get; set; }
         public Nullable<int> RunsTypeID { get; set; }
+        public string RecordGroup { get; set; }
         public Nullable<short> Active { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
     }

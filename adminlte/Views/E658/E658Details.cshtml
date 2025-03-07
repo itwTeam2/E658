@@ -101,6 +101,7 @@
                         <dt class="form-group">
                             E-658 Originate From :
                         </dt>
+
                         @if (item.RaisedTypeID == (int)E658.Enum.E658RaisedType.StaffVehiE)
                         {
                             <dd>
@@ -636,8 +637,7 @@
             var ecdidValue = document.getElementById("CreatorID").value;
             //alert(txtOMTServiceNo);
             $.ajax({
-                url: '@Url.Content("~/E658/UpdateOMTRecord")',
-                
+                url: '@Url.Content("~/E658/UpdateOMTRecord")',                
                 type: 'POST',
                 dataType: 'json',
                 /*data: { id: txtOMTServiceNo,ECDID: ecdidValue },*/
