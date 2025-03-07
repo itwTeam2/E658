@@ -25,9 +25,8 @@ namespace E658.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<E658FlowMagt> E658FlowMagt { get; set; }
+        public virtual DbSet<Division> Divisions { get; set; }
         public virtual DbSet<E658FlowTransaction> E658FlowTransaction { get; set; }
-        public virtual DbSet<E658RaisedRunType> E658RaisedRunType { get; set; }
         public virtual DbSet<E658RaisedType> E658RaisedType { get; set; }
         public virtual DbSet<E658RptLocDetails> E658RptLocDetails { get; set; }
         public virtual DbSet<E658RptLocHeader> E658RptLocHeader { get; set; }
@@ -35,11 +34,12 @@ namespace E658.Models
         public virtual DbSet<E658UserMgt> E658UserMgt { get; set; }
         public virtual DbSet<E658UserType> E658UserType { get; set; }
         public virtual DbSet<E658WayPoints> E658WayPoints { get; set; }
+        public virtual DbSet<F658RegistryHeader> F658RegistryHeader { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<VehicleDetail> VehicleDetails { get; set; }
-        public virtual DbSet<Division> Divisions { get; set; }
-        public virtual DbSet<F658RegistryHeader> F658RegistryHeader { get; set; }
         public virtual DbSet<Vw_PersonalDetail> Vw_PersonalDetail { get; set; }
+        public virtual DbSet<E658FlowMagt> E658FlowMagt { get; set; }
+        public virtual DbSet<E658RaisedRunType> E658RaisedRunType { get; set; }
         public virtual DbSet<E658CreaterDetails> E658CreaterDetails { get; set; }
     }
 }

@@ -17,7 +17,10 @@ namespace E658.Enum
         NoUser  = 0,
         RunComplete = 8,
         RunHold = 9,
-        HQUser = 10
+        HQUser = 10,
+        HQAppAuth = 11,
+        SOGO = 12,
+        LngRunRequest = 13
 
 
     }

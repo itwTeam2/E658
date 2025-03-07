@@ -20,6 +20,7 @@ namespace E658.Models
         public Nullable<int> CurrentStatus { get; set; }
         public Nullable<int> SubmitStatus { get; set; }
         public Nullable<int> RaisedTyId { get; set; }
+        public string RecordGroup { get; set; }
         public Nullable<int> Active { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string CreatedBy { get; set; }

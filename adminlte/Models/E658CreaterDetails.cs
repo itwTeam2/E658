@@ -30,6 +30,7 @@ namespace E658.Models
         public string CreatedMAC { get; set; }
         public string UserGERMSLocation { get; set; }
         public string UserGERMSSection { get; set; }
+        public Nullable<int> IsBaseOfFormation { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public string ModifiedMAC { get; set; }
