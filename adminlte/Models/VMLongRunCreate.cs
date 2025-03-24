@@ -54,8 +54,11 @@ namespace E658.Models
         //public string AdditionalDuties { get; set; }
         public int IsNightPark { get; set; }
         public int IsRaisedMode { get; set; }
-        public string OICSNo { get; set; }
 
+        public int IsReqAdditionDuty { get; set; }
+        public int IsAddiDutyReq { get; set; }
+        public string OICSNo { get; set; }
+        public List<DutyDetail> DutyList { get; set; }
 
     }
 }

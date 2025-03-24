@@ -41,5 +41,11 @@ namespace E658.Models
         public virtual DbSet<E658FlowMagt> E658FlowMagt { get; set; }
         public virtual DbSet<E658RaisedRunType> E658RaisedRunType { get; set; }
         public virtual DbSet<E658CreaterDetails> E658CreaterDetails { get; set; }
+        public virtual DbSet<ETransAddiDuty> ETransAddiDuties { get; set; }
+        public virtual DbSet<ETransReqHeader> ETransReqHeaders { get; set; }
+        public virtual DbSet<ETransReqDetail> ETransReqDetails { get; set; }
+        public virtual DbSet<RRFlowManagementStatu> RRFlowManagementStatus { get; set; }
+        public virtual DbSet<RRHeader> RRHeaders { get; set; }
+        public virtual DbSet<Vw_RRFlowStatusManagement> Vw_RRFlowStatusManagement { get; set; }
     }
 }

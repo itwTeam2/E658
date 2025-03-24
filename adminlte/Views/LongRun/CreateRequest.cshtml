@@ -8,266 +8,303 @@
 
 @using (Html.BeginForm())
 {
-    <div class="content-wrapper" style="min-height:786px">
+<div class="content-wrapper" style="min-height:786px">
 
-        <section class="content-header">
+    <section class="content-header">
 
-            <div id="ErrorMessage" style="margin-top:5px">
-                @if (TempData["ScfMsg"] != null)
-                {
-                    <div id="Msg" class="col-lg-12  alert alert-success">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        <strong>Alert! </strong> @TempData["ScfMsg"]
-                    </div>
-                }
-                else if (TempData["ErrMsg"] != null)
-                {
-                    <div id="Msg" class="col-lg-12 alert alert-danger">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        <strong>Alert! </strong>@TempData["ErrMsg"]
-                    </div>
-                }
-                <div id="CreateSuccMeg" class="col-lg-12  alert alert-success">
+        <div id="ErrorMessage" style="margin-top:5px">
+            @if (TempData["ScfMsg"] != null)
+            {
+                <div id="Msg" class="col-lg-12  alert alert-success">
                     <button type="button" class="close" data-dismiss="alert">×</button>
-
+                    <strong>Alert! </strong> @TempData["ScfMsg"]
                 </div>
+            }
+            else if (TempData["ErrMsg"] != null)
+            {
+                <div id="Msg" class="col-lg-12 alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>Alert! </strong>@TempData["ErrMsg"]
+                </div>
+            }
+            <div id="CreateSuccMeg" class="col-lg-12  alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+
             </div>
-        </section>
-        <br />
-        <section class="col-lg-6 connectedSortable">
-            <div class="nav-tabs-custom">
-                <div class="box-body">
-                    @*Destination From and @*Destination TO*@
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            @Html.Label("Destination From", new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.FromLocID, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
-                            @Html.ValidationMessageFor(model => model.E658Date, string.Empty, new { @class = "label label-danger" })
-                            @Html.HiddenFor(model => model.ECDID)
-                            @Html.HiddenFor(model => model.IsRaisedMode)
-                            @Html.HiddenFor(model => model.OICSNo)
-                        </div>
-                    </div>
-                    @*Destination TO*@
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            @Html.Label("Destination To", new { @class = "control-label" })
-                            @Html.DropDownListFor(model => model.ToLocId, ViewBag.DDL_GermsLocation as SelectList, "SELECT", htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.ToLocId, string.Empty, new { @class = "label label-danger" })
-                        </div>
-                    </div>
-
-                    @*Type Other Location Name*@
-                    <div class="col-lg-12 form-group" id="dvOtherRun">
-                        <div class="form-group">
-                            @Html.Label("Type Other Location Name", new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.OtherLocName, new { @class = "form-control - ", autocomplete = "off" })
-                            @Html.ValidationMessageFor(model => model.OtherLocName, string.Empty, new { @class = "label label-danger" })
-                        </div>
-                    </div>
-                    @*Request Section*@
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            @Html.Label("Request Section", new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.SectionName, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
-                        </div>
-                    </div>
-
-                    @*E-658 Run Type and  E658-Date*@
-                    @*E-658 Run*@
+        </div>
+    </section>
+    <br />
+    <section class="col-lg-12 connectedSortable">
+        <div class="nav-tabs-custom">
+            <div class="box-body">
+                @*Destination From and @*Destination TO*@
+                <div class="col-lg-6">
                     <div class="form-group">
-                        <div class="col-lg-6">
-                            @Html.Label("Request Category", new { @class = "control-label" })                           
-                            @Html.DropDownList("ERTID", ViewBag.DDL_E658RaisedType as IEnumerable<SelectListItem>, "-- Select --", htmlAttributes: new { @class = "form-control" })
-                           
-                            @Html.ValidationMessageFor(model => model.ERTID, string.Empty, new { @class = "label label-danger" })
-                        </div>
-                        @*E658-Date*@
-                        <div class="col-lg-12">
-                            @Html.Label("Departure Date", new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.E658Date, new { @class = "form-control - ", autocomplete = "off", @type = "date" })
-                            @Html.ValidationMessageFor(model => model.E658Date, string.Empty, new { @class = "label label-danger" })
-
-                        </div>
+                        @Html.Label("Destination From", new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.FromLocID, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.E658Date, string.Empty, new { @class = "label label-danger" })
+                        @Html.HiddenFor(model => model.ECDID)
+                        @Html.HiddenFor(model => model.IsRaisedMode)
+                        @Html.HiddenFor(model => model.OICSNo)
                     </div>
-                    @*Journry Start Time*@
+                </div>
+                @*Destination TO*@
+                <div class="col-lg-6">
                     <div class="form-group">
-                        <div class="col-lg-6" style="margin-top:5px">
-                            @Html.Label("Departure Time", new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.JournryStartTime, new { @class = "form-control ", autocomplete = "off", placeholder = "Please enter time", @type = "time" })
-                        </div>
-                        <div class="col-lg-6" style="margin-top:5px">
-                            @*Return Date*@
-                            @Html.Label("Return Date", new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.ReturnDate, new { @class = "form-control - ", autocomplete = "off", @type = "date" })
-                            @Html.ValidationMessageFor(model => model.RoleID, string.Empty, new { @class = "label label-danger" })
-
-                        </div>
+                        @Html.Label("Destination To", new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.ToLocId, ViewBag.DDL_GermsLocation as SelectList, "SELECT", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ToLocId, string.Empty, new { @class = "label label-danger" })
                     </div>
+                </div>
 
-                    @*Purpose*@
-                    <div class="form-group" style="margin-top:275px">
+                @*Type Other Location Name*@
+                <div class="col-lg-12 form-group" id="dvOtherRun">
+                    <div class="form-group">
+                        @Html.Label("Type Other Location Name", new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.OtherLocName, new { @class = "form-control - ", autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.OtherLocName, string.Empty, new { @class = "label label-danger" })
+                    </div>
+                </div>
+                @*Request Section*@
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        @Html.Label("Request Section", new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.SectionName, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                </div>
+
+                @*E-658 Run*@
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        @Html.Label("Request Category", new { @class = "control-label" })
+                        @Html.DropDownList("ERTID", ViewBag.DDL_E658RaisedType as IEnumerable<SelectListItem>, "-- Select --", htmlAttributes: new { @class = "form-control" })
+
+                        @Html.ValidationMessageFor(model => model.ERTID, string.Empty, new { @class = "label label-danger" })
+                    </div>
+                </div>
+
+                @*E658-Date*@
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        @Html.Label("Departure Date", new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.E658Date, new { @class = "form-control - ", autocomplete = "off", @type = "date" })
+                        @Html.ValidationMessageFor(model => model.E658Date, string.Empty, new { @class = "label label-danger" })
+                    </div>
+                </div>
+
+                @*Journry Start Time*@
+
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        @Html.Label("Departure Time", new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.JournryStartTime, new { @class = "form-control ", autocomplete = "off", placeholder = "Please enter time", @type = "time" })
+                    </div>
+                </div>
+
+                @*Return Date*@
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        @Html.Label("Return Date", new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.ReturnDate, new { @class = "form-control - ", autocomplete = "off", @type = "date" })
+                        @Html.ValidationMessageFor(model => model.RoleID, string.Empty, new { @class = "label label-danger" })
+                    </div>
+                </div>
+
+                @*Purpose*@
+                <div class="col-lg-6">
+                    <div class="form-group">
                         @Html.Label("Purpose", new { @class = "control-label" })
                         @Html.TextAreaFor(model => model.Purpose, new { @class = "form-control ", autocomplete = "off" })
                     </div>
+                </div>
 
-                    @*Route*@
+                @*Route*@
+                <div class="col-lg-6">
                     <div class="form-group">
                         @Html.Label("Route", new { @class = "control-label" })
                         @Html.TextAreaFor(model => model.Route, new { @class = "form-control ", autocomplete = "off" })
                     </div>
+                </div>
 
-                    @*Night Park Status*@
-                    <div class="form-group">
-                        @Html.Label("Night Park Status", new { @class = "control-label" })
+                <div class="col-lg-6">
+                    <center>
+                        @Html.Label("Please Fill OMT Details", new { @class = "control-label" })
+                    </center>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            @Html.Label("Service Number", new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.OMTServiceNo, new { @class = "form-control - ", autocomplete = "off" })
+                            @Html.HiddenFor(model => model.OMTSNo)
+
+                        </div>
                     </div>
 
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            @Html.Label("Rank", new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Rank, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            @Html.Label("Name", new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+                    <center>
+                        @Html.Label("Please Fill Vehicle Details", new { @class = "control-label" })
+                    </center>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            @Html.Label("Vehicle Reg No", new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.SLAFRegNo, new { @class = "form-control - ", autocomplete = "off" })
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            @Html.Label("Vehicle Chassis Number", new { @class = "control-label" })
+                            <input type="text" class="form-control" id="txtVehicleChassisNo" readonly />
+                        </div>
+                    </div>
+                </div>
+
+                @*Night Park Status*@
+                <div class="col-lg-6">
+                    @Html.Label("Night Park Status", new { @class = "control-label" })
                     <div class="form-group">
-
                         <div class="col-lg-6">
-                            @Html.Label("Yes", new { @class = "control-label" })
-                            @Html.RadioButtonFor(m => m.IsNightPark, 1, new { @class = "night-park-radio", id = "isSingleRecord" })
+                            <div class="form-group">
+                                @Html.Label("Yes", new { @class = "control-label" })
+                                @Html.RadioButtonFor(m => m.IsNightPark, 1, new { @class = "night-park-radio", id = "isSingleRecord" })
+                            </div>
                         </div>
-
                         <div class="col-lg-6">
-                            @Html.Label("No", new { @class = "control-label" })
-                            @Html.RadioButtonFor(m => m.IsNightPark, 2, new { @class = "night-park-radio" })
+                            <div class="form-group">
+                                @Html.Label("No", new { @class = "control-label" })
+                                @Html.RadioButtonFor(m => m.IsNightPark, 2, new { @class = "night-park-radio" })
+                            </div>
                         </div>
-
-                        <div class="box-body">
-
-                            <div class="row" id="nightParkLocation">
+                        <div class="col-lg-12" id="nightParkLocation">
+                            <div class="form-group">
                                 @Html.Label("Type Night Location", new { @class = "control-label" })
                                 @Html.TextBoxFor(model => model.NightParkLoc, new { @class = "form-control - ", autocomplete = "off" })
                             </div>
                         </div>
-                    </div>
 
-                    @*Additional Duties*@
-                    <div class="form-group">
-                        @Html.Label("Additional Duties", new { @class = "control-label" })
-                        @Html.TextAreaFor(model => model.AdditionalDuties, new { @class = "form-control ", autocomplete = "off" })
                     </div>
-
                 </div>
+
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="col-lg-6 connectedSortable">
-            <div class="nav-tabs-custom">
-                <div class="box-body">       
-                    <div class="row">
-                        <div class="box-body">                             
-                            <center>
-                                @Html.Label("Please Fill OMT Details", new { @class = "control-label" })
-                            </center>
-                            @*<div class="form-group">
-                               
-                                <hr />
-                            </div>*@
-
-                            @*<div class="col-lg-6">
-                                <button id="btnOMTYes" class="btn btn-success" value="1" type="button">Yes</button>
-                                @Html.HiddenFor(model => model.IsOMTAvail, new { @id = "OMTAvail" })
-                            </div>
-
-                            <div class="col-lg-6">
-                                <button id="btnOMTNo" class="btn btn-danger" type="button">No</button>
-                            </div>*@
-
-                            @*OMT Service Details*@
-                            <div class="form-group" id="dvOMTInfo12" style="margin-top:8px">
-                                <div class="col-lg-6">                                    
-                                    <div class="form-group">
-                                        @Html.Label("Service Number", new { @class = "control-label" })
-                                        @Html.TextBoxFor(model => model.OMTServiceNo, new { @class = "form-control - ", autocomplete = "off" })
-                                        @Html.HiddenFor(model => model.OMTSNo)
-
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    
-                                    <div class="form-group">
-                                        @Html.Label("Rank", new { @class = "control-label" })
-                                        @Html.TextBoxFor(model => model.Rank, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-12">
-                                    
-                                    <div class="form-group">
-                                        @Html.Label("Name", new { @class = "control-label" })
-                                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control ", autocomplete = "off", placeholder = "", @readonly = "readonly" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    <section class="col-lg-6 connectedSortable">
+        <div class="nav-tabs-custom">
+            <div class="box-body">
+                @*Additional Duties*@
+                <div class="form-group">
+                    <div class="col=lg-4">
+                        @Html.Label("Additional Duties Request", new { @class = "control-label" })
                     </div>
 
-                    <div class="row">
-                        <div class="box-body">
-                            <center>
-                                @Html.Label("Please Fill Vehicle Details", new { @class = "control-label" })
-                            </center>                         
-                             
-                            @*<div class="form-group">
-                                <hr />
-                                @Html.Label("The vehicle is to be detailed from MT section (ප්‍රවාහන අංශයෙන් නම් කළ යුතුය)", new { @class = "control-label" })
-                            </div>*@
+                    <div class="col-lg-6">
+                        @Html.Label("Yes", new { @class = "control-label" })
+                        @Html.RadioButtonFor(m => m.IsReqAdditionDuty, 1, new { @class = "addi-duty-radio", id = "isAddiDuty" })
+                    </div>
 
-                            @*<div class="col-lg-6">
-                                    <button id="btnVehicleYes" class="btn btn-success" value="10" type="button">Yes</button>
-                                    @Html.HiddenFor(model => model.IsVehicleAvail, new { @id = "VehicleAvail" })
-                                </div>
+                    <div class="col-lg-6">
+                        @Html.Label("No", new { @class = "control-label" })
+                        @Html.RadioButtonFor(m => m.IsReqAdditionDuty, 2, new { @class = "addi-duty-radio" })
+                    </div>
 
-                                <div class="col-lg-6">
-                                    <button id="btnVehicleNo" class="btn btn-danger" type="button">No</button>
-                            </div>*@
-
-                            <div class="form-group" id="dvVehicleInfo2">
-                                <div class="col-lg-6">                                    
-                                    <div class="form-group">
-                                        @Html.Label("Vehicle Reg No", new { @class = "control-label" })
-                                        @Html.TextBoxFor(model => model.SLAFRegNo, new { @class = "form-control - ", autocomplete = "off" })
-                                    </div>                             
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        @Html.Label("Vehicle Chassis Number", new { @class = "control-label" })
-                                        <input type="text" class="form-control" id="txtVehicleChassisNo" readonly />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>                
-                </div>
-            </div>
-        </section>
-
-        <section class="col-lg-6 connectedSortable">
-            <div class="nav-tabs-custom">
-                <div class="box-body">
-                    @*button*@
-
-                    <div class="form-group">
-                        <div class="col-lg-3">
-                            <input type="button" value="Clear" class="btn btn-warning pull-left" id="btnClear" name="Clear">
-                        </div>
-                        <div class="col-lg-3">
-                            <input type="button" value="Save" class="btn btn-success" name="btnSave" id="btnSave">
-                        </div>
-                        <div class="col-lg-3">
-                            <button type="button" class="col-lg- btn btn-info" onclick="location.href='@Url.Action("Index", "User")'">
-                                <span>Back To Main Page</span>
+                    <section id="addiDutyDiv">
+                        <div>
+                            <button type="button" class="col-lg- btn btn-info" data-toggle="modal" data-target="#addDutyModal">
+                                <i class="fa fa-plus"></i> <span>Add Duties</span>
                             </button>
                         </div>
+
+                        <!-- Grid view for displaying duties -->
+                        <table class="table table-bordered" id="dutiesTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Route</th>
+                                    <th>Purpose</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Duty records will be appended here -->
+                            </tbody>
+                        </table>
+
+                    </section>                   
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for adding duties -->
+    <div id="addDutyModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Duty</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="dutyDate">Date:</label>
+                        <input type="date" class="form-control" id="dutyDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="dutyRoute">Route:</label>
+                        <input type="text" class="form-control" id="dutyRoute">
+                    </div>
+                    <div class="form-group">
+                        <label for="dutyPurpose">Purpose:</label>
+                        <input type="text" class="form-control" id="dutyPurpose">
+                    </div>
+                    <button type="button" class="btn btn-success" id="saveDutyBtn">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="col-lg-6 connectedSortable">
+        <div class="nav-tabs-custom">
+            <div class="box-body">
+                @*button*@
+
+                <div class="form-group">
+                    <div class="col-lg-3">
+                        <input type="button" value="Clear" class="btn btn-warning pull-left" id="btnClear" name="Clear">
+                    </div>
+                    <div class="col-lg-3">
+                        <input type="button" value="Save" class="btn btn-success" name="btnSave" id="btnSave">
+                    </div>
+                    <div class="col-lg-3">
+                        <button type="button" class="col-lg- btn btn-info" onclick="location.href='@Url.Action("Index", "User")'">
+                            <span>Back To Main Page</span>
+                        </button>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-    </div>
+
+
+</div>
 }
 
 <script src="@Url.Content("~/Scripts/Jq.js")"></script>
@@ -291,6 +328,7 @@
         $("#CreateSuccMeg").hide();
         $("#dvOtherRun").hide();
         $("#nightParkLocation").hide();
+        $("#addiDutyDiv").hide();
 
         //$('.night-park-radio').change(function () {
         //    var selectedValue = $('input[name="IsNightPark"]:checked').val();
@@ -304,6 +342,43 @@
                 $('#nightParkLocation').hide();
             }
         });
+
+        $('.addi-duty-radio').on('click', function () {
+            if ($('#isAddiDuty').is(':checked')) {
+                $('#addiDutyDiv').show();
+            } else {
+                $('#addiDutyDiv').hide();
+            }
+        });
+
+        $('#saveDutyBtn').click(function () {
+            var date = $('#dutyDate').val();
+            var route = $('#dutyRoute').val();
+            var purpose = $('#dutyPurpose').val();
+
+            if (date && route && purpose) {
+                var newRow = `<tr>
+                <td>${date}</td>
+                <td>${route}</td>
+                <td>${purpose}</td>
+                <td><button type="button" class="btn btn-danger deleteDutyBtn">Delete</button></td>
+            </tr>`;
+                $('#dutiesTable tbody').append(newRow);
+                $('#addDutyModal').modal('hide');
+                $('#dutyDate').val("");
+                $('#dutyRoute').val("");
+                $('#dutyPurpose').val("");
+
+            } else {
+                alert('Please fill all fields.');
+            }
+        });
+
+        $(document).on('click', '.deleteDutyBtn', function () {
+            $(this).closest('tr').remove();
+        });
+
+
     });
 
     ///Show the Other location data entering text box
@@ -408,7 +483,10 @@
             // Get the selected radio button value
             //objE658.IsNightPark 
             var selectedValue= $('input[name="IsNightPark"]:checked').val();
-           
+            var addiDutyReqVal = $('input[name="IsReqAdditionDuty"]:checked').val();
+
+            //alert(addiDutyReqVal);
+
             objE658.FromLocID = $("#FromLocID").val();
             objE658.ToLocId = $("#ToLocId").val();
             objE658.ERTID = $("#ERTID").val();
@@ -425,6 +503,7 @@
             objE658.OMTServiceNo = $("#OMTServiceNo").val();
             objE658.SLAFRegNo = $("#SLAFRegNo").val();
             objE658.IsNightPark = selectedValue; //$("#IsNightPark").val();
+            objE658.IsAddiDutyReq = addiDutyReqVal;
             objE658.IsRaisedMode = $("#IsRaisedMode").val();
             objE658.SectionName = $("#SectionName").val();
 
@@ -437,6 +516,19 @@
             //    objE658.IsNightPark = $("#isBulkRecord").val();
             //}
            
+            // Extract duty rows from the table
+            var dutyList = [];
+            $("#dutiesTable tbody tr").each(function () {
+                var dutyObj = {
+                    Date: $(this).find("td:eq(0)").text(),
+                    Route: $(this).find("td:eq(1)").text(),
+                    Purpose: $(this).find("td:eq(2)").text()
+                };
+                dutyList.push(dutyObj);
+            });
+
+            ////Attach the duty list to the main object
+            objE658.DutyList = dutyList;
 
             if (objE658.FromLocID == "" || objE658.ToLocId == "" ||  objE658.ERTID == "" ||  objE658.E658Date == "" ||
                 objE658.JournryStartTime == "" || objE658.RequiredDuration == "" || objE658.Purpose == "" ||  objE658.Route == ""){

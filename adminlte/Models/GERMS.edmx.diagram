@@ -21,6 +21,12 @@
         <EntityTypeShape EntityType="GERMS_NEWModel.E658FlowMagt" Width="1.5" PointX="0.75" PointY="12.75" />
         <EntityTypeShape EntityType="GERMS_NEWModel.E658RaisedRunType" Width="1.5" PointX="5.75" PointY="0.75" />
         <EntityTypeShape EntityType="GERMS_NEWModel.E658CreaterDetails" Width="1.5" PointX="13.375" PointY="0.75" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.ETransAddiDuty" Width="1.5" PointX="13.375" PointY="6.75" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.ETransReqHeader" Width="1.5" PointX="15.375" PointY="0.75" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.ETransReqDetail" Width="1.5" PointX="13.375" PointY="11.75" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.RRFlowManagementStatu" Width="1.5" PointX="15.375" PointY="5.75" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.RRHeader" Width="1.5" PointX="15.375" PointY="9.75" />
+        <EntityTypeShape EntityType="GERMS_NEWModel.Vw_RRFlowStatusManagement" Width="1.5" PointX="15.375" PointY="14.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

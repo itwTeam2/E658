@@ -8,6 +8,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace E658.Controllers
 {
@@ -163,220 +164,370 @@ namespace E658.Controllers
             }
             return View(model);
         }
+
+        //[HttpPost]
+        //public ActionResult Create(VME658Create objE658)
+        //{
+        //    ///Created BY   : Sqn ldr Wicky
+        //    /// Create Date : 2024/02/22
+        //    /// Description : load E658 Creater View
+        //    /// if OMT Request From MT, Here I assign 1 to indicate it, if not happend I assign 0 and save the OMT Service No
+        //    /// if Vehicle Request From MT, Here I assign 1 to indicate it, if not happend I assign 0 and save the SLAF Reg No
+
+
+        //    ViewBag.DDL_GermsLocation = new SelectList(_db.Locations, "LocationName", "LocationName");
+        //    ViewBag.DDL_E658RaisedType = new SelectList(_db.E658RunsTypes, "ERTID", "TypeName");
+
+        //    string seqNo = "";
+        //    string VehiChassisNo = "";
+        //    int isOMTReqFromMT = 0;
+        //    int IsVehiReqFromMT = 0;
+        //    string SLAFRegNumber = null;
+        //    string vehicleAttaLoc = "";
+
+
+        //    List<Cls_ItemList> lst_ListPartItem = new List<Cls_ItemList>();
+
+        //    try
+        //    {
+        //        if (Session["E658RunType"] != null && Session["E658CreateUser"] != null && Session["UserLoginLoc"] != null)
+        //        {
+        //            var FromLocID = _db.Locations.Where(x => x.LocationName == objE658.FromLocID).Select(x => x.LocationID).FirstOrDefault();
+        //            var ToLocID = _db.Locations.Where(x => x.LocationName == objE658.ToLocId).Select(x => x.LocationID).FirstOrDefault();
+        //
+        //            RaisedTypeID = Convert.ToInt32(Session["E658RunType"]);
+        //            string createUnitSerialNo = CreateUnitSerialNo(FromLocID, RaisedTypeID);
+
+        //            TimeSpan StartTime = objE658.JournryStartTime.TimeOfDay;
+
+        //            if (objE658.OMTServiceNo == null)
+        //            {
+        //                /// assing 1 // When user Request OMT From MT section isOMTReqFromMT coloum assign 1
+        //                isOMTReqFromMT = 1;
+        //                objE658.OMTServiceNo = "MT Sect";
+        //            }
+        //            else
+        //            {
+        //                isOMTReqFromMT = 0;
+        //            }
+
+        //            if (objE658.SLAFRegNo == null)
+        //            {
+        //                // When user Request Vehicle From MT section IsVehiReqFromMT coloum assign 10
+        //                IsVehiReqFromMT = 10;
+        //                string randomStringKey = GenerateRandomStringKey();
+        //                VehiChassisNo = randomStringKey + "/" + FromLocID.Trim();
+        //                vehicleAttaLoc = "Not Assign";
+        //                seqNo = randomStringKey + "/" + FromLocID.Trim()
+        //                        + "/" + ToLocID.Trim() + "/" + DateTime.Now;
+        //            }
+        //            else
+        //            {
+        //                SLAFRegNumber = objE658.SLAFRegNo;
+
+        //                //var sysChassisNo = _db.VehicleDetails.Where(x => x.SlafRegNo == objE658.SLAFRegNo && x.Status == 1).Select(x => x.ChassisNo).FirstOrDefault();
+
+
+
+        //                var sysChassisNo = _db.VehicleDetails.Where(x => x.SlafRegNo.Contains(objE658.SLAFRegNo) && (x.Status == 1 || x.Status == 2 || x.Status == 3)).Select(x => new { x.ChassisNo, x.AttachedLocationID }).FirstOrDefault();
+
+        //                VehiChassisNo = sysChassisNo.ChassisNo;
+        //                vehicleAttaLoc = sysChassisNo.AttachedLocationID;
+        //                seqNo = sysChassisNo.ChassisNo + "/" + DateTime.Now;
+        //                IsVehiReqFromMT = 0;
+        //            }
+
+        //            if (objE658.ToLocId == "Other Location")
+        //            {
+
+        //            }
+
+        //            F658RegistryHeader RegHeader = new F658RegistryHeader()
+        //            {
+        //                ChassisNo = VehiChassisNo,
+        //                Seq = seqNo,
+        //                UnitSerialNo = createUnitSerialNo,
+        //                FLocation = FromLocID,
+        //                ELocation = FromLocID,
+        //                //TLocation = ToLocID.Trim(),
+        //                TLocation = ToLocID.Trim(),                        
+        //                RealToLocation = (objE658.ToLocId == "Other Location") ? objE658.OtherLocName : ToLocID.Trim(),
+        //                E658CreatorDltId = objE658.ECDID,
+        //                PLocation = vehicleAttaLoc,
+        //                IsRR658 = 2,
+        //                Behavior = objE658.ERTID,
+        //                IsOMtReqFromMT = isOMTReqFromMT,
+        //                OMTNo = objE658.OMTServiceNo,//OMServiceNo,
+        //                SLAFRegNo = SLAFRegNumber,
+        //                IsVehicleReqFromMT = IsVehiReqFromMT,
+        //                Duty = objE658.Purpose,
+        //                AuthorityType = 1,
+        //                PDate = objE658.E658Date,
+        //                ReturnDate = objE658.ReturnDate,
+        //                PTime = StartTime.ToString(),
+        //                Route = objE658.Route,
+        //                PHrs = objE658.RequiredDuration,
+        //                Status = 50,
+        //                Active = 1,
+        //                CreatedDate = DateTime.Now,
+        //                E658CreatedUser = Convert.ToInt64(Session["E658CreateUser"]),
+
+
+        //            };
+
+        //            _db.F658RegistryHeader.Add(RegHeader);
+
+        //            //E658RptLocHeader RptLocheader = new E658RptLocHeader()
+        //            //{
+
+        //            //    SeqID = seqNo,
+        //            //    ECDID = objE658.ECDID,
+        //            //    Active = 1,
+        //            //    CreatedDate = DateTime.Now,
+        //            //    CreatedBy = (Session["E658CreateUser"]).ToString(),
+        //            //    CreatedMAC = mac.GetMacAddress(),
+        //            //    CreatedIP = this.Request.UserHostAddress,
+        //            //};
+
+        //            //_db.E658RptLocHeader.Add(RptLocheader);
+
+        //            if (_db.SaveChanges() > 0)
+        //            {
+        //                //var RptLocHedID = _db.E658RptLocHeader.Where(x => x.SeqID == seqNo && x.Active == 1).Select(x => x.ERLID).FirstOrDefault();
+
+        //                //lst_ListPartItem = (List<Cls_ItemList>)Session["ListPartItem"];
+
+        //                //E658RptLocDetails locDetails = new E658RptLocDetails();
+
+        //                //foreach (var item in lst_ListPartItem)
+        //                //{
+        //                //    locDetails.LocationID = item.LocName;
+        //                //    locDetails.E658RptLocHedID = RptLocHedID;
+        //                //    locDetails.Active = 1;
+        //                //    locDetails.CreatedDate = DateTime.Now;
+        //                //    locDetails.CreatedBy = (Session["E658CreateUser"]).ToString();
+        //                //    locDetails.CreatedIP = this.Request.UserHostAddress;
+        //                //    locDetails.CreatedMAC = mac.GetMacAddress();
+
+        //                //    _db.E658RptLocDetails.Add(locDetails);
+
+        //                //    if (_db.SaveChanges() > 0)
+        //                //    {
+
+
+        //                //    }
+        //                //};
+
+        //                flowList = RecordFlowMgtId(RaisedTypeID, (int)E658.Enum.EnumE658UserType.E658CreateUser);
+
+        //                foreach (var item in flowList)
+        //                {
+        //                    EFID = item.EFMID;
+        //                    RID = item.RoleID;
+        //                }
+
+
+        //                E658FlowTransaction FlowTranc = new E658FlowTransaction()
+        //                {
+        //                    EFlowMgtID = EFID,
+        //                    RecordStatusID = (int)E658.Enum.EnumRecordStatus.Forward,
+        //                    RecordLocID = FromLocID,
+        //                    E658CreatorDltID = objE658.ECDID,
+        //                    RoleID = RID,
+        //                    Active = 1,
+        //                    CreatedDate = DateTime.Now,
+        //                    CreatedBy = (Session["E658CreateUser"]).ToString(),
+        //                    CreatedIP = this.Request.UserHostAddress,
+        //                    CreatedMAC = mac.GetMacAddress()
+
+        //                };
+        //                _db.E658FlowTransaction.Add(FlowTranc);
+
+        //                E658CreaterDetails obj = _db.E658CreaterDetails.Find(objE658.ECDID);
+        //                obj.IsE658Create = 1;
+        //                _db.Entry(obj).State = EntityState.Modified;
+
+        //                if (_db.SaveChanges() > 0)
+        //                {
+
+        //                }
+
+        //                //message = "You have created the E658 Successfully.";
+        //                Session["ListPartItem"] = null;
+        //                TempData["ScfMsg"] = "You have created the E658 Successfully.";
+        //            }
+        //            //return RedirectToAction("E658Details", "E658", new { E658CreatorID = objE658.ECDID } );
+
+        //            //// Value Hasing Area
+
+        //            var hashingService = new HashingService();
+
+        //            string encodedId = hashingService.EncodeMultipleValues(objE658.ECDID, 0, 0);
+
+        //            return Json(new { success = true, redirectUrl = Url.Action("E658Details", new { userID = encodedId }) });
+
+        //            //return Json(new { success = true, redirectUrl = Url.Action("E658Details", new { E658CreatorID = objE658.ECDID, RoleId = 0, EFlowId = 0 }) });
+        //        }
+        //        else
+        //        {
+        //            return RedirectToAction("Index", "User");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+
+        //    }
+        //}      
         [HttpPost]
-        public ActionResult Create(VME658Create objE658)
+        public async Task<ActionResult> Create(VME658Create objE658)
         {
-            ///Created BY   : Sqn ldr Wicky
-            /// Create Date : 2024/02/22
-            /// Description : load E658 Creater View
-            /// if OMT Request From MT, Here I assign 1 to indicate it, if not happend I assign 0 and save the OMT Service No
-            /// if Vehicle Request From MT, Here I assign 1 to indicate it, if not happend I assign 0 and save the SLAF Reg No
-
-
             ViewBag.DDL_GermsLocation = new SelectList(_db.Locations, "LocationName", "LocationName");
             ViewBag.DDL_E658RaisedType = new SelectList(_db.E658RunsTypes, "ERTID", "TypeName");
 
-            string seqNo = "";
-            string VehiChassisNo = "";
-            int isOMTReqFromMT = 0;
-            int IsVehiReqFromMT = 0;
-            string SLAFRegNumber = null;
-            string vehicleAttaLoc = "";
-
-
-            List<Cls_ItemList> lst_ListPartItem = new List<Cls_ItemList>();
-
-            try
+            if (Session["E658RunType"] == null || Session["E658CreateUser"] == null || Session["UserLoginLoc"] == null)
             {
-                if (Session["E658RunType"] != null && Session["E658CreateUser"] != null && Session["UserLoginLoc"] != null)
+                return RedirectToAction("Index", "User");
+            }
+
+            using (var dbContextTransaction = _db.Database.BeginTransaction(IsolationLevel.ReadCommitted))
+            {
+                try
                 {
+                    int isOMTRequestFromMT = string.IsNullOrEmpty(objE658.OMTServiceNo) ? 1 : 0;
+                    string omtServiceNo = isOMTRequestFromMT == 1 ? "MT Sect" : objE658.OMTServiceNo;
+
+                    int isVehicleRequestFromMT;
+                    string chassisNo;
+                    string vehicleAttachedLocation;
+                    string sequenceNo;
+                    string slafRegNo = null;
+
+                    // Batch reading locations to avoid locks
+                    var locations = await _db.Locations
+                        .Where(x => x.LocationName == objE658.FromLocID || x.LocationName == objE658.ToLocId)
+                        .Select(x => new { x.LocationID, x.LocationName })
+                        .ToListAsync().ConfigureAwait(false);
+
                     var FromLocID = _db.Locations.Where(x => x.LocationName == objE658.FromLocID).Select(x => x.LocationID).FirstOrDefault();
                     var ToLocID = _db.Locations.Where(x => x.LocationName == objE658.ToLocId).Select(x => x.LocationID).FirstOrDefault();
-                    RaisedTypeID = Convert.ToInt32(Session["E658RunType"]);
-                    string createUnitSerialNo = CreateUnitSerialNo(FromLocID, RaisedTypeID);
+                    
 
-                    TimeSpan StartTime = objE658.JournryStartTime.TimeOfDay;
+                   
 
-                    if (objE658.OMTServiceNo == null)
+                    int raisedTypeId = Convert.ToInt32(Session["E658RunType"]);
+                    string unitSerialNo = CreateUnitSerialNo(FromLocID, raisedTypeId);
+                    TimeSpan startTime = objE658.JournryStartTime.TimeOfDay;
+
+                    if (string.IsNullOrEmpty(objE658.SLAFRegNo))
                     {
-                        /// assing 1 // When user Request OMT From MT section isOMTReqFromMT coloum assign 1
-                        isOMTReqFromMT = 1;
-                        objE658.OMTServiceNo = "MT Sect";
+                        isVehicleRequestFromMT = 10;
+                        string randomKey = GenerateRandomStringKey();
+                        chassisNo = $"{randomKey}/{FromLocID}";
+                        vehicleAttachedLocation = "Not Assign";
+                        sequenceNo = $"{randomKey}/{FromLocID}/{ToLocID}/{DateTime.Now}";
                     }
                     else
                     {
-                        isOMTReqFromMT = 0;
+                        slafRegNo = objE658.SLAFRegNo;
+
+                        var vehicleDetails = await _db.VehicleDetails
+                            .AsNoTracking() // Avoid tracking if read-only
+                            .Where(x => x.SlafRegNo.Contains(objE658.SLAFRegNo) && (x.Status == 1 || x.Status == 2 || x.Status == 3))
+                            .Select(x => new { x.ChassisNo, x.AttachedLocationID })
+                            .FirstOrDefaultAsync().ConfigureAwait(false);
+
+                        chassisNo = vehicleDetails?.ChassisNo;
+                        vehicleAttachedLocation = vehicleDetails?.AttachedLocationID;
+                        sequenceNo = $"{chassisNo}/{DateTime.Now}";
+                        isVehicleRequestFromMT = 0;
                     }
 
-                    if (objE658.SLAFRegNo == null)
+                    // Create header
+                    var regHeader = new F658RegistryHeader
                     {
-                        // When user Request Vehicle From MT section IsVehiReqFromMT coloum assign 10
-                        IsVehiReqFromMT = 10;
-                        string randomStringKey = GenerateRandomStringKey();
-                        VehiChassisNo = randomStringKey + "/" + FromLocID.Trim();
-                        vehicleAttaLoc = "Not Assign";
-                        seqNo = randomStringKey + "/" + FromLocID.Trim()
-                                + "/" + ToLocID.Trim() + "/" + DateTime.Now;
-                    }
-                    else
-                    {
-                        SLAFRegNumber = objE658.SLAFRegNo;
-
-                        //var sysChassisNo = _db.VehicleDetails.Where(x => x.SlafRegNo == objE658.SLAFRegNo && x.Status == 1).Select(x => x.ChassisNo).FirstOrDefault();
-
-             
-
-                        var sysChassisNo = _db.VehicleDetails.Where(x => x.SlafRegNo.Contains(objE658.SLAFRegNo) && (x.Status == 1 || x.Status == 2 || x.Status == 3)).Select(x => new { x.ChassisNo, x.AttachedLocationID }).FirstOrDefault();
-
-                        VehiChassisNo = sysChassisNo.ChassisNo;
-                        vehicleAttaLoc = sysChassisNo.AttachedLocationID;
-                        seqNo = sysChassisNo.ChassisNo + "/" + DateTime.Now;
-                        IsVehiReqFromMT = 0;
-                    }
-
-                    if (objE658.ToLocId == "Other Location")
-                    {
-
-                    }
-
-                    F658RegistryHeader RegHeader = new F658RegistryHeader()
-                    {
-                        ChassisNo = VehiChassisNo,
-                        Seq = seqNo,
-                        UnitSerialNo = createUnitSerialNo,
+                        ChassisNo = chassisNo,
+                        Seq = sequenceNo,
+                        UnitSerialNo = unitSerialNo,
                         FLocation = FromLocID,
                         ELocation = FromLocID,
-                        //TLocation = ToLocID.Trim(),
-                        TLocation = ToLocID.Trim(),                        
-                        RealToLocation = (objE658.ToLocId == "Other Location") ? objE658.OtherLocName : ToLocID.Trim(),
+                        TLocation = ToLocID,
+                        RealToLocation = objE658.ToLocId == "Other Location" ? objE658.OtherLocName : ToLocID.ToString(),
                         E658CreatorDltId = objE658.ECDID,
-                        PLocation = vehicleAttaLoc,
+                        PLocation = vehicleAttachedLocation,
                         IsRR658 = 2,
                         Behavior = objE658.ERTID,
-                        IsOMtReqFromMT = isOMTReqFromMT,
-                        OMTNo = objE658.OMTServiceNo,//OMServiceNo,
-                        SLAFRegNo = SLAFRegNumber,
-                        IsVehicleReqFromMT = IsVehiReqFromMT,
+                        IsOMtReqFromMT = isOMTRequestFromMT,
+                        OMTNo = omtServiceNo,
+                        SLAFRegNo = slafRegNo,
+                        IsVehicleReqFromMT = isVehicleRequestFromMT,
                         Duty = objE658.Purpose,
                         AuthorityType = 1,
                         PDate = objE658.E658Date,
                         ReturnDate = objE658.ReturnDate,
-                        PTime = StartTime.ToString(),
+                        PTime = startTime.ToString(),
                         Route = objE658.Route,
                         PHrs = objE658.RequiredDuration,
                         Status = 50,
                         Active = 1,
                         CreatedDate = DateTime.Now,
-                        E658CreatedUser = Convert.ToInt64(Session["E658CreateUser"]),
-
-
+                        E658CreatedUser = Convert.ToInt64(Session["E658CreateUser"])
                     };
+                    _db.F658RegistryHeader.Add(regHeader);
 
-                    _db.F658RegistryHeader.Add(RegHeader);
+                    // Prepare Flow Transaction
+                    var flowList = RecordFlowMgtId(raisedTypeId, (int)E658.Enum.EnumE658UserType.E658CreateUser);
+                    int eflowMgtId = flowList.FirstOrDefault()?.EFMID ?? 0;
+                    int roleId = flowList.FirstOrDefault()?.RoleID ?? 0;
 
-                    //E658RptLocHeader RptLocheader = new E658RptLocHeader()
-                    //{
-
-                    //    SeqID = seqNo,
-                    //    ECDID = objE658.ECDID,
-                    //    Active = 1,
-                    //    CreatedDate = DateTime.Now,
-                    //    CreatedBy = (Session["E658CreateUser"]).ToString(),
-                    //    CreatedMAC = mac.GetMacAddress(),
-                    //    CreatedIP = this.Request.UserHostAddress,
-                    //};
-
-                    //_db.E658RptLocHeader.Add(RptLocheader);
-
-                    if (_db.SaveChanges() > 0)
+                    var flowTransaction = new E658FlowTransaction
                     {
-                        //var RptLocHedID = _db.E658RptLocHeader.Where(x => x.SeqID == seqNo && x.Active == 1).Select(x => x.ERLID).FirstOrDefault();
+                        EFlowMgtID = eflowMgtId,
+                        RecordStatusID = (int)E658.Enum.EnumRecordStatus.Forward,
+                        RecordLocID = FromLocID,
+                        E658CreatorDltID = objE658.ECDID,
+                        RoleID = roleId,
+                        Active = 1,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = Session["E658CreateUser"].ToString(),
+                        CreatedIP = Request.UserHostAddress,
+                        CreatedMAC = mac.GetMacAddress()
+                    };
+                    _db.E658FlowTransaction.Add(flowTransaction);
 
-                        //lst_ListPartItem = (List<Cls_ItemList>)Session["ListPartItem"];
+                    // Update Creator Status
+                    var creatorDetails = await _db.E658CreaterDetails
+                        .Where(x => x.ECDID == objE658.ECDID)
+                        .FirstOrDefaultAsync().ConfigureAwait(false);
 
-                        //E658RptLocDetails locDetails = new E658RptLocDetails();
-
-                        //foreach (var item in lst_ListPartItem)
-                        //{
-                        //    locDetails.LocationID = item.LocName;
-                        //    locDetails.E658RptLocHedID = RptLocHedID;
-                        //    locDetails.Active = 1;
-                        //    locDetails.CreatedDate = DateTime.Now;
-                        //    locDetails.CreatedBy = (Session["E658CreateUser"]).ToString();
-                        //    locDetails.CreatedIP = this.Request.UserHostAddress;
-                        //    locDetails.CreatedMAC = mac.GetMacAddress();
-
-                        //    _db.E658RptLocDetails.Add(locDetails);
-
-                        //    if (_db.SaveChanges() > 0)
-                        //    {
-
-
-                        //    }
-                        //};
-
-                        flowList = RecordFlowMgtId(RaisedTypeID, (int)E658.Enum.EnumE658UserType.E658CreateUser);
-
-                        foreach (var item in flowList)
-                        {
-                            EFID = item.EFMID;
-                            RID = item.RoleID;
-                        }
-
-
-                        E658FlowTransaction FlowTranc = new E658FlowTransaction()
-                        {
-                            EFlowMgtID = EFID,
-                            RecordStatusID = (int)E658.Enum.EnumRecordStatus.Forward,
-                            RecordLocID = FromLocID,
-                            E658CreatorDltID = objE658.ECDID,
-                            RoleID = RID,
-                            Active = 1,
-                            CreatedDate = DateTime.Now,
-                            CreatedBy = (Session["E658CreateUser"]).ToString(),
-                            CreatedIP = this.Request.UserHostAddress,
-                            CreatedMAC = mac.GetMacAddress()
-
-                        };
-                        _db.E658FlowTransaction.Add(FlowTranc);
-
-                        E658CreaterDetails obj = _db.E658CreaterDetails.Find(objE658.ECDID);
-                        obj.IsE658Create = 1;
-                        _db.Entry(obj).State = EntityState.Modified;
-
-                        if (_db.SaveChanges() > 0)
-                        {
-
-                        }
-
-                        //message = "You have created the E658 Successfully.";
-                        Session["ListPartItem"] = null;
-                        TempData["ScfMsg"] = "You have created the E658 Successfully.";
+                    if (creatorDetails != null)
+                    {
+                        creatorDetails.IsE658Create = 1;
+                        _db.Entry(creatorDetails).State = EntityState.Modified;
                     }
-                    //return RedirectToAction("E658Details", "E658", new { E658CreatorID = objE658.ECDID } );
 
-                    //// Value Hasing Area
-                    
+                    // One single SaveChanges to reduce locks and deadlock risk
+                    await _db.SaveChangesAsync().ConfigureAwait(false);
+                    dbContextTransaction.Commit();
+
+                    Session["ListPartItem"] = null;
+                    TempData["ScfMsg"] = "You have created the E658 successfully.";
+
                     var hashingService = new HashingService();
-
                     string encodedId = hashingService.EncodeMultipleValues(objE658.ECDID, 0, 0);
 
                     return Json(new { success = true, redirectUrl = Url.Action("E658Details", new { userID = encodedId }) });
-
-                    //return Json(new { success = true, redirectUrl = Url.Action("E658Details", new { E658CreatorID = objE658.ECDID, RoleId = 0, EFlowId = 0 }) });
                 }
-                else
+                catch (Exception ex)
                 {
-                    return RedirectToAction("Index", "User");
+                    dbContextTransaction.Rollback();
+                    // TODO: Add proper logging
+                    return Json(new { success = false, message = "An error occurred: " + ex.Message });
                 }
             }
-            catch (Exception ex)
-            {
-
-                throw ex;
-
-            }
-        }      
+        }              
+        
         [HttpGet]
         public ActionResult E658List(string sortOrder, string currentFilter, string searchString, int? page, int? RSID)
         {

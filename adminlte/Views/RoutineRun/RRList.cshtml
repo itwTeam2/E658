@@ -1,0 +1,362 @@
+﻿@model E658.Models.VME658InitiateUser
+
+@{
+    ViewBag.Title = "Intiatial User";
+    //Layout = null;
+    int userLoginType = Convert.ToInt32(Session["UserLoginType"]);
+}
+
+@using (Html.BeginForm())
+{
+
+    <div class="content-wrapper" style="min-height:786px">
+        <section class="content-header">
+            <h1 style="text-align:center"><span>Routine Run Details</span></h1>
+            <button type="button" class="col-lg- btn btn-success pull-right" onclick="location.href='@Url.Action("Index", "User")'">
+                <span>Back To Main Page</span>
+            </button>
+            <div id="ErrorMessage" style="margin-top:5px">
+                @if (TempData["ScfMsg"] != null)
+                {
+                    <div id="Msg" class="col-lg-12  alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>Alert! </strong> @TempData["ScfMsg"]
+                    </div>
+                }
+                else if (TempData["ErrMsg"] != null)
+                {
+                    <div id="Msg" class="col-lg-12 alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>Alert! </strong>@TempData["ErrMsg"]
+                    </div>
+                }
+            </div>
+        </section>
+
+        <br />
+        <p>
+            <br />
+            @*<input type="button" id="forward" value="Forward" class="btn btn-primary" />*@
+        </p>
+        <section class="col-lg-12 connectedSortable" style="margin-top:5px">
+            @Html.AntiForgeryToken()
+            <div class="nav-tabs-custom">
+
+
+
+                <table id="example" class="table table-responsive table-striped table-hover" style="border-style:ridge; font-size:20px">
+                    <tr>
+                        <th>
+                            <input type="checkbox" id="checkAll" />
+                        </th>
+                        <th>
+                            RR
+                        </th>
+                        <th>
+                            Duty
+                        </th>
+                        <th>
+                            Discription
+                        </th>
+                        <th>
+
+                        </th>
+                        <th>
+
+                        </th>
+                        <th></th>
+                    </tr>
+
+
+                    @foreach (var RRList in ViewBag.RRList)
+                    {
+
+                        <tr>
+                            <td>
+                                <input type="checkbox" class="checkBox" value="@RRList.SeqId" />
+                            </td>
+                            <td>@RRList.RR</td>
+                            <td>@RRList.Duty</td>
+                            <td>@RRList.Discription</td>
+
+
+
+
+                        </tr>
+                    }
+
+
+                </table>
+                @if (userLoginType < 1)
+                {
+                    <div class="nav-tabs-custom">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div id="staffCar">
+                                    <div class="box-body">
+                                        @*Staff car Owner *@
+                                        <div class="form-group">
+                                            <div class="col-lg-3">
+                                                @Html.Label("Service Number (Certified Officer)", new { @class = "control-label" })
+                                                @Html.TextBoxFor(model => model.StaffServiceNo, new { @class = "form-control - ", autocomplete = "off" })
+                                                @Html.HiddenFor(model => model.StaffSNo)
+                                                @Html.ValidationMessageFor(model => model.StaffServiceNo, string.Empty, new { @class = "label label-danger" })
+                                            </div>
+                                            <div class="col-lg-3">
+                                                @Html.Label("Rank", new { @class = "control-label" })
+                                                @Html.TextBoxFor(model => model.StaffRank, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
+                                                @Html.ValidationMessageFor(model => model.StaffRank, string.Empty, new { @class = "label label-danger" })
+                                            </div>
+                                            <div class="col-lg-3">
+                                                @Html.Label("Name", new { @class = "control-label" })
+                                                @Html.TextBoxFor(model => model.StaffFullName, new { @class = "form-control - ", autocomplete = "off", @readonly = "readonly" })
+                                                @Html.ValidationMessageFor(model => model.StaffFullName, string.Empty, new { @class = "label label-danger" })
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    <input type="button" id="forward" value="Forward" class="btn btn-primary" />
+                }
+                else
+                {
+                    <input type="button" id="forwardOff" value="Forward" class="btn btn-primary" />
+                }
+
+
+            </div>
+
+
+        </section>
+
+    </div>
+}
+
+
+
+
+<script src="@Url.Content("~/Scripts/Jq.js")"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        ///Created BY   : Sqn Ldr Wicky
+        ///Created Date : 2024/02/15
+        ///Description : hide the Div
+
+        var userLoginType = Convert.ToInt32(Session["UserLoginType"]);
+
+        /// Drop down list in Operation Contribution
+         userLoginType = $("#userLoginType").val();
+        $("#staffCar").show();
+        $("#FormationMT").hide();
+        $("#RTID").val("");
+
+
+    });
+
+    /// Load E658 creater Person details
+    $(function () {
+        $("#ServiceNo").change(function () {
+            $.ajax({
+                url: '@Url.Content("~/User/getUserInfo")',
+                type: 'POST',
+                dataType: 'json',
+                data: { id: $("#ServiceNo").val() },
+                success: function (data) {
+                    if (data.ServiceNo == "Service number is not valid.") {
+                        alert("Service number is not valid.");
+                        $("#ServiceNo").val('');
+                        $("#SNo").val('');
+                    }
+                    else {
+                        $("#ServiceNo").val(data.ServiceNo);
+                        $("#SNo").val(data.SNo);
+                        $("#FullName").val(data.Name);
+                        $("#Rank").val(data.Rank);
+                        $("#Trade").val(data.Branch);
+                    }
+                },
+                error: function () {
+                    alert("error in function");
+                }
+            });
+        });
+    });
+
+    /// show div retated to selection critetria
+    //10 - Staff Vehicle E 658 , 11 - Formation  E 658 , 12 - MT Section E 658 , 13 - DGS E 658
+
+    $(function () {
+
+        $("#RTID").change(function () {
+            debugger;
+            var RTID = $("#RTID").val();
+
+            if (RTID == 10) {
+                $("#staffCar").show();
+                $("#FormationMT").hide();
+            }
+            else if (RTID == 11 || RTID == 12) {
+                $("#FormationMT").show();
+                $("#staffCar").hide();
+            }
+            else {
+
+            }
+
+        });
+    });
+    /// Load Staff car details
+    $(function () {
+        $("#StaffServiceNo").change(function () {
+            $.ajax({
+                url: '@Url.Content("~/User/getUserInfo")',
+                type: 'POST',
+                dataType: 'json',
+                data: { id: $("#StaffServiceNo").val() },
+                success: function (data) {
+                    if (data.ServiceNo == "Service number is not valid.") {
+                        alert("Service number is not valid.");
+                        $("#ServiceNo").val('');
+                        $("#SNo").val('');
+                    }
+                    else {
+                        $("#StaffServiceNo").val(data.ServiceNo);
+                        $("#StaffSNo").val(data.SNo);
+                        $("#StaffFullName").val(data.Name);
+                        $("#StaffRank").val(data.Rank);
+                                           }
+                },
+                error: function () {
+                    alert("error in function");
+                }
+            });
+        });
+    });
+
+    $(function () {
+        //DDL for Select
+        $("#LocationId").change(function () {
+            //DDL Automaticaly Bind
+            $("#DivisionId").empty();
+            $.ajax({
+                type: 'POST',
+                dataType: "json",
+                url: './FromLocation',
+                data: { id: $("#LocationId").val() },
+                success: function (FromLocation) {
+                    var items = '<option>SELECT</option>';
+                    $('#DivisionId').html(items);
+                    $.each(FromLocation, function (i, FromLocation) {
+                        $("#DivisionId").append('<option value="' + FromLocation.Value + '">' +
+                           FromLocation.Text + '</option>');
+                        //$("#District").val(data.DESCRIPTION);
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve Make.' + ex);
+                }
+            });
+            return false;
+        })
+    });
+
+    $(document).ready(function () {
+
+        $(".checkBox").prop('checked', true);
+        $("#checkAll").click(function () {
+            $(".checkBox").prop('checked',
+                $(this).prop('checked'));
+        });
+
+        $("#forward").click(function () {
+            debugger
+
+            var ServiceNo = $(StaffServiceNo).val();
+            var selectedIDs = new Array();
+            $('input:checkbox.checkBox').each(function () {
+                if ($(this).prop('checked')) {
+                    selectedIDs.push($(this).val());
+                }
+            });
+
+            var options = {};
+            options.url = '../RoutineRun/RRList' + '?ServiceNo=' + encodeURIComponent(ServiceNo);
+            options.type = 'POST';
+            options.data = JSON.stringify(selectedIDs);
+            options.contentType = 'application/json';
+            options.dataType = 'json';
+            options.success = function (data) {
+                location.reload();
+                window.location.href = data.redirectUrl;
+                //window.location.href = url;
+                alert('Records Successfully Forwarded.');
+            };
+            options.error = function () {
+                // alert('Error while deleting the records!');
+            };
+            $.ajax(options);
+
+        });
+    });
+
+
+
+
+    $(document).ready(function () {
+
+        $(".checkBox").prop('checked', true);
+        $("#checkAll").click(function () {
+            $(".checkBox").prop('checked',
+                $(this).prop('checked'));
+        });
+
+        $("#forwardOff").click(function () {
+            debugger
+
+            var selectedIDs = new Array();
+            $('input:checkbox.checkBox').each(function () {
+                if ($(this).prop('checked')) {
+                    selectedIDs.push($(this).val());
+                }
+            });
+
+            var options = {};
+            options.url = '../RoutineRun/RRList';
+            options.type = 'POST';
+            options.data = JSON.stringify(selectedIDs);
+            options.contentType = 'application/json';
+            options.dataType = 'json';
+            options.success = function (data) {
+                location.reload();
+                window.location.href = data.redirectUrl;
+                //window.location.href = url;
+                 alert('Records Successfully Forwarded.');
+            };
+            options.error = function () {
+                // alert('Error while deleting the records!');
+            };
+            $.ajax(options);
+
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+</script>

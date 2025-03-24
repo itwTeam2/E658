@@ -179,6 +179,73 @@
           <Property Name="WayPoints" Type="varchar(max)" />
           <Property Name="Active" Type="int" />
         </EntityType>
+        <EntityType Name="ETransAddiDuty">
+          <Key>
+            <PropertyRef Name="TADID" />
+          </Key>
+          <Property Name="TADID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ETrnsHedID" Type="int" />
+          <Property Name="AddiDutyDate" Type="date" />
+          <Property Name="AddiDutyRout" Type="varchar(max)" />
+          <Property Name="AddiDutyPurpose" Type="varchar(max)" />
+          <Property Name="Active" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedIP" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedMAC" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="date" />
+          <Property Name="ModifiedMac" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ETransReqDetails">
+          <Key>
+            <PropertyRef Name="TRDID" />
+          </Key>
+          <Property Name="TRDID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ETrnsHedID" Type="int" />
+          <Property Name="DeptFrom" Type="varchar" MaxLength="20" />
+          <Property Name="DeptTo" Type="varchar" MaxLength="20" />
+          <Property Name="DeptDate" Type="date" />
+          <Property Name="DeptTime" Type="varchar" MaxLength="50" />
+          <Property Name="ReturnDate" Type="date" />
+          <Property Name="Purpose" Type="varchar(max)" />
+          <Property Name="Rout" Type="varchar(max)" />
+          <Property Name="OMTSvcNo" Type="varchar" MaxLength="50" />
+          <Property Name="SLAFRegNo" Type="varchar" MaxLength="30" />
+          <Property Name="VehicleChassieNo" Type="varchar" MaxLength="50" />
+          <Property Name="IsNightPrkReq" Type="smallint" />
+          <Property Name="NightPrkLoc" Type="varchar" MaxLength="50" />
+          <Property Name="SOGORemarks" Type="varchar(max)" />
+          <Property Name="HQDGERemarks" Type="varchar(max)" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedIP" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedMAC" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="date" />
+          <Property Name="ModifiedMac" Type="varchar" MaxLength="50" />
+          <Property Name="Active" Type="int" />
+        </EntityType>
+        <EntityType Name="ETransReqHeader">
+          <Key>
+            <PropertyRef Name="TAHID" />
+          </Key>
+          <Property Name="TAHID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CmpTrnsRefNo" Type="varchar(max)" />
+          <Property Name="DgeAuthRefNo" Type="varchar(max)" />
+          <Property Name="ReqSection" Type="varchar" MaxLength="50" />
+          <Property Name="ReqCategory" Type="int" />
+          <Property Name="IsAddiDutyReq" Type="smallint" />
+          <Property Name="ETrnsCreatorDltId" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedIP" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedMAC" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="date" />
+          <Property Name="ModifiedMac" Type="varchar" MaxLength="50" />
+          <Property Name="Active" Type="int" />
+        </EntityType>
         <EntityType Name="F658RegistryHeader">
           <Key>
             <PropertyRef Name="UnitSerialNo" />
@@ -237,6 +304,40 @@
           <Property Name="Status" Type="int" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="CreatedUser" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RRFlowManagementStatus">
+          <Key>
+            <PropertyRef Name="Rrfid" />
+          </Key>
+          <Property Name="Rrfid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RRid" Type="int" Nullable="false" />
+          <Property Name="Rsid" Type="int" Nullable="false" />
+          <Property Name="UserRoleId" Type="int" Nullable="false" />
+          <Property Name="EstablishmentId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DivisionId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Active" Type="int" Nullable="false" />
+          <Property Name="SubmitServiceNo" Type="varchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateUser" Type="varchar" MaxLength="50" />
+          <Property Name="CreateIP" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="RRHeader">
+          <Key>
+            <PropertyRef Name="SeqId" />
+          </Key>
+          <Property Name="SeqId" Type="int" Nullable="false" />
+          <Property Name="RR" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Duty" Type="varchar(max)" />
+          <Property Name="Discription" Type="varchar(max)" />
+          <Property Name="Location" Type="varchar" MaxLength="50" />
+          <Property Name="Division" Type="varchar" MaxLength="50" />
+          <Property Name="DivisionId" Type="int" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DateTime" Type="datetime" />
+          <Property Name="status" Type="int" />
+          <Property Name="Year" Type="nchar" MaxLength="10" />
+          <Property Name="CurrentMonth" Type="int" />
+          <Property Name="NextMonth" Type="int" />
         </EntityType>
         <EntityType Name="VehicleDetails">
           <Key>
@@ -312,6 +413,34 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
           <Property Name="SubRank" Type="int" />
           <Property Name="serTypeDescription" Type="varchar" MaxLength="22" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'GERMS_NEW.dbo.Vw_RRFlowStatusManagement' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Vw_RRFlowStatusManagement">
+          <Key>
+            <PropertyRef Name="SeqId" />
+            <PropertyRef Name="RR" />
+            <PropertyRef Name="Rsid" />
+            <PropertyRef Name="Active" />
+            <PropertyRef Name="Rrfid" />
+            <PropertyRef Name="RRid" />
+            <PropertyRef Name="UserRoleId" />
+          </Key>
+          <Property Name="SeqId" Type="int" Nullable="false" />
+          <Property Name="RR" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Duty" Type="varchar(max)" />
+          <Property Name="Discription" Type="varchar(max)" />
+          <Property Name="Location" Type="varchar" MaxLength="50" />
+          <Property Name="Division" Type="varchar" MaxLength="50" />
+          <Property Name="DivisionId" Type="int" />
+          <Property Name="status" Type="int" />
+          <Property Name="Year" Type="nchar" MaxLength="10" />
+          <Property Name="Rsid" Type="int" Nullable="false" />
+          <Property Name="Active" Type="int" Nullable="false" />
+          <Property Name="Rrfid" Type="int" Nullable="false" />
+          <Property Name="RRid" Type="int" Nullable="false" />
+          <Property Name="SubmitServiceNo" Type="varchar" MaxLength="50" />
+          <Property Name="UserRoleId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityContainer Name="GERMS_NEWModelStoreContainer">
           <EntitySet Name="Divisions" EntityType="Self.Divisions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="E658CreaterDetails" EntityType="Self.E658CreaterDetails" Schema="dbo" store:Type="Tables" />
@@ -325,8 +454,13 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
           <EntitySet Name="E658UserMgt" EntityType="Self.E658UserMgt" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="E658UserType" EntityType="Self.E658UserType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="E658WayPoints" EntityType="Self.E658WayPoints" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ETransAddiDuty" EntityType="Self.ETransAddiDuty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ETransReqDetails" EntityType="Self.ETransReqDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ETransReqHeader" EntityType="Self.ETransReqHeader" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="F658RegistryHeader" EntityType="Self.F658RegistryHeader" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RRFlowManagementStatus" EntityType="Self.RRFlowManagementStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RRHeader" EntityType="Self.RRHeader" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VehicleDetails" EntityType="Self.VehicleDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vw_PersonalDetail" EntityType="Self.Vw_PersonalDetail" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -349,6 +483,25 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
     [Vw_PersonalDetail].[SubRank] AS [SubRank], 
     [Vw_PersonalDetail].[serTypeDescription] AS [serTypeDescription]
     FROM [dbo].[Vw_PersonalDetail] AS [Vw_PersonalDetail]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Vw_RRFlowStatusManagement" EntityType="Self.Vw_RRFlowStatusManagement" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Vw_RRFlowStatusManagement].[SeqId] AS [SeqId], 
+    [Vw_RRFlowStatusManagement].[RR] AS [RR], 
+    [Vw_RRFlowStatusManagement].[Duty] AS [Duty], 
+    [Vw_RRFlowStatusManagement].[Discription] AS [Discription], 
+    [Vw_RRFlowStatusManagement].[Location] AS [Location], 
+    [Vw_RRFlowStatusManagement].[Division] AS [Division], 
+    [Vw_RRFlowStatusManagement].[DivisionId] AS [DivisionId], 
+    [Vw_RRFlowStatusManagement].[status] AS [status], 
+    [Vw_RRFlowStatusManagement].[Year] AS [Year], 
+    [Vw_RRFlowStatusManagement].[Rsid] AS [Rsid], 
+    [Vw_RRFlowStatusManagement].[Active] AS [Active], 
+    [Vw_RRFlowStatusManagement].[Rrfid] AS [Rrfid], 
+    [Vw_RRFlowStatusManagement].[RRid] AS [RRid], 
+    [Vw_RRFlowStatusManagement].[SubmitServiceNo] AS [SubmitServiceNo], 
+    [Vw_RRFlowStatusManagement].[UserRoleId] AS [UserRoleId]
+    FROM [dbo].[Vw_RRFlowStatusManagement] AS [Vw_RRFlowStatusManagement]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -624,6 +777,12 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
           <EntitySet Name="E658FlowMagt" EntityType="GERMS_NEWModel.E658FlowMagt" />
           <EntitySet Name="E658RaisedRunType" EntityType="GERMS_NEWModel.E658RaisedRunType" />
           <EntitySet Name="E658CreaterDetails" EntityType="GERMS_NEWModel.E658CreaterDetails" />
+          <EntitySet Name="ETransAddiDuties" EntityType="GERMS_NEWModel.ETransAddiDuty" />
+          <EntitySet Name="ETransReqHeaders" EntityType="GERMS_NEWModel.ETransReqHeader" />
+          <EntitySet Name="ETransReqDetails" EntityType="GERMS_NEWModel.ETransReqDetail" />
+          <EntitySet Name="RRFlowManagementStatus" EntityType="GERMS_NEWModel.RRFlowManagementStatu" />
+          <EntitySet Name="RRHeaders" EntityType="GERMS_NEWModel.RRHeader" />
+          <EntitySet Name="Vw_RRFlowStatusManagement" EntityType="GERMS_NEWModel.Vw_RRFlowStatusManagement" />
         </EntityContainer>
         <EntityType Name="E658FlowMagt">
           <Key>
@@ -677,6 +836,133 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedMAC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ETransAddiDuty">
+          <Key>
+            <PropertyRef Name="TADID" />
+          </Key>
+          <Property Name="TADID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ETrnsHedID" Type="Int32" />
+          <Property Name="AddiDutyDate" Type="DateTime" Precision="0" />
+          <Property Name="AddiDutyRout" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AddiDutyPurpose" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedMAC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifiedMac" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ETransReqHeader">
+          <Key>
+            <PropertyRef Name="TAHID" />
+          </Key>
+          <Property Name="TAHID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CmpTrnsRefNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DgeAuthRefNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ReqSection" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReqCategory" Type="Int32" />
+          <Property Name="IsAddiDutyReq" Type="Int16" />
+          <Property Name="ETrnsCreatorDltId" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedMAC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifiedMac" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ETransReqDetail">
+          <Key>
+            <PropertyRef Name="TRDID" />
+          </Key>
+          <Property Name="TRDID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ETrnsHedID" Type="Int32" />
+          <Property Name="DeptFrom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DeptTo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DeptDate" Type="DateTime" Precision="0" />
+          <Property Name="DeptTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReturnDate" Type="DateTime" Precision="0" />
+          <Property Name="Purpose" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Rout" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="OMTSvcNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SLAFRegNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="VehicleChassieNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsNightPrkReq" Type="Int16" />
+          <Property Name="NightPrkLoc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SOGORemarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="HQDGERemarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedMAC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifiedMac" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="RRFlowManagementStatu">
+          <Key>
+            <PropertyRef Name="Rrfid" />
+          </Key>
+          <Property Name="Rrfid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RRid" Type="Int32" Nullable="false" />
+          <Property Name="Rsid" Type="Int32" Nullable="false" />
+          <Property Name="UserRoleId" Type="Int32" Nullable="false" />
+          <Property Name="EstablishmentId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DivisionId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int32" Nullable="false" />
+          <Property Name="SubmitServiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreateIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="RRHeader">
+          <Key>
+            <PropertyRef Name="SeqId" />
+          </Key>
+          <Property Name="SeqId" Type="Int32" Nullable="false" />
+          <Property Name="RR" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Duty" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Discription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Division" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DivisionId" Type="Int32" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateTime" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="Year" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="CurrentMonth" Type="Int32" />
+          <Property Name="NextMonth" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Vw_RRFlowStatusManagement">
+          <Key>
+            <PropertyRef Name="SeqId" />
+            <PropertyRef Name="RR" />
+            <PropertyRef Name="Rsid" />
+            <PropertyRef Name="Active" />
+            <PropertyRef Name="Rrfid" />
+            <PropertyRef Name="RRid" />
+            <PropertyRef Name="UserRoleId" />
+          </Key>
+          <Property Name="SeqId" Type="Int32" Nullable="false" />
+          <Property Name="RR" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Duty" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Discription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Division" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DivisionId" Type="Int32" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="Year" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Rsid" Type="Int32" Nullable="false" />
+          <Property Name="Active" Type="Int32" Nullable="false" />
+          <Property Name="Rrfid" Type="Int32" Nullable="false" />
+          <Property Name="RRid" Type="Int32" Nullable="false" />
+          <Property Name="SubmitServiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserRoleId" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -998,6 +1284,133 @@ warning 6002: The table/view 'GERMS_NEW.dbo.Vw_PersonalDetail' does not have a p
                 <ScalarProperty Name="RaisedTypeID" ColumnName="RaisedTypeID" />
                 <ScalarProperty Name="SNo" ColumnName="SNo" />
                 <ScalarProperty Name="ECDID" ColumnName="ECDID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ETransAddiDuties">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.ETransAddiDuty">
+              <MappingFragment StoreEntitySet="ETransAddiDuty">
+                <ScalarProperty Name="ModifiedMac" ColumnName="ModifiedMac" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedMAC" ColumnName="CreatedMAC" />
+                <ScalarProperty Name="CreatedIP" ColumnName="CreatedIP" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="AddiDutyPurpose" ColumnName="AddiDutyPurpose" />
+                <ScalarProperty Name="AddiDutyRout" ColumnName="AddiDutyRout" />
+                <ScalarProperty Name="AddiDutyDate" ColumnName="AddiDutyDate" />
+                <ScalarProperty Name="ETrnsHedID" ColumnName="ETrnsHedID" />
+                <ScalarProperty Name="TADID" ColumnName="TADID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ETransReqHeaders">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.ETransReqHeader">
+              <MappingFragment StoreEntitySet="ETransReqHeader">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ModifiedMac" ColumnName="ModifiedMac" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedMAC" ColumnName="CreatedMAC" />
+                <ScalarProperty Name="CreatedIP" ColumnName="CreatedIP" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ETrnsCreatorDltId" ColumnName="ETrnsCreatorDltId" />
+                <ScalarProperty Name="IsAddiDutyReq" ColumnName="IsAddiDutyReq" />
+                <ScalarProperty Name="ReqCategory" ColumnName="ReqCategory" />
+                <ScalarProperty Name="ReqSection" ColumnName="ReqSection" />
+                <ScalarProperty Name="DgeAuthRefNo" ColumnName="DgeAuthRefNo" />
+                <ScalarProperty Name="CmpTrnsRefNo" ColumnName="CmpTrnsRefNo" />
+                <ScalarProperty Name="TAHID" ColumnName="TAHID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ETransReqDetails">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.ETransReqDetail">
+              <MappingFragment StoreEntitySet="ETransReqDetails">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ModifiedMac" ColumnName="ModifiedMac" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedMAC" ColumnName="CreatedMAC" />
+                <ScalarProperty Name="CreatedIP" ColumnName="CreatedIP" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="HQDGERemarks" ColumnName="HQDGERemarks" />
+                <ScalarProperty Name="SOGORemarks" ColumnName="SOGORemarks" />
+                <ScalarProperty Name="NightPrkLoc" ColumnName="NightPrkLoc" />
+                <ScalarProperty Name="IsNightPrkReq" ColumnName="IsNightPrkReq" />
+                <ScalarProperty Name="VehicleChassieNo" ColumnName="VehicleChassieNo" />
+                <ScalarProperty Name="SLAFRegNo" ColumnName="SLAFRegNo" />
+                <ScalarProperty Name="OMTSvcNo" ColumnName="OMTSvcNo" />
+                <ScalarProperty Name="Rout" ColumnName="Rout" />
+                <ScalarProperty Name="Purpose" ColumnName="Purpose" />
+                <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+                <ScalarProperty Name="DeptTime" ColumnName="DeptTime" />
+                <ScalarProperty Name="DeptDate" ColumnName="DeptDate" />
+                <ScalarProperty Name="DeptTo" ColumnName="DeptTo" />
+                <ScalarProperty Name="DeptFrom" ColumnName="DeptFrom" />
+                <ScalarProperty Name="ETrnsHedID" ColumnName="ETrnsHedID" />
+                <ScalarProperty Name="TRDID" ColumnName="TRDID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RRFlowManagementStatus">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.RRFlowManagementStatu">
+              <MappingFragment StoreEntitySet="RRFlowManagementStatus">
+                <ScalarProperty Name="CreateIP" ColumnName="CreateIP" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="SubmitServiceNo" ColumnName="SubmitServiceNo" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="DivisionId" ColumnName="DivisionId" />
+                <ScalarProperty Name="EstablishmentId" ColumnName="EstablishmentId" />
+                <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
+                <ScalarProperty Name="Rsid" ColumnName="Rsid" />
+                <ScalarProperty Name="RRid" ColumnName="RRid" />
+                <ScalarProperty Name="Rrfid" ColumnName="Rrfid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RRHeaders">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.RRHeader">
+              <MappingFragment StoreEntitySet="RRHeader">
+                <ScalarProperty Name="NextMonth" ColumnName="NextMonth" />
+                <ScalarProperty Name="CurrentMonth" ColumnName="CurrentMonth" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="DivisionId" ColumnName="DivisionId" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Discription" ColumnName="Discription" />
+                <ScalarProperty Name="Duty" ColumnName="Duty" />
+                <ScalarProperty Name="RR" ColumnName="RR" />
+                <ScalarProperty Name="SeqId" ColumnName="SeqId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vw_RRFlowStatusManagement">
+            <EntityTypeMapping TypeName="GERMS_NEWModel.Vw_RRFlowStatusManagement">
+              <MappingFragment StoreEntitySet="Vw_RRFlowStatusManagement">
+                <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
+                <ScalarProperty Name="SubmitServiceNo" ColumnName="SubmitServiceNo" />
+                <ScalarProperty Name="RRid" ColumnName="RRid" />
+                <ScalarProperty Name="Rrfid" ColumnName="Rrfid" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Rsid" ColumnName="Rsid" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="DivisionId" ColumnName="DivisionId" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Discription" ColumnName="Discription" />
+                <ScalarProperty Name="Duty" ColumnName="Duty" />
+                <ScalarProperty Name="RR" ColumnName="RR" />
+                <ScalarProperty Name="SeqId" ColumnName="SeqId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

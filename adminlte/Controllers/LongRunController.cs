@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -22,7 +23,6 @@ namespace E658.Controllers
         
         int EFID = 0;
         int? RID = 0;
-
         // GET: LongRun
         public ActionResult Index()
         {
@@ -78,160 +78,168 @@ namespace E658.Controllers
             
         }
         [HttpPost]
-        public ActionResult CreateRequest(VMLongRunCreate objE658)  
+        public async Task<ActionResult> CreateRequest(VMLongRunCreate objE658)
         {
-            ///Created BY   : Sqn ldr Wicky
-            /// Create Date : 2025/01/18
-            /// Description : transport authority requesting form
+            // Created BY   : Sqn Ldr Wicky
+            // Create Date  : 2025/01/18
+            // Description  : Transport authority requesting form
 
             ViewBag.DDL_GermsLocation = new SelectList(_db.Locations, "LocationName", "LocationName");
 
-            string seqNo = "";
-            string VehiChassisNo = "";
-            int isOMTReqFromMT = 0;
-            int IsVehiReqFromMT = 0;
-            string SLAFRegNumber = null;
-            string vehicleAttaLoc = "";
-            
-            //string recordCreateBy =
-
-            List<Cls_ItemList> lst_ListPartItem = new List<Cls_ItemList>();
-
             try
-            {              
-
-                var FromLocID = _db.Locations.Where(x => x.LocationName == objE658.FromLocID).Select(x => x.LocationID).FirstOrDefault();
-                var ToLocID = _db.Locations.Where(x => x.LocationName == objE658.ToLocId).Select(x => x.LocationID).FirstOrDefault();
-                //RaisedTypeID = Convert.ToInt32(Session["E658RunType"]);
-                string createUnitSerialNo = CreateUnitSerialNo(FromLocID, objE658.IsRaisedMode, objE658.SectionName);
-
-                TimeSpan StartTime = objE658.JournryStartTime.TimeOfDay;
-
+            {
+                // Validate session
                 var creatorDetailsJson = Session["CretorDetails"] as string;
-
                 if (string.IsNullOrEmpty(creatorDetailsJson))
-                {
-                    return RedirectToAction("Index", "User"); // Adjust "Account" and "Login" to your actual controller and action names
-                }
+                    return RedirectToAction("Index", "User");
+
                 var objCreateDetails = JsonConvert.DeserializeObject<VMLongRunCreate>(creatorDetailsJson);
-
-
                 Session["E658CreateUser"] = objCreateDetails.Sno;
-               
-                isOMTReqFromMT = 0;
-                SLAFRegNumber = objE658.SLAFRegNo;
 
-                //var sysChassisNo = _db.VehicleDetails.Where(x => x.SlafRegNo == objE658.SLAFRegNo && x.Status == 1).Select(x => x.ChassisNo).FirstOrDefault();
+                string fromLocID = _db.Locations
+                    .Where(x => x.LocationName == objE658.FromLocID)
+                    .Select(x => x.LocationID)
+                    .FirstOrDefault();
 
-                var sysChassisNo = _db.VehicleDetails.Where(x => x.SlafRegNo.Contains(objE658.SLAFRegNo) && (x.Status == 1 || x.Status == 2 || x.Status == 3)).Select(x => new { x.ChassisNo, x.AttachedLocationID }).FirstOrDefault();
+                string toLocID = _db.Locations
+                    .Where(x => x.LocationName == objE658.ToLocId)
+                    .Select(x => x.LocationID)
+                    .FirstOrDefault();
 
-                VehiChassisNo = sysChassisNo.ChassisNo;
-                vehicleAttaLoc = sysChassisNo.AttachedLocationID;
-                seqNo = sysChassisNo.ChassisNo + "/" + DateTime.Now;
-                IsVehiReqFromMT = 0;
+                string createUnitSerialNo = CreateUnitSerialNo(fromLocID, objE658.IsRaisedMode, objE658.SectionName);
+                string slafRegNumber = objE658.SLAFRegNo;
 
-                E658CreaterDetails objCreater = new E658CreaterDetails
+                // Fetch vehicle details
+                var vehicle = _db.VehicleDetails
+                    .Where(x => x.SlafRegNo.Contains(slafRegNumber) && (x.Status == 1 || x.Status == 2 || x.Status == 3))
+                    .Select(x => new { x.ChassisNo, x.AttachedLocationID })
+                    .FirstOrDefault();
+
+                if (vehicle == null)
+                    return Json(new { success = false, message = "Vehicle not found or inactive." });
+
+                string chassisNo = vehicle.ChassisNo;
+
+                using (var dbContextTransaction = _db.Database.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    SNo = objCreateDetails.Sno,
-                    RaisedTypeID = (int)E658.Enum.E658RaisedType.TA,
-                    CreatedDate = DateTime.Now,
-                    CreatedBy = objCreateDetails.Sno,
-                    UserGERMSLocation = objCreateDetails.CreatorLocation.Trim(),
-                    UserGERMSSection = objCreateDetails.SectionName,
-                    IsBaseOfFormation = objE658.IsRaisedMode,
-                    OICServiceNo = objE658.OICSNo,
-                    Active = 1,
-                    CreatedIP = this.Request.UserHostAddress,
-                    IsE658Create = 1,
-                    CreatedMAC = mac.GetMacAddress(),
-                };
-
-
-                _db.E658CreaterDetails.Add(objCreater);
-                if (_db.SaveChanges() > 0)
-                {
-                    objE658.ECDID = objCreater.ECDID;
-
-                    F658RegistryHeader RegHeader = new F658RegistryHeader()
+                    // Creator Details
+                    var creator = new E658CreaterDetails
                     {
-                        ChassisNo = VehiChassisNo,
-                        Seq = seqNo,
-                        UnitSerialNo = createUnitSerialNo,
-                        FLocation = FromLocID,
-                        ELocation = FromLocID,
-                        //TLocation = ToLocID.Trim(),
-                        TLocation = ToLocID.Trim(),
-                        RealToLocation = (objE658.ToLocId == "Other Location") ? objE658.OtherLocName : ToLocID.Trim(),
-                        E658CreatorDltId = objE658.ECDID,
-                        PLocation = vehicleAttaLoc,
-                        IsRR658 = 2,
-                        Behavior = objE658.ERTID,
-                        IsOMtReqFromMT = isOMTReqFromMT,
-                        OMTNo = objE658.OMTServiceNo,//OMServiceNo,
-                        SLAFRegNo = SLAFRegNumber,
-                        IsVehicleReqFromMT = IsVehiReqFromMT,
-                        Duty = objE658.Purpose,
-                        AuthorityType = 1,
-                        PDate = objE658.E658Date,
-                        ReturnDate = objE658.ReturnDate,
-                        PTime = StartTime.ToString(),
-                        Route = objE658.Route,
-                        PHrs = objE658.RequiredDuration,
-                        Status = 50,
+                        SNo = objCreateDetails.Sno,
+                        RaisedTypeID = (int)E658.Enum.E658RaisedType.TA,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = objCreateDetails.Sno,
+                        UserGERMSLocation = objCreateDetails.CreatorLocation?.Trim(),
+                        UserGERMSSection = objCreateDetails.SectionName,
+                        IsBaseOfFormation = objE658.IsRaisedMode,
+                        OICServiceNo = objE658.OICSNo,
+                        Active = 1,
+                        CreatedIP = Request.UserHostAddress,
+                        IsE658Create = 1,
+                        CreatedMAC = mac.GetMacAddress(),
+                    };
+                    _db.E658CreaterDetails.Add(creator);
+                    await _db.SaveChangesAsync().ConfigureAwait(false);
+
+                    // Header
+                    var transHeader = new ETransReqHeader
+                    {
+                        CmpTrnsRefNo = createUnitSerialNo,
+                        ReqSection = objE658.SectionName,
+                        ReqCategory = objE658.ERTID,
+                        IsAddiDutyReq = Convert.ToInt16(objE658.IsAddiDutyReq),
+                        ETrnsCreatorDltId = creator.ECDID,
                         Active = 1,
                         CreatedDate = DateTime.Now,
-                        E658CreatedUser = Convert.ToInt64(objCreateDetails.Sno),
-                        IsNightPark = objE658.IsNightPark,
-                        Description = objE658.AdditionalDuties,
-                        NightParkLoc = (objE658.IsNightPark == 1)?  objE658.NightParkLoc: null,
-
-
+                        CreatedBy = objCreateDetails.Sno.ToString(),
+                        CreatedIP = Request.UserHostAddress,
+                        CreatedMAC = mac.GetMacAddress()
                     };
-
-                    _db.F658RegistryHeader.Add(RegHeader);
-
-                    flowList = RecordFlowMgtId((int)E658.Enum.E658RaisedType.TA, (int)E658.Enum.EnumE658UserType.LngRunRequest, objE658.ERTID);
-
-                    foreach (var item in flowList)
+                    _db.ETransReqHeaders.Add(transHeader); 
+                    await _db.SaveChangesAsync().ConfigureAwait(false);
+                    
+                    // Detail
+                    var transDetails = new ETransReqDetail
                     {
-                        EFID = item.EFMID;
-                        RID = item.RoleID;
+                        ETrnsHedID = transHeader.TAHID,
+                        DeptFrom = fromLocID,
+                        DeptTo = toLocID.ToString(),
+                        DeptDate = objE658.E658Date,
+                        ReturnDate = objE658.ReturnDate,
+                        DeptTime = objE658.JournryStartTime.TimeOfDay.ToString(),
+                        Purpose = objE658.Purpose,
+                        Rout = objE658.Route,
+                        OMTSvcNo = objE658.OMTServiceNo,
+                        SLAFRegNo = slafRegNumber,
+                        VehicleChassieNo = chassisNo,
+                        IsNightPrkReq = Convert.ToInt16(objE658.IsNightPark),
+                        NightPrkLoc = objE658.NightParkLoc,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = objCreateDetails.Sno.ToString(),
+                        CreatedIP = Request.UserHostAddress,
+                        CreatedMAC = mac.GetMacAddress(),
+                        Active = 1
+                    };
+                    _db.ETransReqDetails.Add(transDetails);
+                    await _db.SaveChangesAsync().ConfigureAwait(false);
+                    
+                    // Additional Duties if requested
+                    if (objE658.IsAddiDutyReq == 1 && objE658.DutyList != null)
+                    {
+                        foreach (var duty in objE658.DutyList)
+                        {
+                            var addiDuty = new ETransAddiDuty
+                            {
+                                AddiDutyDate = Convert.ToDateTime(duty.Date),
+                                AddiDutyRout = duty.Route,
+                                AddiDutyPurpose = duty.Purpose,
+                                ETrnsHedID = transHeader.TAHID,
+                                Active = 1,
+                                CreatedDate = DateTime.Now,
+                                CreatedBy = objCreateDetails.Sno.ToString(),
+                                CreatedIP = Request.UserHostAddress,
+                                CreatedMAC = mac.GetMacAddress()
+                            };
+                            _db.ETransAddiDuties.Add(addiDuty);
+                        }
+                        await _db.SaveChangesAsync().ConfigureAwait(false);
+                        
                     }
 
-                    E658FlowTransaction FlowTranc = new E658FlowTransaction()
+                    // Flow Management
+                    var flowList = RecordFlowMgtId((int)E658.Enum.E658RaisedType.TA, (int)E658.Enum.EnumE658UserType.LngRunRequest, objE658.ERTID);
+                    foreach (var item in flowList)
                     {
-                        EFlowMgtID = EFID,
-                        RecordStatusID = (int)E658.Enum.EnumRecordStatus.Forward,
-                        RecordLocID = FromLocID,
-                        E658CreatorDltID = objE658.ECDID,
-                        RoleID = RID,
-                        Active = 1,
-                        CreatedDate = DateTime.Now,
-                        CreatedBy = (Session["E658CreateUser"]).ToString(),
-                        CreatedIP = this.Request.UserHostAddress,
-                        CreatedMAC = mac.GetMacAddress()
+                        var flowTransaction = new E658FlowTransaction
+                        {
+                            EFlowMgtID = item.EFMID,
+                            RecordStatusID = (int)E658.Enum.EnumRecordStatus.Forward,
+                            RecordLocID = fromLocID,
+                            E658CreatorDltID = creator.ECDID,
+                            RoleID = item.RoleID,
+                            Active = 1,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = objCreateDetails.Sno.ToString(),
+                            CreatedIP = Request.UserHostAddress,
+                            CreatedMAC = mac.GetMacAddress()
+                        };
+                        _db.E658FlowTransaction.Add(flowTransaction);
+                    }
 
-                    };
-                    _db.E658FlowTransaction.Add(FlowTranc);
-
-                    _db.SaveChanges();                    
+                    await _db.SaveChangesAsync().ConfigureAwait(false);
+                    dbContextTransaction.Commit();
 
                     TempData["ScfMsg"] = "You have created the E658 Successfully.";
 
-                }        
-
-                var hashingService = new HashingService();
-
-                string encodedId = hashingService.EncodeMultipleValues(objE658.ECDID, 0, 0);
-
-                return Json(new { success = true, redirectUrl = Url.Action("ETransReqDetails", new { userID = encodedId }) });
-
-             }
+                    // Redirect with encoded ID
+                    string encodedId = new HashingService().EncodeMultipleValues(creator.ECDID, 0, 0);
+                    return Json(new { success = true, redirectUrl = Url.Action("ETransReqDetails", new { userID = encodedId }) });
+                }
+            }
             catch (Exception ex)
             {
-
-                throw ex;
-
+                // Consider logging the error properly
+                return Json(new { success = false, message = "An error occurred: " + ex.Message });
             }
         }
         [HttpGet]
@@ -243,7 +251,7 @@ namespace E658.Controllers
             
             DataTable dt = new DataTable();
             List<VME658Create> e658DetailsList = new List<VME658Create>();           
-            string ToLocID = "";
+            //string ToLocID = "";
 
             var hashingService = new HashingService();
 
@@ -267,36 +275,46 @@ namespace E658.Controllers
                     VME658Create objVME658Create = new VME658Create();
 
                     //FromLocID = dt.Rows[i]["FLocation"].ToString();
-                    ToLocID = (dt.Rows[i]["TLocation"].ToString() == "OTR") ? dt.Rows[i]["RealToLocation"].ToString() : dt.Rows[i]["TLocation"].ToString();
-
-
+                    //ToLocID = (dt.Rows[i]["TLocation"].ToString() == "OTR") ? dt.Rows[i]["RealToLocation"].ToString() : dt.Rows[i]["TLocation"].ToString();
 
                     objVME658Create.FromLocID = dt.Rows[i]["FromLocationFull"].ToString(); //_db.Locations.Where(x => x.LocationID == FromLocID).Select(x => x.LocationName).FirstOrDefault();
-                    objVME658Create.ToLocId = ToLocID;
-                    objVME658Create.UnitSerialNo = dt.Rows[i]["UnitSerialNo"].ToString();
+                    objVME658Create.ToLocId = dt.Rows[i]["ToLocationFull"].ToString(); //ToLocID;
+                    objVME658Create.UnitSerialNo = dt.Rows[i]["CmpTrnsRefNo"].ToString();
                     objVME658Create.E658RunType = dt.Rows[i]["TypeName"].ToString();
-                    objVME658Create.E658Date = Convert.ToDateTime(dt.Rows[i]["PDate"]);
+                    objVME658Create.E658Date = Convert.ToDateTime(dt.Rows[i]["DeptDate"]);
                     objVME658Create.ReturnDate = Convert.ToDateTime(dt.Rows[i]["ReturnDate"]);
-                    objVME658Create.JournryStartTime = Convert.ToDateTime(dt.Rows[i]["PTime"]);
-                    objVME658Create.RequiredDuration = dt.Rows[i]["PHrs"].ToString();
-                    objVME658Create.Purpose = dt.Rows[i]["Duty"].ToString();
-                    objVME658Create.Route = dt.Rows[i]["Route"].ToString();                 
+                    objVME658Create.JournryStartTime = Convert.ToDateTime(dt.Rows[i]["DeptTime"]);
+                    //objVME658Create.RequiredDuration = dt.Rows[i]["PHrs"].ToString();
+                    objVME658Create.Purpose = dt.Rows[i]["Purpose"].ToString();
+                    objVME658Create.Route = dt.Rows[i]["Rout"].ToString();                 
                     objVME658Create.RoleID = roleId;
-                    objVME658Create.ECDID = Convert.ToInt32(dt.Rows[i]["E658CreatorDltId"]);
+                    objVME658Create.ECDID = Convert.ToInt32(dt.Rows[i]["ETrnsCreatorDltId"]);
                     objVME658Create.EFTID = eFlowId;
                     objVME658Create.RecordStatus = Convert.ToInt32(dt.Rows[i]["RecordStatus"]);
                     objVME658Create.TypeName = dt.Rows[i]["RunBehavior"].ToString();
                     objVME658Create.RaisedTypeID = Convert.ToInt32(dt.Rows[i]["RaisedTypeID"]);
                     objVME658Create.NightParkStatus = dt.Rows[i]["NightParkStatus"].ToString();
-                    objVME658Create.OMTServiceNo = dt.Rows[i]["OMTNo"].ToString();
+                    objVME658Create.OMTServiceNo = dt.Rows[i]["OMTSvcNo"].ToString();
                     objVME658Create.SLAFRegNo = dt.Rows[i]["SLAFRegNo"].ToString();
-                    objVME658Create.IsNightPark = Convert.ToInt32(dt.Rows[i]["IsNightPark"]);
-                    objVME658Create.Behavior = Convert.ToInt32(dt.Rows[i]["Behavior"]);
+                    objVME658Create.IsNightPark = Convert.ToInt32(dt.Rows[i]["IsNightPrkReq"]);
+                    objVME658Create.IsAddiDutyReq = Convert.ToInt32(dt.Rows[i]["IsAddiDutyReq"]);
+                    objVME658Create.Behavior = Convert.ToInt32(dt.Rows[i]["ReqCategory"]);
+
+                    int EtrnHdID = Convert.ToInt32(dt.Rows[i]["TAHID"]);
 
                     if (objVME658Create.IsNightPark == 1)
                     {
-                        objVME658Create.NightParkLoc = dt.Rows[i]["NightParkLoc"].ToString();
+                        objVME658Create.NightParkLoc = dt.Rows[i]["NightPrkLoc"].ToString();
                     }
+
+                    if (objVME658Create.IsAddiDutyReq == 1)
+                    {
+                        var addiDutyList = _db.ETransAddiDuties.Where(x => x.ETrnsHedID == EtrnHdID && x.Active == 1).ToList();
+
+                        ViewBag.ETransAddiDuty = addiDutyList;
+                    }
+
+
 
                     TempData["ECDID"] = creatorId;
                     TempData["UserLoginType"] = Session["UserLoginType"];                    
@@ -324,7 +342,7 @@ namespace E658.Controllers
         private string CreateUnitSerialNo(string FromLocID, int IsRaisedMode, string SectionName)
         {
             ///Created BY   : Sqn ldr Wicky
-            /// Create Date : 2024/03/07
+            /// Create Date : 2025/03/07
             /// Description : Create Unit Serial No for the run
 
             string unitSerialNo = "";
@@ -366,6 +384,36 @@ namespace E658.Controllers
 
             return unitSerialNo;
         }
+
+        private string CreateDGEAuthorityNo(int E658CreatorDltId)
+        {
+            ///Created BY   : Sqn ldr Wicky
+            /// Create Date : 2025/03/24
+            /// Description : Create the DGE Authority No when giving the final Authority number
+
+            string dgeFinalAuthNo = "";
+            try
+            {
+                DateTime currentDate = DateTime.Now;
+                int currentYear = currentDate.Year;
+                int currentMonth = currentDate.Month;
+                int currentDay = currentDate.Day;
+
+                var campAuthority = _db.ETransReqHeaders.Where(x => x.ETrnsCreatorDltId == E658CreatorDltId
+                                                              && x.Active == 1).Select(x=>x.CmpTrnsRefNo).FirstOrDefault();
+
+
+                 dgeFinalAuthNo = "DGE/" + campAuthority;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception if necessary
+                // Example: Logger.LogError(ex);
+                throw ex;
+            }
+
+            return dgeFinalAuthNo;
+        }
         private static string GenerateRandomStringKey()
         {
             string randomNumber = "";
@@ -395,7 +443,7 @@ namespace E658.Controllers
                 var SubmitStatus = _db.E658FlowMagt.Where(x => x.RaisedTyId == RaisedTypeID && x.RoleID == roleId 
                                    && x.Active == 1 && x.RecordGroup == flowGroup).Select(x => x.SubmitStatus).FirstOrDefault();
 
-                var EFlowMgtId = _db.E658FlowMagt.Where(x => x.RoleID == SubmitStatus && x.Active == 1 && x.RecordGroup == flowGroup)
+                var EFlowMgtId = _db.E658FlowMagt.Where(x => x.RoleID == SubmitStatus && x.RaisedTyId == RaisedTypeID  && x.Active == 1 && x.RecordGroup == flowGroup)
                                .Select(x => new { x.EFMID, x.RoleID }).FirstOrDefault();
 
                 E658FlowMagt obj = new E658FlowMagt()
@@ -423,7 +471,7 @@ namespace E658.Controllers
             DataTable dt = new DataTable();
             DataTable dt2 = new DataTable();
             DataTable dt3 = new DataTable();
-            List<VME658Create> E658List = new List<VME658Create>();
+            List<VMTrnsAuthIndex> TrnsList = new List<VMTrnsAuthIndex>();
 
             int pageSize = 20;
             int pageNumber = page ?? 1;
@@ -443,15 +491,28 @@ namespace E658.Controllers
             {
                 userLoginType = (int)E658.Enum.EnumE658UserType.MToOCT;
             }
-            dt = objDALCommanQuery.CallE65MoreDetailsSP(userLoginType);
 
-            dt2 = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<int>("RaisedTypeID") == (int)E658.Enum.E658RaisedType.TA &&
-                                                    x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward).CopyToDataTable();
+            dt = objDALCommanQuery.CallTrnsAuthIndexSP(userLoginType);
+
+            var filteredRows = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 &&
+                x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward).ToList();
+
+            if (filteredRows.Any())  // Check if any rows match the condition
+            {
+                dt2 = filteredRows.CopyToDataTable();  // Copy the filtered rows to a new DataTable
+            }
+            else
+            {
+                // Handle the case when no rows match the condition
+                dt2 = dt.Clone();  // Clone the structure of the original DataTable (empty but same schema)
+                                   // Or, you can set dt2 to null or handle it according to your needs
+                                   // dt2 = null;
+            }
 
             if (dt2 != null && dt2.Rows.Count > 0)
             {
                 dt3 = FilterDataTable(dt2, userLoginType, searchString, currentFilter, MToOctLocation);
-                PopulateE658List(dt3, E658List);
+                PopulateE658List(dt3, TrnsList);
 
                 if (userLoginType == (int)E658.Enum.EnumE658UserType.MTController || userLoginType == (int)E658.Enum.EnumE658UserType.MToOCT)
                 {
@@ -461,7 +522,7 @@ namespace E658.Controllers
             }
 
             ViewBag.CurrentFilter = page >= 2 ? currentFilter : searchString;
-            return View(E658List.ToPagedList(pageNumber, pageSize));
+            return View(TrnsList.ToPagedList(pageNumber, pageSize));
 
         }
         private DataTable FilterDataTable(DataTable dt, int userLoginType, string searchString, string currentFilter, string MToOctLocation)
@@ -530,7 +591,7 @@ namespace E658.Controllers
 
                 rows = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 &&
                                                     x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward &&
-                                                    x.Field<DateTime>("PDate") == filterDate);
+                                                    x.Field<DateTime>("OutDate") == filterDate);
             }
 
 
@@ -545,8 +606,11 @@ namespace E658.Controllers
 
             if (filterString == null)
             {
-                rows = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("OICSNo") == loginUserSno &&
+                rows = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 &&
                                                     x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward);
+
+                //rows = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("OICSNo") == loginUserSno &&
+                //                                    x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward);
             }
             else
             {
@@ -558,7 +622,7 @@ namespace E658.Controllers
 
                 rows = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("OICSNo") == loginUserSno &&
                                                     x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward &&
-                                                    x.Field<DateTime>("PDate") == filterDate);
+                                                    x.Field<DateTime>("OutDate") == filterDate);
             }
 
             return rows.Any() ? rows.CopyToDataTable() : new DataTable();
@@ -584,7 +648,7 @@ namespace E658.Controllers
 
                 rows = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == mToOctLocation &&
                                                     x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward &&
-                                                    x.Field<DateTime>("PDate") == filterDate);
+                                                    x.Field<DateTime>("OutDate") == filterDate);
             }
 
             return rows.Any() ? rows.CopyToDataTable() : new DataTable();
@@ -612,7 +676,7 @@ namespace E658.Controllers
                 rows = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == mToOctLocation &&
                                                    x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.Forward &&
                                                    x.Field<int>("RoleID") == (int)E658.Enum.EnumE658UserType.FinalizedAuthorization &&
-                                                   x.Field<DateTime>("PDate") == filterDate);
+                                                   x.Field<DateTime>("OutDate") == filterDate);
             }
 
 
@@ -641,12 +705,12 @@ namespace E658.Controllers
                 rows = dt.AsEnumerable().Where(x => x.Field<int>("Active") == 1 && x.Field<string>("UserGERMSLocation") == mToOctLocation &&
                                                    x.Field<int>("RecordStatusID") == (int)E658.Enum.EnumRecordStatus.HoldRun &&
                                                    x.Field<int>("RoleID") == (int)E658.Enum.EnumE658UserType.RunHold &&
-                                                   x.Field<DateTime>("PDate") == filterDate);
+                                                   x.Field<DateTime>("OutDate") == filterDate);
             }
 
             return rows.Any() ? rows.CopyToDataTable() : new DataTable();
         }
-        private void PopulateE658List(DataTable dt2, List<VME658Create> E658List)
+        private void PopulateE658List(DataTable dt2, List<VMTrnsAuthIndex> TrnsList)
         {
             //foreach (DataRow row in dt2.Rows)
             //{
@@ -702,31 +766,33 @@ namespace E658.Controllers
 
             for (int i = 0; i < dt2.Rows.Count; i++)
             {
-                VME658Create objList = new VME658Create();
-                objList.UnitSerialNo = dt2.Rows[i]["UnitSerialNo"].ToString();
-                objList.FromLocID = dt2.Rows[i]["FromLocationFull"].ToString();
-                objList.ToLocId = (dt2.Rows[i]["TLocation"].ToString() == "OTR") ? dt2.Rows[i]["RealToLocation"].ToString() : dt2.Rows[i]["ToLocationFull"].ToString(); //dt2.Rows[i]["ToLocationFull"].ToString();
-                objList.E658Date = Convert.ToDateTime(dt2.Rows[i]["PDate"]);
-                objList.JournryStartTime = Convert.ToDateTime(dt2.Rows[i]["PTime"]);
-                objList.E658RunType = dt2.Rows[i]["TypeName"].ToString();
-                objList.ECDID = Convert.ToInt32(dt2.Rows[i]["E658CreatorDltId"]);
+                VMTrnsAuthIndex objList = new VMTrnsAuthIndex();
+                objList.CmpTrnsRefNo = dt2.Rows[i]["CmpTrnsRefNo"].ToString();
+                objList.ReqSection = dt2.Rows[i]["ReqSection"].ToString();
+                objList.ReqCategory = Convert.ToInt32(dt2.Rows[i]["ReqCategory"]);
+                objList.IsAddiDutyReq = Convert.ToInt32(dt2.Rows[i]["IsAddiDutyReq"]);
+                objList.TrnsAuthCreatedDate = Convert.ToDateTime(dt2.Rows[i]["TrnsAuthCreatedDate"]);
+                objList.DeptFrom = dt2.Rows[i]["DeptFrom"].ToString();
+                objList.DeptFromLocationFull = dt2.Rows[i]["DeptFromLocationFull"].ToString();
+                objList.DeptTo = dt2.Rows[i]["DeptTo"].ToString();
+                objList.DeptToLocationFull = dt2.Rows[i]["DeptToLocationFull"].ToString();
+                objList.OutDate = Convert.ToDateTime(dt2.Rows[i]["OutDate"]);
+                objList.ReturnDate = Convert.ToDateTime(dt2.Rows[i]["ReturnDate"]);
+                objList.Purpose = dt2.Rows[i]["Purpose"].ToString();
+                objList.Rout = dt2.Rows[i]["Rout"].ToString();
+                objList.OMTNo = dt2.Rows[i]["OMTNo"].ToString(); 
+                objList.SLAFRegNo = dt2.Rows[i]["SLAFRegNo"].ToString();
+                objList.VehicleChassieNo = dt2.Rows[i]["VehicleChassieNo"].ToString();
+                objList.IsNightPrkReq = Convert.ToInt32(dt2.Rows[i]["IsNightPrkReq"]);
+                objList.NightPrkLoc = dt2.Rows[i]["NightPrkLoc"].ToString();
+                objList.DetailCreatedDate = Convert.ToDateTime(dt2.Rows[i]["DetailCreatedDate"]);
+                objList.ETrnsCreatorDltId = Convert.ToInt32(dt2.Rows[i]["ETrnsCreatorDltId"]); 
                 objList.RoleID = Convert.ToInt32(dt2.Rows[i]["RoleID"]);
-                objList.UserGERMSLocation = dt2.Rows[i]["UserGERMSLocation"].ToString();
-                objList.IsOMTAvail = Convert.ToInt32(dt2.Rows[i]["IsOMtReqFromMT"]);
-                objList.IsVehicleAvail = Convert.ToInt32(dt2.Rows[i]["IsVehicleReqFromMT"]);
-                objList.EFTID = Convert.ToInt32(dt2.Rows[i]["EFTID"]);
-                objList.RaisedTypeID = Convert.ToInt32(dt2.Rows[i]["RaisedTypeID"]);
-                objList.TypeNameLong = dt2.Rows[i]["TypeNameLong"].ToString();
-                objList.DivisionFullName = dt2.Rows[i]["UserGERMSSection"].ToString();
+                objList.EFTID = Convert.ToInt32(dt2.Rows[i]["EFTID"]); 
+                objList.ReqCatName = dt2.Rows[i]["ReqCatName"].ToString();
+                //objList.ToLocId = (dt2.Rows[i]["TLocation"].ToString() == "OTR") ? dt2.Rows[i]["RealToLocation"].ToString() : dt2.Rows[i]["ToLocationFull"].ToString(); //dt2.Rows[i]["ToLocationFull"].ToString();
 
-                //if (objList.RaisedTypeID == (int)E658.Enum.E658RaisedType.FormationE || objList.RaisedTypeID == (int)E658.Enum.E658RaisedType.MTSecE)
-                //{
-
-                    
-                //}
-
-
-                E658List.Add(objList);
+                TrnsList.Add(objList);
 
             }
         }
@@ -792,7 +858,7 @@ namespace E658.Controllers
 
                     if (_db.SaveChanges() > 0)
                     {
-                        TempData["ScfMsg"] = "You have Forwarded the E658 Successfully.";
+                        TempData["ScfMsg"] = "You have Forwarded the Transport Authority Request Successfully.";
 
                         return RedirectToAction("TrnsPortReqList");
                     }
@@ -819,7 +885,7 @@ namespace E658.Controllers
 
                     if (_db.SaveChanges() > 0)
                     {
-                        TempData["ScfMsg"] = "You have Forwarded the E658 Successfully.";
+                        TempData["ScfMsg"] = "You have Forwarded the Transport Authority Request Successfully.";
 
                         return RedirectToAction("TrnsPortReqList");
                     }
@@ -833,6 +899,105 @@ namespace E658.Controllers
             {
                 // return View();
                 throw ex;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ForwardHQAuth(int roleId, int E658CreatorDltId, int Behavior, string hqAuthRemark)
+        {
+            try
+            {
+                // Get E658 creator details
+                var e658Type = _db.E658CreaterDetails
+                                  .Where(x => x.ECDID == E658CreatorDltId && x.Active == 1)
+                                  .Select(x => new { x.RaisedTypeID, x.UserGERMSLocation })
+                                  .FirstOrDefault();
+
+                if (e658Type == null)
+                    return Json(new { success = false, message = "Invalid E658 Creator Detail." });
+
+                // Get related transaction headers and details together
+                var eTransData = (from eth in _db.ETransReqHeaders
+                                  join etd in _db.ETransReqDetails on eth.TAHID equals etd.ETrnsHedID
+                                  where eth.ETrnsCreatorDltId == E658CreatorDltId
+                                  select new { eth, etd }).ToList();
+
+                if (!eTransData.Any())
+                    return Json(new { success = false, message = "No Transaction Request Details found to update." });
+
+                string macAddress = mac.GetMacAddress();
+                string loginUser = Session["LoginUser"]?.ToString();
+
+                // If DGE, generate once
+                string DGEAuthRefNo = string.Empty;
+                if (roleId != (int)E658.Enum.EnumE658UserType.SOGO)
+                {
+                    DGEAuthRefNo = CreateDGEAuthorityNo(E658CreatorDltId);
+                }
+
+                // Update all related details and headers
+                foreach (var item in eTransData)
+                {
+                    // Update remarks based on role
+                    if (roleId == (int)E658.Enum.EnumE658UserType.SOGO)
+                        item.etd.SOGORemarks = hqAuthRemark;
+                    else
+                        item.etd.HQDGERemarks = hqAuthRemark;
+
+                    item.etd.ModifiedDate = DateTime.Now;
+                    item.etd.ModifiedMac = macAddress;
+                    item.etd.ModifiedBy = loginUser;
+
+                    // Update DGE Auth Ref No if needed
+                    if (roleId != (int)E658.Enum.EnumE658UserType.SOGO)
+                    {
+                        item.eth.DgeAuthRefNo = DGEAuthRefNo;
+                        item.eth.ModifiedDate = DateTime.Now;
+                        item.eth.ModifiedMac = macAddress;
+                        item.eth.ModifiedBy = loginUser;
+                    }
+                }
+
+                // Process flow management
+                var flowList = RecordFlowMgtId((int)E658.Enum.E658RaisedType.TA, roleId, Behavior);
+                if (!flowList.Any())
+                    return Json(new { success = false, message = "Flow Management configuration missing." });
+
+                var flowItem = flowList.First();
+
+                // Add flow transaction
+                var flowTransaction = new E658FlowTransaction
+                {
+                    EFlowMgtID = flowItem.EFMID,
+                    RecordStatusID = (int)E658.Enum.EnumRecordStatus.Forward,
+                    RecordLocID = e658Type.UserGERMSLocation,
+                    E658CreatorDltID = E658CreatorDltId,
+                    RoleID = flowItem.RoleID,
+                    Active = 1,
+                    CreatedDate = DateTime.Now,
+                    CreatedBy = loginUser,
+                    CreatedIP = Request.UserHostAddress,
+                    CreatedMAC = macAddress
+                };
+                _db.E658FlowTransaction.Add(flowTransaction);
+
+                // Save all changes
+                if (_db.SaveChanges() > 0)
+                {
+                    return Json(new
+                    {
+                        success = true,
+                        message = "You have forwarded the Transport Authority Request successfully.",
+                        redirectUrl = Url.Action("TrnsPortReqList")
+                    });
+                }
+
+                return Json(new { success = false, message = "No changes were saved." });
+            }
+            catch (Exception ex)
+            {
+                // Ideally log the exception
+                return Json(new { success = false, message = "An error occurred while processing your request." });
             }
         }
 
@@ -1090,8 +1255,6 @@ namespace E658.Controllers
             return RedirectToAction("E658", "E658List");
         }
 
-
-
         //[HttpGet]
         //public ActionResult EditTranportAuth(string userID)
         //{
@@ -1199,6 +1362,238 @@ namespace E658.Controllers
         //    }
 
         //    return View(objVME658Create);
+        //}
+
+
+        //[HttpPost]
+        //public ActionResult CreateRequest(VMLongRunCreate objE658)
+        //{
+        //    ///Created BY   : Sqn ldr Wicky
+        //    /// Create Date : 2025/01/18
+        //    /// Description : transport authority requesting form
+
+        //    ViewBag.DDL_GermsLocation = new SelectList(_db.Locations, "LocationName", "LocationName");
+
+        //    string seqNo = "";
+        //    string VehiChassisNo = "";
+        //    //int isOMTReqFromMT = 0;
+        //    //int IsVehiReqFromMT = 0;
+        //    string SLAFRegNumber = null;
+        //    string vehicleAttaLoc = "";
+
+        //    //string recordCreateBy =
+
+        //    List<Cls_ItemList> lst_ListPartItem = new List<Cls_ItemList>();
+
+        //    try
+        //    {
+
+        //        var FromLocID = _db.Locations.Where(x => x.LocationName == objE658.FromLocID).Select(x => x.LocationID).FirstOrDefault();
+        //        var ToLocID = _db.Locations.Where(x => x.LocationName == objE658.ToLocId).Select(x => x.LocationID).FirstOrDefault();
+        //        //RaisedTypeID = Convert.ToInt32(Session["E658RunType"]);
+        //        string createUnitSerialNo = CreateUnitSerialNo(FromLocID, objE658.IsRaisedMode, objE658.SectionName);
+
+        //        TimeSpan StartTime = objE658.JournryStartTime.TimeOfDay;
+
+        //        var creatorDetailsJson = Session["CretorDetails"] as string;
+
+        //        if (string.IsNullOrEmpty(creatorDetailsJson))
+        //        {
+        //            return RedirectToAction("Index", "User"); // Adjust "Account" and "Login" to your actual controller and action names
+        //        }
+        //        var objCreateDetails = JsonConvert.DeserializeObject<VMLongRunCreate>(creatorDetailsJson);
+
+
+        //        Session["E658CreateUser"] = objCreateDetails.Sno;
+
+        //        //isOMTReqFromMT = 0;
+        //        SLAFRegNumber = objE658.SLAFRegNo;
+
+        //        //var sysChassisNo = _db.VehicleDetails.Where(x => x.SlafRegNo == objE658.SLAFRegNo && x.Status == 1).Select(x => x.ChassisNo).FirstOrDefault();
+
+        //        var sysChassisNo = _db.VehicleDetails.Where(x => x.SlafRegNo.Contains(objE658.SLAFRegNo) && (x.Status == 1 || x.Status == 2 || x.Status == 3)).Select(x => new { x.ChassisNo, x.AttachedLocationID }).FirstOrDefault();
+
+        //        VehiChassisNo = sysChassisNo.ChassisNo;
+        //        vehicleAttaLoc = sysChassisNo.AttachedLocationID;
+        //        seqNo = sysChassisNo.ChassisNo + "/" + DateTime.Now;
+        //        //IsVehiReqFromMT = 0;
+
+        //        E658CreaterDetails objCreater = new E658CreaterDetails
+        //        {
+        //            SNo = objCreateDetails.Sno,
+        //            RaisedTypeID = (int)E658.Enum.E658RaisedType.TA,
+        //            CreatedDate = DateTime.Now,
+        //            CreatedBy = objCreateDetails.Sno,
+        //            UserGERMSLocation = objCreateDetails.CreatorLocation.Trim(),
+        //            UserGERMSSection = objCreateDetails.SectionName,
+        //            IsBaseOfFormation = objE658.IsRaisedMode,
+        //            OICServiceNo = objE658.OICSNo,
+        //            Active = 1,
+        //            CreatedIP = this.Request.UserHostAddress,
+        //            IsE658Create = 1,
+        //            CreatedMAC = mac.GetMacAddress(),
+        //        };
+
+
+
+        //        _db.E658CreaterDetails.Add(objCreater);
+        //        if (_db.SaveChanges() > 0)
+        //        {
+        //            objE658.ECDID = objCreater.ECDID;
+
+        //            ETransReqHeader transHeader = new ETransReqHeader()
+        //            {
+        //                CmpTrnsRefNo = createUnitSerialNo,
+        //                ReqSection = objE658.SectionName,
+        //                ReqCategory = objE658.ERTID,
+        //                IsAddiDutyReq = Convert.ToInt16(objE658.IsAddiDutyReq),
+        //                ETrnsCreatorDltId = objE658.ECDID,
+        //                CreatedDate = DateTime.Now,
+        //                CreatedBy = (Session["E658CreateUser"]).ToString(),
+        //                CreatedIP = this.Request.UserHostAddress,
+        //                CreatedMAC = mac.GetMacAddress()
+        //            };
+
+        //            _db.ETransReqHeaders.Add(transHeader);
+
+        //            if (_db.SaveChanges() > 0)
+        //            {
+        //                int id = transHeader.TAHID;
+
+        //                ETransReqDetail transDetails = new ETransReqDetail()
+        //                {
+        //                    ETrnsHedID = id,
+        //                    DeptFrom = FromLocID,
+        //                    DeptTo = ToLocID.Trim(),
+        //                    DeptDate = objE658.E658Date,
+        //                    ReturnDate = objE658.ReturnDate,
+        //                    DeptTime = StartTime.ToString(),
+        //                    Purpose = objE658.Purpose,
+        //                    Rout = objE658.Route,
+        //                    OMTSvcNo = objE658.OMTServiceNo,
+        //                    SLAFRegNo = SLAFRegNumber,
+        //                    VehicleChassieNo = VehiChassisNo,
+        //                    IsNightPrkReq = Convert.ToInt16(objE658.IsNightPark),
+        //                    NightPrkLoc = objE658.NightParkLoc,
+        //                    CreatedDate = DateTime.Now,
+        //                    CreatedBy = (Session["E658CreateUser"]).ToString(),
+        //                    CreatedIP = this.Request.UserHostAddress,
+        //                    CreatedMAC = mac.GetMacAddress()
+        //                };
+        //                _db.ETransReqDetails.Add(transDetails);
+        //                _db.SaveChanges();
+
+        //                if ((objE658.IsAddiDutyReq == 1) && (objE658.DutyList != null && objE658.DutyList.Count > 0))
+        //                {
+        //                    foreach (var duty in objE658.DutyList)
+        //                    {
+        //                        // Example: Process each duty record
+        //                        string date = duty.Date;
+        //                        string route = duty.Route;
+        //                        string purpose = duty.Purpose;
+
+        //                        ETransAddiDuty Obj = new ETransAddiDuty()
+        //                        {
+        //                            AddiDutyDate = Convert.ToDateTime(duty.Date),
+        //                            AddiDutyRout = duty.Route,
+        //                            AddiDutyPurpose = duty.Purpose,
+        //                            ETrnsHedID = id,
+        //                            CreatedDate = DateTime.Now,
+        //                            CreatedBy = (Session["E658CreateUser"]).ToString(),
+        //                            CreatedIP = this.Request.UserHostAddress,
+        //                            CreatedMAC = mac.GetMacAddress(),
+
+
+        //                        };
+        //                        _db.ETransAddiDuties.Add(Obj);
+        //                        _db.SaveChanges();
+        //                        // You can save these to the database or process as needed
+        //                    }
+        //                }
+
+        //            }
+
+        //            //F658RegistryHeader RegHeader = new F658RegistryHeader()
+        //            //{
+        //            //    ChassisNo = VehiChassisNo,
+        //            //    Seq = seqNo,
+        //            //    UnitSerialNo = createUnitSerialNo,
+        //            //    FLocation = FromLocID,
+        //            //    ELocation = FromLocID,
+        //            //    //TLocation = ToLocID.Trim(),
+        //            //    TLocation = ToLocID.Trim(),
+        //            //    RealToLocation = (objE658.ToLocId == "Other Location") ? objE658.OtherLocName : ToLocID.Trim(),
+        //            //    E658CreatorDltId = objE658.ECDID,
+        //            //    PLocation = vehicleAttaLoc,
+        //            //    IsRR658 = 2,
+        //            //    Behavior = objE658.ERTID,
+        //            //    IsOMtReqFromMT = isOMTReqFromMT,
+        //            //    OMTNo = objE658.OMTServiceNo,//OMServiceNo,
+        //            //    SLAFRegNo = SLAFRegNumber,
+        //            //    IsVehicleReqFromMT = IsVehiReqFromMT,
+        //            //    Duty = objE658.Purpose,
+        //            //    AuthorityType = 1,
+        //            //    PDate = objE658.E658Date,
+        //            //    ReturnDate = objE658.ReturnDate,
+        //            //    PTime = StartTime.ToString(),
+        //            //    Route = objE658.Route,
+        //            //    PHrs = objE658.RequiredDuration,
+        //            //    Status = 50,
+        //            //    Active = 1,
+        //            //    CreatedDate = DateTime.Now,
+        //            //    E658CreatedUser = Convert.ToInt64(objCreateDetails.Sno),
+        //            //    IsNightPark = objE658.IsNightPark,
+        //            //    Description = objE658.AdditionalDuties,
+        //            //    NightParkLoc = (objE658.IsNightPark == 1)?  objE658.NightParkLoc: null,
+
+
+        //            //};
+
+        //            //_db.F658RegistryHeader.Add(RegHeader);
+
+        //            flowList = RecordFlowMgtId((int)E658.Enum.E658RaisedType.TA, (int)E658.Enum.EnumE658UserType.LngRunRequest, objE658.ERTID);
+
+        //            foreach (var item in flowList)
+        //            {
+        //                EFID = item.EFMID;
+        //                RID = item.RoleID;
+        //            }
+
+        //            E658FlowTransaction FlowTranc = new E658FlowTransaction()
+        //            {
+        //                EFlowMgtID = EFID,
+        //                RecordStatusID = (int)E658.Enum.EnumRecordStatus.Forward,
+        //                RecordLocID = FromLocID,
+        //                E658CreatorDltID = objE658.ECDID,
+        //                RoleID = RID,
+        //                Active = 1,
+        //                CreatedDate = DateTime.Now,
+        //                CreatedBy = (Session["E658CreateUser"]).ToString(),
+        //                CreatedIP = this.Request.UserHostAddress,
+        //                CreatedMAC = mac.GetMacAddress()
+
+        //            };
+        //            _db.E658FlowTransaction.Add(FlowTranc);
+
+        //            _db.SaveChanges();
+
+        //            TempData["ScfMsg"] = "You have created the E658 Successfully.";
+
+        //        }
+
+        //        var hashingService = new HashingService();
+
+        //        string encodedId = hashingService.EncodeMultipleValues(objE658.ECDID, 0, 0);
+
+        //        return Json(new { success = true, redirectUrl = Url.Action("ETransReqDetails", new { userID = encodedId }) });
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+
+        //    }
         //}
     }
 }

@@ -92,5 +92,33 @@ namespace ReportData.DAL
             }
 
         }
+
+
+        public DataTable CallTrnsAuthIndexSP(int RoleID)
+        {
+            ///Created BY   : Sqn ldr Wickramasinghe
+            ///Created Date : 2024/03/29
+            /// Description : Call CivilFlowStatus Sp , when seraching the details
+
+            DataTable dt = new DataTable();
+            try
+            {
+                SqlConnection Connection = DALConnectionManager.open();
+                SqlCommand command = Connection.CreateCommand();
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = "ETransIndexList";
+                command.Parameters.AddWithValue("@RoleID", RoleID);
+                command.CommandTimeout = 1000;
+                SqlDataAdapter adp = new SqlDataAdapter(command);
+
+                adp.Fill(dt);
+
+                return dt;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

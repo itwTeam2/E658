@@ -19,6 +19,8 @@
 <body style="overflow-y:hidden;">
     <a href="@Url.Action("Login", "User")" class="btn btn--radius btn-primary" style="float:right;margin:10px;">Login</a>
     <a href="@Url.Action("Inquiry", "User")" class="btn btn--radius btn-outline pull-left" style="float:right;margin:10px;">Inquiry</a>
+    <a href="@Url.Action("RRInitiateUser", "RoutineRun")" class="btn btn--radius btn-outline pull-left" style="float:right;margin:10px;">RR</a>
+    
     @*@Html.ActionLink("Login", "Login", new { @class = "btn btn--radius btn-primary loginBtn", })*@
     <div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
         <div class="wrapper wrapper--w780">
@@ -30,13 +32,12 @@
                         <div class="p-t-10" style="padding-right:5px;">
                             @Html.ActionLink("Long Run", "TransportAuthIndex", "User", new { @class = "btn btn--radius btn-warning" })
 
-
-
                         </div>
                         <div class="p-t-10">
                             @Html.ActionLink("Short Run", "E658InitiateUser", "User", new { @class = "btn btn--radius btn--green" })
                             @*<button class="btn btn--pill btn--green" type="submit"></button>*@
                         </div>
+                        
                     </div>
                 </div>
             </div>
