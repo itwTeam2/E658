@@ -50,187 +50,302 @@
 
             <br />
 
-            <section class="col-lg-12 nav-tabs-custom connectedSortable">
+            <section class="col-lg-12 nav-tabs-custom connectedSortable" style="background-color: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)">
 
 
                 @foreach (var item in Model)
                 {
-                    <div class="col-lg-6">
-                        <br />
-                        <dl class="dl-horizontal">
-                            @* Destination From: *@
-                            <dt class="form-group">
-                                Destination From :
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => item.FromLocID)
-                            </dd>
-
-                            @*Destination To *@
-                            <dt class="form-group">
-                                Destination To :
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => item.ToLocId)
-                            </dd>
-
-                            @*TransPortAuth No *@
-                            <dt class="form-group">
-                                E-658 Reference No :
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => item.UnitSerialNo)
-                                @Html.HiddenFor(model => item.ECDID, new { id = "CreatorID" })
-                                @Html.HiddenFor(model => item.EFTID, new { id = "FlowID" })
-                                @Html.HiddenFor(model => item.RoleID, new { id = "RoleID" })
-                            </dd>
-
-                            @* E-658 Run Type : *@
-                            <dt class="form-group">
-                                E-658 Run Type :
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => item.E658RunType)
-                            </dd>
-
-                            @* E-658 Run Type : *@
-                            @*<dt class="form-group">
-            E-658 Originate From :
-        </dt>
-        @if (item.RaisedTypeID == (int)E658.Enum.E658RaisedType.StaffVehiE)
-        {
-            <dd>
-                @Html.DisplayFor(model => item.StafOffName)
-            </dd>
-        }
-        else
-        {
-            <dd>
-                @Html.DisplayFor(model => item.DivisionFullName)
-            </dd>
-        }*@
-
-
-
-                            @* E-658 Behavior : *@
-                            <dt class="form-group">
-                                E-658 Behavior :
-                            </dt>
-
-                            @*Need to replace*@
-                            <dd>
-                                @Html.DisplayFor(model => item.TypeName)
-                            </dd>
-
-                            @* E-658 Date : *@
-                            <dt class="form-group">
-                                E-658 Date :
-                            </dt>
-
-                            <dd>
-                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.E658Date))
-
-
-                            </dd>
-
-                            @*Journry Start Time : *@
-                            <dt class="form-group">
-                                Journey Start Time :
-                            </dt>
-
-                            <dd>
-                                @Convert.ToString(string.Format("{0:HH:mm tt}", item.JournryStartTime))
-
-                            </dd>
-
-                            @*Journry Return Date : *@
-                            <dt class="form-group">
-                                Journey Return Date  :
-                            </dt>
-
-                            <dd>
-                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.ReturnDate))
-
-                            </dd>
-
-                            @*Purpose :*@
-                            <dt class="form-group">
-                                Purpose :
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => item.Purpose)
-
-                            </dd>
-
-                            @* Route :*@
-                            <dt class="form-group">
-                                Route :
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => item.Route)
-
-                            </dd>
-
-                            @* Night Park Status :*@
-                            <dt class="form-group">
-                                Night Park Status :
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => item.NightParkStatus)
-
-                            </dd>
-
-                            @if (item.IsNightPark == 1)
-                            {
-                                @* OMTStatus :*@
-                                <dt class="form-group">
-                                    Night Park Location:
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <dl class="row" style="margin-top:10px">
+                                @* Destination From: *@
+                                <dt class="col-sm-4 form-group">
+                                    Destination From :
                                 </dt>
 
-                                <dd class="form-group">
-                                    @Html.DisplayFor(model => item.NightParkLoc)
-
+                                <dd class="col-sm-8 form-group">
+                                    @Html.DisplayFor(model => item.FromLocID)
                                 </dd>
+
+                                @*Destination To *@
+
+                                <dt class="col-sm-4 form-group">
+                                    Destination To :
+                                </dt>
+
+                                <dd class="col-sm-8 form-group">
+                                    @Html.DisplayFor(model => item.ToLocId)
+                                </dd>
+
+                                @*TransPortAuth No *@
+                                <dt class="col-sm-4 form-group">
+                                    E-Transport Reference No :
+                                </dt>
+
+                                <dd class="col-sm-8 form-group">
+                                    @Html.DisplayFor(model => item.UnitSerialNo)
+                                    @Html.HiddenFor(model => item.ECDID, new { id = "CreatorID" })
+                                    @Html.HiddenFor(model => item.EFTID, new { id = "FlowID" })
+                                    @Html.HiddenFor(model => item.RoleID, new { id = "RoleID" })
+                                    @Html.HiddenFor(model => item.Behavior, new { id = "Behavior" })
+                                </dd>
+
+                                @* E-658 Run Type : *@
+                                <dt class="col-sm-4">
+                                    E-Transport Run Type :
+                                </dt>
+                                <dd class="col-sm-8 form-group">
+                                    @Html.DisplayFor(model => item.E658RunType)
+                                </dd>
+
+                                @* E-658 Behavior : *@
+                                <dt class="col-sm-4 form-group">
+                                    E-Transport Behavior :
+                                </dt>
+
+                                <dd class="col-sm-8 form-group">
+                                    @Html.DisplayFor(model => item.TypeName)
+                                </dd>
+
+                                @* E-658 Date : *@
+                                <dt class="col-sm-4 form-group">
+                                    E-Trarnsport Date :
+                                </dt>
+
+                                <dd class="col-sm-8 form-group">
+                                    @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.E658Date))
+                                </dd>
+
+                                @*Journry Start Time : *@
+                                <dt class="col-sm-4 form-group">
+                                    Journey Start Time :
+                                </dt>
+
+                                <dd class="col-sm-8 form-group">
+                                    @Convert.ToString(string.Format("{0:HH:mm tt}", item.JournryStartTime))
+                                </dd>
+                            </dl>
+
+                        </div>
+
+                        <div class="col-lg-6">
+
+                            <dl class="row" style="margin-top:10px">
+
+                                @*Journry Return Date : *@
+                                <dt class="col-sm-4 form-group">
+                                    Journey Return Date  :
+                                </dt>
+
+                                <dd class="col-sm-8 form-group">
+                                    @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.ReturnDate))
+                                </dd>
+
+                                @*Purpose :*@
+                                <dt class="col-sm-4 form-group">
+                                    Purpose :
+                                </dt>
+
+                                <dd class="col-sm-8 form-group">
+                                    @Html.DisplayFor(model => item.Purpose)
+                                </dd>
+
+                                @* Route :*@
+                                <dt class="col-sm-4 form-group">
+                                    Route :
+                                </dt>
+                                <dd class="col-sm-8 form-group">
+                                    @Html.DisplayFor(model => item.Route)
+                                </dd>
+
+                                @* Night Park Status :*@
+                                <dt class="col-sm-4 form-group">
+                                    Night Park Status :
+                                </dt>
+                                <dd class="col-sm-8 form-group">
+                                    @Html.DisplayFor(model => item.NightParkStatus)
+                                </dd>
+
+                                @if (item.IsNightPark == 1)
+                                {
+                                    @* OMTStatus :*@
+                                    <dt class="col-sm-4 form-group">
+                                        Night Park Location:
+                                    </dt>
+
+                                    <dd class="col-sm-8 form-group">
+                                        @Html.DisplayFor(model => item.NightParkLoc)
+
+                                    </dd>
+                                }
+
+                                @* OMTStatus :*@
+                                <dt class="col-sm-4 form-group">
+                                    OMT Service No :
+                                </dt>
+                                <dd class="col-sm-8 form-group">
+                                    @Html.DisplayFor(model => item.OMTServiceNo)
+                                </dd>
+
+                                @*Vehicle SLAF Reg No :*@
+                                <dt class="col-sm-4 form-group">
+                                    Vehicle SLAF Reg No :
+                                </dt>
+                                <dd class="col-sm-8 form-group">
+                                    @Html.DisplayFor(model => item.SLAFRegNo)
+                                </dd>
+                            </dl>
+
+                        </div>
+
+                    </div>
+                    if (item.IsAddiDutyReq == 1)
+                    {
+                        <div class="row">
+                            <div id="additionalDutyDiv">
+                                <p><center><b>Requested Additional Duties</b> </center></p>
+                                @if (ViewBag.ETransAddiDuty != null && ((List<E658.Models.ETransAddiDuty>)ViewBag.ETransAddiDuty).Any())
+                                {
+                                    foreach (var duty in (List<E658.Models.ETransAddiDuty>)ViewBag.ETransAddiDuty)
+                                    {
+                                        <div class="addi-duty-item" style="border: 1px solid #dee2e6; padding: 0.5rem; margin-bottom: 0.5rem; border-radius: 0.25rem; background-color: #f8f9fa; ">
+                                            <div style="margin-bottom: 0.5rem;">
+                                                <strong>Duty Date:</strong> @duty.AddiDutyDate <br />
+                                            </div>
+                                            <div style="margin-bottom: 0.5rem;">
+                                                <strong>Purpose:</strong> @duty.AddiDutyPurpose <br />
+                                            </div>
+                                            <div style="margin-bottom: 0.5rem;">
+                                                <strong>Route:</strong> @duty.AddiDutyRout
+                                            </div>
+
+
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div>No Additional Duties Assigned</div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+
+                    if (item.RoleID == (int)E658.Enum.EnumE658UserType.HQAppAuth)
+                    {
+                        <div class="row">
+                            <div class="col-lg-6" style="margin-top:15px">
+
+                                @Html.Label("Authrized Remarks", new { @class = "control-label" })                               
+                                <input type="text" name="HQAuthRemarks" class="form-control" autocomplete="off" id="txtHQAuthRemarks" />
+
+                            </div>
+                        </div>
+                        
+                    }
+
+                    if (item.RoleID == (int)E658.Enum.EnumE658UserType.SOGO)
+                    {
+                        <div class="row">
+                            <div class="col-lg-6" style="margin-top:15px">
+
+                                @Html.Label("SO/GO Remarks", new { @class = "control-label" })
+                                @*@Html.TextAreaFor(model => model.SOGORemark, new { @class = "form-control ", autocomplete = "off" })*@
+                                <input type="text" name="SOGORemark" class="form-control" autocomplete="off"  id="txtSOGORemark"/>
+                            </div>
+                         </div>
+                        
+                    }
+
+
+                    <div class="col-lg-6">
+                        <div class="row">
+                            @if (item.RecordStatus != 2)
+                            {
+                                int userType = Convert.ToInt32(TempData["UserLoginType"]);
+
+                                switch (item.RoleID)
+                                {
+                                    case (int)E658.Enum.EnumE658UserType.FormationUser:
+
+
+                                        <button type="button" class="col-lg-6 btn btn-warning pull-right" onclick="location.href='@Url.Action("Forward", "LongRun", new { roleId = item.RoleID, E658CreatorDltId = item.ECDID, Behavior = item.Behavior})'">
+                                            <span><i class="fa fa-share" aria-hidden="true"></i> Certify</span>
+                                        </button>
+
+                                        break;
+                                    case (int)E658.Enum.EnumE658UserType.HQAppAuth:
+
+                                        <div class="col-lg-6">
+                                            <button type="button" class="btn btn-success" id="btnFinalApproval">
+                                                <span><i class="fa fa-check"></i> Final Approval</span>
+                                            </button>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <button type="button" id="btnReject" class="col-lg-6 btn btn-danger col-lg-offset-12">
+                                                <span><i class="fa fa-times" aria-hidden="false"></i> Reject</span>
+                                            </button>
+                                        </div>
+
+                                        break;
+                                    case (int)E658.Enum.EnumE658UserType.SOGO:
+
+                                        <div class="col-lg-6">
+
+                                            <button type="button" class="col-lg- btn btn-warning" id="btnSOGOCertify">
+                                                <span><i class="fa fa-share" aria-hidden="true"></i> Certify</span>
+                                            </button>
+
+
+
+                                            <button type="button" class="col-lg- btn btn-danger col-lg-offset-2" onclick="location.href='@Url.Action("RejectRecordFinalAuthority", "E658", new { roleId = item.RoleID, ECDID = item.ECDID, EFTID = item.EFTID})'">
+                                                <span><i class="fa fa-times" aria-hidden="false"></i> Reject</span>
+                                            </button>
+
+                                            
+                                        </div>
+
+                                        break;
+                                    default:
+
+                                        if (userType == (int)E658.Enum.EnumE658UserType.MTController
+                                            || userType == (int)E658.Enum.EnumE658UserType.FormationUser)
+                                        {
+
+                                        }
+                                        else
+                                        {
+
+
+                                            <button type="button" class="btn btn-success pull-right" onclick="location.href='@Url.Action("TransportAuthIndex", "User")'">
+                                                <span>Back To Creater Page</span>
+                                            </button>
+
+                                            @*<button type="button" class="col-lg- btn btn-warning pull-right" onclick="location.href='@Url.Action("EditTranportAuth", "LongRun" , new { userID = EncodeIds(item.ECDID, item.RoleID,0)})'">
+                                        <span>Edit Record</span>
+                                    </button>*@
+                                        }
+
+                                        break;
+                                }
                             }
 
-                            @* OMTStatus :*@
-                            <dt class="form-group">
-                                OMT Service No :
-                            </dt>
+                            else
+                            {
+                                <dl class="dl-horizontal">
+                                    @*Record Status :*@
+                                    <dd>
 
-                            <dd class="form-group">
-                                @Html.DisplayFor(model => item.OMTServiceNo)
+                                        <P style="text-align:center"><b style="background-color:crimson">Your Record has been rejected.</b></P>
 
-                            </dd>
+                                    </dd>
 
-                            @* OMTStatus :*@
-                            <dt class="form-group">
-                                Vehicle SLAF Reg No :
-                            </dt>
-
-                            <dd class="form-group">
-                                @Html.DisplayFor(model => item.SLAFRegNo)
-
-                            </dd>
-
-                        </dl>
+                                </dl>
+                            }
+                        </div>
                     </div>
 
-                    <div class="col-lg-6" style="margin-top:15px   ">
-                        @*@{
-                                var rptLoc = TempData["RptLocation"];
-                                @Html.Partial("_E658ReportLoc", rptLoc);
-                            }*@
-
-
-                    </div>
 
                     @functions {
                         // Helper function to base64 encode the concatenated values
@@ -245,98 +360,6 @@
                             byte[] bytes = System.Text.Encoding.UTF8.GetBytes(concatenatedValues);
                             return Convert.ToBase64String(bytes);
                         }
-                    }
-
-                    if (item.RecordStatus != 2)
-                    {
-                        int userType = Convert.ToInt32(TempData["UserLoginType"]);
-
-                        switch (item.RoleID)
-                        {
-                            case (int)E658.Enum.EnumE658UserType.StaffCarUser:
-                            case (int)E658.Enum.EnumE658UserType.FormationUser:
-                            case (int)E658.Enum.EnumE658UserType.MTController:
-
-                                <button type="button" class="col-lg- btn btn-warning" onclick="location.href='@Url.Action("Forward", "LongRun", new { roleId = item.RoleID, E658CreatorDltId = item.ECDID, Behavior = item.Behavior})'">
-                                    <span><i class="fa fa-share" aria-hidden="true"></i> Certify</span>
-                                </button>
-
-                                @*<button type="button" class="col-lg- btn btn-success pull-right" onclick="location.href='@Url.Action("Index", "User")'">
-                                        <span>Back To Main Page</span>
-                                    </button>*@
-
-
-                                break;
-                            case (int)E658.Enum.EnumE658UserType.MToOCT:
-
-                                <div class="col-6">
-                                    <button type="button" class="col-lg- btn btn-success" onclick="location.href='@Url.Action("Forward", "E658", new { roleId = item.RoleID, E658CreatorDltId = item.ECDID,Behavior = item.Behavior})'">
-                                        <span><i class="fa fa-share" aria-hidden="false"> Approved </i></span>
-                                    </button>
-
-                                    @*<input id="btnReject" type="button" value="Reject" class="btn btn-danger col-lg-offset-2" />*@
-
-                                    <button type="button" id="btnReject" class="col-lg- btn btn-danger col-lg-offset-2">
-                                        <span><i class="fa fa-times" aria-hidden="false"> Reject </i></span>
-                                    </button>
-                                </div>
-
-
-
-                                break;
-                            case (int)E658.Enum.EnumE658UserType.FinalizedAuthorization:
-
-                                <div class="col-lg-6">
-                                    <button type="button" class="col-lg- btn btn-success" onclick="location.href='@Url.Action("Forward", "E658", new { roleId = item.RoleID, E658CreatorDltId = item.ECDID })'">
-                                        <span><i class="fa fa-check" aria-hidden="false"></i> Final Approval</span>
-                                    </button>
-
-
-                                    <button type="button" class="col-lg- btn btn-danger col-lg-offset-2" onclick="location.href='@Url.Action("RejectRecordFinalAuthority", "E658", new { roleId = item.RoleID, ECDID = item.ECDID, EFTID = item.EFTID})'">
-                                        <span><i class="fa fa-times" aria-hidden="false"></i> Reject</span>
-                                    </button>
-
-                                    <button type="button" class="col-lg- btn btn-info col-lg-offset-2" onclick="location.href='@Url.Action("E658List", "E658", new { roleId = item.RoleID, ECDID = item.ECDID, EFTID = item.EFTID})'">
-                                        <span><i class="fa fa-chevron-right" aria-hidden="false"></i>  Back to List</span>
-                                    </button>
-                                </div>
-
-
-                                break;
-                            default:
-
-                                if (userType == (int)E658.Enum.EnumE658UserType.MTController
-                                    || userType == (int)E658.Enum.EnumE658UserType.FormationUser)
-                                {
-
-                                }
-                                else
-                                {
-
-
-                                    <button type="button" class="col-lg- btn btn-success pull-left" onclick="location.href='@Url.Action("TransportAuthIndex", "User")'">
-                                        <span>Back To Creater Page</span>
-                                    </button>
-
-                                    <button type="button" class="col-lg- btn btn-warning pull-right" onclick="location.href='@Url.Action("EditTranportAuth", "LongRun" , new { userID = EncodeIds(item.ECDID, item.RoleID,0)})'">
-                                        <span>Edit Record</span>
-                                    </button>
-                                }
-
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        <dl class="dl-horizontal">
-                            @*Record Status :*@
-                            <dd>
-
-                                <P style="text-align:center"><b style="background-color:crimson">Your Record has been rejected.</b></P>
-
-                            </dd>
-
-                        </dl>
                     }
 
                 }
@@ -722,6 +745,81 @@
         });
     });
 
+    $(function () {
+         $('#btnFinalApproval').click(function () {
+        
+            // Example values; replace with your actual dynamic values or read from the DOM
+             var roleId =  $("#RoleID").val();              // Set this dynamically if inside loop
+             var E658CreatorDltId = $("#CreatorID").val();    // Set this dynamically if inside loop
+             var behavior = $("#Behavior").val();       // Set this dynamically if inside loop
+             var hqAuthRemark = $("#txtHQAuthRemarks").val();
+
+
+
+          $.ajax({
+
+                url: '@Url.Content("~/LongRun/ForwardHQAuth")',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    roleId: roleId,
+                    E658CreatorDltId: E658CreatorDltId,
+                    Behavior: behavior,
+                    hqAuthRemark: hqAuthRemark
+                },
+                success: function (response) {
+                    // Handle success response
+                    alert('Forwarded successfully!');
+                    window.location.href = response.redirectUrl || '@Url.Action("AnotherAction")';
+                },
+                error: function (xhr, status, error) {
+                    // Handle error
+                    console.log(error);
+                    alert('Error occurred while forwarding.');
+                }
+            });
+      });
+
+    });
+
+    $(function () {
+
+        $('#btnSOGOCertify').click(function () {
+
+            // Example values; replace with your actual dynamic values or read from the DOM
+            var roleId =  $("#RoleID").val();              // Set this dynamically if inside loop
+            var E658CreatorDltId = $("#CreatorID").val();    // Set this dynamically if inside loop
+            var behavior =$("#Behavior").val();        // Set this dynamically if inside loop
+            var hqAuthRemark = $("#txtSOGORemark").val();
+
+          $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ForwardHQAuth", "LongRun")',
+                data: {
+                    roleId: roleId,
+                    E658CreatorDltId: E658CreatorDltId,
+                    Behavior: behavior,
+                    hqAuthRemark: hqAuthRemark
+                },
+                success: function (response) {
+                    // Handle success response
+                    alert('Forwarded successfully!');
+                    window.location.href = response.redirectUrl || '@Url.Action("AnotherAction")';
+                },
+                error: function (xhr, status, error) {
+                    // Handle error
+                    console.log(error);
+                    alert('Error occurred while forwarding.');
+                }
+            });
+
+      });
+
+
+
+
+
+    });
 
 </script>
 

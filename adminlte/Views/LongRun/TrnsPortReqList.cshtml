@@ -1,5 +1,5 @@
 ﻿
-@model PagedList.IPagedList<E658.Models.VME658Create>
+@model PagedList.IPagedList<E658.Models.VMTrnsAuthIndex>
 @using PagedList.Mvc;
 @{
 
@@ -100,23 +100,23 @@
                             <tr>
 
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.UnitSerialNo)
+                                    @Html.DisplayFor(modelItem => item.CmpTrnsRefNo)
                                     @Html.HiddenFor(modelItem => item.EFTID, new { id = "hndEFTID" })
-                                    @Html.HiddenFor(modelItem => item.ECDID, new { id = "hndECDID" })
+                                    @Html.HiddenFor(modelItem => item.ETrnsCreatorDltId, new { id = "hndECDID" })
                                     @Html.HiddenFor(modelItem => item.RoleID, new { id = "hndRoleID" })
 
                                 </td>
 
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.FromLocID)
+                                    @Html.DisplayFor(modelItem => item.DeptFromLocationFull)
                                 </td>
 
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.ToLocId)
+                                    @Html.DisplayFor(modelItem => item.DeptToLocationFull)
                                 </td>
 
                                 <td>
-                                    @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.E658Date))
+                                    @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.OutDate))
 
                                 </td>
 
@@ -125,11 +125,11 @@
                                     </td>*@
 
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.DivisionFullName)
+                                    @Html.DisplayFor(modelItem => item.ReqSection)
                                 </td>
 
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.TypeNameLong)
+                                    @Html.DisplayFor(modelItem => item.ReqCatName)
                                 </td>
 
 
@@ -153,45 +153,47 @@
                                     }
 
 
-                                    @if (MTControllerStatus == 0)
+                                    @if (item.RoleID == (int)E658.Enum.EnumE658UserType.FormationUser)
                                     {
-                                        <button type="button" class="col-lg- btn btn-primary" onclick="location.href='@Url.Action("ETransReqDetails", "LongRun", new { userID = EncodeIds(item.ECDID, item.RoleID,  item.EFTID )})'">
+                                        <button type="button" class="col-lg- btn btn-primary" onclick="location.href='@Url.Action("ETransReqDetails", "LongRun", new { userID = EncodeIds(item.ETrnsCreatorDltId, item.RoleID,  item.EFTID )})'">
                                             <span> <i class="fa fa-eye" aria-hidden="true"></i></span>
                                         </button>
-                                    }
-                                    else
-                                    {
-                                        @*<button type="button" class="col-lg- btn btn-primary" onclick="location.href='@Url.Action("E658Details", "E658", new { E658CreatorID = item.ECDID, RoleId = item.RoleID, EFlowId = item.EFTID })'">
-                                                <span> <i class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </button>*@
-                                    }
 
-                                    @if (item.RoleID == (int)E658.Enum.EnumE658UserType.StaffCarUser || item.RoleID == (int)E658.Enum.EnumE658UserType.FormationUser)
-                                    {
-
-                                        @Html.ActionLink("Edit", "Edit658", new { userID = EncodeIds(item.ECDID, item.RoleID, 0) }, new { @class = "btn btn-default" })
+                                        @*@Html.ActionLink("Edit", "Edit658", new { userID = EncodeIds(item.ETrnsCreatorDltId, item.RoleID, 0) }, new { @class = "btn btn-default" })*@
 
                                     }
 
-                                    else if (item.RoleID == (int)E658.Enum.EnumE658UserType.FinalizedAuthorization)
+                                    else if (item.RoleID == (int)E658.Enum.EnumE658UserType.HQAppAuth)
                                     {
-                                        <button type="button" onclick="setValueToURL(@i,'@item.UnitSerialNo')" value="Select" class="btn btn-warning">
-                                            <span><i class="fa fa-folder-open-o" aria-hidden="false"></i></span>
+                                        <button type="button" class="col-lg- btn btn-primary" onclick="location.href='@Url.Action("ETransReqDetails", "LongRun", new { userID = EncodeIds(item.ETrnsCreatorDltId, item.RoleID,  item.EFTID )})'">
+                                            <span> <i class="fa fa-eye" aria-hidden="true"></i></span>
                                         </button>
 
-                                        if (item.IsOMTAvail == 0 && item.IsVehicleAvail == 0)
+
+                                        //Model Pop Up code
+                                        //<button type="button" onclick="setValueToURL(@i,'@item.CmpTrnsRefNo')" value="Select" class="btn btn-warning">
+                                        //    <span><i class="fa fa-folder-open-o" aria-hidden="false"></i></span>
+                                        //</button>
+
+                                        @*if (item.IsOMTAvail == 0 && item.IsVehicleAvail == 0)
                                         {
                                             <button type="button" class="btn btn-success pull-right" onclick="location.href='@Url.Action("Forward", "E658", new { roleId = item.RoleID, E658CreatorDltId = item.ECDID })'">
                                                 <span><i class="fa fa-check" aria-hidden="false"></i> Approved</span>
                                             </button>
 
-                                        }
+                                        }*@
                                     }
 
-                                    else
+                                    else if (item.RoleID == (int)E658.Enum.EnumE658UserType.SOGO)
                                     {
 
-
+                                        <button type="button" class="col-lg- btn btn-primary" onclick="location.href='@Url.Action("ETransReqDetails", "LongRun", new { userID = EncodeIds(item.ETrnsCreatorDltId, item.RoleID,  item.EFTID )})'">
+                                            <span> <i class="fa fa-eye" aria-hidden="true"></i></span>
+                                        </button>
+                                    }
+                                    else {
+                                    
+                                    
                                     }
                                 </td>
 

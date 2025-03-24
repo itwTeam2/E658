@@ -182,6 +182,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LongRunController.cs" />
     <Compile Include="Controllers\MacAddress.cs" />
+    <Compile Include="Controllers\RoutineRunController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -227,6 +228,7 @@
     <Compile Include="Models\Division1.cs">
       <DependentUpon>CommonData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DutyDetail.cs" />
     <Compile Include="Models\E658CreaterDetails.cs">
       <DependentUpon>GERMS.tt</DependentUpon>
     </Compile>
@@ -292,6 +294,15 @@
     </Compile>
     <Compile Include="Models\EstablishmentNew.cs">
       <DependentUpon>CommonData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ETransAddiDuty.cs">
+      <DependentUpon>GERMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ETransReqDetail.cs">
+      <DependentUpon>GERMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ETransReqHeader.cs">
+      <DependentUpon>GERMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\F658RegistryHeader.cs">
       <DependentUpon>GERMS.tt</DependentUpon>
@@ -362,6 +373,12 @@
     <Compile Include="Models\ReligionNew.cs">
       <DependentUpon>CommonData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RRFlowManagementStatu.cs">
+      <DependentUpon>GERMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RRHeader.cs">
+      <DependentUpon>GERMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\School.cs">
       <DependentUpon>CommonData.tt</DependentUpon>
     </Compile>
@@ -386,10 +403,14 @@
     <Compile Include="Models\VME658Create.cs" />
     <Compile Include="Models\VME658InitiateUser.cs" />
     <Compile Include="Models\VMLongRunCreate.cs" />
+    <Compile Include="Models\VMTrnsAuthIndex.cs" />
     <Compile Include="Models\Vw_EpasDivision.cs">
       <DependentUpon>CommonData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Vw_PersonalDetail.cs">
+      <DependentUpon>GERMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Vw_RRFlowStatusManagement.cs">
       <DependentUpon>GERMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\_UserManagementE658.cs" />
@@ -4550,6 +4571,8 @@
     <Content Include="Views\LongRun\TrnsPortReqList.cshtml" />
     <Content Include="Views\LongRun\EditTransRequest.cshtml" />
     <Content Include="Views\Dashboard\Dashboardv1ToHQUser.cshtml" />
+    <Content Include="Views\RoutineRun\RRInitiateUser.cshtml" />
+    <Content Include="Views\RoutineRun\RRList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

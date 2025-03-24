@@ -49,6 +49,10 @@ namespace E658.Models
         public string NightParkStatus { get; set; }
         public string NightParkLoc { get; set; }
         public int Behavior { get; set; }
+        public string HQAuthRemarks { get; set; }
+        public string SOGORemark { get; set; }
+
+        public int IsAddiDutyReq { get; set; }
 
 
     }
